@@ -1237,7 +1237,8 @@ in <a href="#jrebel">[jrebel]</a>.</p></div>
 <div class="content monospaced">
 <pre>set SCRIPT_DIR=%~dp0
 java -Drebel.lift_plugin=true -noverify -javaagent:c:/opt/zt/jrebel/jrebel.jar \
--XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256m -Xmx1024M -Xss2M -jar "%SCRIPT_DIR%\sbt-launch-0.12.jar" %*</pre>
+-XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256m -Xmx1024M -Xss2M
+-jar "%SCRIPT_DIR%\sbt-launch-0.12.jar" %*</pre>
 </div></div>
 <div class="paragraph"><p>There&#8217;s nothing else to do to use JRebel.  When you start SBT you&#8217;ll see a large banner starting something like this:</p></div>
 <div class="listingblock">
@@ -6521,7 +6522,7 @@ in the Lift community</a>)</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2012-12-17 17:49:25 GMT
+Last updated 2012-12-17 18:08:11 GMT
 </div>
 </div>
 </body>
