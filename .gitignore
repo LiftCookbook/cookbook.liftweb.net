@@ -1,0 +1,7 @@
+/target/
+/.idea_modules/
+/.project
+/.settings/
+/console.devmode.log
+/.classpath
+/.idea/
