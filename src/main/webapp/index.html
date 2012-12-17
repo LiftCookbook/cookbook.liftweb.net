@@ -1263,7 +1263,7 @@ java -Drebel.lift_plugin=true -noverify -javaagent:c:/opt/zt/jrebel/jrebel.jar \
 <div class="paragraph"><p>JRebel is very likely to speed up your development. It updates code in a running Java virtual machine, without having to stop it or start it.  The effect is that, on the whole, you can compile a class, then hit reload in your browser to see the change in your Lift application.</p></div>
 <div class="paragraph"><p>Even with JRebel you will need to restart your applications from time to time, but JRebel usually reduces the number of restarts. For example, <span class="monospaced">Boot.scala</span> is run when your application starts, so if you modify something in your <span class="monospaced">Boot.scala</span> you&#8217;ll need to start and start your application. JRebel can&#8217;t help with that.</p></div>
 <div class="paragraph"><p>But there are also other situations that JRebel cannot help with, such as when a superclass changes. Generally, JRebel will emit a warning about this in the console window.  If that happens, stop and start your application.</p></div>
-<div class="paragraph"><p>The <span class="monospaced">-Drebel.lift_plugin=true</span> setting adds Lift-specific functionality to JRebel.  Specifically, it allows JRebel to reload changes to <span class="monospaced">LiftScreen</span>, <span class="monospaced">Wizard</span> and <span class="monospaced">RestHelper`s. This means you can change fields or screens, and change REST `serve</span> code.</p></div>
+<div class="paragraph"><p>The <span class="monospaced">-Drebel.lift_plugin=true</span> setting adds Lift-specific functionality to JRebel.  Specifically, it allows JRebel to reload changes to <span class="monospaced">LiftScreen</span>, <span class="monospaced">Wizard</span> and <span class="monospaced">RestHelper</span>. This means you can change fields or screens, and change REST <span class="monospaced">serve</span> code.</p></div>
 <div class="sect4">
 <h5 id="_purchased_licenses">Purchased licenses</h5>
 <div class="paragraph"><p>This recipe used a free Scala license for a service called myJRebel. This communicates with JRebel servers via the activation code.  If you have purchased a license from ZeroTurnaround, the situation is slightly different.  In this case, you will have a license key which you store in a file. You can place the file, <span class="monospaced">jrebel.lic</span> in a <span class="monospaced">.jrebel</span> folder in your home directory, or alongside <span class="monospaced">jrebel.jar</span> (e.g., in the <span class="monospaced">/opt/zt/jrebel/</span> folder if that&#8217;s where you installed JRebel), or you can specify some other location.  To do that, modify the <span class="monospaced">sbt</span> script and specify the location of the file by adding another Java setting:</p></div>
@@ -1351,7 +1351,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect2">
-<h3 id="_developing_using_intellij_idea">Developing using Intellij IDEA</h3>
+<h3 id="idea">Developing using Intellij IDEA</h3>
 <div class="sect3">
 <h4 id="_problem_5">Problem</h4>
 <div class="paragraph"><p>You want to use the Intellij IDEA development environment when writing your Lift application.</p></div>
@@ -5961,11 +5961,14 @@ Lift ticket 1197 to <a href="https://github.com/lift/framework/issues/1197">impr
 </li>
 <li>
 <p>
-Wikipedia entry on <a href="http://en.wikipedia.org/wiki/MIME">Multipurpose Internet Mail Extensions (MIME)</a> Logging email rather than sending
+Wikipedia entry on <a href="http://en.wikipedia.org/wiki/MIME">Multipurpose Internet Mail Extensions (MIME)</a>
 </p>
 </li>
 </ul></div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_logging_email_rather_than_sending">Logging email rather than sending</h3>
 <div class="sect3">
 <h4 id="_problem_67">Problem</h4>
 <div class="paragraph"><p>You don&#8217;t want email sent when developing your Lift application locally,
@@ -6518,7 +6521,7 @@ in the Lift community</a>)</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2012-12-17 17:09:50 GMT
+Last updated 2012-12-17 17:49:25 GMT
 </div>
 </div>
 </body>
