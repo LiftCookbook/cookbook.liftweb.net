@@ -19,8 +19,6 @@ class Boot {
       new Html5Properties(r.userAgent))
 
 
-
-
     LiftRules.earlyResponse.append {
 
       // The first version of the cookbook was written Pamfet.  We map the Pamflet
@@ -29,6 +27,13 @@ class Boot {
 
       case _ => Empty
 
+    }
+
+
+    // The index page is statically generated: Lift doesn't need to touch it.
+    LiftRules.liftRequest.append {
+      case Req("index" :: Nil, _, _) => false
+      case Req("images" ::_, _, _) => false
     }
 
 
