@@ -979,7 +979,7 @@ start a basic Lift application.</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-Visit <a href="http://liftweb.net/download">http://liftweb.net/download</a> and download the Lift 2.5-M3 Zip file.
+Visit <a href="http://liftweb.net/download">http://liftweb.net/download</a> and download the Lift 2.5-M3 ZIP file.
 </p>
 </li>
 <li>
@@ -1029,17 +1029,17 @@ When you&#8217;re done, type <span class="monospaced">exit</span> at the SBT pro
 <div class="ulist"><ul>
 <li>
 <p>
-Visit <a href="http://liftweb.net/download">http://liftweb.net/download</a> locate the link to the Zip version of Lift 2.5-M3 and save this to disk.
+Visit <a href="http://liftweb.net/download">http://liftweb.net/download</a> locate the link to the ZIP version of Lift 2.5-M3 and save this to disk.
 </p>
 </li>
 <li>
 <p>
-Extract the contents of the Zip file.
+Extract the contents of the ZIP file.
 </p>
 </li>
 <li>
 <p>
-Navigate in Explorer to the extracted folder, and inside navigate into <span class="monospaced">scala_29</span> and then <span class="monospaced">lift_basic</span>.
+Navigate in <em>Explorer</em> to the extracted folder, and inside navigate into <span class="monospaced">scala_29</span> and then <span class="monospaced">lift_basic</span>.
 </p>
 </li>
 <li>
@@ -1094,7 +1094,7 @@ Instead you use standard build tools, such as SBT or Maven, to assemble your app
 <div class="paragraph"><p>Typing <span class="monospaced">sbt</span> starts the Simple Build Tool, a dependency management
 tool used by Scala projects (it&#8217;s not specific to Lift).  SBT will check the project definition and download any libraries required, which includes the Lift framework.</p></div>
 <div class="paragraph"><p>This download happens once, and the downloaded
-files are stored on disk in a <span class="monospaced">.ivy2</span> in your home folder.</p></div>
+files are stored on disk in <span class="monospaced">.ivy2/</span> under your home folder.</p></div>
 <div class="paragraph"><p>Your application build is configured by <span class="monospaced">build.sbt</span>.  Looking inside you&#8217;ll see:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -1121,10 +1121,10 @@ a list of dependencies required to run your application, which will include the 
 </div>
 <div class="sect4">
 <h5 id="_running_your_application">Running Your Application</h5>
-<div class="paragraph"><p>The command <span class="monospaced">container:start</span> starts the web server on the default port of 8080 and
-passes requests to the Lift application. The word "container" refers to the
-software you deploy your application into. There are a variety of containers (Jetty and
-Tomcat are probably the best known) all of which conform to a standard for deployment.
+<div class="paragraph"><p>The SBT command <span class="monospaced">container:start</span> starts the web server on the default port of 8080 and
+passes requests to your Lift application. The word <em>container</em> refers to the
+software you deploy your application into. There are a variety of containers (<em>Jetty</em> and
+<em>Tomcat</em> are probably the best known) all of which conform to a standard for deployment.
 The upshot is you can build your application and deploy to whichever one you prefer.
 The <span class="monospaced">container:start</span> command uses Jetty.</p></div>
 </div>
@@ -1154,7 +1154,7 @@ editor, hitting reload in your browser to see changes.</p></div>
 <div class="content monospaced">
 <pre>~; container:start; container:reload /</pre>
 </div></div>
-<div class="paragraph"><p>When you save a source file in your editor, SBT will detect this,
+<div class="paragraph"><p>When you save a source file in your editor, SBT will detect this change,
 compile the file, and reload the web container.</p></div>
 </div>
 <div class="sect3">
@@ -1169,8 +1169,8 @@ command will recompile any Scala source files that have changed.</p></div>
 <div class="content monospaced">
 <pre>1. Waiting for source changes... (press enter to interrupt)</pre>
 </div></div>
-<div class="paragraph"><p>And indeed, if you do press enter in the SBT window you&#8217;ll exit this "triggered
-execution" mode and SBT will no longer be looking for file changes. However, while
+<div class="paragraph"><p>And indeed, if you do press enter in the SBT window you&#8217;ll exit this <em>triggered
+execution</em> mode and SBT will no longer be looking for file changes. However, while
 SBT is watching for changes, the output will indicate when this happens with something
 that looks a little like this:</p></div>
 <div class="listingblock">
@@ -1186,19 +1186,19 @@ that looks a little like this:</p></div>
 </div></div>
 <div class="paragraph"><p>Edits to HTML files don&#8217;t trigger the SBT compile and reload commands.
 This is because SBT&#8217;s default behaviour is to look for
-Scala and Java source file changes, and changes to files in <span class="monospaced">src/main/resources</span>.
+Scala and Java source file changes, and also changes to files in <span class="monospaced">src/main/resources/</span>.
 This works out just fine, because Jetty will use your modified HTML file when you
 reload the browser page.</p></div>
 <div class="paragraph"><p>Restarting the web container each time you edit a Scala file isn&#8217;t ideal. You can reduce
 the need for restarts by integrating JRebel into your development environment, as described
 in <a href="#jrebel">[jrebel]</a>.</p></div>
-<div class="paragraph"><p>However, if you are making a serious number of edits, you may prefer to issue a <span class="monospaced">container:stop</span> command until you&#8217;re ready to run you application again with <span class="monospaced">container:start</span> to prevent SBT compiling and restarting your application. The SBT console has a command history, and using the up and down keyboard arrows allows you to navigate to previous commands and run them by pressing the return key.  That takes some of the tedium out of these long commands.</p></div>
+<div class="paragraph"><p>However, if you are making a serious number of edits, you may prefer to issue a <span class="monospaced">container:stop</span> command until you&#8217;re ready to run you application again with <span class="monospaced">container:start</span>. This will prevent SBT compiling and restarting your application over and over. The SBT console has a command history, and using the up and down keyboard arrows allows you to navigate to previous commands and run them by pressing the return key.  That takes some of the tedium out of these long commands.</p></div>
 <div class="paragraph"><p>One error you may run into is:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
 <pre>java.lang.OutOfMemoryError: PermGen space</pre>
 </div></div>
-<div class="paragraph"><p>The "permanent generation" is a Java virtual machine concept. It&#8217;s the area of memory used for storing classes amongst other things.  It&#8217;s a fixed size and once it is full this PermGen error appears.  As you might imagine, continually restarting a container causes many classes to be loaded and unloaded, but the process is not perfect, effectively leaking memory. The best you can do is stop and then restart SBT.  If you&#8217;re seeing this error often, check the setting for <span class="monospaced">-XX:MaxPermSize</span> inside the <span class="monospaced">sbt</span> (or <span class="monospaced">sbt.bat</span>) script, and if you can, double it.</p></div>
+<div class="paragraph"><p>The <em>permanent generation</em> is a Java virtual machine concept. It&#8217;s the area of memory used for storing classes (amongst other things).  It&#8217;s a fixed size and once it is full this PermGen error appears.  As you might imagine, continually restarting a container causes many classes to be loaded and unloaded, but the process is not perfect, effectively leaking memory. The best you can do is stop and then restart SBT.  If you&#8217;re seeing this error often, check the setting for <span class="monospaced">-XX:MaxPermSize</span> inside the <span class="monospaced">sbt</span> (or <span class="monospaced">sbt.bat</span>) script, and if you can, double it.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_see_also_2">See Also</h4>
@@ -1224,32 +1224,33 @@ in <a href="#jrebel">[jrebel]</a>.</p></div>
 <pre>$ /opt/zt/jrebel/bin/jrebel-config.sh</pre>
 </div></div>
 <div class="paragraph"><p>For Windows navigate to and launch <span class="monospaced">bin\jrebel-config.cmd</span>.</p></div>
-<div class="paragraph"><p>In the "Activation" setting select "I want to use myJRebel" and then in the "License" section paste in your activation token. Click the "Activate" button, and once you see the license status change to "You have a valid myJRebel token&#8230;" click "Finish".</p></div>
+<div class="paragraph"><p>In the "Activation" setting select "I want to use myJRebel" and then in the "License" section paste in your activation token. Click the "Activate" button, and once you see the license status change to "You have a valid myJRebel token" click "Finish".</p></div>
 <div class="paragraph"><p>Finally, configure SBT by modifying the <span class="monospaced">sbt</span> script to enable JRebel.  This means setting the <span class="monospaced">-javaagent</span> and <span class="monospaced">-noverify</span> flags for Java, and enabling the JRebel Lift plugin.</p></div>
 <div class="paragraph"><p>For Mac and Linux, the script that&#8217;s included with the Lift downloads would become:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
-<pre>java -Drebel.lift_plugin=true -noverify -javaagent:/opt/zt/jrebel/jrebel.jar -Xmx1024M -Xss2M \
--XX:MaxPermSize=512m -XX:+CMSClassUnloadingEnabled -jar `dirname $0`/sbt-launch-0.12.jar "$@"</pre>
+<pre>java -Drebel.lift_plugin=true -noverify -javaagent:/opt/zt/jrebel/jrebel.jar \
+ -Xmx1024M -Xss2M -XX:MaxPermSize=512m -XX:+CMSClassUnloadingEnabled -jar \
+ `dirname $0`/sbt-launch-0.12.jar "$@"</pre>
 </div></div>
 <div class="paragraph"><p>For Windows, modify <span class="monospaced">sbt.bat</span> to be:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
 <pre>set SCRIPT_DIR=%~dp0
 java -Drebel.lift_plugin=true -noverify -javaagent:c:/opt/zt/jrebel/jrebel.jar \
--XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256m -Xmx1024M -Xss2M
--jar "%SCRIPT_DIR%\sbt-launch-0.12.jar" %*</pre>
+ -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256m -Xmx1024M -Xss2M \
+ -jar "%SCRIPT_DIR%\sbt-launch-0.12.jar" %*</pre>
 </div></div>
 <div class="paragraph"><p>There&#8217;s nothing else to do to use JRebel.  When you start SBT you&#8217;ll see a large banner starting something like this:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
-<pre>2012-12-16 23:00:32] #############################################################
-[2012-12-16 23:00:32]
-[2012-12-16 23:00:32]  JRebel 5.1.1 (201211271929)
-[2012-12-16 23:00:32]  (c) Copyright ZeroTurnaround OU, Estonia, Tartu.
-[2012-12-16 23:00:32]
-[2012-12-16 23:00:32]  Over the last 30 days JRebel prevented
-[2012-12-16 23:00:32]  at least 335 redeploys/restarts saving you about 13.6 hours.
+<pre>#############################################################
+
+  JRebel 5.1.1 (201211271929)
+  (c) Copyright ZeroTurnaround OU, Estonia, Tartu.
+
+  Over the last 30 days JRebel prevented
+  at least 335 redeploys/restarts saving you about 13.6 hours.
 ....</pre>
 </div></div>
 <div class="paragraph"><p>With JRebel installed, you can now <span class="monospaced">container:start</span> your application, modify and compile a Scala file and reload a page in your application. You&#8217;ll see a notice that the class has been reloaded:</p></div>
@@ -1261,13 +1262,13 @@ java -Drebel.lift_plugin=true -noverify -javaagent:c:/opt/zt/jrebel/jrebel.jar \
 </div>
 <div class="sect3">
 <h4 id="_discussion_3">Discussion</h4>
-<div class="paragraph"><p>JRebel is very likely to speed up your development. It updates code in a running Java virtual machine, without having to stop it or start it.  The effect is that, on the whole, you can compile a class, then hit reload in your browser to see the change in your Lift application.</p></div>
+<div class="paragraph"><p>JRebel is very likely to speed up your development. It updates code in a running Java virtual machine, without having to stop and restart it.  The effect is that, on the whole, you can compile a class, then hit reload in your browser to see the change in your Lift application.</p></div>
 <div class="paragraph"><p>Even with JRebel you will need to restart your applications from time to time, but JRebel usually reduces the number of restarts. For example, <span class="monospaced">Boot.scala</span> is run when your application starts, so if you modify something in your <span class="monospaced">Boot.scala</span> you&#8217;ll need to start and start your application. JRebel can&#8217;t help with that.</p></div>
 <div class="paragraph"><p>But there are also other situations that JRebel cannot help with, such as when a superclass changes. Generally, JRebel will emit a warning about this in the console window.  If that happens, stop and start your application.</p></div>
 <div class="paragraph"><p>The <span class="monospaced">-Drebel.lift_plugin=true</span> setting adds Lift-specific functionality to JRebel.  Specifically, it allows JRebel to reload changes to <span class="monospaced">LiftScreen</span>, <span class="monospaced">Wizard</span> and <span class="monospaced">RestHelper</span>. This means you can change fields or screens, and change REST <span class="monospaced">serve</span> code.</p></div>
 <div class="sect4">
 <h5 id="_purchased_licenses">Purchased licenses</h5>
-<div class="paragraph"><p>This recipe used a free Scala license for a service called myJRebel. This communicates with JRebel servers via the activation code.  If you have purchased a license from ZeroTurnaround, the situation is slightly different.  In this case, you will have a license key which you store in a file. You can place the file, <span class="monospaced">jrebel.lic</span> in a <span class="monospaced">.jrebel</span> folder in your home directory, or alongside <span class="monospaced">jrebel.jar</span> (e.g., in the <span class="monospaced">/opt/zt/jrebel/</span> folder if that&#8217;s where you installed JRebel), or you can specify some other location.  To do that, modify the <span class="monospaced">sbt</span> script and specify the location of the file by adding another Java setting:</p></div>
+<div class="paragraph"><p>This recipe uses a free Scala license for a service called myJRebel. This communicates with JRebel servers via the activation code.  If you have purchased a license from ZeroTurnaround, the situation is slightly different.  In this case, you will have a license key which you store in a file called <span class="monospaced">jrebel.lic</span>. You can place the file in a <span class="monospaced">.jrebel</span> folder in your home directory, or alongside <span class="monospaced">jrebel.jar</span> (e.g., in the <span class="monospaced">/opt/zt/jrebel/</span> folder if that&#8217;s where you installed JRebel), or you can specify some other location.  For the latter option, modify the <span class="monospaced">sbt</span> script and specify the location of the file by adding another Java setting:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
 <pre>-Drebel.license=/path/to/jrebel.lic</pre>
@@ -1281,7 +1282,7 @@ java -Drebel.lift_plugin=true -noverify -javaagent:c:/opt/zt/jrebel/jrebel.jar \
 </div>
 </div>
 <div class="sect2">
-<h3 id="_developing_using_eclipse">Developing using Eclipse</h3>
+<h3 id="eclipse">Developing using Eclipse</h3>
 <div class="sect3">
 <h4 id="_problem_4">Problem</h4>
 <div class="paragraph"><p>You want to develop your Lift application using the Eclipse IDE, hitting
@@ -1290,23 +1291,22 @@ reload in your browser to see changes.</p></div>
 <div class="sect3">
 <h4 id="_solution_3">Solution</h4>
 <div class="paragraph"><p>Use the "Scala IDE for Eclipse" plugin to Eclipse. The instructions for this
-are given at <a href="http://scala-ide.org">http://scala-ide.org</a>. We recommend the
-stable version. This will give you an Eclipse perspective that knows about Scala.</p></div>
-<div class="paragraph"><p>To create the project files to allow Eclipse to load your Lift project, install "sbteclipse" by adding the following to <span class="monospaced">projects/plugins.sbt</span>:</p></div>
+are given at <a href="http://scala-ide.org">http://scala-ide.org</a>. There are a number of options (nightly builds, milestones) but start with the stable version. This will give you an Eclipse perspective that knows about Scala.</p></div>
+<div class="paragraph"><p>To create the project files to allow Eclipse to load your Lift project, install "sbteclipse" by adding the following to <span class="monospaced">projects/plugins.sbt</span> in your Lift project:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-weight: bold"><span style="color: #000000">addSbtPlugin</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"com.typesafe.sbteclipse"</span> <span style="color: #990000">%</span> <span style="color: #FF0000">"sbteclipse-plugin"</span> <span style="color: #990000">%</span> <span style="color: #FF0000">"2.1.0"</span><span style="color: #990000">)</span></tt></pre></div></div>
-<div class="paragraph"><p>You can then create Eclipse project files (<span class="monospaced">.project</span> and <span class="monospaced">.classpath</span>) within SBT by entering the
-following:</p></div>
+<div class="paragraph"><p>You can then create Eclipse project files (<span class="monospaced">.project</span> and <span class="monospaced">.classpath</span>) by entering the
+following to the SBT prompt:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
 <pre>eclipse</pre>
 </div></div>
 <div class="paragraph"><p>Open the project in Eclipse by navigating to "File &gt; Import.." and select "General &gt; Existing
-Projects into Workspace". Browse to, and select, your Lift project. You
+Projects into Workspace". Browse to and select your Lift project. You
 are now set up to develop your application in Eclipse.</p></div>
 <div class="paragraph"><p>To see live changes as you edit and save your work, run SBT in a separate terminal window.  That is, start <span class="monospaced">sbt</span> from a terminal window outside of Eclipse and enter the following:</p></div>
 <div class="listingblock">
@@ -1323,7 +1323,7 @@ the changes.</p></div>
 You can ask the SBT <span class="monospaced">eclipse</span> command to download the Lift
 source and Scaladoc, allowing you to click through to the Lift source from
 methods and classes, which is a useful way to discover more about Lift.</p></div>
-<div class="paragraph"><p>To achieve this in a project, run <span class="monospaced">eclipse with-source=true</span>, but if you want
+<div class="paragraph"><p>To achieve this in a project, run <span class="monospaced">eclipse with-source=true</span> in SBT, but if you want
 this to be the default behaviour, add the following to your <span class="monospaced">build.sbt</span> file:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -1342,13 +1342,13 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>resolvers <span style="color: #990000">+</span><span style="font-weight: bold"><span style="color: #0000FF">=</span></span> Classpaths<span style="color: #990000">.</span>typesafeResolver
 
 <span style="font-weight: bold"><span style="color: #000000">addSbtPlugin</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"com.typesafe.sbteclipse"</span> <span style="color: #990000">%</span> <span style="color: #FF0000">"sbteclipse-plugin"</span> <span style="color: #990000">%</span> <span style="color: #FF0000">"2.1.0"</span><span style="color: #990000">)</span></tt></pre></div></div>
-<div class="paragraph"><p>Note the blank line between the <span class="monospaced">resolvers</span> and the <span class="monospaced">addSbtPlugin</span> is significant to SBT.</p></div>
-<div class="paragraph"><p>Finally, set any global configurations (such as <span class="monospaced">withSource</span>) <span class="monospaced">in `~/.sbt/global.sbt</span>.</p></div>
+<div class="paragraph"><p>Note the blank line between the <span class="monospaced">resolvers</span> and the <span class="monospaced">addSbtPlugin</span>.  In <span class="monospaced">.sbt</span> files, a blank line is required between statements.</p></div>
+<div class="paragraph"><p>Finally, set any global configurations (such as <span class="monospaced">withSource</span>) in <span class="monospaced">~/.sbt/global.sbt</span>.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_see_also_4">See Also</h4>
 <div class="paragraph"><p>There are other useful settings for sbteclipse, described at <a href="https://github.com/typesafehub/sbteclipse/wiki">https://github.com/typesafehub/sbteclipse/wiki</a>.</p></div>
-<div class="paragraph"><p>The SBT guide to using plugins, <a href="http://www.scala-sbt.org/release/docs/Getting-Started/Using-Plugins">http://www.scala-sbt.org/release/docs/Getting-Started/Using-Plugins</a> and the wiki page for global configuration, <a href="http://www.scala-sbt.org/release/docs/Detailed-Topics/Global-Settings">http://www.scala-sbt.org/release/docs/Detailed-Topics/Global-Settings</a>, explains the <span class="monospaced">~/.sbt/</span> structure for SBT.</p></div>
+<div class="paragraph"><p>The SBT <span class="monospaced">~/.sbt/</span> structure is described in the guide to using plugins at <a href="http://www.scala-sbt.org/release/docs/Getting-Started/Using-Plugins">http://www.scala-sbt.org/release/docs/Getting-Started/Using-Plugins</a> and in the wiki page for global configuration at <a href="http://www.scala-sbt.org/release/docs/Detailed-Topics/Global-Settings">http://www.scala-sbt.org/release/docs/Detailed-Topics/Global-Settings</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
@@ -1362,7 +1362,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>You need the Scala plugin for IntelliJ, and an SBT plugin to generate the IDEA project files.</p></div>
 <div class="paragraph"><p>The IntelliJ plugin you&#8217;ll need to install once, and these instructions are for IntelliJ IDEA 12.  The details may vary between releases of the IDE, but the basic idea is to find the JetBrains Scala plugin, and download and install it.</p></div>
 <div class="paragraph"><p>From the "Welcome to Intellij IDEA" screen, select "Configure" and then "Plugins". Select "Browse repositories&#8230;". In the search box, top right, type "Scala".  You&#8217;ll find on the left a number of matches: select "Scala".  On the right, you&#8217;ll see confirmation that this is the "Plugin for Scala language support" and the vendor is JetBrains Inc. Select the "Download and Install" icon from the top of the window (or right click to download and install). "Close" the dialog, and OK out of the Plugins window. You&#8217;ll be promoted to restart IntelliJ IDEA.</p></div>
-<div class="paragraph"><p>With the IDE configured, you now need to add the SBT plugin inside your project by adding the following to the file <span class="monospaced">projects/plugins.sbt</span>:</p></div>
+<div class="paragraph"><p>With the IDE configured, you now need to add the SBT plugin inside your Lift project by adding the following to the file <span class="monospaced">projects/plugins.sbt</span>:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
@@ -1381,11 +1381,12 @@ http://www.gnu.org/software/src-highlite -->
 <pre>~; container:start; container:reload /</pre>
 </div></div>
 <div class="paragraph"><p>This behaviour of this command is described in <a href="#texteditor">[texteditor]</a>, but if you&#8217;re using JRebel (see <a href="#jrebel">[jrebel]</a>) then you just need to run <span class="monospaced">container:start</span> by itself.</p></div>
-<div class="paragraph"><p>Each time you make the project, the container will pick up the changes, and you can see them by re-loading your browser window.</p></div>
+<div class="paragraph"><p>Each time you compile or make the project, the container will pick up the changes, and you can see them by re-loading your browser window.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_5">Discussion</h4>
 <div class="paragraph"><p>By default the <span class="monospaced">gen-idea</span> command will fetch source for dependent libraries. That means out-of-the-box you can click though to Lift source code to explore it and learn more about the framework.</p></div>
+<div class="paragraph"><p>Setting up the SBT IDEA plugin globally, for all SBT projects, is the same pattern as described for Eclipse in <a href="#eclipse">[eclipse]</a>.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_see_also_5">See Also</h4>
@@ -1449,10 +1450,10 @@ Press "Connect" to view and edit your database.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_using_the_latest_lift_build">Using the Latest Lift build</h3>
+<h3 id="snapshot">Using the Latest Lift build</h3>
 <div class="sect3">
 <h4 id="_problem_7">Problem</h4>
-<div class="paragraph"><p>You want to use the latest build ("snapshot") of Lift.</p></div>
+<div class="paragraph"><p>You want to use the latest ("snapshot") build of Lift.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_6">Solution</h4>
@@ -1464,20 +1465,19 @@ by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>resolvers <span style="color: #990000">+</span><span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">"snapshots"</span> at <span style="color: #FF0000">"http://oss.sonatype.org/content/repositories/snapshots"</span></tt></pre></div></div>
-<div class="paragraph"><p>Second, change the <span class="monospaced">liftVersion</span> in your build to be the latest version. For this example, we will
-assume there is a 2.6-SNAPSHOT to use rather than a 2.5 version:</p></div>
+<div class="paragraph"><p>Second, change the <span class="monospaced">liftVersion</span> in your build to be the latest version. For this example, let&#8217;s use the 2.5-SNAPSHOT version of Lift:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">val</span></span> liftVersion <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">"2.6-SNAPSHOT"</span></tt></pre></div></div>
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">val</span></span> liftVersion <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">"2.5-SNAPSHOT"</span></tt></pre></div></div>
 <div class="paragraph"><p>Restarting SBT (or issuing a <span class="monospaced">reload</span> command) will trigger a download
 of the latest build.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_7">Discussion</h4>
-<div class="paragraph"><p>Production releases of Lift (e.g., "2.4", "25"), as well as milestone releases
+<div class="paragraph"><p>Production releases of Lift (e.g., "2.4", "2.5"), as well as milestone releases
 (e.g., "2.5-M3") and release candidates (e.g., "2.5-RC1") are published
 into a releases repository. When SBT downloads them, they are downloaded
 once.</p></div>
@@ -1487,7 +1487,7 @@ versions by running the command <span class="monospaced">clean</span> and then <
 </div>
 <div class="sect3">
 <h4 id="_see_also_7">See Also</h4>
-<div class="paragraph"><p>To learn the detail of SNAPSHOT versions, dig into the Maven Complete Reference at [<a href="http://www.sonatype.com/books/mvnref-book/reference/pom-relationships-sect-pom-syntax.html">http://www.sonatype.com/books/mvnref-book/reference/pom-relationships-sect-pom-syntax.html</a>.</p></div>
+<div class="paragraph"><p>To learn the detail of SNAPSHOT versions, dig into the Maven Complete Reference at <a href="http://www.sonatype.com/books/mvnref-book/reference/pom-relationships-sect-pom-syntax.html">http://www.sonatype.com/books/mvnref-book/reference/pom-relationships-sect-pom-syntax.html</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
@@ -1499,12 +1499,12 @@ use it in your Lift project.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_7">Solution</h4>
-<div class="paragraph"><p>You may find that the latest SNAPSHOT of Lift is built using the latest
-Scala version. Failing that, and assuming you cannot wait for a build,
-providing that the Scala version is binary compatible with the latest
+<div class="paragraph"><p>You may find that the latest snapshot of Lift is built using the latest
+Scala version. Failing that, and assuming you cannot wait for a build, you may still be in luck.
+Providing that the Scala version is <em>binary compatible</em> with the latest
 version used by Lift, you can change your build file to force the Scala
 version.</p></div>
-<div class="paragraph"><p>For example, assuming your <span class="monospaced">build.sbt</span> file is set up to use Lift 2.4
+<div class="paragraph"><p>For example, assuming your <span class="monospaced">build.sbt</span> file is set up to use Lift 2.5
 with Scala 2.9.1:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -1514,12 +1514,12 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>scalaVersion <span style="font-weight: bold"><span style="color: #0000FF">:=</span></span> <span style="color: #FF0000">"2.9.1"</span>
 
 libraryDependencies <span style="color: #990000">++</span><span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">{</span>
-  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> liftVersion <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">"2.4"</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> liftVersion <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">"2.5"</span>
   <span style="font-weight: bold"><span style="color: #000000">Seq</span></span><span style="color: #990000">(</span>
     <span style="color: #FF0000">"net.liftweb"</span> <span style="color: #990000">%%</span> <span style="color: #FF0000">"lift-webkit"</span> <span style="color: #990000">%</span> liftVersion <span style="color: #990000">%</span> <span style="color: #FF0000">"compile-&gt;default"</span>
   <span style="color: #990000">)</span>
 <span style="color: #FF0000">}</span></tt></pre></div></div>
-<div class="paragraph"><p>Let&#8217;s assume that you now want to use Scala 2.9.2 but Lift 2.4 was only
+<div class="paragraph"><p>Let&#8217;s assume that you now want to use Scala 2.9.2 but (pretend) Lift 2.5 was only
 built against Scala 2.9.1. Replace <span class="monospaced">%%</span> with <span class="monospaced">%</span> for the <span class="monospaced">net.liftweb</span>
 resources and explicitly include the Scala version that Lift was built
 against for each Lift component:</p></div>
@@ -1531,21 +1531,24 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>scalaVersion <span style="font-weight: bold"><span style="color: #0000FF">:=</span></span> <span style="color: #FF0000">"2.9.2"</span>
 
 libraryDependencies <span style="color: #990000">++</span><span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">{</span>
-  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> liftVersion <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">"2.4"</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> liftVersion <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">"2.5"</span>
   <span style="font-weight: bold"><span style="color: #000000">Seq</span></span><span style="color: #990000">(</span>
     <span style="color: #FF0000">"net.liftweb"</span> <span style="color: #990000">%</span> <span style="color: #FF0000">"lift-webkit_2.9.1"</span> <span style="color: #990000">%</span> liftVersion <span style="color: #990000">%</span> <span style="color: #FF0000">"compile-&gt;default"</span>
   <span style="color: #990000">)</span>
 <span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="paragraph"><p>What we&#8217;ve done here is change the <span class="monospaced">scalaVersion</span> to the new version we want
+to use, but explicitly specified we want the 2.9.1 Scala version for Lift.
+This works if the two different Scala versions are binary compatible.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_8">Discussion</h4>
 <div class="paragraph"><p>Dependencies have a particular naming convention.  For example, the <span class="monospaced">lift-webkit</span> library for Lift 2.5-M3 is called <span class="monospaced">lift-webkit_2.9.1-2.5-M3.jar</span>.  Normally in <span class="monospaced">build.sbt</span> we simply refer to <span class="monospaced">"net.liftweb" %% "lift-webkit"</span> and SBT turns that into the name of a file that can be downloaded.</p></div>
-<div class="paragraph"><p>However, in the above example we have forced SBT to explicitly fetch the 2.9.1 version
+<div class="paragraph"><p>However, in this recipe we have forced SBT to explicitly fetch the 2.9.1 version
 of the Lift resources rather than allow it to compute the URL to the
 Lift components.  This is the difference between using <span class="monospaced">%%</span> and <span class="monospaced">%</span> in a
 dependency: with <span class="monospaced">%%</span> you do not specify the Scala version as SBT will append
-the <span class="monospaced">scalaVersion</span> number automatically; with <em>%</em> this automatic change is not made, so
-have to manually specify more details for the name of the library.</p></div>
+the <span class="monospaced">scalaVersion</span> number automatically; with <em>%</em> this automatic change is not made,
+so we have to manually specify more details for the name of the library.</p></div>
 <div class="paragraph"><p>Please note this only works for minor releases of Scala: major releases
 break compatibility.  For example Scala 2.9.1 is compatible with Scala 2.9.0, but not 2.10.</p></div>
 </div>
@@ -1554,6 +1557,7 @@ break compatibility.  For example Scala 2.9.1 is compatible with Scala 2.9.0, bu
 <div class="paragraph"><p>Binary compatibly in Scala is discussed on the Scala user mailing list at
 <a href="http://article.gmane.org/gmane.comp.lang.scala.user/39290">http://article.gmane.org/gmane.comp.lang.scala.user/39290</a>.</p></div>
 <div class="paragraph"><p>The SBT behaviour is described at: <a href="http://www.scala-sbt.org/release/docs/Getting-Started/Library-Dependencies">http://www.scala-sbt.org/release/docs/Getting-Started/Library-Dependencies</a>.</p></div>
+<div class="paragraph"><p><a href="#snapshot">[snapshot]</a> describes how to use a snapshot version of Lift.</p></div>
 </div>
 </div>
 </div>
@@ -4174,7 +4178,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect2">
-<h3 id="_running_code_when_sessions_are_created_or_destroyed">Running Code when Sessions are Created (or Destroyed)</h3>
+<h3 id="OnSession">Running Code when Sessions are Created (or Destroyed)</h3>
 <div class="sect3">
 <h4 id="_problem_42">Problem</h4>
 <div class="paragraph"><p>You want to carry out actions when a session is created or destroyed.</p></div>
@@ -6411,67 +6415,31 @@ Your MySQL database has been created using a UTF-8 character set.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_contributing_bug_reports_amp_getting_help">Contributing, bug reports &amp; getting help</h2>
+<h2 id="_contributing_bug_reports_amp_getting_help">Contributing, Bug Reports &amp; Getting Help</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_how_to_add_a_new_recipe_to_this_cookbook">How to add a new recipe to this Cookbook</h3>
+<h3 id="_you_8217_d_like_some_help">You&#8217;d Like Some Help</h3>
 <div class="sect3">
 <h4 id="_problem_73">Problem</h4>
-<div class="paragraph"><p>You&#8217;d like to add a new page to this cookbook.</p></div>
+<div class="paragraph"><p>You&#8217;re stuck on something in Lift and you&#8217;d like some help.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_72">Solution</h4>
-<div class="paragraph"><p>If you&#8217;re comfortable using Git, you can fork the repository and send a
-push request.</p></div>
-<div class="paragraph"><p>Alternatively, download the template file, write your recipe, and email
-to the Lift mailing list.</p></div>
-<div class="paragraph"><p>The template is:
-<a href="https://raw.github.com/d6y/lift-cookbook/master/template.md">https://raw.github.com/d6y/lift-cookbook/master/template.md</a></p></div>
+<div class="paragraph"><p>Ask a question on the Lift mailing list at <a href="https://groups.google.com/group/liftweb">https://groups.google.com/group/liftweb</a>.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_70">Discussion</h4>
-<div class="paragraph"><p>The cookbook is structured using Markdown and Pamflet. Each recipe is a
-file with the same structure as the template file, and gives one good
-solution to a problem. Feel free to discuss alternatives or related
-concepts in the discussion section.</p></div>
-<div class="paragraph"><p>If you&#8217;ve forked the project from Github, you&#8217;ll find all the pages in
-the <span class="monospaced">docs</span> folder, with sub-folders for each section. The filenames are
-used for ordering the pages and sections. Feel free to send pull
-requests.</p></div>
+<div class="paragraph"><p>You will find some information about Lift on StackOverflow, Quora and elsewhere, but the mailing list is <em>the</em> place to go to get help and support. You can search the archive to see if your question has already been addressed, but questions are very welcome as it helps the Lift community understand what users need and what might be causing problems or need explanation. Much of what you&#8217;re reading here originates from questions that have been asked on the mailing list.</p></div>
+<div class="paragraph"><p>New members to the mailing list are moderated to help reduce spam. This means the first time you post your message may take a few hours to show up.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_see_also_71">See Also</h4>
-<div class="ulist"><ul>
-<li>
-<p>
-<a href="https://github.com/d6y/lift-cookbook/">This project on Github</a>
-</p>
-</li>
-<li>
-<p>
-<a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax guide</a>
-</p>
-</li>
-<li>
-<p>
-<a href="http://pamflet.databinder.net/Pamflet.html">Pamflet</a>
-</p>
-</li>
-<li>
-<p>
-<a href="http://pamflet.databinder.net/Filenames+and+Page+Names.html">Pamflet filenames and titles</a>
-</p>
-</li>
-<li>
-<p>
-<a href="http://pamflet.databinder.net/Source+Code+Highlighting.html">Formatting source code</a>
-</p>
-</li>
-</ul></div>
+<div class="paragraph"><p>The Lift community is one of the things that makes Lift what it is. Please take a look at <a href="http://liftweb.net/community">http://liftweb.net/community</a> before posting: you&#8217;ll get the best response with a polite question.</p></div>
+<div class="paragraph"><p>If you need paid consulting, development or SLA-backed support, there&#8217;s a list of organizations on the Wiki at <a href="https://www.assembla.com/spaces/liftweb/wiki/Commercial_Support">https://www.assembla.com/spaces/liftweb/wiki/Commercial_Support</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_how_to_report_bugs">How to report bugs</h3>
+<h3 id="_how_to_report_bugs">How to Report Bugs</h3>
 <div class="sect3">
 <h4 id="_problem_74">Problem</h4>
 <div class="paragraph"><p>You&#8217;ve found a bug and want to report it.</p></div>
@@ -6480,40 +6448,347 @@ requests.</p></div>
 <h4 id="_solution_73">Solution</h4>
 <div class="paragraph"><p>Discuss your findings on the Lift mailing list, saying what you&#8217;re
 seeing, and what you&#8217;d expect to see.</p></div>
-<div class="paragraph"><p>By all means look at <a href="https://github.com/lift/modules/issues">existing
-issues</a> to see if your issue is there or recently fixed, but do not
-raise a ticket unless asked to do so by a Lift committer on the mailing
-list.</p></div>
+<div class="paragraph"><p>By all means look at the existing tickets to see if your issue is there or recently fixed, but please do not
+raise a ticket unless asked to do so by a Lift committer on the mailing list.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_71">Discussion</h4>
-<div class="paragraph"><p><strong>"If Lift is not behaving as you expect, please ask questions about what
-you&#8217;re seeing. The ideal form of these questions is <em>When I do X, my
-Lift app does Y, but I expect it to do Z, why?</em> This provides a set of
+<div class="quoteblock">
+<div class="content">
+<div class="paragraph"><p>If Lift is not behaving as you expect, please ask questions about what
+you&#8217;re seeing. The ideal form of these questions is "When I do X, my
+Lift app does Y, but I expect it to do Z, why?" This provides a set of
 language to discuss your application and the way that Lift responds to
 requests. Perhaps there&#8217;s a way of improving Lift. Perhaps there&#8217;s a
 concept that&#8217;s different in Lift than you might be used to. Perhaps
 there&#8217;s a documentation issue that can help bridge the gap between what
 Lift is doing and what you expect it to do. Most importantly, just
 because Lift is behaving differently than you expect it to, it&#8217;s not
-necessarily a bug in Lift."</strong> (from
-<a href="http://lift.la/expected-behavior-in-the-lift-community">Expected Behavior
-in the Lift community</a>)</p></div>
+necessarily a bug in Lift.</p></div>
+</div>
+<div class="attribution">
+<em>http://lift.la/expected-behavior-in-the-lift-community</em><br>
+&#8212; David Pollack
+</div></div>
+<div class="paragraph"><p>A great way to get help with the issue you have, or getting a bug fixed, is to produce a small example to illustrate the problem and posting it on GitHub. The key is to provide instructions so someone can run the example and see exactly what you see without having to jump though hoops.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_see_also_72">See Also</h4>
+<div class="paragraph"><p>You&#8217;ll find a list of tickets at <a href="http://ticket.liftweb.net/">http://ticket.liftweb.net/</a>.</p></div>
+<div class="paragraph"><p>If you&#8217;re asked to, or want to, post example code there&#8217;s a guide at <a href="http://www.assembla.com/wiki/show/liftweb/Posting_example_code">http://www.assembla.com/wiki/show/liftweb/Posting_example_code</a>.</p></div>
+<div class="paragraph"><p>If you&#8217;ve found a bug, and you&#8217;re asked to create a ticket, the main thing to do is to include a link to the mailing list discussion of the issue, as described at <a href="http://www.assembla.com/wiki/show/liftweb/Creating_tickets">http://www.assembla.com/wiki/show/liftweb/Creating_tickets</a>.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="LiftCodeContributions">Contributing Small Code Changes and ScalaDoc</h3>
+<div class="sect3">
+<h4 id="_problem_75">Problem</h4>
+<div class="paragraph"><p>You have a small change or ScalaDoc improvement you&#8217;d like incorporated into Lift.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_solution_74">Solution</h4>
+<div class="paragraph"><p>You can issue pull requests against the Lift source providing your change meets one of the following requirements:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-<a href="http://www.assembla.com/wiki/show/liftweb/Posting_example_code">How to post a code example</a>
+It&#8217;s change to a comment.
 </p>
 </li>
 <li>
 <p>
-<a href="http://www.assembla.com/wiki/show/liftweb/Creating_tickets">Creating tickets</a>
+It&#8217;s example code.
+</p>
+</li>
+<li>
+<p>
+It&#8217;s a <em>small</em> change, enhancements, or bug fix to Lift.
 </p>
 </li>
 </ul></div>
+<div class="paragraph"><p>Your pull request must include an edit to add your signature to the bottom of the <span class="monospaced">contributors.md</span> file.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_72">Discussion</h4>
+<div class="paragraph"><p>Historically Lift had a strict contributor policy of simply not accepting any code contributions except from committers who had signed an agreement to assign copyright to the Lift project.  This allowed corporations wanting to adopt Lift to do so without litigation concerns.</p></div>
+<div class="paragraph"><p>The safety is still there, now via the requirement for a signature on the contributors file, which reads:</p></div>
+<div class="quoteblock">
+<div class="content">
+<div class="paragraph"><p>By submitting this pull request which includes my name and email address (the email address may be in a non-robot readable format), I agree that the entirety of the contribution is my own original work, that there are no prior claims on this work including, but not limited to, any agreements I may have with my employer or other contracts, and that I license this work under an Apache 2.0 license.</p></div>
+</div>
+<div class="attribution">
+</div></div>
+<div class="paragraph"><p>What&#8217;s a small change? That&#8217;s a good question, and if you&#8217;re unsure, talk about your proposed change on the mailing list.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_see_also_73">See Also</h4>
+<div class="paragraph"><p>This contribution policy was introduced in November 2012, and can be read about at <a href="http://www.lift.la/blog/new_contribution_policy">http://www.lift.la/blog/new_contribution_policy</a>.</p></div>
+<div class="paragraph"><p>The <span class="monospaced">contributors.md</span> file is found at: <a href="https://github.com/lift/framework/blob/master/contributors.md">https://github.com/lift/framework/blob/master/contributors.md</a>.</p></div>
+<div class="paragraph"><p>The Lift source is on GitHub at <a href="https://github.com/lift/">https://github.com/lift/</a>.  The <em>framework</em> project is probably the one you want, although you&#8217;ll also find Git repositories for examples and Lift web sites there.</p></div>
+<div class="paragraph"><p>GitHub provide an introduction to pull requests at <a href="https://help.github.com/articles/using-pull-requests">https://help.github.com/articles/using-pull-requests</a>.</p></div>
+<div class="paragraph"><p><a href="#modules">[modules]</a> describes how to share code of any size via Lift modules.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="wiki">Contributing Documentation</h3>
+<div class="sect3">
+<h4 id="_problem_76">Problem</h4>
+<div class="paragraph"><p>You&#8217;d like to contribute documentation to Lift.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_solution_75">Solution</h4>
+<div class="paragraph"><p>Update or add to the Lift wiki at <a href="https://www.assembla.com/wiki/show/liftweb">https://www.assembla.com/wiki/show/liftweb</a>.</p></div>
+<div class="paragraph"><p>You&#8217;ll need to sign in, or create a free account, with Assembla, the company that hosts the wiki. You then need to become a <em>watcher</em> of the Lift wiki, which is offered as a link on the top right of the Lift wiki page.  As a watcher you can edit pages and create new pages.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_73">Discussion</h4>
+<div class="paragraph"><p>If you&#8217;re unsure about a change you&#8217;d like to make, just ask for feedback on the Lift mailing list.</p></div>
+<div class="paragraph"><p>One limitation of the watcher role on Assembla is that you cannot move pages. If you create a new page in the wrong section, or want to reorganise pages, you&#8217;ll need to ask on the Lift mailing list for someone with permissions to do that for you.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_see_also_74">See Also</h4>
+<div class="paragraph"><p>The markup format for the Wiki pages is Textile. A reference guide can be found at: <a href="http://redcloth.org/hobix.com/textile/">http://redcloth.org/hobix.com/textile/</a>.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_to_add_a_new_recipe_to_this_cookbook">How to Add a New Recipe to this Cookbook</h3>
+<div class="sect3">
+<h4 id="_problem_77">Problem</h4>
+<div class="paragraph"><p>You&#8217;d like to add (or change) a section or chapter to this cookbook.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_solution_76">Solution</h4>
+<div class="paragraph"><p>If you&#8217;re comfortable using Git, you can fork the repository and send a
+pull request.</p></div>
+<div class="paragraph"><p>Alternatively, download a template file, write your recipe, and email
+to the Lift mailing list at <a href="https://groups.google.com/group/liftweb">https://groups.google.com/group/liftweb</a>.</p></div>
+<div class="paragraph"><p>You can find the template file at: <a href="https://raw.github.com/d6y/lift-cookbook/master/template.asciidoc">https://raw.github.com/d6y/lift-cookbook/master/template.asciidoc</a>.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_74">Discussion</h4>
+<div class="paragraph"><p>Anything you&#8217;ve puzzled over, or things which have surprised you, impressed you or are non-obvious are great topics for recipes. Improvements, discussions and clarifications of existing recipes are welcome too.</p></div>
+<div class="paragraph"><p>The cookbook is structured using a markup language called Asciidoc. If you&#8217;re familiar with Markdown or Textile, you&#8217;ll find similarities. For the cookbook you only need to know about section headings, source code formatting and links.  Examples of all of these are in the <span class="monospaced">template.asciidoc</span> file.</p></div>
+<div class="paragraph"><p>To find out where to make a change you need to know that each chapter is a separate file, and each recipe is a section in that file.</p></div>
+<div class="sect4">
+<h5 id="_licensing">Licensing</h5>
+<div class="paragraph"><p>This Cookbook is built upon the contributions of many people, under a Creative Commons license. Your contribution will need to be in agreement with that, but there is also a version produced by O&#8217;Reilly (perhaps you&#8217;re holding that version?), and O&#8217;Reilly also need the rights to produce the book. Consequently, each contribution will need to include the following:</p></div>
+<div class="quoteblock">
+<div class="content">
+<div class="paragraph"><p>By submitting this content, I understand and agree that:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+I am the owner of the content I am submitting.
+</p>
+</li>
+<li>
+<p>
+The the content is original work, except for pre-existing material which is in the public domain.
+</p>
+</li>
+<li>
+<p>
+The text can be used and modified and published in the web version of this text under the Creative Commons Attribution Noncommercial No Derivative Works license.
+</p>
+</li>
+<li>
+<p>
+O&#8217;Reilly will have other exclusive rights to print, copy, publish, market, display, distribute, and provide access to the content.
+</p>
+</li>
+<li>
+<p>
+Any author royalties will be passed to charity.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="attribution">
+</div></div>
+<div class="paragraph"><p>The best way to supply that will be in your commit message in Git, or via email if you&#8217;ve send a file that way.</p></div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_see_also_75">See Also</h4>
+<div class="paragraph"><p>The source to this book is at: <a href="https://github.com/d6y/lift-cookbook/">https://github.com/d6y/lift-cookbook/</a>.</p></div>
+<div class="paragraph"><p>The AsciiDoc cheetsheet at <a href="http://powerman.name/doc/asciidoc">http://powerman.name/doc/asciidoc</a> is a quick way to get into AsciiDoc, but if you need more, the AsciiDoc home page has the details: <a href="http://www.methods.co.nz/asciidoc/">http://www.methods.co.nz/asciidoc/</a>.</p></div>
+<div class="paragraph"><p>GitHub provide an introduction to pull requests at <a href="https://help.github.com/articles/using-pull-requests">https://help.github.com/articles/using-pull-requests</a>.</p></div>
+<div class="paragraph"><p><a href="#wiki">[wiki]</a> describes other ways to contribution documentation to Lift.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="modules">Sharing Code in Modules</h3>
+<div class="sect3">
+<h4 id="_problem_78">Problem</h4>
+<div class="paragraph"><p>You have code you&#8217;d like to share between Lift projects.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_solution_77">Solution</h4>
+<div class="paragraph"><p>Create a Lift module, and then reference the module from your Lift projects.</p></div>
+<div class="paragraph"><p>As an example, let&#8217;s create a module to embed the Snowstorm snow effect JavaScript to every page in your Lift web application (please don&#8217;t do this).</p></div>
+<div class="paragraph"><p>There&#8217;s nothing special about modules: they are code, packaged and used like any other dependency. What makes them possible is the exposure of extension points via <span class="monospaced">LiftRules</span>. There main convention is to have an <span class="monospaced">init</span> method that other Lift applications can use to initialize your module.</p></div>
+<div class="paragraph"><p>For our snow storm we&#8217;re going to package some JavaScript and inject the script on to every page.</p></div>
+<div class="paragraph"><p>Starting with the <span class="monospaced">lift_blank</span> template downloaded from liftweb.net, we can remove all the source and HTML files as this won&#8217;t be a runnable Lift application in itself. However, it will leave us with the regular Lift structure and build configuration.</p></div>
+<div class="paragraph"><p>Our module will need the Snowstorm JavaScript file from <a href="https://github.com/scottschiller/snowstorm/">https://github.com/scottschiller/snowstorm/</a> copied as <span class="monospaced">resources/toserve/snowstorm.js</span>.  This will place the JavaScript file on the classpath of our Lift application.</p></div>
+<div class="paragraph"><p>The final piece of the module is to ensure the JavaScript is included on every page:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000080">package</span></span> net<span style="color: #990000">.</span>liftmodules<span style="color: #990000">.</span>snowstorm
+
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> net<span style="color: #990000">.</span>liftweb<span style="color: #990000">.</span>http<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">object</span></span> Snowstorm <span style="color: #FF0000">{</span>
+
+ <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">init</span></span><span style="color: #990000">()</span> <span style="font-weight: bold"><span style="color: #0000FF">:</span></span> Unit <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">{</span>
+
+  ResourceServer<span style="color: #990000">.</span>allow <span style="color: #FF0000">{</span>
+     <span style="font-weight: bold"><span style="color: #0000FF">case</span></span> <span style="color: #FF0000">"snowstorm.js"</span> <span style="font-weight: bold"><span style="color: #0000FF">::</span></span> <span style="color: #009900">Nil</span> <span style="font-weight: bold"><span style="color: #0000FF">=&gt;</span></span> <span style="font-weight: bold"><span style="color: #0000FF">true</span></span>
+  <span style="color: #FF0000">}</span>
+
+  <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">addSnow</span></span><span style="color: #990000">(</span>s<span style="font-weight: bold"><span style="color: #0000FF">:</span></span> LiftSession<span style="color: #990000">,</span> r<span style="font-weight: bold"><span style="color: #0000FF">:</span></span> Req<span style="color: #990000">)</span> <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">S.putInHead</span></span><span style="color: #990000">(</span>
+  <span style="color: #990000">&lt;</span>script <span style="font-weight: bold"><span style="color: #0000FF">type=</span></span><span style="color: #FF0000">"text/javascript"</span> src<span style="font-weight: bold"><span style="color: #0000FF">=</span></span><span style="color: #FF0000">"/classpath/snowstorm.js"</span><span style="color: #990000">&gt;&lt;/</span>script<span style="color: #990000">&gt;</span> <span style="color: #990000">)</span>
+
+  LiftSession<span style="color: #990000">.</span>onBeginServicing <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> addSnow <span style="font-weight: bold"><span style="color: #0000FF">_</span></span> <span style="font-weight: bold"><span style="color: #0000FF">::</span></span>  LiftSession<span style="color: #990000">.</span>onBeginServicing
+
+ <span style="color: #FF0000">}</span>
+
+<span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="paragraph"><p>Here we are plugging into Lift&#8217;s processing pipeline and adding the required
+JavaScript to the head of every page.</p></div>
+<div class="paragraph"><p>We modify <span class="monospaced">build.sbt</span> to give the module a name, organisation and version number.  We also can remove many of the dependencies and the web plugin as we only depend on the web API elements of Lift:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>name <span style="font-weight: bold"><span style="color: #0000FF">:=</span></span> <span style="color: #FF0000">"snowstorm"</span>
+
+version <span style="font-weight: bold"><span style="color: #0000FF">:=</span></span> <span style="color: #FF0000">"1.0.0"</span>
+
+organization <span style="font-weight: bold"><span style="color: #0000FF">:=</span></span> <span style="color: #FF0000">"net.liftmodules"</span>
+
+scalaVersion <span style="font-weight: bold"><span style="color: #0000FF">:=</span></span> <span style="color: #FF0000">"2.9.1"</span>
+
+resolvers <span style="color: #990000">++</span><span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">Seq</span></span><span style="color: #990000">(</span>
+   <span style="color: #FF0000">"snapshots"</span> at <span style="color: #FF0000">"http://oss.sonatype.org/content/repositories/snapshots"</span><span style="color: #990000">,</span>
+   <span style="color: #FF0000">"releases"</span> at <span style="color: #FF0000">"http://oss.sonatype.org/content/repositories/releases"</span>
+<span style="color: #990000">)</span>
+
+scalacOptions <span style="color: #990000">++</span><span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">Seq</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"-deprecation"</span><span style="color: #990000">,</span> <span style="color: #FF0000">"-unchecked"</span><span style="color: #990000">)</span>
+
+libraryDependencies <span style="color: #990000">++</span><span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">{</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> liftVersion <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">"2.5-M3"</span>
+  <span style="font-weight: bold"><span style="color: #000000">Seq</span></span><span style="color: #990000">(</span>
+    <span style="color: #FF0000">"net.liftweb"</span> <span style="color: #990000">%%</span> <span style="color: #FF0000">"lift-webkit"</span>  <span style="color: #990000">%</span> liftVersion  <span style="color: #990000">%</span> <span style="color: #FF0000">"compile"</span>
+  <span style="color: #990000">)</span>
+<span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="paragraph"><p>We can publish this plugin to the repository on disk by starting SBT and typing:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>publish-local</pre>
+</div></div>
+<div class="paragraph"><p>With our module built and published, we can now include it in our Lift applications. To do that, modify the Lift application&#8217;s <span class="monospaced">build.sbt</span> to reference this new "snowstorm" dependency:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>libraryDependencies <span style="color: #990000">++</span><span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">{</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> liftVersion <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">"2.5-M3"</span>
+  <span style="font-weight: bold"><span style="color: #000000">Seq</span></span><span style="color: #990000">(</span>
+  <span style="color: #990000">...</span>
+  <span style="color: #FF0000">"net.liftmodules"</span> <span style="color: #990000">%%</span> <span style="color: #FF0000">"snowstorm"</span> <span style="color: #990000">%</span> <span style="color: #FF0000">"1.0.0"</span><span style="color: #990000">,</span>
+  <span style="color: #990000">...</span></tt></pre></div></div>
+<div class="paragraph"><p>In our Lift application&#8217;s <span class="monospaced">Boot.scala</span> we finally initialise the plugin:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000080">import</span></span> net<span style="color: #990000">.</span>liftmodules<span style="color: #990000">.</span>snowstorm<span style="color: #990000">.</span>Snowstorm
+<span style="font-weight: bold"><span style="color: #000000">Snowstorm.init</span></span><span style="color: #990000">()</span></tt></pre></div></div>
+<div class="paragraph"><p>When we run our Lift application, white snow will be falling on every page, supplied by the module.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_75">Discussion</h4>
+<div class="paragraph"><p>The module is self contained: there&#8217;s no need for users to copy JavaScript files around or modify their templates.  To achieve that we&#8217;ve made use of <span class="monospaced">ResourceServer</span>.  When we reference the JavaScript file via <span class="monospaced">/classpath/snowstorm.js</span>, Lift will attempt to locate <span class="monospaced">snowstorm.js</span> from the classpath.  This is what we want for our Lift application because <span class="monospaced">snowstorm.js</span> will be inside the module JAR file.</p></div>
+<div class="paragraph"><p>However, we do not want to expose all files on the classpath to anyone visiting our application. To avoid that, Lift looks for resources inside a <span class="monospaced">toserve</span> folder, which for our purposes means files and folders inside <span class="monospaced">src/main/resources/toserve</span>.  You can think of <span class="monospaced">/classpath</span> meaning <span class="monospaced">toserve</span> (although, you can change those values via <span class="monospaced">LiftRules.resourceServerPath</span> and <span class="monospaced">ResourceServer.baseResourceLocation</span>).</p></div>
+<div class="paragraph"><p>As a further precaution you need to explicitly allow access to these resources.  That&#8217;s done with:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>ResourceServer<span style="color: #990000">.</span>allow <span style="color: #FF0000">{</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">case</span></span> <span style="color: #FF0000">"snowstorm.js"</span> <span style="font-weight: bold"><span style="color: #0000FF">::</span></span> <span style="color: #009900">Nil</span> <span style="font-weight: bold"><span style="color: #0000FF">=&gt;</span></span> <span style="font-weight: bold"><span style="color: #0000FF">true</span></span>
+<span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="paragraph"><p>We&#8217;re just always returning <span class="monospaced">true</span> for anyone who asks for this resource, but we could dynamically control access here if we wanted.</p></div>
+<div class="paragraph"><p><span class="monospaced">S.putInHead</span> adds the JavaScript to the head of a page, and is triggered on every page by <span class="monospaced">LiftSession.onBeginServicing</span> (also discussed in <a href="#OnSession">[OnSession]</a>). We could make use of <span class="monospaced">Req</span> here to restrict the snow storm to particular pages, but we&#8217;re adding it to every page.</p></div>
+<div class="paragraph"><p>Hopefully you can see that anything you can do in a Lift application you can probably turn into a Lift module.  A typical approach might be to have functionality in a Lift application, and then factor out settings in <span class="monospaced">Boot</span> into a module <span class="monospaced">init</span> method.  For example, if you wanted to provide REST services as a module, that would be possible and is an approach taken by the Lift Paypal module.</p></div>
+<div class="sect4">
+<h5 id="_making_your_module_available">Making your Module Available</h5>
+<div class="paragraph"><p>If you do want your module to be used by a wider audience, you need to publish it to a public repository, such as Sonatype or CloudBees. You&#8217;ll also want to keep your module up-to-date with Lift releases. There are a few conventions around this.</p></div>
+<div class="paragraph"><p>One convention is to include the Lift version as part of the module version number.  For example, version 1.0.0 of your module for Lift 2.5 would be "2.5-1.0.0".  This is verbose but makes it clear which version of your module is compatible with which versions of Lift.  It also means you need to keep your module up-to-date with Lift releases.</p></div>
+<div class="paragraph"><p>One way to ease that is to make a modification to your module build to allow the Lift version number to change. This makes it possible to automate the build when new versions of Lift are released. To do that, create <span class="monospaced">project/LiftModule.scala</span> in your module:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000080">import</span></span> sbt<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> sbt<span style="color: #990000">.</span>Keys<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">object</span></span> LiftModuleBuild <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> Build <span style="color: #FF0000">{</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> liftVersion <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">SettingKey[String]</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"liftVersion"</span><span style="color: #990000">,</span>
+    <span style="color: #FF0000">"Version number of the Lift Web Framework"</span><span style="color: #990000">)</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> project <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">Project</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"LiftModule"</span><span style="color: #990000">,</span> <span style="font-weight: bold"><span style="color: #000000">file</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"."</span><span style="color: #990000">))</span>
+<span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="paragraph"><p>This defines a setting to control the Lift version number.  You use it in your module <span class="monospaced">build.sbt</span> like this:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>name <span style="font-weight: bold"><span style="color: #0000FF">:=</span></span> <span style="color: #FF0000">"snowstorm"</span>
+
+liftVersion <span style="color: #990000">&lt;&lt;</span><span style="font-weight: bold"><span style="color: #0000FF">=</span></span> liftVersion <span style="color: #990000">??</span> <span style="color: #FF0000">"2.5-SNAPSHOT"</span>
+
+version <span style="color: #990000">&lt;&lt;</span><span style="font-weight: bold"><span style="color: #0000FF">=</span></span> liftVersion apply <span style="color: #FF0000">{</span> <span style="font-weight: bold"><span style="color: #0000FF">_</span></span> <span style="color: #990000">+</span> <span style="color: #FF0000">"-1.0.0-SNAPSHOT"</span> <span style="color: #FF0000">}</span>
+
+<span style="color: #990000">...</span>
+
+libraryDependencies <span style="color: #990000">&lt;++</span><span style="font-weight: bold"><span style="color: #0000FF">=</span></span> liftVersion <span style="color: #FF0000">{</span> v <span style="font-weight: bold"><span style="color: #0000FF">=&gt;</span></span>
+  <span style="color: #FF0000">"net.liftweb"</span> <span style="color: #990000">%%</span> <span style="color: #FF0000">"lift-webkit"</span> <span style="color: #990000">%</span> v <span style="color: #990000">%</span> <span style="color: #FF0000">"compile-&gt;default"</span> <span style="font-weight: bold"><span style="color: #0000FF">::</span></span>
+  <span style="color: #009900">Nil</span>
+<span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="paragraph"><p>What this gives you is a way for the version of your module to depend on the <span class="monospaced">liftVersion</span> value.  This in turn can be set via a script.  This is what we do to publish a range of Lift Modules after each Lift release, as described at <a href="https://www.assembla.com/spaces/liftweb/wiki/Releasing_the_modules">https://www.assembla.com/spaces/liftweb/wiki/Releasing_the_modules</a>.</p></div>
+<div class="paragraph"><p>Don&#8217;t forget to announce your module on the Lift mailing list.</p></div>
+</div>
+<div class="sect4">
+<h5 id="_debugging_your_module">Debugging Your Module</h5>
+<div class="paragraph"><p>When working on a module and testing it in a Lift application, it would be a chore to have to publish your module each time you changed it. Fortunately, SBT allows your Lift application to depend on the source of a module.  To use this, change your Lift project to remove the dependency on the published module and instead add a local dependency by creating <span class="monospaced">project/LocalModuleDev.scala</span>:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000080">import</span></span> sbt<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
+<span style="font-weight: bold"><span style="color: #0000FF">object</span></span> LocalModuleDev <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> Build <span style="color: #FF0000">{</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">lazy</span></span> <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> root <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">Project</span></span><span style="color: #990000">(</span><span style="color: #FF0000">""</span><span style="color: #990000">,</span> <span style="font-weight: bold"><span style="color: #000000">file</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"."</span><span style="color: #990000">))</span> <span style="font-weight: bold"><span style="color: #000000">dependsOn</span></span><span style="color: #990000">(</span>google<span style="color: #990000">)</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">lazy</span></span> <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> snow <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">ProjectRef(uri</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"../snowstorm"</span><span style="color: #990000">),</span> <span style="color: #FF0000">"LiftModule"</span><span style="color: #990000">)</span>
+<span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="paragraph"><p>We are assuming that the snowstorm source can be found at <span class="monospaced">../snowstorm</span> relative to the Lift application we are using. With this in place, when you build your Lift project, SBT will automatically compile and depend on changes in the local <span class="monospaced">snowstorm</span> module.</p></div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_see_also_76">See Also</h4>
+<div class="paragraph"><p>Originally Lift included a set of modules, but these have been separated out to individual projects at <a href="https://github.com/liftmodules/">https://github.com/liftmodules/</a>.  The Lift contributor policy outlined in <a href="#LiftCodeContributions">[LiftCodeContributions]</a> doesn&#8217;t apply to Lift modules: you&#8217;re free to contribute to these modules as you would any other open source project.</p></div>
+<div class="paragraph"><p>The Lift wiki pages for modules can be reached via <a href="http://liftmodules.net">http://liftmodules.net</a>.</p></div>
+<div class="paragraph"><p>The Snowstorm project ("setting CPUs on fire worldwide every winter since 2003") is at: <a href="https://github.com/scottschiller/snowstorm/">https://github.com/scottschiller/snowstorm/</a> and the module developed for this recipe is at <a href="https://github.com/LiftCookbook/snowstorm-example-module">https://github.com/LiftCookbook/snowstorm-example-module</a>.</p></div>
+<div class="paragraph"><p>To publish to Sonatype, take a look at their guide: <a href="https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide">https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide</a>. CloudBees offer an open source repository, which you can learn about via <a href="http://www.cloudbees.com/foss/foss-dev.cb">http://www.cloudbees.com/foss/foss-dev.cb</a>.</p></div>
+<div class="paragraph"><p>There are other ways to structure common code between Lift applications. For an example that uses SBT modules and Git, see the mailing list discussion on "Modularize Lift Applications" at <a href="https://groups.google.com/d/msg/liftweb/7GA5t0lefzI/c1wf6W1keDcJ">https://groups.google.com/d/msg/liftweb/7GA5t0lefzI/c1wf6W1keDcJ</a>.</p></div>
 </div>
 </div>
 </div>
@@ -6522,7 +6797,7 @@ in the Lift community</a>)</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2012-12-17 18:08:11 GMT
+Last updated 2012-12-19 22:20:59 GMT
 </div>
 </div>
 </body>
