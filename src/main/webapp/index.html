@@ -4470,7 +4470,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1">
-<h2 id="_relational_database_persistence_with_record_and_squeryl">Relational database persistence with Record and Squeryl</h2>
+<h2 id="Squeryl">Relational database persistence with Record and Squeryl</h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_using_a_jndi_datasource">Using a JNDI datasource</h3>
@@ -5021,6 +5021,54 @@ Squeryl and MEDIUMTEXT with Record</a> mailing list discussion.
 </ul></div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_mysql_unicode_charset_encoding">MySQL Unicode Charset Encoding</h3>
+<div class="sect3">
+<h4 id="_problem_56">Problem</h4>
+<div class="paragraph"><p>Some characters stored in your MySQL database are appearing as <span class="monospaced">???</span>.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_solution_55">Solution</h4>
+<div class="paragraph"><p>Ensure:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<span class="monospaced">Boot.scala</span> includes: <span class="monospaced">LiftRules.early.append(_.setCharacterEncoding("UTF-8"))</span>
+</p>
+</li>
+<li>
+<p>
+Your JDBC connections URL includes <span class="monospaced">?useUnicode=true&amp;characterEncoding=UTF-8</span>
+</p>
+</li>
+<li>
+<p>
+Your MySQL database has been created using a UTF-8 character set.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_see_also_56">See Also</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://groups.google.com/forum/?fromgroups#!topic/liftweb/DL9AFyU5y2k">EMail thread on the Lift mailing list</a>
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/d6y/mysql-lift-charset-test">MySQL UTF-8 test Lift app</a> - although it uses SBT 0.7 so is rather out of date.
+</p>
+</li>
+<li>
+<p>
+<a href="http://dev.mysql.com/doc/refman/5.6/en/connector-j-reference-configuration-properties.html">MySQL JDBC COnfiguration reference</a>
+</p>
+</li>
+</ul></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -5029,12 +5077,12 @@ Squeryl and MEDIUMTEXT with Record</a> mailing list discussion.
 <div class="sect2">
 <h3 id="_sequence_numbers_and_existing_data">Sequence numbers and existing data</h3>
 <div class="sect3">
-<h4 id="_problem_56">Problem</h4>
+<h4 id="_problem_57">Problem</h4>
 <div class="paragraph"><p>You have a table with data in it, but Lift inserts new records with a
 primary key starting from 1, or some other value that may already exist.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_55">Solution</h4>
+<h4 id="_solution_56">Solution</h4>
 <div class="paragraph"><p>Work with the native sequence facility in your database to set the
 starting sequence value to be the value you want Lift to use.</p></div>
 <div class="paragraph"><p>The first step is to work out what value you want the sequence to start
@@ -5068,7 +5116,7 @@ your database.</p></div>
 <div class="paragraph"><p>The same instructions apply for using Record as well as Mapper.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_56">See Also</h4>
+<h4 id="_see_also_57">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5098,12 +5146,12 @@ describes how to use ALTER TABLE to change the sequence value.
 <div class="sect2">
 <h3 id="_detect_if_the_schema_has_changed">Detect if the schema has changed</h3>
 <div class="sect3">
-<h4 id="_problem_57">Problem</h4>
+<h4 id="_problem_58">Problem</h4>
 <div class="paragraph"><p>You do not want to automatically migrate your schema, but you want to
 know if it is out of date.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_56">Solution</h4>
+<h4 id="_solution_57">Solution</h4>
 <div class="paragraph"><p>Run <span class="monospaced">Schemifier</span> and capture the changes it would make if allowed. For
 example, in <span class="monospaced">Boot.scala</span>:</p></div>
 <div class="listingblock">
@@ -5152,7 +5200,7 @@ The result is a <span class="monospaced">List[String]</span> which are the state
 best fit your needs.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_57">See Also</h4>
+<h4 id="_see_also_58">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5181,11 +5229,11 @@ Mongo</a>. For recipes regarding Mongo itself, check out the
 <div class="sect2">
 <h3 id="_connecting_to_a_mongo_database">Connecting to a Mongo Database</h3>
 <div class="sect3">
-<h4 id="_problem_58">Problem</h4>
+<h4 id="_problem_59">Problem</h4>
 <div class="paragraph"><p>You want to connect to a MongoDB.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_57">Solution</h4>
+<h4 id="_solution_58">Solution</h4>
 <div class="paragraph"><p>Configure your connection using <span class="monospaced">net.liftweb.mongodb</span> and <span class="monospaced">com.mongodb</span>
 in <span class="monospaced">Boot.scala</span>:</p></div>
 <div class="listingblock">
@@ -5217,7 +5265,7 @@ the port make up the first part, and the database name is the part after
 the <span class="monospaced">/</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_58">See Also</h4>
+<h4 id="_see_also_59">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5232,11 +5280,11 @@ configuration for replica sets.
 <div class="sect2">
 <h3 id="_storing_a_hash_in_a_mongo_record">Storing a Hash in a Mongo Record</h3>
 <div class="sect3">
-<h4 id="_problem_59">Problem</h4>
+<h4 id="_problem_60">Problem</h4>
 <div class="paragraph"><p>You want to store a hash map in Mongo.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_58">Solution</h4>
+<h4 id="_solution_59">Solution</h4>
 <div class="paragraph"><p>Create a Mongo Record which contains a <span class="monospaced">MongoMapField</span>:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -5349,7 +5397,7 @@ runtime.</p></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_59">See Also</h4>
+<h4 id="_see_also_60">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5363,12 +5411,12 @@ Query</a> mailing list discussion.
 <div class="sect2">
 <h3 id="_embedding_a_document_inside_a_mongo_record">Embedding a Document inside a Mongo Record</h3>
 <div class="sect3">
-<h4 id="_problem_60">Problem</h4>
+<h4 id="_problem_61">Problem</h4>
 <div class="paragraph"><p>You have a Mongo record, and you want to embed another set of values
 inside it as a single entity.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_59">Solution</h4>
+<h4 id="_solution_60">Solution</h4>
 <div class="paragraph"><p>Use <span class="monospaced">BsonRecord</span> to define the document to embed, and embed it using
 <span class="monospaced">BsonRecordField</span>. Here&#8217;s an example of storing information about an
 image within a record:</p></div>
@@ -5466,7 +5514,7 @@ http://www.gnu.org/software/src-highlite -->
 <span style="color: #FF0000">}</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_60">See Also</h4>
+<h4 id="_see_also_61">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5480,11 +5528,11 @@ Record Embedded Objects</a> on the Lift Wiki.
 <div class="sect2">
 <h3 id="_linking_between_mongo_records">Linking between Mongo Records</h3>
 <div class="sect3">
-<h4 id="_problem_61">Problem</h4>
+<h4 id="_problem_62">Problem</h4>
 <div class="paragraph"><p>You have a Mongo record and want to include a link to another record.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_60">Solution</h4>
+<h4 id="_solution_61">Solution</h4>
 <div class="paragraph"><p>Create a reference using a <span class="monospaced">MongoRefField</span> such as <span class="monospaced">ObjectIdRefField</span> or
 <span class="monospaced">StringRefField</span>, and dereference the record using the <span class="monospaced">obj</span> call.</p></div>
 <div class="paragraph"><p>As an example we can create records representing countries, where a
@@ -5656,7 +5704,7 @@ string we are storing (128). Other reference types are:</p></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_61">See Also</h4>
+<h4 id="_see_also_62">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5675,11 +5723,11 @@ Record Referenced Objects</a> wiki page.
 <div class="sect2">
 <h3 id="_storing_geospatial_values">Storing Geospatial Values</h3>
 <div class="sect3">
-<h4 id="_problem_62">Problem</h4>
+<h4 id="_problem_63">Problem</h4>
 <div class="paragraph"><p>You want to store (lat,lon) information in Mongo.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_61">Solution</h4>
+<h4 id="_solution_62">Solution</h4>
 <div class="paragraph"><p>Create a <span class="monospaced">Geo</span> container and use when you need it in your model. For
 example:</p></div>
 <div class="listingblock">
@@ -5735,7 +5783,7 @@ http://www.gnu.org/software/src-highlite -->
 whether locations needs to be unique (no duplications) or not.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_62">See Also</h4>
+<h4 id="_see_also_63">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5760,11 +5808,11 @@ as sending email or scheduling tasks.</p></div>
 <div class="sect2">
 <h3 id="_sending_plain_text_email">Sending plain text email</h3>
 <div class="sect3">
-<h4 id="_problem_63">Problem</h4>
+<h4 id="_problem_64">Problem</h4>
 <div class="paragraph"><p>You want to send a plain email from your Lift application.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_62">Solution</h4>
+<h4 id="_solution_63">Solution</h4>
 <div class="paragraph"><p>Use the <span class="monospaced">Mailer</span>:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -5799,7 +5847,7 @@ the use of <span class="monospaced">PlainMailBodyType</span> with
 <span class="monospaced">PlainPlusBodyType("Hello from Lift", "ISO8859_1")</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_63">See Also</h4>
+<h4 id="_see_also_64">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5813,11 +5861,11 @@ Lift</a>, Appendix F.
 <div class="sect2">
 <h3 id="_sending_html_email">Sending HTML email</h3>
 <div class="sect3">
-<h4 id="_problem_64">Problem</h4>
+<h4 id="_problem_65">Problem</h4>
 <div class="paragraph"><p>You want to send an HTML email from your Lift application.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_63">Solution</h4>
+<h4 id="_solution_64">Solution</h4>
 <div class="paragraph"><p>Give <span class="monospaced">Mailer</span> a <span class="monospaced">NodeSeq</span> containing your HTML message:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -5854,11 +5902,11 @@ HTML5 semantics.</p></div>
 <div class="sect2">
 <h3 id="_sending_authenticated_email">Sending authenticated email</h3>
 <div class="sect3">
-<h4 id="_problem_65">Problem</h4>
+<h4 id="_problem_66">Problem</h4>
 <div class="paragraph"><p>You need to authenticate with an SMTP server to send email.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_64">Solution</h4>
+<h4 id="_solution_65">Solution</h4>
 <div class="paragraph"><p>Set the <span class="monospaced">Mailer.authenticator</span> in <span class="monospaced">Boot</span> with the credentials for your
 SMTP server and enable the <span class="monospaced">mail.smtp.auth</span> flag in your Lift props
 file.</p></div>
@@ -5904,7 +5952,7 @@ also supports JNDI). However, some mail services do require
 <span class="monospaced">mail.smtp.auth=true</span> to be set.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_64">See Also</h4>
+<h4 id="_see_also_65">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5917,11 +5965,11 @@ The <a href="http://javamail.kenai.com/nonav/javadocs/com/sun/mail/smtp/package-
 <div class="sect2">
 <h3 id="_sending_email_with_attachments">Sending email with attachments</h3>
 <div class="sect3">
-<h4 id="_problem_66">Problem</h4>
+<h4 id="_problem_67">Problem</h4>
 <div class="paragraph"><p>You want to send an email with one or more attachments.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_65">Solution</h4>
+<h4 id="_solution_66">Solution</h4>
 <div class="paragraph"><p>Use Mailer&#8217;s <span class="monospaced">XHTMLPlusImages</span> body types:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -5957,7 +6005,7 @@ have more than one file to attach.</p></div>
 "inline" disposition.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_65">See Also</h4>
+<h4 id="_see_also_66">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5975,12 +6023,12 @@ Wikipedia entry on <a href="http://en.wikipedia.org/wiki/MIME">Multipurpose Inte
 <div class="sect2">
 <h3 id="_logging_email_rather_than_sending">Logging email rather than sending</h3>
 <div class="sect3">
-<h4 id="_problem_67">Problem</h4>
+<h4 id="_problem_68">Problem</h4>
 <div class="paragraph"><p>You don&#8217;t want email sent when developing your Lift application locally,
 but you do want to see what would have been sent.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_66">Solution</h4>
+<h4 id="_solution_67">Solution</h4>
 <div class="paragraph"><p>The solution is to use <span class="monospaced">Mailer.devModeSend</span> and here is an example for
 <span class="monospaced">Boot.scala</span>:</p></div>
 <div class="listingblock">
@@ -6019,11 +6067,11 @@ profile, pilot and test). The default is to send email, except for
 <div class="sect2">
 <h3 id="_run_a_task_later">Run a task later</h3>
 <div class="sect3">
-<h4 id="_problem_68">Problem</h4>
+<h4 id="_problem_69">Problem</h4>
 <div class="paragraph"><p>You want to schedule code to run later.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_67">Solution</h4>
+<h4 id="_solution_68">Solution</h4>
 <div class="paragraph"><p>Use <span class="monospaced">net.liftweb.util.Schedule</span>:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -6044,7 +6092,7 @@ variant calls that accept <span class="monospaced">Long</span> millisecond value
 library, which allows you to <span class="monospaced">cancel</span> the activity.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_66">See Also</h4>
+<h4 id="_see_also_67">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6068,11 +6116,11 @@ Recipe for <a href="Run+tasks+periodically.html">Running tasks periodically</a>
 <div class="sect2">
 <h3 id="RunTasksPeriodically">Run Tasks Periodically</h3>
 <div class="sect3">
-<h4 id="_problem_69">Problem</h4>
+<h4 id="_problem_70">Problem</h4>
 <div class="paragraph"><p>You want a scheduled task to run periodically.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_68">Solution</h4>
+<h4 id="_solution_69">Solution</h4>
 <div class="paragraph"><p>Use <span class="monospaced">net.liftweb.util.Schedule</span> ensuring that you call <span class="monospaced">schedule</span> again
 during your task to re-schedule it. For example:</p></div>
 <div class="listingblock">
@@ -6129,7 +6177,7 @@ schedule tasks after issuing the <span class="monospaced">container:stop</span> 
 library, which allows you to <span class="monospaced">cancel</span> the activity.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_67">See Also</h4>
+<h4 id="_see_also_68">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6153,11 +6201,11 @@ uses <span class="monospaced">Schedule</span>, and further examples can be found
 <div class="sect2">
 <h3 id="_fetching_urls">Fetching URLs</h3>
 <div class="sect3">
-<h4 id="_problem_70">Problem</h4>
+<h4 id="_problem_71">Problem</h4>
 <div class="paragraph"><p>You want to fetch a URL from inside your Lift app.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_69">Solution</h4>
+<h4 id="_solution_70">Solution</h4>
 <div class="paragraph"><p>Use <em>Dispatch</em>, "a library for HTTP interaction, from asynchronous GETs
 to multi-part OAuth-enticated POSTs". Before you start, include the
 dependencies in your <span class="monospaced">build.sbt</span> file:</p></div>
@@ -6213,7 +6261,7 @@ what&#8217;s available.</p></div>
 includes functions for manipulating the real-world HTML you fetch.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_68">See Also</h4>
+<h4 id="_see_also_69">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6241,16 +6289,17 @@ includes functions for manipulating the real-world HTML you fetch.</p></div>
 <div class="sect2">
 <h3 id="_deploying_to_cloudbees">Deploying to CloudBees</h3>
 <div class="sect3">
-<h4 id="_problem_71">Problem</h4>
+<h4 id="_problem_72">Problem</h4>
 <div class="paragraph"><p>You have an account with the CloudBees PaaS hosting environment, and you
 want to deploy your Lift application there.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_70">Solution</h4>
+<h4 id="_solution_71">Solution</h4>
 <div class="paragraph"><p>Use the SBT <span class="monospaced">package</span> command to produce a WAR file that can be deployed
-to CloudBees, and then use the SDK to configure and deploy your
+to CloudBees, and then use the CloudBees SDK to configure and deploy your
 application.</p></div>
-<div class="paragraph"><p>For best performance you will want to ensure the Lift run mode is set to
+<div class="paragraph"><p>From within the CloudBees "Grand Central" console, create a new application under your account. In what follows we&#8217;ll assume your account is called <em>myaccount</em> and your application is called <em>myapp</em>.</p></div>
+<div class="paragraph"><p>For the best performance you will want to ensure the Lift run mode is set to
 "production". Do this from the CloudBees SDK command line:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -6272,11 +6321,12 @@ http://www.gnu.org/software/src-highlite -->
 <span style="color: #990000">...</span>
 <span style="color: #990000">[</span>info<span style="color: #990000">]</span> Packaging /Users/richard/myapp/target/scala-<span style="color: #993399">2.9</span><span style="color: #990000">.</span><span style="color: #993399">1</span>/myapp<span style="color: #990000">.</span>war<span style="color: #990000">...</span>
 <span style="color: #990000">...</span>
-$ bees app<span style="color: #990000">:</span>deploy <span style="color: #990000">.</span>/target/scala-<span style="color: #993399">2.9</span><span style="color: #990000">.</span><span style="color: #993399">1</span>/myapp<span style="color: #990000">.</span>war</tt></pre></div></div>
+$ bees -a app<span style="color: #990000">:</span>deploy <span style="color: #990000">.</span>/target/scala-<span style="color: #993399">2.9</span><span style="color: #990000">.</span><span style="color: #993399">1</span>/myapp<span style="color: #990000">.</span>war</tt></pre></div></div>
+<div class="paragraph"><p>This will send your WAR file to CloudBees and deploy it.  You&#8217;ll see the location (URL) of your application output from the bees <span class="monospaced">app:deploy</span> command when it completes.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_69">Discussion</h4>
-<div class="paragraph"><p>If you are deploying a single application to multiple CloudBees
+<div class="paragraph"><p>If you are deploying an application to multiple CloudBees
 instances, be aware that by default CloudBees will round robin requests
 to each instance. If you use any of Lift&#8217;s state features you&#8217;ll want to
 enable session affinity (sticky sessions):</p></div>
@@ -6286,11 +6336,11 @@ by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>$ bees app<span style="color: #990000">:</span>update -a myaccount/myapp <span style="color: #009900">stickySession</span><span style="color: #990000">=</span><span style="font-weight: bold"><span style="color: #0000FF">true</span></span></tt></pre></div></div>
-<div class="paragraph"><p>If you are using comet, it&#8217;ll work fine, but CloudBees default is to do
-request buffering. This allows CloudBees to do smart things, such as re-routing
+<div class="paragraph"><p>If you are using comet, it&#8217;ll work fine, but the CloudBees default is to enable
+<em>request buffering</em>. This allows CloudBees to do smart things, such as re-routing
 requests in a cluster if one machine does not respond. A
 consequence of request buffering is that long-polling comet requests will timeout more
-often. To turn off this feature set the following:</p></div>
+often. To turn this feature off, run the following:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
@@ -6300,9 +6350,9 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>As with the run mode setting, CloudBees will remember these settings, so you
 only need to set them once.</p></div>
 <div class="sect4">
-<h5 id="_rdbms_configuration">RDBMS configuration</h5>
+<h5 id="_rdbms_configuration">RDBMS Configuration</h5>
 <div class="paragraph"><p>If you are using a SQL database in your application, you&#8217;ll want to
-configue <span class="monospaced">src/main/webapp/WEB-INF/cloudbees-web.xml</span>. For
+configure <span class="monospaced">src/main/webapp/WEB-INF/cloudbees-web.xml</span>. For
 example:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -6319,9 +6369,9 @@ http://www.gnu.org/software/src-highlite -->
   <span style="font-weight: bold"><span style="color: #0000FF">&lt;param</span></span> <span style="color: #009900">name</span><span style="color: #990000">=</span><span style="color: #FF0000">"password"</span> <span style="color: #009900">value</span><span style="color: #990000">=</span><span style="color: #FF0000">"dbpassword"</span> <span style="font-weight: bold"><span style="color: #0000FF">/&gt;</span></span>
   <span style="font-weight: bold"><span style="color: #0000FF">&lt;param</span></span> <span style="color: #009900">name</span><span style="color: #990000">=</span><span style="color: #FF0000">"url"</span> <span style="color: #009900">value</span><span style="color: #990000">=</span><span style="color: #FF0000">"jdbc:cloudbees://mydb"</span> <span style="font-weight: bold"><span style="color: #0000FF">/&gt;</span></span>
 
-  <span style="font-style: italic"><span style="color: #9A1900">&lt;!-- Connection Pool settings:</span></span>
+  <span style="font-style: italic"><span style="color: #9A1900">&lt;!-- For these connections settings, see:</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">   http://commons.apache.org/dbcp/configuration.html</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">   --&gt;</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">  --&gt;</span></span>
   <span style="font-weight: bold"><span style="color: #0000FF">&lt;param</span></span> <span style="color: #009900">name</span><span style="color: #990000">=</span><span style="color: #FF0000">"maxActive"</span> <span style="color: #009900">value</span><span style="color: #990000">=</span><span style="color: #FF0000">"10"</span> <span style="font-weight: bold"><span style="color: #0000FF">/&gt;</span></span>
   <span style="font-weight: bold"><span style="color: #0000FF">&lt;param</span></span> <span style="color: #009900">name</span><span style="color: #990000">=</span><span style="color: #FF0000">"maxIdle"</span> <span style="color: #009900">value</span><span style="color: #990000">=</span><span style="color: #FF0000">"2"</span> <span style="font-weight: bold"><span style="color: #0000FF">/&gt;</span></span>
   <span style="font-weight: bold"><span style="color: #0000FF">&lt;param</span></span> <span style="color: #009900">name</span><span style="color: #990000">=</span><span style="color: #FF0000">"maxWait"</span> <span style="color: #009900">value</span><span style="color: #990000">=</span><span style="color: #FF0000">"15000"</span> <span style="font-weight: bold"><span style="color: #0000FF">/&gt;</span></span>
@@ -6354,62 +6404,159 @@ only be available in a CloudBees environment. This means you can develop
 against a different database locally, and use your CloudBees database
 when deploying.</p></div>
 </div>
+<div class="sect4">
+<h5 id="_host_ip_and_port_number">Host IP and Port Number</h5>
+<div class="paragraph"><p>Generally you don&#8217;t need to know about your deployed instance&#8217;s public host name and port number. Requests to your application URL are routed to the specific instance by CloudBees. However there are situations, especially when you have multiple instances, where you do need to find this out. For example, if you want to receive messages from Amazon&#8217;s Simple Notification Service (SNS), then each instance will need to give a direct URL to SNS when the application boots.</p></div>
+<div class="paragraph"><p>To get the public hostname, you need to make a HTTP request to <span class="monospaced">http://instance-data/latest/meta-data/public-hostname</span>, as documented at <a href="https://developer.cloudbees.com/bin/view/Main/Finding+out+app+port+and+hostname">https://developer.cloudbees.com/bin/view/Main/Finding+out+app+port+and+hostname</a>.  For example:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000080">import</span></span> io<span style="color: #990000">.</span>Source
+
+<span style="font-weight: bold"><span style="color: #0000FF">val</span></span> beesPublicHostname <span style="font-weight: bold"><span style="color: #0000FF">:</span></span> Box<span style="color: #990000">[</span>String<span style="color: #990000">]</span> <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> tryo <span style="color: #FF0000">{</span>
+  <span style="font-weight: bold"><span style="color: #000000">Source.fromURL</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"http://instance-data/latest/meta-data/public-hostname"</span><span style="color: #990000">).</span>
+    <span style="font-weight: bold"><span style="color: #000000">getLines</span></span><span style="color: #990000">().</span>toStream<span style="color: #990000">.</span>head
+<span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="paragraph"><p>This will return a <span class="monospaced">Full</span> hostname on the CloudBees environment, but when running locally will fail and return a <span class="monospaced">Failure</span>. For example:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000000">Failure(instance-data,Full</span></span><span style="color: #990000">(</span>java<span style="color: #990000">.</span>net<span style="color: #990000">.</span>UnknownHostException<span style="font-weight: bold"><span style="color: #0000FF">:</span></span> instance<span style="color: #990000">-</span>data<span style="color: #990000">),</span>Empty<span style="color: #990000">)</span></tt></pre></div></div>
+<div class="paragraph"><p>The port number can be read from the JVM system property of <span class="monospaced">sun.java.command</span>. This is the command that started your application and it includes the port number. An example would be:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>net.stax.appserver.bootstrap.Bootstrap -dir /var/genapp/apps/d414b3f4/staxcat
+  -port 8783 -config /var/genapp/apps/d414b3f4/appserver.xml</pre>
+</div></div>
+<div class="paragraph"><p>We can pick out the port number with a regular expression:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">val</span></span> beesPort <span style="font-weight: bold"><span style="color: #0000FF">:</span></span> Box<span style="color: #990000">[</span>String<span style="color: #990000">]</span> <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> <span style="color: #FF0000">{</span>
+  command <span style="font-weight: bold"><span style="color: #0000FF">&lt;-</span></span> Box <span style="color: #990000">!!</span> <span style="font-weight: bold"><span style="color: #000000">System.getProperty</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"sun.java.command"</span><span style="color: #990000">)</span>
+  port <span style="font-weight: bold"><span style="color: #0000FF">&lt;-</span></span> <span style="color: #FF0000">""".*-port (</span><span style="color: #CC33CC">\d</span><span style="color: #FF0000">+) .*"""</span><span style="color: #990000">.</span>r findFirstMatchIn command
+<span style="color: #FF0000">}</span> <span style="font-weight: bold"><span style="color: #0000FF">yield</span></span> port group <span style="color: #993399">1</span></tt></pre></div></div>
+<div class="paragraph"><p>Running locally this will return a <span class="monospaced">Empty</span> box, but on CloudBees you&#8217;ll see a <span class="monospaced">Full[String]</span> port number.</p></div>
+<div class="paragraph"><p>You might put these two values together as follows:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000080">import</span></span> java<span style="color: #990000">.</span>net<span style="color: #990000">.</span>InetAddress
+
+<span style="font-weight: bold"><span style="color: #0000FF">val</span></span> hostAndPort <span style="font-weight: bold"><span style="color: #0000FF">:</span></span> String <span style="font-weight: bold"><span style="color: #0000FF">=</span></span>
+  <span style="color: #990000">(</span>beesPublicHostname openOr InetAddress<span style="color: #990000">.</span>getLocalHost<span style="color: #990000">.</span>getHostAddress<span style="color: #990000">)</span> <span style="color: #990000">+</span>
+  <span style="color: #FF0000">":"</span> <span style="color: #990000">+</span> <span style="color: #990000">(</span>beesPort openOr <span style="color: #FF0000">"8080"</span><span style="color: #990000">)</span></tt></pre></div></div>
+<div class="paragraph"><p>Running locally <span class="monospaced">hostAndPort</span> might be <span class="monospaced">192.168.1.60:8080</span> and running on CloudBees it would be something like <span class="monospaced">ec2-204-236-222-252.compute-1.amazonaws.com:8520</span>.</p></div>
 </div>
-<div class="sect3">
-<h4 id="_see_also_69">See Also</h4>
-<div class="paragraph"><p>A plugin is available to automate deployments from SBT. The plugin and the excellent
-instructions for installing and configuring it can be found at <a href="https://github.com/timperrett/sbt-cloudbees-plugin">https://github.com/timperrett/sbt-cloudbees-plugin</a>.</p></div>
-<div class="paragraph"><p>For integration with messaging systems, you may been to access your CloudBees instance application
-hostname and port number.  You can find this at <a href="https://developer.cloudbees.com/bin/view/Main/Finding+out+app+port+and+hostname">https://developer.cloudbees.com/bin/view/Main/Finding+out+app+port+and+hostname</a>.  This CloudBees developer portal contains a "Resources" section which provides details
-of the CloudBees services.</p></div>
+<div class="sect4">
+<h5 id="_clickstarts">ClickStarts</h5>
+<div class="paragraph"><p>ClickStart Applications are templates to quickly get an application, and automated build, up and running at CloudBees. The Lift ClickStart creates a private Git source repository at CloudBees which contains a Lift 2.4 application, provisions a MySQL database, creates a Maven-based Jenkins build, and deploys the application.  All you need to do is provide a name for the application (without whitespace).</p></div>
+<div class="paragraph"><p>To access the Git source repository created for you, you&#8217;ll need to upload a SSH public key. You can do this in the "My Keys" section of your account settings on the CloudBees web site.</p></div>
+<div class="paragraph"><p>The build that&#8217;s created for you will automatically build and deploy your application to CloudBees when you push changes to your Git repository.</p></div>
+<div class="paragraph"><p>If all of that&#8217;s a good match to the technologies and services you want to use, ClickStart is a great way to deploy your application. Alternatively, it gives you a starting point from which you can modify elements; or you could fork the CloudBees Lift template and create your own from <a href="https://github.com/CloudBees-community/lift_template">https://github.com/CloudBees-community/lift_template</a>.</p></div>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_mysql_unicode_charset_encoding">MySQL unicode charset encoding</h3>
-<div class="sect3">
-<h4 id="_problem_72">Problem</h4>
-<div class="paragraph"><p>Some characters stored in your MySQL database are appearing as <span class="monospaced">???</span>.</p></div>
-</div>
-<div class="sect3">
-<h4 id="_solution_71">Solution</h4>
-<div class="paragraph"><p>Ensure:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<span class="monospaced">Boot.scala</span> includes: <span class="monospaced">LiftRules.early.append(_.setCharacterEncoding("UTF-8"))</span>
-</p>
-</li>
-<li>
-<p>
-Your JDBC connections URL includes <span class="monospaced">?useUnicode=true&amp;characterEncoding=UTF-8</span>
-</p>
-</li>
-<li>
-<p>
-Your MySQL database has been created using a UTF-8 character set.
-</p>
-</li>
-</ul></div>
 </div>
 <div class="sect3">
 <h4 id="_see_also_70">See Also</h4>
-<div class="ulist"><ul>
-<li>
-<p>
-<a href="https://groups.google.com/forum/?fromgroups#!topic/liftweb/DL9AFyU5y2k">EMail thread on the Lift mailing list</a>
-</p>
-</li>
-<li>
-<p>
-<a href="https://github.com/d6y/mysql-lift-charset-test">MySQL UTF-8 test Lift app</a> - although it uses SBT 0.7 so is rather out of date.
-</p>
-</li>
-<li>
-<p>
-<a href="http://dev.mysql.com/doc/refman/5.6/en/connector-j-reference-configuration-properties.html">MySQL JDBC COnfiguration reference</a>
-</p>
-</li>
-</ul></div>
+<div class="paragraph"><p>The CloudBees SDK provides command line tools for configuring and controlling applications. It can be found at <a href="https://wiki.cloudbees.com/bin/view/RUN/BeesSDK">https://wiki.cloudbees.com/bin/view/RUN/BeesSDK</a>.</p></div>
+<div class="paragraph"><p>The CloudBees developer portal (<a href="https://developer.cloudbees.com">https://developer.cloudbees.com</a>)contains a "Resources" section which provides details of the CloudBees services.</p></div>
+<div class="paragraph"><p>A plugin is available to automate deployments from SBT. The plugin and the excellent
+instructions for installing and configuring it can be found at <a href="https://github.com/timperrett/sbt-cloudbees-plugin">https://github.com/timperrett/sbt-cloudbees-plugin</a>.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="Beanstalk">Deploying to Amazon Elastic Beanstalk</h3>
+<div class="sect3">
+<h4 id="_problem_73">Problem</h4>
+<div class="paragraph"><p>You want to run your Lift application on Amazon Web Services (AWS) Elastic Beanstalk.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_solution_72">Solution</h4>
+<div class="paragraph"><p>Create a new Tomcat 7 <em>environment</em>, use SBT to package your Lift application as a WAR file, and then deploy the application to your environment.</p></div>
+<div class="paragraph"><p>To create a new environment, visit the AWS console, navigate to Elastic Beanstalk and select "Apache Tomcat 7" as your environment. This will create and launch a default Beanstalk application. This will take a few minutes, but eventually report "Successfully running version Sample Application". You&#8217;ll be shown the URL of the application (something like <span class="monospaced">http://default-environment-nsdmixm7ja.elasticbeanstalk.com</span>) and visiting the URL you&#8217;re given will show the running default Amazon application.</p></div>
+<div class="paragraph"><p>Prepare your WAR file by running:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>$ sbt package</tt></pre></div></div>
+<div class="paragraph"><p>This will write a WAR file into the <span class="monospaced">target</span> folder.  To deploy this WAR file from the AWS Beanstalk web console (see <a href="#ConsoleImage">[ConsoleImage]</a>), select the "Versions" tab under the "Elastic Beanstalk Application Details" and click the "Upload new version" button. You&#8217;ll be given a dialog where you give a version label and use the "Choose file" button to select the WAR file you just built.  You can either upload and deploy in one step, or upload first and then select the version in the console and hit the "Deploy" button.</p></div>
+<div class="paragraph"><p>The Beanstalk console will show "Environment updating&#8230;" and after some minutes it&#8217;ll report "Successfully running".  Your Lift application is now deployed and running on Beanstalk.</p></div>
+<div class="paragraph"><p>A final step is to enable Lift&#8217;s production run mode. From the environment in the AWS Beanstalk web console, follow the "Edit Configuration" link. A dialog will appear, and under the "Container" tab add <span class="monospaced">-Drun.mode=production</span> to the "JVM Command Line Options" and hit "Apply Changes" to redeploy your application.</p></div>
+<div class="imageblock" id="ConsoleImage">
+<div class="content">
+<img src="images/beanstalkconsole.png" alt="AWS Console">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_70">Discussion</h4>
+<div class="paragraph"><p>Elastic Beanstalk provides a pre-built stack of software and infrastructure, in this case: Linux, Tomcat 7, a 64 bit "t1.micro" EC2 instance, load balancing, and an S3 bucket. That&#8217;s the <em>environment</em> and it has reasonable default settings.  Beanstalk also provides an easy way to deploy your Lift application.  As we&#8217;ve seen in this recipe, you upload an application (WAR file) to Beanstalk and deploy it to the environment.</p></div>
+<div class="paragraph"><p>As with many cloud providers keep in mind that you want to avoid local file storage. The reason for this is to allow instances to be terminated or restarted without data loss. With your Beanstalk application you do have a file system and you can write to it, but it is lost if the image is restarted. You can get persistent local file storage, for example using Amazon Elastic Block Storage, but you&#8217;re fighting against the nature of the platform.</p></div>
+<div class="paragraph"><p>Log files are written to the local file system. To access them, from the AWS console, navigate to your environment, into the "Logs" tab and hit the "Snapshot" button. This will take a copy of the logs and store them in an S3 bucket, and give you a link to the file contents.  This is a single file showing the content of variety of log files, and <span class="monospaced">catalina.out</span> will be the one showing any output from your Lift application.  If you want to try to keep these log files around, you can configure the environment to rotate the logs to S3 every hour from the "Container" tab under "Edit Configuration".</p></div>
+<div class="paragraph"><p>The Lift application WAR files are stored in the same S3 bucket that the logs are stored in. From the AWS console, you&#8217;ll find it under the S3 page listed with a name like <span class="monospaced">elasticbeanstalk-us-east-1-5989673916964</span>. You&#8217;ll note that the AWS uploads makes your WAR filename unique by adding a prefix to each filename. If you need to be able to tell the difference between these files in S3, one good approach is to is to bump the <span class="monospaced">version</span> value in your <span class="monospaced">build.sbt</span> file.  This version number is included in the WAR filename.</p></div>
+<div class="sect4">
+<h5 id="_multiple_instances">Multiple Instances</h5>
+<div class="paragraph"><p>Beanstalks enables <em>auto scaling</em> by default. That is, it launches a single instance of your Lift application, but if the load increases above a threshold, up to four instances may be running.</p></div>
+<div class="paragraph"><p>If you&#8217;re making use of Lift&#8217;s state features, you&#8217;ll need to enable sticky sessions from the "Load Balancer" tab of the environment configuration. It&#8217;s a check box named "Enable Session Stickiness"--it&#8217;s easy to miss, but that tab does scroll to show more options if you don&#8217;t see it first time.</p></div>
+</div>
+<div class="sect4">
+<h5 id="_working_with_a_database">Working with a Database</h5>
+<div class="paragraph"><p>There&#8217;s nothing unusual you have to do to use Lift and a database from Beanstalk. However, Beanstalk does try to make it easy for you to work with Amazon&#8217;s Relational Database Service (RDS).  Either when creating your Beanstalk environment, or from the configuration options later, you can add an RDS instance, which cab be an Oracle, SQL-Server or MySQL database.</p></div>
+<div class="paragraph"><p>The MySQL option will create a MySQL 5.5 InnoDB database. The database will be accessible from Beanstalk, but not from elsewhere on the Internet. To change that, modify the security groups for the RDS instance from the AWS web console.  For example, you might permit access from your IP address.</p></div>
+<div class="paragraph"><p>When your application launches with an associated RDS instance, the JVM system properties include settings for the database name, host, port, user and password.  You could pull them together like this in <span class="monospaced">Boot.scala</span>:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000000">Class.forName</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"com.mysql.jdbc.Driver"</span><span style="color: #990000">)</span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">val</span></span> connection <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> <span style="color: #FF0000">{</span>
+  host <span style="font-weight: bold"><span style="color: #0000FF">&lt;-</span></span> Box <span style="color: #990000">!!</span> <span style="font-weight: bold"><span style="color: #000000">System.getProperty</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"RDS_HOSTNAME"</span><span style="color: #990000">)</span>
+  port <span style="font-weight: bold"><span style="color: #0000FF">&lt;-</span></span> Box <span style="color: #990000">!!</span> <span style="font-weight: bold"><span style="color: #000000">System.getProperty</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"RDS_PORT"</span><span style="color: #990000">)</span>
+  db   <span style="font-weight: bold"><span style="color: #0000FF">&lt;-</span></span> Box <span style="color: #990000">!!</span> <span style="font-weight: bold"><span style="color: #000000">System.getProperty</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"RDS_DB_NAME"</span><span style="color: #990000">)</span>
+  user <span style="font-weight: bold"><span style="color: #0000FF">&lt;-</span></span> Box <span style="color: #990000">!!</span> <span style="font-weight: bold"><span style="color: #000000">System.getProperty</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"RDS_USERNAME"</span><span style="color: #990000">)</span>
+  pass <span style="font-weight: bold"><span style="color: #0000FF">&lt;-</span></span> Box <span style="color: #990000">!!</span> <span style="font-weight: bold"><span style="color: #000000">System.getProperty</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"RDS_PASSWORD"</span><span style="color: #990000">)</span>
+<span style="color: #FF0000">}</span> <span style="font-weight: bold"><span style="color: #0000FF">yield</span></span> <span style="font-weight: bold"><span style="color: #000000">DriverManager.getConnection</span></span><span style="color: #990000">(</span>
+    <span style="color: #FF0000">"jdbc:mysql://%s:%s/%s"</span> <span style="font-weight: bold"><span style="color: #000000">format</span></span> <span style="color: #990000">(</span>host<span style="color: #990000">,</span>port<span style="color: #990000">,</span>db<span style="color: #990000">),</span>
+    user<span style="color: #990000">,</span> pass<span style="color: #990000">)</span></tt></pre></div></div>
+<div class="paragraph"><p>That would give you a <span class="monospaced">Box[Connection]</span> which, if <span class="monospaced">Full</span>, you could use in a <span class="monospaced">SquerylRecord.initWithSquerylSession</span> call for example (see <a href="#Squeryl">[Squeryl]</a>).</p></div>
+<div class="paragraph"><p>Alternatively you might want to guarantee a connection by supplying defaults for all the values with something like this:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000000">Class.forName</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"com.mysql.jdbc.Driver"</span><span style="color: #990000">)</span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">val</span></span> connection <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">{</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> host <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">System.getProperty</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"RDS_HOSTNAME"</span><span style="color: #990000">,</span> <span style="color: #FF0000">"localhost"</span><span style="color: #990000">)</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> port <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">System.getProperty</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"RDS_PORT"</span><span style="color: #990000">,</span> <span style="color: #FF0000">"3306"</span><span style="color: #990000">)</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> db <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">System.getProperty</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"RDS_DB_NAME"</span><span style="color: #990000">,</span> <span style="color: #FF0000">"db"</span><span style="color: #990000">)</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> user <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">System.getProperty</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"RDS_USERNAME"</span><span style="color: #990000">,</span> <span style="color: #FF0000">"sa"</span><span style="color: #990000">)</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> pass <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">System.getProperty</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"RDS_PASSWORD"</span><span style="color: #990000">,</span> <span style="color: #FF0000">""</span><span style="color: #990000">)</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">DriverManager.getConnection</span></span><span style="color: #990000">(</span>
+    <span style="color: #FF0000">"jdbc:mysql://%s:%s/%s"</span> <span style="font-weight: bold"><span style="color: #000000">format</span></span> <span style="color: #990000">(</span>host<span style="color: #990000">,</span>port<span style="color: #990000">,</span>db<span style="color: #990000">),</span>
+    user<span style="color: #990000">,</span> pass<span style="color: #990000">)</span>
+<span style="color: #FF0000">}</span></tt></pre></div></div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_see_also_71">See Also</h4>
+<div class="paragraph"><p>Amazon provide a walk-through with screen shots, showing how to create a Beanstalk application.  It&#8217;s at: <a href="http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/GettingStarted.Walkthrough.html">http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/GettingStarted.Walkthrough.html</a>.</p></div>
+<div class="paragraph"><p><em>Elastic Beanstalk</em>, by van Villet <em>et al</em> (2011, O&#8217;Reilly Media, Inc) goes into the details of the Beanstalk infrastructure, how to work with Eclipse, enabling continuous integration, and how to hack the instance, for example to use NGINX as a front-end to Beanstalk.</p></div>
+<div class="paragraph"><p>The Amazon documentation for "Configuring Databases with AWS Elastic Beanstalk" describes the RDS settings in more detail: <a href="http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/using-features.managing.db.html">http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/using-features.managing.db.html</a>.</p></div>
 </div>
 </div>
 </div>
@@ -6420,20 +6567,20 @@ Your MySQL database has been created using a UTF-8 character set.
 <div class="sect2">
 <h3 id="_you_8217_d_like_some_help">You&#8217;d Like Some Help</h3>
 <div class="sect3">
-<h4 id="_problem_73">Problem</h4>
+<h4 id="_problem_74">Problem</h4>
 <div class="paragraph"><p>You&#8217;re stuck on something in Lift and you&#8217;d like some help.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_72">Solution</h4>
+<h4 id="_solution_73">Solution</h4>
 <div class="paragraph"><p>Ask a question on the Lift mailing list at <a href="https://groups.google.com/group/liftweb">https://groups.google.com/group/liftweb</a>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_70">Discussion</h4>
+<h4 id="_discussion_71">Discussion</h4>
 <div class="paragraph"><p>You will find some information about Lift on StackOverflow, Quora and elsewhere, but the mailing list is <em>the</em> place to go to get help and support. You can search the archive to see if your question has already been addressed, but questions are very welcome as it helps the Lift community understand what users need and what might be causing problems or need explanation. Much of what you&#8217;re reading here originates from questions that have been asked on the mailing list.</p></div>
 <div class="paragraph"><p>New members to the mailing list are moderated to help reduce spam. This means the first time you post your message may take a few hours to show up.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_71">See Also</h4>
+<h4 id="_see_also_72">See Also</h4>
 <div class="paragraph"><p>The Lift community is one of the things that makes Lift what it is. Please take a look at <a href="http://liftweb.net/community">http://liftweb.net/community</a> before posting: you&#8217;ll get the best response with a polite question.</p></div>
 <div class="paragraph"><p>If you need paid consulting, development or SLA-backed support, there&#8217;s a list of organizations on the Wiki at <a href="https://www.assembla.com/spaces/liftweb/wiki/Commercial_Support">https://www.assembla.com/spaces/liftweb/wiki/Commercial_Support</a>.</p></div>
 </div>
@@ -6441,18 +6588,18 @@ Your MySQL database has been created using a UTF-8 character set.
 <div class="sect2">
 <h3 id="_how_to_report_bugs">How to Report Bugs</h3>
 <div class="sect3">
-<h4 id="_problem_74">Problem</h4>
+<h4 id="_problem_75">Problem</h4>
 <div class="paragraph"><p>You&#8217;ve found a bug and want to report it.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_73">Solution</h4>
+<h4 id="_solution_74">Solution</h4>
 <div class="paragraph"><p>Discuss your findings on the Lift mailing list, saying what you&#8217;re
 seeing, and what you&#8217;d expect to see.</p></div>
 <div class="paragraph"><p>By all means look at the existing tickets to see if your issue is there or recently fixed, but please do not
 raise a ticket unless asked to do so by a Lift committer on the mailing list.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_71">Discussion</h4>
+<h4 id="_discussion_72">Discussion</h4>
 <div class="quoteblock">
 <div class="content">
 <div class="paragraph"><p>If Lift is not behaving as you expect, please ask questions about what
@@ -6473,7 +6620,7 @@ necessarily a bug in Lift.</p></div>
 <div class="paragraph"><p>A great way to get help with the issue you have, or getting a bug fixed, is to produce a small example to illustrate the problem and posting it on GitHub. The key is to provide instructions so someone can run the example and see exactly what you see without having to jump though hoops.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_72">See Also</h4>
+<h4 id="_see_also_73">See Also</h4>
 <div class="paragraph"><p>You&#8217;ll find a list of tickets at <a href="http://ticket.liftweb.net/">http://ticket.liftweb.net/</a>.</p></div>
 <div class="paragraph"><p>If you&#8217;re asked to, or want to, post example code there&#8217;s a guide at <a href="http://www.assembla.com/wiki/show/liftweb/Posting_example_code">http://www.assembla.com/wiki/show/liftweb/Posting_example_code</a>.</p></div>
 <div class="paragraph"><p>If you&#8217;ve found a bug, and you&#8217;re asked to create a ticket, the main thing to do is to include a link to the mailing list discussion of the issue, as described at <a href="http://www.assembla.com/wiki/show/liftweb/Creating_tickets">http://www.assembla.com/wiki/show/liftweb/Creating_tickets</a>.</p></div>
@@ -6482,11 +6629,11 @@ necessarily a bug in Lift.</p></div>
 <div class="sect2">
 <h3 id="LiftCodeContributions">Contributing Small Code Changes and ScalaDoc</h3>
 <div class="sect3">
-<h4 id="_problem_75">Problem</h4>
+<h4 id="_problem_76">Problem</h4>
 <div class="paragraph"><p>You have a small change or ScalaDoc improvement you&#8217;d like incorporated into Lift.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_74">Solution</h4>
+<h4 id="_solution_75">Solution</h4>
 <div class="paragraph"><p>You can issue pull requests against the Lift source providing your change meets one of the following requirements:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -6508,7 +6655,7 @@ It&#8217;s a <em>small</em> change, enhancements, or bug fix to Lift.
 <div class="paragraph"><p>Your pull request must include an edit to add your signature to the bottom of the <span class="monospaced">contributors.md</span> file.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_72">Discussion</h4>
+<h4 id="_discussion_73">Discussion</h4>
 <div class="paragraph"><p>Historically Lift had a strict contributor policy of simply not accepting any code contributions except from committers who had signed an agreement to assign copyright to the Lift project.  This allowed corporations wanting to adopt Lift to do so without litigation concerns.</p></div>
 <div class="paragraph"><p>The safety is still there, now via the requirement for a signature on the contributors file, which reads:</p></div>
 <div class="quoteblock">
@@ -6520,7 +6667,7 @@ It&#8217;s a <em>small</em> change, enhancements, or bug fix to Lift.
 <div class="paragraph"><p>What&#8217;s a small change? That&#8217;s a good question, and if you&#8217;re unsure, talk about your proposed change on the mailing list.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_73">See Also</h4>
+<h4 id="_see_also_74">See Also</h4>
 <div class="paragraph"><p>This contribution policy was introduced in November 2012, and can be read about at <a href="http://www.lift.la/blog/new_contribution_policy">http://www.lift.la/blog/new_contribution_policy</a>.</p></div>
 <div class="paragraph"><p>The <span class="monospaced">contributors.md</span> file is found at: <a href="https://github.com/lift/framework/blob/master/contributors.md">https://github.com/lift/framework/blob/master/contributors.md</a>.</p></div>
 <div class="paragraph"><p>The Lift source is on GitHub at <a href="https://github.com/lift/">https://github.com/lift/</a>.  The <em>framework</em> project is probably the one you want, although you&#8217;ll also find Git repositories for examples and Lift web sites there.</p></div>
@@ -6531,32 +6678,32 @@ It&#8217;s a <em>small</em> change, enhancements, or bug fix to Lift.
 <div class="sect2">
 <h3 id="wiki">Contributing Documentation</h3>
 <div class="sect3">
-<h4 id="_problem_76">Problem</h4>
+<h4 id="_problem_77">Problem</h4>
 <div class="paragraph"><p>You&#8217;d like to contribute documentation to Lift.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_75">Solution</h4>
+<h4 id="_solution_76">Solution</h4>
 <div class="paragraph"><p>Update or add to the Lift wiki at <a href="https://www.assembla.com/wiki/show/liftweb">https://www.assembla.com/wiki/show/liftweb</a>.</p></div>
 <div class="paragraph"><p>You&#8217;ll need to sign in, or create a free account, with Assembla, the company that hosts the wiki. You then need to become a <em>watcher</em> of the Lift wiki, which is offered as a link on the top right of the Lift wiki page.  As a watcher you can edit pages and create new pages.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_73">Discussion</h4>
+<h4 id="_discussion_74">Discussion</h4>
 <div class="paragraph"><p>If you&#8217;re unsure about a change you&#8217;d like to make, just ask for feedback on the Lift mailing list.</p></div>
 <div class="paragraph"><p>One limitation of the watcher role on Assembla is that you cannot move pages. If you create a new page in the wrong section, or want to reorganise pages, you&#8217;ll need to ask on the Lift mailing list for someone with permissions to do that for you.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_74">See Also</h4>
+<h4 id="_see_also_75">See Also</h4>
 <div class="paragraph"><p>The markup format for the Wiki pages is Textile. A reference guide can be found at: <a href="http://redcloth.org/hobix.com/textile/">http://redcloth.org/hobix.com/textile/</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_how_to_add_a_new_recipe_to_this_cookbook">How to Add a New Recipe to this Cookbook</h3>
 <div class="sect3">
-<h4 id="_problem_77">Problem</h4>
+<h4 id="_problem_78">Problem</h4>
 <div class="paragraph"><p>You&#8217;d like to add (or change) a section or chapter to this cookbook.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_76">Solution</h4>
+<h4 id="_solution_77">Solution</h4>
 <div class="paragraph"><p>If you&#8217;re comfortable using Git, you can fork the repository and send a
 pull request.</p></div>
 <div class="paragraph"><p>Alternatively, download a template file, write your recipe, and email
@@ -6564,7 +6711,7 @@ to the Lift mailing list at <a href="https://groups.google.com/group/liftweb">ht
 <div class="paragraph"><p>You can find the template file at: <a href="https://raw.github.com/d6y/lift-cookbook/master/template.asciidoc">https://raw.github.com/d6y/lift-cookbook/master/template.asciidoc</a>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_74">Discussion</h4>
+<h4 id="_discussion_75">Discussion</h4>
 <div class="paragraph"><p>Anything you&#8217;ve puzzled over, or things which have surprised you, impressed you or are non-obvious are great topics for recipes. Improvements, discussions and clarifications of existing recipes are welcome too.</p></div>
 <div class="paragraph"><p>The cookbook is structured using a markup language called Asciidoc. If you&#8217;re familiar with Markdown or Textile, you&#8217;ll find similarities. For the cookbook you only need to know about section headings, source code formatting and links.  Examples of all of these are in the <span class="monospaced">template.asciidoc</span> file.</p></div>
 <div class="paragraph"><p>To find out where to make a change you need to know that each chapter is a separate file, and each recipe is a section in that file.</p></div>
@@ -6608,7 +6755,7 @@ Any author royalties will be passed to charity.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_75">See Also</h4>
+<h4 id="_see_also_76">See Also</h4>
 <div class="paragraph"><p>The source to this book is at: <a href="https://github.com/d6y/lift-cookbook/">https://github.com/d6y/lift-cookbook/</a>.</p></div>
 <div class="paragraph"><p>The AsciiDoc cheetsheet at <a href="http://powerman.name/doc/asciidoc">http://powerman.name/doc/asciidoc</a> is a quick way to get into AsciiDoc, but if you need more, the AsciiDoc home page has the details: <a href="http://www.methods.co.nz/asciidoc/">http://www.methods.co.nz/asciidoc/</a>.</p></div>
 <div class="paragraph"><p>GitHub provide an introduction to pull requests at <a href="https://help.github.com/articles/using-pull-requests">https://help.github.com/articles/using-pull-requests</a>.</p></div>
@@ -6618,11 +6765,11 @@ Any author royalties will be passed to charity.
 <div class="sect2">
 <h3 id="modules">Sharing Code in Modules</h3>
 <div class="sect3">
-<h4 id="_problem_78">Problem</h4>
+<h4 id="_problem_79">Problem</h4>
 <div class="paragraph"><p>You have code you&#8217;d like to share between Lift projects.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_77">Solution</h4>
+<h4 id="_solution_78">Solution</h4>
 <div class="paragraph"><p>Create a Lift module, and then reference the module from your Lift projects.</p></div>
 <div class="paragraph"><p>As an example, let&#8217;s create a module to embed the Snowstorm snow fall effect on every page in your Lift web application (please don&#8217;t do this).</p></div>
 <div class="paragraph"><p>There&#8217;s nothing special about modules: they are code, packaged and used like any other dependency. What makes them possible is the exposure of extension points via <span class="monospaced">LiftRules</span>. The main convention is to have an <span class="monospaced">init</span> method that Lift applications can use to initialize your module.</p></div>
@@ -6712,7 +6859,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>When we run our Lift application, white snow will be falling on every page, supplied by the module.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_75">Discussion</h4>
+<h4 id="_discussion_76">Discussion</h4>
 <div class="paragraph"><p>The module is self contained: there&#8217;s no need for users to copy JavaScript files around or modify their templates.  To achieve that we&#8217;ve made use of <span class="monospaced">ResourceServer</span>.  When we reference the JavaScript file via <span class="monospaced">/classpath/snowstorm.js</span>, Lift will attempt to locate <span class="monospaced">snowstorm.js</span> from the classpath.  This is what we want for our Lift application because <span class="monospaced">snowstorm.js</span> will be inside the module JAR file.</p></div>
 <div class="paragraph"><p>However, we do not want to expose all files on the classpath to anyone visiting our application. To avoid that, Lift looks for resources inside a <span class="monospaced">toserve</span> folder, which for our purposes means files and folders inside <span class="monospaced">src/main/resources/toserve</span>.  You can think of <span class="monospaced">/classpath</span> meaning <span class="monospaced">toserve</span> (although, you can change those values via <span class="monospaced">LiftRules.resourceServerPath</span> and <span class="monospaced">ResourceServer.baseResourceLocation</span>).</p></div>
 <div class="paragraph"><p>As a further precaution you need to explicitly allow access to these resources.  That&#8217;s done with:</p></div>
@@ -6783,7 +6930,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_76">See Also</h4>
+<h4 id="_see_also_77">See Also</h4>
 <div class="paragraph"><p>Originally Lift included a set of modules, but these have been separated out to individual projects at <a href="https://github.com/liftmodules/">https://github.com/liftmodules/</a>.  The Lift contributor policy outlined in <a href="#LiftCodeContributions">[LiftCodeContributions]</a> doesn&#8217;t apply to Lift modules: you&#8217;re free to contribute to these modules as you would any other open source project.</p></div>
 <div class="paragraph"><p>The Lift wiki pages for modules can be reached via <a href="http://liftmodules.net">http://liftmodules.net</a>.</p></div>
 <div class="paragraph"><p>The Snowstorm project ("setting CPUs on fire worldwide every winter since 2003") is at: <a href="https://github.com/scottschiller/snowstorm/">https://github.com/scottschiller/snowstorm/</a> and the module developed for this recipe is at <a href="https://github.com/LiftCookbook/snowstorm-example-module">https://github.com/LiftCookbook/snowstorm-example-module</a>.</p></div>
@@ -6797,7 +6944,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2012-12-20 22:38:05 GMT
+Last updated 2012-12-30 22:23:10 GMT
 </div>
 </div>
 </body>
