@@ -1080,7 +1080,7 @@ When you&#8217;re done, type <span class="monospaced">exit</span> at the SBT pro
 your computer as shown in <a href="#LiftBasicScreenshot">[LiftBasicScreenshot]</a>.</p></div>
 <div class="imageblock" id="LiftBasicScreenshot">
 <div class="content">
-<img src="images/apphome.png" alt="images/apphome.png">
+<img src="images/apphome.png" alt="images/apphome.png" width="640">
 </div>
 <div class="title">Figure 1. The basic Lift application home page.</div>
 </div>
@@ -6666,7 +6666,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>A final step is to enable Lift&#8217;s production run mode. From the environment in the AWS Beanstalk web console, follow the "Edit Configuration" link. A dialog will appear, and under the "Container" tab add <span class="monospaced">-Drun.mode=production</span> to the "JVM Command Line Options" and hit "Apply Changes" to redeploy your application.</p></div>
 <div class="imageblock" id="ConsoleImage">
 <div class="content">
-<img src="images/beanstalkconsole.png" alt="AWS Console">
+<img src="images/beanstalkconsole.png" alt="images/beanstalkconsole.png" width="640">
 </div>
 <div class="title">Figure 3. AWS Console, with Elastic Beanstalk service selected.</div>
 </div>
@@ -6733,7 +6733,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect2">
-<h3 id="_deploying_to_heroku">Deploying to Heroku</h3>
+<h3 id="HerokuDeployment">Deploying to Heroku</h3>
 <div class="sect3">
 <h4 id="_problem_75">Problem</h4>
 <div class="paragraph"><p>You want to deploy your Lift application to your account on the Heroku cloud platform.</p></div>
@@ -6788,7 +6788,8 @@ http://www.gnu.org/software/src-highlite -->
 <span style="color: #990000">....</span>
 <span style="color: #990000">[</span>info<span style="color: #990000">]</span> Packaging target/scala-<span style="color: #993399">2.9</span><span style="color: #990000">.</span><span style="color: #993399">1</span>/myapp-<span style="color: #993399">0.0</span><span style="color: #990000">.</span><span style="color: #993399">1</span><span style="color: #990000">.</span>war <span style="color: #990000">...</span>
 <span style="color: #990000">....</span>
-$ heroku deploy<span style="color: #990000">:</span>war --war target/scala-<span style="color: #993399">2.9</span><span style="color: #990000">.</span><span style="color: #993399">1</span>/myapp-<span style="color: #993399">0.0</span><span style="color: #990000">.</span><span style="color: #993399">1</span><span style="color: #990000">.</span>war --app glacial-waters-<span style="color: #993399">6292</span>
+$ heroku deploy<span style="color: #990000">:</span>war --war target/scala-<span style="color: #993399">2.9</span><span style="color: #990000">.</span><span style="color: #993399">1</span>/myapp-<span style="color: #993399">0.0</span><span style="color: #990000">.</span><span style="color: #993399">1</span><span style="color: #990000">.</span>war
+  --app glacial-waters-<span style="color: #993399">6292</span>
 Uploading target/scala-<span style="color: #993399">2.9</span><span style="color: #990000">.</span><span style="color: #993399">1</span>/myapp-<span style="color: #993399">0.0</span><span style="color: #990000">.</span><span style="color: #993399">1</span><span style="color: #990000">.</span>war<span style="color: #990000">............</span><span style="font-weight: bold"><span style="color: #0000FF">done</span></span>
 Deploying to glacial-waters-<span style="color: #993399">6292</span><span style="color: #990000">.........</span><span style="font-weight: bold"><span style="color: #0000FF">done</span></span>
 Created release v6</tt></pre></div></div>
@@ -6835,7 +6836,7 @@ http://www.gnu.org/software/src-highlite -->
     LiftRules<span style="color: #990000">.</span>unloadHooks<span style="color: #990000">.</span>toList<span style="color: #990000">.</span>foreach<span style="color: #FF0000">{</span> f <span style="font-weight: bold"><span style="color: #0000FF">=&gt;</span></span> tryo <span style="color: #FF0000">{</span> <span style="font-weight: bold"><span style="color: #000000">f</span></span><span style="color: #990000">()</span> <span style="color: #FF0000">}</span> <span style="color: #FF0000">}</span>
   <span style="color: #FF0000">}</span>
 <span style="color: #FF0000">}</span><span style="color: #990000">)</span></tt></pre></div></div>
-<div class="paragraph"><p>This handling of <span class="monospaced">SIGTERM</span> may be a surprise, but if we look at how the application is running on Heroku, things become clearer.  The dyno an allocation of resources (512m of memory), allowing an arbitrary command to be run. The command being run is a Java process starting a "webapp runner" package. You can see this in two ways. First, if you shell to your dyno, you&#8217;ll see a WAR file as well as a JAR file:</p></div>
+<div class="paragraph"><p>This handling of <span class="monospaced">SIGTERM</span> may be a surprise, but if we look at how the application is running on Heroku, things become clearer.  The dyno is an allocation of resources (512m of memory) and allows an arbitrary command to run. The command being run is a Java process starting a "webapp runner" package. You can see this in two ways. First, if you shell to your dyno, you&#8217;ll see a WAR file as well as a JAR file:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
@@ -6856,7 +6857,8 @@ http://www.gnu.org/software/src-highlite -->
  --port <span style="color: #009900">${PORT}</span> <span style="color: #009900">${WEBAPP_RUNNER_OPTS}</span> myapp-<span style="color: #993399">0.0</span><span style="color: #990000">.</span><span style="color: #993399">1</span><span style="color: #990000">.</span>war`
 web<span style="color: #990000">.</span><span style="color: #993399">1</span><span style="color: #990000">:</span> up <span style="color: #993399">2013</span><span style="color: #990000">/</span><span style="color: #993399">01</span><span style="color: #990000">/</span><span style="color: #993399">01</span> <span style="color: #993399">22</span><span style="color: #990000">:</span><span style="color: #993399">37</span><span style="color: #990000">:</span><span style="color: #993399">35</span> <span style="color: #990000">(~</span> 31s ago<span style="color: #990000">)</span></tt></pre></div></div>
 <div class="paragraph"><p>Here we see a Java process executing a JAR file called <span class="monospaced">webapp-runner-7.0.29.3.jar</span> which is passed our WAR file as an argument. This is not identical to the Tomcat <span class="monospaced">catalina.sh</span> script you may be more familiar with, but instead is this launcher process: <a href="https://github.com/jsimone/webapp-runner">https://github.com/jsimone/webapp-runner</a>. As it does not register a handler to deal with <span class="monospaced">SIGTERM</span>, so we will have to if we need to release any resources during shutdown.</p></div>
-<div class="paragraph"><p>All of this means that if you want to launch a Lift application in a different way, you can. You&#8217;d need to wrap an appropriate container (Jetty or Tomcat for example), and provide a <span class="monospaced">main</span> method for Heroku to call.</p></div>
+<div class="paragraph"><p>All of this means that if you want to launch a Lift application in a different way, you can. You&#8217;d need to wrap an appropriate container (Jetty or Tomcat for example), and provide a <span class="monospaced">main</span> method for Heroku to call. This is sometimes called "containerless deployment".</p></div>
+<div class="paragraph"><p>If you are not a Heruoku Enterprise Java customer, and you&#8217;re uncomfortable with the unsupported nature of the <span class="monospaced">deploy:war</span> plugin, you now know what you need to do to run in a supported way: provide a <span class="monospaced">main</span> method that launches you application and listen for connections. The <em>See Also</em> section gives pointers for how to do this.</p></div>
 <div class="sect4">
 <h5 id="_database_access_in_heroku">Database Access in Heroku</h5>
 <div class="paragraph"><p>Heroku make no restrictions on which databases you can connect to from your Lift application, but they try to make it easy to use their PostgreSQL service by attaching a free database to applications you create.</p></div>
@@ -6954,6 +6956,7 @@ $</tt></pre></div></div>
 <div class="paragraph"><p>Both the Scala and Java articles at Heroku are useful to learn more of the details described in this recipe: <a href="https://devcenter.heroku.com/categories/scala">https://devcenter.heroku.com/categories/scala</a> and <a href="https://devcenter.heroku.com/categories/java">https://devcenter.heroku.com/categories/java</a>.</p></div>
 <div class="paragraph"><p><em>Dynos and the Dyno Manifold</em> are described at: <a href="https://devcenter.heroku.com/articles/dynos">https://devcenter.heroku.com/articles/dynos</a>.</p></div>
 <div class="paragraph"><p>The JVM shutdown hooks are described in the JDK documentation: <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html">http://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html</a>.</p></div>
+<div class="paragraph"><p>Heroku&#8217;s guide to containerless deployment makes use of Maven to package your application, as is documented at <a href="https://devcenter.heroku.com/articles/java-webapp-runner">https://devcenter.heroku.com/articles/java-webapp-runner</a>.  There are also a template SBT project from Matthew Henderson that includes a <span class="monospaced">JettyLauncher</span> class: <a href="https://github.com/ghostm/lift_blank_heroku">https://github.com/ghostm/lift_blank_heroku</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
@@ -7494,7 +7497,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-01-06 22:37:47 GMT
+Last updated 2013-01-07 12:04:17 GMT
 </div>
 </div>
 </body>
