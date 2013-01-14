@@ -5869,7 +5869,7 @@ http://www.gnu.org/software/src-highlite -->
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>The query language itself is expressive, and the best place to explore the variety of queries is in the <span class="monospaced">QueryTest</span> specification in teh source for Rouge.  This is linked to from the README of the project on Github.</p></div>
+<div class="paragraph"><p>The query language itself is expressive, and the best place to explore the variety of queries is in the <span class="monospaced">QueryTest</span> specification in the source for Rouge.  You&#8217;ll find a link to this in the README of the project on Github.</p></div>
 <div class="admonitionblock">
 <table><tr>
 <td class="icon">
@@ -5897,7 +5897,7 @@ mailing list at: <a href="https://groups.google.com/d/topic/rogue-users/SdtFCU-w
 <div class="sect3">
 <h4 id="_solution_63">Solution</h4>
 <div class="paragraph"><p>Use Rouge&#8217;s <span class="monospaced">LatLong</span> class to embed location information in your model. For
-example, we can store the location of a city like thisL</p></div>
+example, we can store the location of a city like this:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
@@ -5947,7 +5947,7 @@ http://www.gnu.org/software/src-highlite -->
 <h4 id="_discussion_61">Discussion</h4>
 <div class="paragraph"><p>MongoDB supports <em>geospatial indexes</em>, and we&#8217;re making use of this by doing two things.  First,
 we are storing the location information in one of MongoDB&#8217;s permitted formats.  The format is
-and embedding document containing the coordinates. We could also have use a array of two values
+an embedding document containing the coordinates. We could also have use a array of two values
 to represent the point.</p></div>
 <div class="paragraph"><p>Second, we&#8217;re creating a index of type "2d", which allows us to use Mongo&#8217;s geospatial functions such as <span class="monospaced">$near</span> and <span class="monospaced">$within</span>. The <span class="monospaced">unique=true</span> in the <span class="monospaced">ensureIndex</span> highlights that you can control
 whether locations needs to be unique (<span class="monospaced">true</span>, no duplications) or not (<span class="monospaced">false</span>).</p></div>
@@ -5958,8 +5958,8 @@ from "normal" to "safe".</p></div>
 <div class="paragraph"><p>With the normal write concern, the call to <span class="monospaced">save</span> would return as soon
 as the request has gone down the wire to the Mongo server.  This gives a certain degree of reliability in that
 <span class="monospaced">save</span> would fail if the network had gone away. However, there&#8217;s no indication that the server has
-processed the request.  For example, if we tried to insert a city at the exact same location as one that was already in the database, the index uniqueness rule would be violated and the record would not be saved.  With just <span class="monospaced">save</span> (or <span class="monospaced">save(false)</span>) our Lift application would not receive this error. The save would fail silently.Raising the concern to "safe" causes <span class="monospaced">save(true)</span> to wait for an acknowledgment from the Mongo server, which means the application will receive exceptions of some kinds of errors.</p></div>
-<div class="paragraph"><p>If we tried to insert a duplicate city, our call to <span class="monospaced">save(true)</span> would result in:</p></div>
+processed the request.  For example, if we tried to insert a city at the exact same location as one that was already in the database, the index uniqueness rule would be violated and the record would not be saved.  With just <span class="monospaced">save</span> (or <span class="monospaced">save(false)</span>) our Lift application would not receive this error, and the call would fail silently. Raising the concern to "safe" causes <span class="monospaced">save(true)</span> to wait for an acknowledgment from the Mongo server, which means the application will receive exceptions for some kinds of errors.</p></div>
+<div class="paragraph"><p>As an example, if we tried to insert a duplicate city, our call to <span class="monospaced">save(true)</span> would result in:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
@@ -7790,7 +7790,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-01-14 22:15:58 GMT
+Last updated 2013-01-14 22:34:30 GMT
 </div>
 </div>
 </body>
