@@ -928,8 +928,8 @@ Marek Żebrowski
 </div>
 <div class="sect2">
 <h3 id="_software_versions">Software versions</h3>
-<div class="paragraph"><p>Except where otherwise indicated, the examples use Lift 2.4 with SBT
-0.11.2</p></div>
+<div class="paragraph"><p>Except where otherwise indicated, the examples use Lift 2.5 with SBT
+0.12 and Scala 2.9</p></div>
 </div>
 <div class="sect2">
 <h3 id="_conventions">Conventions</h3>
@@ -5225,16 +5225,24 @@ list discussion</a>.
 <div class="sectionbody">
 <div class="paragraph"><p>This section gives recipes for making use of MongoDB in your Lift
 application. For recipes regarding Mongo itself, check out the MongoDB Cookbook at <a href="http://cookbook.mongodb.org/">http://cookbook.mongodb.org/</a>.</p></div>
+<div class="paragraph"><p>Many of the code examples in this chapter can be found in: <a href="https://github.com/LiftCookbook/cookbook_mongo">https://github.com/LiftCookbook/cookbook_mongo</a>.</p></div>
 <div class="sect2">
-<h3 id="_connecting_to_a_mongo_database">Connecting to a Mongo Database</h3>
+<h3 id="ConnectingToMongo">Connecting to a Mongo Database</h3>
 <div class="sect3">
 <h4 id="_problem_59">Problem</h4>
 <div class="paragraph"><p>You want to connect to a MongoDB.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_58">Solution</h4>
-<div class="paragraph"><p>Configure your connection using <span class="monospaced">net.liftweb.mongodb</span> and <span class="monospaced">com.mongodb</span>
-in <span class="monospaced">Boot.scala</span>:</p></div>
+<div class="paragraph"><p>Add the Lift Mongo dependencies to your build and configure a connection using <span class="monospaced">net.liftweb.mongodb</span> and <span class="monospaced">com.mongodb</span>.</p></div>
+<div class="paragraph"><p>In <span class="monospaced">Build.sbt</span> add the following to <span class="monospaced">libraryDependencies</span>:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="color: #FF0000">"net.liftweb"</span> <span style="color: #990000">%%</span> <span style="color: #FF0000">"lift-mongodb-record"</span> <span style="color: #990000">%</span> liftVersion<span style="color: #990000">,</span></tt></pre></div></div>
+<div class="paragraph"><p>In <span class="monospaced">Boot.scala</span> add:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
@@ -5243,8 +5251,8 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-weight: bold"><span style="color: #000080">import</span></span> com<span style="color: #990000">.</span>mongodb<span style="color: #990000">.</span><span style="color: #FF0000">{</span>ServerAddress<span style="color: #990000">,</span> Mongo<span style="color: #FF0000">}</span>
 <span style="font-weight: bold"><span style="color: #000080">import</span></span> net<span style="color: #990000">.</span>liftweb<span style="color: #990000">.</span>mongodb<span style="color: #990000">.</span><span style="color: #FF0000">{</span>MongoDB<span style="color: #990000">,</span>DefaultMongoIdentifier<span style="color: #FF0000">}</span>
 
-<span style="font-weight: bold"><span style="color: #0000FF">val</span></span> srvr <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #0000FF">new</span></span> <span style="font-weight: bold"><span style="color: #000000">ServerAddress</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"127.0.0.1"</span><span style="color: #990000">,</span> <span style="color: #FF0000">"20717"</span><span style="color: #990000">)</span>
-<span style="font-weight: bold"><span style="color: #000000">MongoDB.defineDb</span></span><span style="color: #990000">(</span>DefaultMongoIdentifier<span style="color: #990000">,</span> <span style="font-weight: bold"><span style="color: #0000FF">new</span></span> <span style="font-weight: bold"><span style="color: #000000">Mongo</span></span><span style="color: #990000">(</span>srvr<span style="color: #990000">),</span> <span style="color: #FF0000">"mydb"</span><span style="color: #990000">)</span></tt></pre></div></div>
+<span style="font-weight: bold"><span style="color: #0000FF">val</span></span> server <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #0000FF">new</span></span> <span style="font-weight: bold"><span style="color: #000000">ServerAddress</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"127.0.0.1"</span><span style="color: #990000">,</span> <span style="color: #FF0000">"20717"</span><span style="color: #990000">)</span>
+<span style="font-weight: bold"><span style="color: #000000">MongoDB.defineDb</span></span><span style="color: #990000">(</span>DefaultMongoIdentifier<span style="color: #990000">,</span> <span style="font-weight: bold"><span style="color: #0000FF">new</span></span> <span style="font-weight: bold"><span style="color: #000000">Mongo</span></span><span style="color: #990000">(</span>server<span style="color: #990000">),</span> <span style="color: #FF0000">"mydb"</span><span style="color: #990000">)</span></tt></pre></div></div>
 <div class="paragraph"><p>This will give you a connection to a local MongoDB database called
 "mydb".</p></div>
 </div>
@@ -5256,28 +5264,68 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000000">MongoDB.defineDbAuth</span></span><span style="color: #990000">(</span>DefaultMongoIdentifier<span style="color: #990000">,</span> <span style="font-weight: bold"><span style="color: #0000FF">new</span></span> <span style="font-weight: bold"><span style="color: #000000">Mongo</span></span><span style="color: #990000">(</span>srvr<span style="color: #990000">),</span>
+<pre><tt><span style="font-weight: bold"><span style="color: #000000">MongoDB.defineDbAuth</span></span><span style="color: #990000">(</span>DefaultMongoIdentifier<span style="color: #990000">,</span> <span style="font-weight: bold"><span style="color: #0000FF">new</span></span> <span style="font-weight: bold"><span style="color: #000000">Mongo</span></span><span style="color: #990000">(</span>server<span style="color: #990000">),</span>
   <span style="color: #FF0000">"mydb"</span><span style="color: #990000">,</span> <span style="color: #FF0000">"username"</span><span style="color: #990000">,</span> <span style="color: #FF0000">"password"</span><span style="color: #990000">)</span></tt></pre></div></div>
 <div class="paragraph"><p>Some cloud services will give you a URL to connect to, such as
-"alex.mongohq.com:10050/fglvBskrsdsdsDaGNs1". In this case, the host and
+"mongodb://alex.mongohq.com:10050/fglvBskrsdsdsDaGNs1". In this case, the host and
 the port make up the first part, and the database name is the part after
 the <span class="monospaced">/</span>.</p></div>
+<div class="paragraph"><p>If you need to turn a URL like this into a connection, you can do so by
+using <span class="monospaced">java.net.URI</span> to parse the URL and make a connection:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">object</span></span> MongoUrl <span style="color: #FF0000">{</span>
+
+  <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">defineDb</span></span><span style="color: #990000">(</span>id<span style="font-weight: bold"><span style="color: #0000FF">:</span></span> MongoIdentifier<span style="color: #990000">,</span> url<span style="font-weight: bold"><span style="color: #0000FF">:</span></span> String<span style="color: #990000">)</span> <span style="color: #FF0000">{</span>
+
+    <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> uri <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #0000FF">new</span></span> <span style="font-weight: bold"><span style="color: #000000">URI</span></span><span style="color: #990000">(</span>url<span style="color: #990000">)</span>
+
+    <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> db <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> uri<span style="color: #990000">.</span>getPath drop <span style="color: #993399">1</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> server <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #0000FF">new</span></span> <span style="font-weight: bold"><span style="color: #000000">Mongo</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">new</span></span> <span style="font-weight: bold"><span style="color: #000000">ServerAddress</span></span><span style="color: #990000">(</span>uri<span style="color: #990000">.</span>getHost<span style="color: #990000">,</span> uri<span style="color: #990000">.</span>getPort<span style="color: #990000">))</span>
+
+    <span style="font-weight: bold"><span style="color: #000000">Option(uri.getUserInfo).map(_.split</span></span><span style="color: #990000">(</span><span style="color: #FF0000">":"</span><span style="color: #990000">))</span> <span style="font-weight: bold"><span style="color: #0000FF">match</span></span> <span style="color: #FF0000">{</span>
+      <span style="font-weight: bold"><span style="color: #0000FF">case</span></span> <span style="font-weight: bold"><span style="color: #000000">Some(Array</span></span><span style="color: #990000">(</span>user<span style="color: #990000">,</span>pass<span style="color: #990000">))</span> <span style="font-weight: bold"><span style="color: #0000FF">=&gt;</span></span>
+        <span style="font-weight: bold"><span style="color: #000000">MongoDB.defineDbAuth</span></span><span style="color: #990000">(</span>id<span style="color: #990000">,</span> server<span style="color: #990000">,</span> db<span style="color: #990000">,</span> user<span style="color: #990000">,</span> pass<span style="color: #990000">)</span>
+      <span style="font-weight: bold"><span style="color: #0000FF">case</span></span> <span style="font-weight: bold"><span style="color: #0000FF">_</span></span> <span style="font-weight: bold"><span style="color: #0000FF">=&gt;</span></span>
+        <span style="font-weight: bold"><span style="color: #000000">MongoDB.defineDb</span></span><span style="color: #990000">(</span>id<span style="color: #990000">,</span> server<span style="color: #990000">,</span> db<span style="color: #990000">)</span>
+    <span style="color: #FF0000">}</span>
+  <span style="color: #FF0000">}</span>
+
+<span style="color: #FF0000">}</span>
+
+<span style="font-weight: bold"><span style="color: #000000">MongoUrl.defineDb</span></span><span style="color: #990000">(</span>DefaultMongoIdentifier<span style="color: #990000">,</span>
+  <span style="color: #FF0000">"mongodb://user:pass@127.0.0.1:27017/myDb"</span><span style="color: #990000">)</span></tt></pre></div></div>
+<div class="paragraph"><p>The full URL scheme for MongoDB is more complicated, allowing for multiple hosts and connection parameters, but the above code handles optional user name and password fields and may be enough to get you up and running with your Mongo configuration.</p></div>
+<div class="paragraph"><p>The <span class="monospaced">DefaultMongoIdentifier</span> is a value used to identify a particular connection.  Lift keeps a map of identifiers to connections, meaning you can connect to more than on database.  The common case is a single database, and that is usually assigned to <span class="monospaced">DefaultMongoIdentifier</span>.</p></div>
+<div class="paragraph"><p>However, if you do need to access two Monogo databases, you can create a new identifier and assign it as part of your record.  For example:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">object</span></span> OtherMongoIdentifier <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> MongoIdentifier <span style="color: #FF0000">{</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> jndiName<span style="font-weight: bold"><span style="color: #0000FF">:</span></span> String <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">"other"</span>
+<span style="color: #FF0000">}</span>
+
+<span style="font-weight: bold"><span style="color: #000000">MongoUrl.defineDb</span></span><span style="color: #990000">(</span>OtherMongoIdentifier<span style="color: #990000">,</span> <span style="color: #FF0000">"mongodb://127.0.0.1:27017/other"</span><span style="color: #990000">)</span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">object</span></span> Country <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> Country <span style="font-weight: bold"><span style="color: #0000FF">with</span></span> MongoMetaRecord<span style="color: #990000">[</span>Country<span style="color: #990000">]</span> <span style="color: #FF0000">{</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">override</span></span> <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> collectionName <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">"example.earth"</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">override</span></span> <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> mongoIdentifier <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> OtherMongoIdentifier
+<span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="paragraph"><p>The <span class="monospaced">lift-mongodb-record</span> dependency itself depends on another Lift module, <span class="monospaced">lift-mongodb</span>, which provides connectivity and other other lower-level access to MongoDB. Both bottom out with the MongoDB Java driver.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_see_also_59">See Also</h4>
-<div class="ulist"><ul>
-<li>
-<p>
-<a href="https://www.assembla.com/wiki/show/liftweb/Mongo_Configuration">Mongo
-Configuration</a> on the wiki contains more details and options, including
-configuration for replica sets.
-</p>
-</li>
-</ul></div>
+<div class="paragraph"><p>Connection configuration that includes replica sets and Mongo options, such as timeout settings, are described on the Lift wiki at:  <a href="https://www.assembla.com/wiki/show/liftweb/Mongo_Configuration">https://www.assembla.com/wiki/show/liftweb/Mongo_Configuration</a>.</p></div>
+<div class="paragraph"><p>The full specification for Mongo connection URLs is: <a href="http://docs.mongodb.org/manual/reference/connection-string/">http://docs.mongodb.org/manual/reference/connection-string/</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_storing_a_hash_in_a_mongo_record">Storing a Hash in a Mongo Record</h3>
+<h3 id="MongoHashMap">Storing a HashMap in a Mongo Record</h3>
 <div class="sect3">
 <h4 id="_problem_60">Problem</h4>
 <div class="paragraph"><p>You want to store a hash map in Mongo.</p></div>
@@ -5290,19 +5338,18 @@ configuration for replica sets.
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000080">import</span></span> net<span style="color: #990000">.</span>liftweb<span style="color: #990000">.</span>mongodb<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
-<span style="font-weight: bold"><span style="color: #000080">import</span></span> net<span style="color: #990000">.</span>liftweb<span style="color: #990000">.</span>mongodb<span style="color: #990000">.</span>record<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
+<pre><tt><span style="font-weight: bold"><span style="color: #000080">import</span></span> net<span style="color: #990000">.</span>liftweb<span style="color: #990000">.</span>mongodb<span style="color: #990000">.</span>record<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
 <span style="font-weight: bold"><span style="color: #000080">import</span></span> net<span style="color: #990000">.</span>liftweb<span style="color: #990000">.</span>mongodb<span style="color: #990000">.</span>record<span style="color: #990000">.</span>field<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
 
 <span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="color: #008080">Country</span> <span style="font-weight: bold"><span style="color: #0000FF">private</span></span> <span style="color: #990000">()</span> <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> MongoRecord<span style="color: #990000">[</span>Country<span style="color: #990000">]</span> <span style="font-weight: bold"><span style="color: #0000FF">with</span></span> StringPk<span style="color: #990000">[</span>Country<span style="color: #990000">]</span> <span style="color: #FF0000">{</span>
   <span style="font-weight: bold"><span style="color: #0000FF">override</span></span> <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> meta <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> Country
-  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> population <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #0000FF">new</span></span> <span style="font-weight: bold"><span style="color: #000000">MongoMapField[Country,Int]</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">this</span></span><span style="color: #990000">)</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">object</span></span> population <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> <span style="font-weight: bold"><span style="color: #000000">MongoMapField[Country,Int]</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">this</span></span><span style="color: #990000">)</span>
 <span style="color: #FF0000">}</span>
 
 <span style="font-weight: bold"><span style="color: #0000FF">object</span></span> Country <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> Country <span style="font-weight: bold"><span style="color: #0000FF">with</span></span> MongoMetaRecord<span style="color: #990000">[</span>Country<span style="color: #990000">]</span> <span style="color: #FF0000">{</span>
   <span style="font-weight: bold"><span style="color: #0000FF">override</span></span> <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> collectionName <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">"example.earth"</span>
 <span style="color: #FF0000">}</span></tt></pre></div></div>
-<div class="paragraph"><p>In this example we are creating a record for infomation about a country,
+<div class="paragraph"><p>In this example we are creating a record for information about a country,
 and the <span class="monospaced">population</span> is a map from a <span class="monospaced">String</span> key to an <span class="monospaced">Integer</span> value.</p></div>
 <div class="paragraph"><p>We can use it in a snippet like this:</p></div>
 <div class="listingblock">
@@ -5310,18 +5357,21 @@ and the <span class="monospaced">population</span> is a map from a <span class="
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="color: #008080">HelloWorld</span> <span style="color: #FF0000">{</span>
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="color: #008080">Places</span> <span style="color: #FF0000">{</span>
 
   <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> uk <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">Country.find</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"uk"</span><span style="color: #990000">)</span> openOr <span style="color: #FF0000">{</span>
-    <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> info <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">Map</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"Brighton"</span> <span style="color: #990000">-&gt;</span> <span style="color: #993399">134293</span><span style="color: #990000">,</span>  <span style="color: #FF0000">"Birmingham"</span> <span style="color: #990000">-&gt;</span> <span style="color: #993399">970892</span><span style="color: #990000">,</span>
-       <span style="color: #FF0000">"Liverpool"</span> <span style="color: #990000">-&gt;</span> <span style="color: #993399">469017</span><span style="color: #990000">)</span>
-    <span style="font-weight: bold"><span style="color: #000000">Country.createRecord.id("uk").population(info).save</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">true</span></span><span style="color: #990000">)</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> info <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">Map</span></span><span style="color: #990000">(</span>
+      <span style="color: #FF0000">"Brighton"</span> <span style="color: #990000">-&gt;</span> <span style="color: #993399">134293</span><span style="color: #990000">,</span>
+      <span style="color: #FF0000">"Birmingham"</span> <span style="color: #990000">-&gt;</span> <span style="color: #993399">970892</span><span style="color: #990000">,</span>
+      <span style="color: #FF0000">"Liverpool"</span> <span style="color: #990000">-&gt;</span> <span style="color: #993399">469017</span><span style="color: #990000">)</span>
+
+    <span style="font-weight: bold"><span style="color: #000000">Country.createRecord.id("uk").population</span></span><span style="color: #990000">(</span>info<span style="color: #990000">).</span>save
   <span style="color: #FF0000">}</span>
 
   <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> facts <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">"#facts"</span> <span style="font-weight: bold"><span style="color: #0000FF">#</span></span><span style="color: #990000">&gt;</span> <span style="color: #990000">(</span>
-      <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> <span style="color: #FF0000">{</span> <span style="color: #990000">(</span>name<span style="color: #990000">,</span>pop<span style="color: #990000">)</span> <span style="font-weight: bold"><span style="color: #0000FF">&lt;-</span></span> uk<span style="color: #990000">.</span>population<span style="color: #990000">.</span>is<span style="color: #FF0000">}</span> <span style="font-weight: bold"><span style="color: #0000FF">yield</span></span>
-        <span style="color: #FF0000">".name *"</span> <span style="font-weight: bold"><span style="color: #0000FF">#</span></span><span style="color: #990000">&gt;</span> name <span style="color: #990000">&amp;</span> <span style="color: #FF0000">".pop *"</span> <span style="font-weight: bold"><span style="color: #0000FF">#</span></span><span style="color: #990000">&gt;</span> pop
-      <span style="color: #990000">)</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> <span style="color: #FF0000">{</span> <span style="color: #990000">(</span>name<span style="color: #990000">,</span>pop<span style="color: #990000">)</span> <span style="font-weight: bold"><span style="color: #0000FF">&lt;-</span></span> uk<span style="color: #990000">.</span>population<span style="color: #990000">.</span>is <span style="color: #FF0000">}</span> <span style="font-weight: bold"><span style="color: #0000FF">yield</span></span>
+      <span style="color: #FF0000">".name *"</span> <span style="font-weight: bold"><span style="color: #0000FF">#</span></span><span style="color: #990000">&gt;</span> name <span style="color: #990000">&amp;</span> <span style="color: #FF0000">".pop *"</span> <span style="font-weight: bold"><span style="color: #0000FF">#</span></span><span style="color: #990000">&gt;</span> pop
+  <span style="color: #990000">)</span>
 <span style="color: #FF0000">}</span></tt></pre></div></div>
 <div class="paragraph"><p>When this snippet is called, it looks up a record by <span class="monospaced">_id</span> of "uk" or
 creates it using some canned information. The template to go with the
@@ -5331,7 +5381,7 @@ snippet could include:</p></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">&lt;div</span></span> <span style="color: #009900">class</span><span style="color: #990000">=</span><span style="color: #FF0000">"lift:HelloWorld.facts"</span><span style="font-weight: bold"><span style="color: #0000FF">&gt;</span></span>
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">&lt;div</span></span> <span style="color: #009900">class</span><span style="color: #990000">=</span><span style="color: #FF0000">"lift:Places.facts"</span><span style="font-weight: bold"><span style="color: #0000FF">&gt;</span></span>
  <span style="font-weight: bold"><span style="color: #0000FF">&lt;table&gt;</span></span>
   <span style="font-weight: bold"><span style="color: #0000FF">&lt;thead&gt;</span></span>
    <span style="font-weight: bold"><span style="color: #0000FF">&lt;tr&gt;&lt;th&gt;</span></span>City<span style="font-weight: bold"><span style="color: #0000FF">&lt;/th&gt;&lt;th&gt;</span></span>Population<span style="font-weight: bold"><span style="color: #0000FF">&lt;/th&gt;&lt;/tr&gt;</span></span>
@@ -5346,35 +5396,62 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>In Mongo the resulting data structure would be:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
-<pre>$ mongo scratch
-MongoDB shell version: 2.0.7
-connecting to: scratch
+<pre>$ mongo cookbook
+MongoDB shell version: 2.0.6
+connecting to: cookbook
 &gt; show collections
 example.earth
 system.indexes
-&gt; db.example.earth.find()
-{ "_id" : "uk", "population" : { "Brighton" : 134293,
-    "Birmingham" : 970892, "Liverpool" : 469017 } }</pre>
+&gt; db.example.earth.find().pretty()
+{
+  "_id" : "uk",
+  "population" : {
+    "Brighton" : 134293,
+    "Birmingham" : 970892,
+    "Liverpool" : 469017
+  }
+}</pre>
 </div></div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_57">Discussion</h4>
-<div class="paragraph"><p>The default value for the map will be an empty map, represented in Mongo
+<div class="paragraph"><p>If you do not set a value for the map, the default will be an empty map, represented in Mongo
 as:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
 <pre>({ "_id" : "uk", "population" : { } })</pre>
 </div></div>
-<div class="paragraph"><p>To insert data from your snippet, you can modify the record to supply a
+<div class="paragraph"><p>An alternative is to mark the field as optional:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">object</span></span> population <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> <span style="font-weight: bold"><span style="color: #000000">MongoMapField[Country,Int]</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">this</span></span><span style="color: #990000">)</span> <span style="color: #FF0000">{</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">override</span></span> <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> optional<span style="font-weight: bold"><span style="color: #0000FF">_</span></span><span style="color: #990000">?</span> <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #0000FF">true</span></span>
+<span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="paragraph"><p>If you now write the document without a <span class="monospaced">population</span> set, the field will be omitted in Mongo:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>&gt; db.example.earth.find();
+{ "_id" : "uk" }</pre>
+</div></div>
+<div class="paragraph"><p>To append data to the map from your snippet, you can modify the record to supply a
 new <span class="monospaced">Map</span>:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000000">uk.population</span></span><span style="color: #990000">(</span>uk<span style="color: #990000">.</span>population<span style="color: #990000">.</span>is <span style="color: #990000">+</span> <span style="color: #990000">(</span><span style="color: #FF0000">"Westminster"</span><span style="color: #990000">-&gt;</span><span style="color: #993399">81766</span><span style="color: #990000">)).</span><span style="font-weight: bold"><span style="color: #000000">save</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">true</span></span><span style="color: #990000">)</span></tt></pre></div></div>
-<div class="paragraph"><p>To access an individual element of the map, you can use <span class="monospaced">get</span> (or
-<span class="monospaced">value</span>):</p></div>
+<pre><tt><span style="font-weight: bold"><span style="color: #000000">uk.population</span></span><span style="color: #990000">(</span>uk<span style="color: #990000">.</span>population<span style="color: #990000">.</span>is <span style="color: #990000">+</span> <span style="color: #990000">(</span><span style="color: #FF0000">"Westminster"</span><span style="color: #990000">-&gt;</span><span style="color: #993399">81766</span><span style="color: #990000">)).</span>update</tt></pre></div></div>
+<div class="paragraph"><p>Note that we are using <span class="monospaced">update</span> here, rather than <span class="monospaced">save</span>.  The <span class="monospaced">save</span> method is pretty smart and will either insert a new document into a Mongo collection or <em>replace</em> an existing document based on the <span class="monospaced">_id</span>.  Update is different: it detects just the changed fields of the document and updates them. It will send this command to Mongo for the document:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>{ "$set" : { "population" : { "Brighton" : 134293 , "Liverpool" : 469017 ,
+  "Birmingham" : 970892 , "Westminster" : 81766} }</pre>
+</div></div>
+<div class="paragraph"><p>You&#8217;ll probably want to use <span class="monospaced">update</span> over <span class="monospaced">save</span> for changes to existing records.</p></div>
+<div class="paragraph"><p>To access an individual element of the map, you can use <span class="monospaced">get</span> (or <span class="monospaced">value</span>):</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
@@ -5390,29 +5467,21 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-weight: bold"><span style="color: #0000FF">val</span></span> sf <span style="font-weight: bold"><span style="color: #0000FF">:</span></span> Option<span style="color: #990000">[</span><span style="color: #009900">Int</span><span style="color: #990000">]</span> <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">uk.population.is.get</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"San Francisco"</span><span style="color: #990000">)</span></tt></pre></div></div>
 <div class="sect4">
-<h5 id="_what_the_map_can_contain">What the map can contain</h5>
-<div class="paragraph"><p>You should be aware that <span class="monospaced">MongoMapField</span> supports only primitive types
-at the moment.</p></div>
-<div class="paragraph"><p>The mapped filed is typed, <span class="monospaced">String =&gt; Int</span> in this case, but of course
-Mongo will let you mix types. If you do modify the Mongo record in the
-database and mix types, you&#8217;ll get a <span class="monospaced">java.lang.ClassCastException</span> at
+<h5 id="_what_a_span_class_monospaced_mongomapfield_span_can_contain">What a <span class="monospaced">MongoMapField</span> Can Contain</h5>
+<div class="paragraph"><p>You should be aware that <span class="monospaced">MongoMapField</span> supports only primitive types.</p></div>
+<div class="paragraph"><p>The mapped field used in this recipe is typed <span class="monospaced">String =&gt; Int</span>, but of course
+Mongo will let you mix types such as putting a <span class="monospaced">String</span> or a <span class="monospaced">Boolean</span> as a population value.
+If you do modify the Mongo record in the database outside of Lift and mix types, you&#8217;ll get a <span class="monospaced">java.lang.ClassCastException</span> at
 runtime.</p></div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_see_also_60">See Also</h4>
-<div class="ulist"><ul>
-<li>
-<p>
-<a href="https://groups.google.com/forum/?fromgroups=#!topic/liftweb/XoseG-8mIPc">MongoMapField
-Query</a> mailing list discussion.
-</p>
-</li>
-</ul></div>
+<div class="paragraph"><p>A discussion on the mailing list regarding the limited type support in <span class="monospaced">MongoMapField</span> and a possible way around it by overriding <span class="monospaced">asDBObject</span> can be found at: <a href="https://groups.google.com/d/msg/liftweb/XoseG-8mIPc/OLyIu6FrHIgJ">https://groups.google.com/d/msg/liftweb/XoseG-8mIPc/OLyIu6FrHIgJ</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_embedding_a_document_inside_a_mongo_record">Embedding a Document inside a Mongo Record</h3>
+<h3 id="MongoEmbedding">Embedding a Document Inside a Mongo Record</h3>
 <div class="sect3">
 <h4 id="_problem_61">Problem</h4>
 <div class="paragraph"><p>You have a Mongo record, and you want to embed another set of values
@@ -5428,7 +5497,9 @@ image within a record:</p></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="color: #008080">Image</span> <span style="font-weight: bold"><span style="color: #0000FF">private</span></span> <span style="color: #990000">()</span> <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> BsonRecord<span style="color: #990000">[</span>Image<span style="color: #990000">]</span> <span style="color: #FF0000">{</span>
+<pre><tt><span style="font-weight: bold"><span style="color: #000080">import</span></span> net<span style="color: #990000">.</span>liftweb<span style="color: #990000">.</span>record<span style="color: #990000">.</span>field<span style="color: #990000">.</span><span style="color: #FF0000">{</span>IntField<span style="color: #990000">,</span>StringField<span style="color: #FF0000">}</span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="color: #008080">Image</span> <span style="font-weight: bold"><span style="color: #0000FF">private</span></span> <span style="color: #990000">()</span> <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> BsonRecord<span style="color: #990000">[</span>Image<span style="color: #990000">]</span> <span style="color: #FF0000">{</span>
   <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> meta <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> Image
   <span style="font-weight: bold"><span style="color: #0000FF">object</span></span> url <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> <span style="font-weight: bold"><span style="color: #000000">StringField</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">this</span></span><span style="color: #990000">,</span> <span style="color: #993399">1024</span><span style="color: #990000">)</span>
   <span style="font-weight: bold"><span style="color: #0000FF">object</span></span> width <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> <span style="font-weight: bold"><span style="color: #000000">IntField</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">this</span></span><span style="color: #990000">)</span>
@@ -5504,7 +5575,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-weight: bold"><span style="color: #0000FF">val</span></span> img <span style="font-weight: bold"><span style="color: #0000FF">:</span></span> Box<span style="color: #990000">[</span>Image<span style="color: #990000">]</span> <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> uk<span style="color: #990000">.</span>flag<span style="color: #990000">.</span>valueBox</tt></pre></div></div>
 <div class="paragraph"><p>In fact, regardless of the setting of <span class="monospaced">optional_?</span> you can access the
 value using <span class="monospaced">valueBox</span>.</p></div>
-<div class="paragraph"><p>An alternative is to always provide a default value for the embedded
+<div class="paragraph"><p>An alternative is optional values is to always provide a default value for the embedded
 document:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -5518,18 +5589,11 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 <div class="sect3">
 <h4 id="_see_also_61">See Also</h4>
-<div class="ulist"><ul>
-<li>
-<p>
-<a href="https://www.assembla.com/spaces/liftweb/wiki/Mongo_Record_Embedded_Objects">Mongo
-Record Embedded Objects</a> on the Lift Wiki.
-</p>
-</li>
-</ul></div>
+<div class="paragraph"><p>The Lift Wiki describes BsonRecord in more detail at: <a href="https://www.assembla.com/spaces/liftweb/wiki/Mongo_Record_Embedded_Objects">https://www.assembla.com/spaces/liftweb/wiki/Mongo_Record_Embedded_Objects</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_linking_between_mongo_records">Linking between Mongo Records</h3>
+<h3 id="_linking_between_mongo_records">Linking Between Mongo Records</h3>
 <div class="sect3">
 <h4 id="_problem_62">Problem</h4>
 <div class="paragraph"><p>You have a Mongo record and want to include a link to another record.</p></div>
@@ -5571,13 +5635,13 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="color: #008080">HelloWorld</span> <span style="color: #FF0000">{</span>
 
   <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> uk <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">Country.find</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"uk"</span><span style="color: #990000">)</span> openOr <span style="color: #FF0000">{</span>
-    <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> earth <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">Planet.createRecord.id("earth").review("Harmless").save</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">true</span></span><span style="color: #990000">)</span>
-    <span style="font-weight: bold"><span style="color: #000000">Country.createRecord.id("uk").planet(earth.id.is).save</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">true</span></span><span style="color: #990000">)</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> earth <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">Planet.createRecord.id("earth").review</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"Harmless"</span><span style="color: #990000">).</span>save
+    <span style="font-weight: bold"><span style="color: #000000">Country.createRecord.id("uk").planet</span></span><span style="color: #990000">(</span>earth<span style="color: #990000">.</span>id<span style="color: #990000">.</span>is<span style="color: #990000">).</span>save
   <span style="color: #FF0000">}</span>
 
   <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> facts <span style="font-weight: bold"><span style="color: #0000FF">=</span></span>
     <span style="color: #FF0000">".country *"</span> <span style="font-weight: bold"><span style="color: #0000FF">#</span></span><span style="color: #990000">&gt;</span> uk<span style="color: #990000">.</span>id <span style="color: #990000">&amp;</span>
-    <span style="color: #FF0000">".planet"</span> <span style="font-weight: bold"><span style="color: #0000FF">#</span></span><span style="color: #990000">&gt;</span> uk<span style="color: #990000">.</span>planet<span style="color: #990000">.</span>obj<span style="color: #990000">.</span>map<span style="color: #FF0000">{</span> p <span style="font-weight: bold"><span style="color: #0000FF">=&gt;</span></span>
+    <span style="color: #FF0000">".planet"</span> <span style="font-weight: bold"><span style="color: #0000FF">#</span></span><span style="color: #990000">&gt;</span> uk<span style="color: #990000">.</span>planet<span style="color: #990000">.</span>obj<span style="color: #990000">.</span>map <span style="color: #FF0000">{</span> p <span style="font-weight: bold"><span style="color: #0000FF">=&gt;</span></span>
       <span style="color: #FF0000">".name *"</span> <span style="font-weight: bold"><span style="color: #0000FF">#</span></span><span style="color: #990000">&gt;</span> p<span style="color: #990000">.</span>id <span style="color: #990000">&amp;</span>
       <span style="color: #FF0000">".review *"</span> <span style="font-weight: bold"><span style="color: #0000FF">#</span></span><span style="color: #990000">&gt;</span> p<span style="color: #990000">.</span>review <span style="color: #FF0000">}</span>
   <span style="color: #FF0000">}</span></tt></pre></div></div>
@@ -5604,12 +5668,12 @@ http://www.gnu.org/software/src-highlite -->
 will include:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
-<pre>INFO: find: scratch.example.country { "_id" : "uk"}
-INFO: update: scratch.example.planet { "_id" : "earth"} { "_id" : "earth" ,
+<pre>INFO: find: cookbook.example.country { "_id" : "uk"}
+INFO: update: cookbook.example.planet { "_id" : "earth"} { "_id" : "earth" ,
     "review" : "Harmless"}
-INFO: update: scratch.example.country { "_id" : "uk"} { "_id" : "uk" ,
+INFO: update: cookbook.example.country { "_id" : "uk"} { "_id" : "uk" ,
     "planet" : "earth"}
-INFO: find: scratch.example.planet { "_id" : "earth"}</pre>
+INFO: find: cookbook.example.planet { "_id" : "earth"}</pre>
 </div></div>
 <div class="paragraph"><p>What you&#8217;re seeing here is the initial look up for "uk", followed by the
 creation of the "earth" record and an update which is saving the "uk"
@@ -5627,11 +5691,11 @@ http://www.gnu.org/software/src-highlite -->
 <span style="color: #FF0000">".review *"</span> <span style="font-weight: bold"><span style="color: #0000FF">#</span></span><span style="color: #990000">&gt;</span> <span style="font-weight: bold"><span style="color: #000000">uk.planet.obj.map</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span><span style="color: #990000">.</span>review<span style="color: #990000">)</span></tt></pre></div></div>
 <div class="paragraph"><p>&#8230;and you&#8217;d still only see one query for the "earth" record despite
 calling <span class="monospaced">obj</span> multiple times. The flip side of that is if the "earth"
-record was updated elsewhere in Mongo after you called <span class="monospaced">obj</span>, you would
+record was updated elsewhere in Mongo after you called <span class="monospaced">obj</span> you would
 not see the change from a call to <span class="monospaced">uk.obj</span> unless you reloaded the <span class="monospaced">uk</span>
 record first.</p></div>
 <div class="sect4">
-<h5 id="_querying_by_reference">Querying by reference</h5>
+<h5 id="_querying_by_reference">Querying by Reference</h5>
 <div class="paragraph"><p>Searching for records by a reference is straight-forward:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -5640,7 +5704,7 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-weight: bold"><span style="color: #0000FF">val</span></span> earth <span style="font-weight: bold"><span style="color: #0000FF">:</span></span> Planet <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #990000">...</span>
 <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> onEarth <span style="font-weight: bold"><span style="color: #0000FF">:</span></span> List<span style="color: #990000">[</span>Country<span style="color: #990000">]</span><span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">Country.findAll</span></span><span style="color: #990000">(</span>Country<span style="color: #990000">.</span>planet<span style="color: #990000">.</span>name<span style="color: #990000">,</span> earth<span style="color: #990000">.</span>id<span style="color: #990000">.</span>is<span style="color: #990000">)</span></tt></pre></div></div>
-<div class="paragraph"><p>Or in this case, because we have String references, we could just say:</p></div>
+<div class="paragraph"><p>Or in this case, because we have <span class="monospaced">String</span> references, we could just say:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
@@ -5649,7 +5713,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-weight: bold"><span style="color: #0000FF">val</span></span> onEarth <span style="font-weight: bold"><span style="color: #0000FF">:</span></span> List<span style="color: #990000">[</span>Country<span style="color: #990000">]</span><span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">Country.findAll</span></span><span style="color: #990000">(</span>Country<span style="color: #990000">.</span>planet<span style="color: #990000">.</span>name<span style="color: #990000">,</span> <span style="color: #FF0000">"earth"</span><span style="color: #990000">)</span></tt></pre></div></div>
 </div>
 <div class="sect4">
-<h5 id="_updating_and_deleting">Updating and deleting</h5>
+<h5 id="_updating_and_deleting">Updating and Deleting</h5>
 <div class="paragraph"><p>Updating a reference is as you&#8217;d expect:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -5657,10 +5721,10 @@ by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-weight: bold"><span style="color: #000000">uk.planet.obj.foreach(_.review</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"Mostly harmless."</span><span style="color: #990000">).</span>update<span style="color: #990000">)</span></tt></pre></div></div>
-<div class="paragraph"><p>This would result in:</p></div>
+<div class="paragraph"><p>This would result in the changed field being set:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
-<pre>INFO: update: scratch.example.planet { "_id" : "earth"} { "\$set" : {
+<pre>INFO: update: cookbook.example.planet { "_id" : "earth"} { "$set" : {
    "review" : "Mostly harmless."}}</pre>
 </div></div>
 <div class="paragraph"><p>A <span class="monospaced">uk.planet.obj</span> call will now return a planet with the new review.</p></div>
@@ -5670,37 +5734,41 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000000">uk.planet</span></span><span style="color: #990000">(</span> <span style="font-weight: bold"><span style="color: #000000">Planet.createRecord.id("mars").save</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">true</span></span><span style="color: #990000">).</span>id<span style="color: #990000">.</span>is <span style="font-weight: bold"><span style="color: #000000">).save</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">true</span></span><span style="color: #990000">)</span></tt></pre></div></div>
+<pre><tt><span style="font-weight: bold"><span style="color: #000000">uk.planet</span></span><span style="color: #990000">(</span> <span style="font-weight: bold"><span style="color: #000000">Planet.createRecord.id</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"mars"</span><span style="color: #990000">).</span>save<span style="color: #990000">.</span>id<span style="color: #990000">.</span>is <span style="color: #990000">).</span>save</tt></pre></div></div>
+<div class="paragraph"><p>Again, note that the reference is via the id of the record (<span class="monospaced">save.id.is</span>), not the record itself.</p></div>
 <div class="paragraph"><p>To remove the reference:</p></div>
-<div class="paragraph"><p><span class="monospaced">scala uk.planet(Empty).save(true)</span> This removes the link, but the Mongo
-record pointed to by the link will remain in the database. If you remove
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000000">uk.planet</span></span><span style="color: #990000">(</span>Empty<span style="color: #990000">).</span>save</tt></pre></div></div>
+<div class="paragraph"><p>This removes the link, but the Mongo record pointed to by the link will remain in the database. If you remove
 the object being referenced, a later call to <span class="monospaced">obj</span> will return an
 <span class="monospaced">Empty</span> box.</p></div>
 </div>
 <div class="sect4">
-<h5 id="_types_of_link">Types of link</h5>
-<div class="paragraph"><p>The example uses a <span class="monospaced">StringRefField</span> as the Mongo records themselves use
-plain strings as `_id`s, and as such we had to set the size of the
-string we are storing (128). Other reference types are:</p></div>
+<h5 id="_types_of_link">Types of Link</h5>
+<div class="paragraph"><p>The example uses a <span class="monospaced">StringRefField</span> as the Mongo records themselves use <span class="monospaced">String</span> as the <span class="monospaced">_id</span>. Other reference types are:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-<span class="monospaced">ObjectIdRefField</span> - possibly the most frequently used kind of reference, when you want to reference via the usual default <span class="monospaced">ObjectId</span> reference in Mongo.
+<span class="monospaced">ObjectIdRefField</span>&#8201;&#8212;&#8201;possibly the most frequently used kind of reference, when you want to reference via the usual default <span class="monospaced">ObjectId</span> reference in Mongo.
 </p>
 </li>
 <li>
 <p>
-<span class="monospaced">UUIDRefField</span> - for records with an id based on <span class="monospaced">java.util.UUID</span>.
+<span class="monospaced">UUIDRefField</span>&#8201;&#8212;&#8201;for records with an ID based on <span class="monospaced">java.util.UUID</span>.
 </p>
 </li>
 <li>
 <p>
-<span class="monospaced">StringRefField</span> - as used in this example.
+<span class="monospaced">StringRefField</span>&#8201;&#8212;&#8201;as used in this example, where you control the ID as a <span class="monospaced">String</span>.
 </p>
 </li>
 <li>
 <p>
-<span class="monospaced">IntRefField</span> and <span class="monospaced">LongRefField</span> - for when you&#8217;re using a numeric value as an id.
+<span class="monospaced">IntRefField</span> and <span class="monospaced">LongRefField</span>&#8201;&#8212;&#8201;for when you&#8217;re using a numeric value as an ID.
 </p>
 </li>
 </ul></div>
@@ -5708,107 +5776,318 @@ string we are storing (128). Other reference types are:</p></div>
 </div>
 <div class="sect3">
 <h4 id="_see_also_62">See Also</h4>
-<div class="ulist"><ul>
-<li>
-<p>
-<a href="https://www.assembla.com/wiki/show/liftweb/Mongo_Record_Referenced_Objects">Mongo
-Record Referenced Objects</a> wiki page.
-</p>
-</li>
-<li>
-<p>
-<a href="http://stackoverflow.com/questions/9545341/configure-logging-for-the-mongodb-java-driver">Configure logging for the MongoDB Java driver</a> on Stackoverflow.
-</p>
-</li>
-</ul></div>
+<div class="paragraph"><p>10Gen Inc&#8217;s <em>Data Modeling Decisions</em> describes embedding of documents compared to referencing objects. You&#8217;ll find the article at: <a href="http://docs.mongodb.org/manual/core/data-modeling/">http://docs.mongodb.org/manual/core/data-modeling/</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_storing_geospatial_values">Storing Geospatial Values</h3>
+<h3 id="QueryingWithRouge">Using Rouge</h3>
 <div class="sect3">
 <h4 id="_problem_63">Problem</h4>
-<div class="paragraph"><p>You want to store (lat,lon) information in Mongo.</p></div>
+<div class="paragraph"><p>You want to use Foursquare&#8217;s type-safe domain specific language (DSL), Rouge, for querying and updating Mongo records.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_62">Solution</h4>
-<div class="paragraph"><p>Create a <span class="monospaced">Geo</span> container and use when you need it in your model. For
-example:</p></div>
+<div class="paragraph"><p>You need to include the Rouge dependency in your build and import Rouge into your code.</p></div>
+<div class="paragraph"><p>For the first step, edit <span class="monospaced">build.sbt</span> and add:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="color: #008080">Geo</span> <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> BsonRecord<span style="color: #990000">[</span>Geo<span style="color: #990000">]</span> <span style="color: #FF0000">{</span>
-  <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> meta <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> Geo
-
-  <span style="font-weight: bold"><span style="color: #0000FF">object</span></span> lat <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> <span style="font-weight: bold"><span style="color: #000000">DoubleField</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">this</span></span><span style="color: #990000">)</span>
-  <span style="font-weight: bold"><span style="color: #0000FF">object</span></span> lon <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> <span style="font-weight: bold"><span style="color: #000000">DoubleField</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">this</span></span><span style="color: #990000">)</span>
-<span style="color: #FF0000">}</span>
-
-<span style="font-weight: bold"><span style="color: #0000FF">object</span></span> Geo <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> Geo <span style="font-weight: bold"><span style="color: #0000FF">with</span></span> BsonMetaRecord<span style="color: #990000">[</span>Geo<span style="color: #990000">]</span></tt></pre></div></div>
-<div class="paragraph"><p>You can reference instances in your schema:</p></div>
+<pre><tt><span style="color: #FF0000">"com.foursquare"</span> <span style="color: #990000">%%</span> <span style="color: #FF0000">"rogue"</span> <span style="color: #990000">%</span> <span style="color: #FF0000">"1.1.8"</span> <span style="font-weight: bold"><span style="color: #000000">intransitive</span></span><span style="color: #990000">()</span></tt></pre></div></div>
+<div class="paragraph"><p>In your code <span class="monospaced">import com.foursquare.rogue._</span> and then start using Rouge.  For example, using the Scala console (see <a href="#MongoScalaConsole">[MongoScalaConsole]</a>):</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="color: #008080">Thing</span> <span style="font-weight: bold"><span style="color: #0000FF">private</span></span> <span style="color: #990000">()</span> <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> MongoRecord<span style="color: #990000">[</span>Thing<span style="color: #990000">]</span> <span style="color: #FF0000">{</span>
-  <span style="font-weight: bold"><span style="color: #0000FF">override</span></span> <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> meta <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> Thing
+<pre><tt>scala<span style="color: #990000">&gt;</span> <span style="font-weight: bold"><span style="color: #000080">import</span></span> com<span style="color: #990000">.</span>foursquare<span style="color: #990000">.</span>rogue<span style="color: #990000">.</span>Rogue<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> com<span style="color: #990000">.</span>foursquare<span style="color: #990000">.</span>rogue<span style="color: #990000">.</span>Rogue<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
 
-  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> loc <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #0000FF">new</span></span> <span style="font-weight: bold"><span style="color: #000000">BsonRecordField</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">this</span></span><span style="color: #990000">,</span>Geo<span style="color: #990000">)</span> <span style="color: #FF0000">{</span>
-    <span style="font-weight: bold"><span style="color: #0000FF">override</span></span> <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> optional<span style="font-weight: bold"><span style="color: #0000FF">_</span></span><span style="color: #990000">?</span> <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #0000FF">true</span></span>
-  <span style="color: #FF0000">}</span>
+scala<span style="color: #990000">&gt;</span> <span style="font-weight: bold"><span style="color: #000080">import</span></span> code<span style="color: #990000">.</span>model<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> code<span style="color: #990000">.</span>model<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
+
+scala<span style="color: #990000">&gt;</span> <span style="font-weight: bold"><span style="color: #000000">Country.where</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span><span style="color: #990000">.</span>id eqs <span style="color: #FF0000">"uk"</span><span style="color: #990000">).</span>fetch
+res1<span style="font-weight: bold"><span style="color: #0000FF">:</span></span> List<span style="color: #990000">[</span>code<span style="color: #990000">.</span>model<span style="color: #990000">.</span>Country<span style="color: #990000">]</span> <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">List</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="color: #008080">code</span><span style="color: #990000">.</span>model<span style="color: #990000">.</span>Country<span style="font-weight: bold"><span style="color: #0000FF">=</span></span><span style="color: #FF0000">{</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>id<span style="font-weight: bold"><span style="color: #0000FF">=</span></span>uk<span style="color: #990000">,</span>
+  <span style="font-weight: bold"><span style="color: #000000">population=Map</span></span><span style="color: #990000">(</span>Brighton<span style="color: #990000">-&gt;</span><span style="color: #993399">134293</span><span style="color: #990000">,</span> Liverpool<span style="color: #990000">-&gt;</span><span style="color: #993399">469017</span><span style="color: #990000">,</span> Birmingham<span style="color: #990000">-&gt;</span><span style="color: #993399">970892</span><span style="color: #990000">)</span><span style="color: #FF0000">}</span><span style="color: #990000">)</span>
+
+scala<span style="color: #990000">&gt;</span> <span style="font-weight: bold"><span style="color: #000000">Country.where</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span><span style="color: #990000">.</span>id eqs <span style="color: #FF0000">"uk"</span><span style="color: #990000">).</span>count
+res2<span style="font-weight: bold"><span style="color: #0000FF">:</span></span> <span style="color: #009900">Long</span> <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #993399">1</span>
+
+scala<span style="color: #990000">&gt;</span> <span style="font-weight: bold"><span style="color: #000000">Country.where</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span><span style="color: #990000">.</span>id eqs <span style="color: #FF0000">"uk"</span><span style="color: #990000">).</span>
+  <span style="font-weight: bold"><span style="color: #000000">modify</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span><span style="color: #990000">.</span>population at <span style="color: #FF0000">"Brighton"</span> inc <span style="color: #993399">1</span><span style="color: #990000">).</span><span style="font-weight: bold"><span style="color: #000000">updateOne</span></span><span style="color: #990000">()</span>
+</tt></pre></div></div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_60">Discussion</h4>
+<div class="paragraph"><p>Rouge is able to use information in your Lift Record to offer an elegant way to query and update records. It&#8217;s type safe meaning, for example, if you try to use an <span class="monospaced">Int</span> where a <span class="monospaced">String</span> is expected in a query, Mongo would allow that and fail to find results at runtime, but Rouge enables Scala to reject the query at compile time:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>scala<span style="color: #990000">&gt;</span> <span style="font-weight: bold"><span style="color: #000000">Country.where</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span><span style="color: #990000">.</span>id eqs <span style="color: #993399">7</span><span style="color: #990000">).</span>fetch
+<span style="color: #990000">&lt;</span>console<span style="font-weight: bold"><span style="color: #0000FF">&gt;:</span></span><span style="color: #993399">20</span><span style="font-weight: bold"><span style="color: #0000FF">:</span></span> error<span style="font-weight: bold"><span style="color: #0000FF">:</span></span> <span style="font-weight: bold"><span style="color: #0000FF">type</span></span> mismatch<span style="color: #990000">;</span>
+ found   <span style="font-weight: bold"><span style="color: #0000FF">:</span></span> <span style="color: #009900">Int</span><span style="color: #990000">(</span><span style="color: #993399">7</span><span style="color: #990000">)</span>
+ required<span style="font-weight: bold"><span style="color: #0000FF">:</span></span> String
+              <span style="font-weight: bold"><span style="color: #000000">Country.where</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span><span style="color: #990000">.</span>id eqs <span style="color: #993399">7</span><span style="color: #990000">).</span>fetch</tt></pre></div></div>
+<div class="paragraph"><p>The DSL constructs a query which we then <span class="monospaced">fetch</span> to send the query to MongoDB. That last method, <span class="monospaced">fetch</span>, is just one of the ways to run the query. Others include:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<span class="monospaced">count</span>&#8201;&#8212;&#8201;queries Mongo for the size of the result set.
+</p>
+</li>
+<li>
+<p>
+<span class="monospaced">countDistinct</span>&#8201;&#8212;&#8201;the number of distinct values in the results.
+</p>
+</li>
+<li>
+<p>
+<span class="monospaced">exists</span>&#8201;&#8212;&#8201;true if there&#8217;s any record that matches the query.
+</p>
+</li>
+<li>
+<p>
+<span class="monospaced">get</span>&#8201;&#8212;&#8201;returns an <span class="monospaced">Option[T]</span> from the query.
+</p>
+</li>
+<li>
+<p>
+<span class="monospaced">fetch(limit: Int)</span>&#8201;&#8212;&#8201;like <span class="monospaced">fetch</span> but returns at most <span class="monospaced">limit</span> results.
+</p>
+</li>
+<li>
+<p>
+<span class="monospaced">updateOne</span>, <span class="monospaced">updateMulti</span>, <span class="monospaced">upsertOne</span> and <span class="monospaced">upsertMulti</span>&#8201;&#8212;&#8201;modify a single document, or all documents, that match the query.
+</p>
+</li>
+<li>
+<p>
+<span class="monospaced">findAndDeleteOne</span> and <span class="monospaced">bulkDelete_!!</span>&#8201;&#8212;&#8201;to delete records.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>The query language itself is expressive, and the best place to explore the variety of queries is in the <span class="monospaced">QueryTest</span> specification in teh source for Rouge.  This is linked to from the README of the project on Github.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">Rouge is working towards a v2 release which introduces a number of new concepts. If you want to give it a try, take a look at the
+instructions and comments on the Rouge
+mailing list at: <a href="https://groups.google.com/d/topic/rogue-users/SdtFCU-w3ng/">https://groups.google.com/d/topic/rogue-users/SdtFCU-w3ng/</a>.</td>
+</tr></table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_see_also_63">See Also</h4>
+<div class="paragraph"><p>For geospacial queries, see <a href="#MongoGeospatial">[MongoGeospatial]</a>.</p></div>
+<div class="paragraph"><p>The README page for Rouge is a great starting point, and includes a link to <span class="monospaced">QueryTest</span> giving plenty of example queries to crib from: <a href="https://github.com/foursquare/rogue">https://github.com/foursquare/rogue</a>.</p></div>
+<div class="paragraph"><p>The motivation for Rouge is described in a Foursquare engineering blog post: <a href="http://engineering.foursquare.com/2011/01/21/rogue-a-type-safe-scala-dsl-for-querying-mongodb/">http://engineering.foursquare.com/2011/01/21/rogue-a-type-safe-scala-dsl-for-querying-mongodb/</a>.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="MongoGeospatial">Storing Geospatial Values</h3>
+<div class="sect3">
+<h4 id="_problem_64">Problem</h4>
+<div class="paragraph"><p>You want to store latitude and longitude information in Mongo.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_solution_63">Solution</h4>
+<div class="paragraph"><p>Use Rouge&#8217;s <span class="monospaced">LatLong</span> class to embed location information in your model. For
+example, we can store the location of a city like thisL</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000080">import</span></span> com<span style="color: #990000">.</span>foursquare<span style="color: #990000">.</span>rogue<span style="color: #990000">.</span>Rogue<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> com<span style="color: #990000">.</span>foursquare<span style="color: #990000">.</span>rogue<span style="color: #990000">.</span>LatLong
+
+<span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="color: #008080">City</span> <span style="font-weight: bold"><span style="color: #0000FF">private</span></span> <span style="color: #990000">()</span> <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> MongoRecord<span style="color: #990000">[</span>City<span style="color: #990000">]</span> <span style="font-weight: bold"><span style="color: #0000FF">with</span></span> ObjectIdPk<span style="color: #990000">[</span>City<span style="color: #990000">]</span> <span style="color: #FF0000">{</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">override</span></span> <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> meta <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> City
+
+  <span style="font-weight: bold"><span style="color: #0000FF">object</span></span> name <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> <span style="font-weight: bold"><span style="color: #000000">StringField</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">this</span></span><span style="color: #990000">,</span> <span style="color: #993399">60</span><span style="color: #990000">)</span>
+
+  <span style="font-weight: bold"><span style="color: #0000FF">object</span></span> loc <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> MongoCaseClassField<span style="color: #990000">[</span>City<span style="color: #990000">,</span> <span style="font-weight: bold"><span style="color: #000000">LatLong]</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">this</span></span><span style="color: #990000">)</span>
 <span style="color: #FF0000">}</span>
 
-<span style="font-weight: bold"><span style="color: #0000FF">object</span></span> Thing <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> Thing <span style="font-weight: bold"><span style="color: #0000FF">with</span></span> MongoMetaRecord<span style="color: #990000">[</span>Thing<span style="color: #990000">]</span> <span style="color: #FF0000">{</span>
-  <span style="font-weight: bold"><span style="color: #000080">import</span></span> mongodb<span style="color: #990000">.</span>BsonDSL<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
-  <span style="font-weight: bold"><span style="color: #000000">ensureIndex</span></span><span style="color: #990000">(</span>loc<span style="color: #990000">.</span>name <span style="color: #990000">-&gt;</span> <span style="color: #FF0000">"2d"</span><span style="color: #990000">,</span> unique<span style="font-weight: bold"><span style="color: #0000FF">=false</span></span><span style="color: #990000">)</span>
+<span style="font-weight: bold"><span style="color: #0000FF">object</span></span> City <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> City <span style="font-weight: bold"><span style="color: #0000FF">with</span></span> MongoMetaRecord<span style="color: #990000">[</span>City<span style="color: #990000">]</span> <span style="color: #FF0000">{</span>
+  <span style="font-weight: bold"><span style="color: #000080">import</span></span> net<span style="color: #990000">.</span>liftweb<span style="color: #990000">.</span>mongodb<span style="color: #990000">.</span>BsonDSL<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
+  <span style="font-weight: bold"><span style="color: #000000">ensureIndex</span></span><span style="color: #990000">(</span>loc<span style="color: #990000">.</span>name <span style="color: #990000">-&gt;</span> <span style="color: #FF0000">"2d"</span><span style="color: #990000">,</span> unique<span style="font-weight: bold"><span style="color: #0000FF">=true</span></span><span style="color: #990000">)</span>
+
+  <span style="font-weight: bold"><span style="color: #0000FF">override</span></span> <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> collectionName <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">"example.city"</span>
 <span style="color: #FF0000">}</span></tt></pre></div></div>
-<div class="paragraph"><p>To store a value you could do something like this:</p></div>
+<div class="paragraph"><p>We can store values like this:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">val</span></span> place <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">Geo.createRecord.lat(50.816673d).lon</span></span><span style="color: #990000">(-</span><span style="color: #993399">0</span><span style="color: #990000">.</span>13441d<span style="color: #990000">)</span>
-<span style="font-weight: bold"><span style="color: #0000FF">val</span></span> thing <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">Thing.createRecord.loc(place).save</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">true</span></span><span style="color: #990000">)</span></tt></pre></div></div>
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">val</span></span> place <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">LatLong</span></span><span style="color: #990000">(</span><span style="color: #993399">50.819059</span><span style="color: #990000">,</span> <span style="color: #990000">-</span><span style="color: #993399">0.136642</span><span style="color: #990000">)</span>
+<span style="font-weight: bold"><span style="color: #0000FF">val</span></span> city <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">City.createRecord.name</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"Brighton, UK"</span><span style="color: #990000">).</span><span style="font-weight: bold"><span style="color: #000000">loc(pos).save</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">true</span></span><span style="color: #990000">)</span></tt></pre></div></div>
 <div class="paragraph"><p>This will produce data in Mongo that looks like this:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="color: #FF0000">{</span> <span style="color: #FF0000">"loc"</span> <span style="color: #990000">:</span> <span style="color: #FF0000">{</span> <span style="color: #FF0000">"lon"</span> <span style="color: #990000">:</span> <span style="color: #990000">-</span><span style="color: #993399">0.13441</span><span style="color: #990000">,</span> <span style="color: #FF0000">"lat"</span> <span style="color: #990000">:</span> <span style="color: #993399">50.816673</span> <span style="color: #FF0000">}</span> <span style="color: #FF0000">}</span></tt></pre></div></div>
+<pre><tt><span style="color: #FF0000">{</span>
+  <span style="color: #FF0000">"_id"</span> <span style="color: #990000">:</span> <span style="font-weight: bold"><span style="color: #000000">ObjectId</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"50f2f9d43004ad90bbc06b83"</span><span style="color: #990000">),</span>
+  <span style="color: #FF0000">"name"</span> <span style="color: #990000">:</span> <span style="color: #FF0000">"Brighton, UK"</span><span style="color: #990000">,</span>
+  <span style="color: #FF0000">"loc"</span> <span style="color: #990000">:</span> <span style="color: #FF0000">{</span>
+    <span style="color: #FF0000">"lat"</span> <span style="color: #990000">:</span> <span style="color: #993399">50.819059</span><span style="color: #990000">,</span>
+    <span style="color: #FF0000">"long"</span> <span style="color: #990000">:</span> <span style="color: #990000">-</span><span style="color: #993399">0.136642</span>
+  <span style="color: #FF0000">}</span>
+<span style="color: #FF0000">}</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_60">Discussion</h4>
-<div class="paragraph"><p>The <span class="monospaced">unique=false</span> in the <span class="monospaced">ensureIndex</span> highlights that you can control
-whether locations needs to be unique (no duplications) or not.</p></div>
+<h4 id="_discussion_61">Discussion</h4>
+<div class="paragraph"><p>MongoDB supports <em>geospatial indexes</em>, and we&#8217;re making use of this by doing two things.  First,
+we are storing the location information in one of MongoDB&#8217;s permitted formats.  The format is
+and embedding document containing the coordinates. We could also have use a array of two values
+to represent the point.</p></div>
+<div class="paragraph"><p>Second, we&#8217;re creating a index of type "2d", which allows us to use Mongo&#8217;s geospatial functions such as <span class="monospaced">$near</span> and <span class="monospaced">$within</span>. The <span class="monospaced">unique=true</span> in the <span class="monospaced">ensureIndex</span> highlights that you can control
+whether locations needs to be unique (<span class="monospaced">true</span>, no duplications) or not (<span class="monospaced">false</span>).</p></div>
+<div class="paragraph"><p>With regard to the unique index, you&#8217;ll note that we&#8217;re calling <span class="monospaced">save(true)</span> on the <span class="monospaced">City</span> in
+this example, rather than the plain <span class="monospaced">save</span> in most other recipes.  We could use <span class="monospaced">save</span> here, and
+it would work fine, but difference is that <span class="monospaced">save(true)</span> raises the <em>write concern</em> level
+from "normal" to "safe".</p></div>
+<div class="paragraph"><p>With the normal write concern, the call to <span class="monospaced">save</span> would return as soon
+as the request has gone down the wire to the Mongo server.  This gives a certain degree of reliability in that
+<span class="monospaced">save</span> would fail if the network had gone away. However, there&#8217;s no indication that the server has
+processed the request.  For example, if we tried to insert a city at the exact same location as one that was already in the database, the index uniqueness rule would be violated and the record would not be saved.  With just <span class="monospaced">save</span> (or <span class="monospaced">save(false)</span>) our Lift application would not receive this error. The save would fail silently.Raising the concern to "safe" causes <span class="monospaced">save(true)</span> to wait for an acknowledgment from the Mongo server, which means the application will receive exceptions of some kinds of errors.</p></div>
+<div class="paragraph"><p>If we tried to insert a duplicate city, our call to <span class="monospaced">save(true)</span> would result in:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>com<span style="color: #990000">.</span>mongodb<span style="color: #990000">.</span>MongoException$DuplicateKey<span style="font-weight: bold"><span style="color: #0000FF">:</span></span> E11000 duplicate key
+  error index<span style="font-weight: bold"><span style="color: #0000FF">:</span></span> cookbook<span style="color: #990000">.</span>example<span style="color: #990000">.</span>city<span style="color: #990000">.</span>$loc<span style="font-weight: bold"><span style="color: #0000FF">_</span></span>2d</tt></pre></div></div>
+<div class="paragraph"><p>There are other levels of write concern, available via another variant of <span class="monospaced">save</span> which takes a <span class="monospaced">WriteConcern</span> as an argument.</p></div>
+<div class="paragraph"><p>If you ever need to drop an index, the MongoDB command is:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>db.example.city.dropIndex( "loc_2d" )</pre>
+</div></div>
+<div class="sect4">
+<h5 id="_querying">Querying</h5>
+<div class="paragraph"><p>The reason this recipe uses Rouge&#8217;s <span class="monospaced">LatLong</span> class is to enable us to query using the Rouge DSL.  Suppose we&#8217;ve inserted other cities into our collection:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>&gt; db.example.city.find({}, {_id:0} )
+{"name": "London, UK", "loc": {"lat": 51.5, "long": -0.166667} }
+{"name": "Brighton, UK", "loc": {"lat": 50.819059, "long": -0.136642} }
+{"name": "Paris, France", "loc": {"lat": 48.866667, "long": 2.333333} }
+{"name": "Berlin, Germany", "loc": {"lat": 52.533333, "long": 13.416667} }
+{"name": "Sydney, Australia", "loc": {"lat": -33.867387, "long": 151.207629} }
+{"name": "New York, USA", "loc": {"lat": 40.714623, "long": -74.006605} }</pre>
+</div></div>
+<div class="paragraph"><p>We can now find those cities within a 500km of London:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000080">import</span></span> com<span style="color: #990000">.</span>foursquare<span style="color: #990000">.</span>rogue<span style="color: #990000">.</span><span style="color: #FF0000">{</span>LatLong<span style="color: #990000">,</span> Degrees<span style="color: #FF0000">}</span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">val</span></span> centre <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">LatLong</span></span><span style="color: #990000">(</span><span style="color: #993399">51.5</span><span style="color: #990000">,</span> <span style="color: #990000">-</span><span style="color: #993399">0.166667</span><span style="color: #990000">)</span>
+<span style="font-weight: bold"><span style="color: #0000FF">val</span></span> radius <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">Degrees(</span></span> <span style="color: #990000">(</span><span style="color: #993399">500</span> <span style="color: #990000">/</span> <span style="color: #993399">6378.137</span><span style="color: #990000">).</span>toDegrees <span style="color: #990000">)</span>
+<span style="font-weight: bold"><span style="color: #0000FF">val</span></span> nearby <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">City.where</span></span><span style="color: #990000">(</span> <span style="font-weight: bold"><span style="color: #0000FF">_</span></span><span style="color: #990000">.</span>loc <span style="font-weight: bold"><span style="color: #000000">near</span></span> <span style="color: #990000">(</span>centre<span style="color: #990000">.</span>lat<span style="color: #990000">,</span> centre<span style="color: #990000">.</span>long<span style="color: #990000">,</span> radius<span style="color: #990000">)</span> <span style="color: #990000">).</span><span style="font-weight: bold"><span style="color: #000000">fetch</span></span><span style="color: #990000">()</span></tt></pre></div></div>
+<div class="paragraph"><p>This would query MongoDB with this clause&#8230;</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>{ "loc" : { "$near" : [ 51.5 , -0.166667 , 4.491576420597608]}}</pre>
+</div></div>
+<div class="paragraph"><p>&#8230;which will identify London, Brighton and Paris as near to London.</p></div>
+<div class="paragraph"><p>The form of the query is a centre point and a spherical radius.  Records falling
+inside that radius match the query and are returned closest first. We calculate
+the radius in radians: 500km divided by the radius of the Earth, approximately 6378km, gives
+us an angle in radians. We convert this to <span class="monospaced">Degrees</span> as required by Rouge.</p></div>
+</div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_63">See Also</h4>
-<div class="ulist"><ul>
-<li>
-<p>
-Mailing list discussion of <a href="https://groups.google.com/d/topic/liftweb/qTCry26wfOc/discussion">https://groups.google.com/d/topic/liftweb/qTCry26wfOc/discussion</a> [Geospatial indexing on lift-mongodb-record].
-</p>
-</li>
-<li>
-<p>
-Mongo&#8217;s <a href="http://www.mongodb.org/display/DOCS/Geospatial+Indexing">Geospacial Indexing</a> page.
-</p>
-</li>
-</ul></div>
+<h4 id="_see_also_64">See Also</h4>
+<div class="paragraph"><p>The MongoDB manual discusses geospatial index at: <a href="http://docs.mongodb.org/manual/core/geospatial-indexes/">http://docs.mongodb.org/manual/core/geospatial-indexes/</a>.</p></div>
+<div class="paragraph"><p>You can learn more about write concerns at <a href="http://docs.mongodb.org/manual/core/write-operations/">http://docs.mongodb.org/manual/core/write-operations/</a>, and
+the various values to pass to <span class="monospaced">save</span> are described in the Java MongoDB driver: <a href="http://api.mongodb.org/java/current/">http://api.mongodb.org/java/current/</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_unit_testing_record_with_mongo">Unit Testing Record with Mongo</h3>
+<h3 id="MongoScalaConsole">Running Queries from the Scala Console</h3>
 <div class="sect3">
-<h4 id="_problem_64">Problem</h4>
+<h4 id="_problem_65">Problem</h4>
+<div class="paragraph"><p>You want to try out a few queries interactively from the Scala console.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_solution_64">Solution</h4>
+<div class="paragraph"><p>Start the console from your project, call <span class="monospaced">boot()</span>, and then interact with your model.</p></div>
+<div class="paragraph"><p>For example, using the
+Mongo records developed as part of <a href="#ConnectingToMongo">[ConnectingToMongo]</a>, we can perform a basic query:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>$ sbt
+...
+&gt; console
+[info] Compiling 1 Scala source to /cookbook_mongo/target/scala-2.9.1/classes...
+[info] Starting scala interpreter...
+[info]
+Welcome to Scala version 2.9.1.final ...
+Type in expressions to have them evaluated.
+Type :help for more information.
+
+scala&gt; import bootstrap.liftweb._
+import bootstrap.liftweb._
+
+scala&gt; new Boot().boot
+
+scala&gt; import code.model._
+import code.model._
+
+scala&gt; Country.findAll
+res2: List[code.model.Country] = List(class code.model.Country={_id=uk,
+  population=Map(Brighton -&gt; 134293, Liverpool -&gt; 469017,
+  Birmingham -&gt; 970892)})
+
+scala&gt; :q</pre>
+</div></div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_62">Discussion</h4>
+<div class="paragraph"><p>Running everything in <span class="monospaced">Boot</span> may be a little heavy handed, especially if you starting up various services and background tasks.  All we need to do is define a database connection. For example, using the example code presented in <a href="#ConnectingToMongo">[ConnectingToMongo]</a>, we could initialise a conection with:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>scala&gt; import bootstrap.liftweb._
+import bootstrap.liftweb._
+
+scala&gt; import net.liftweb.mongodb._
+import net.liftweb.mongodb._
+
+scala&gt; MongoUrl.defineDb(DefaultMongoIdentifier,
+  "mongodb://127.0.0.1:27017/cookbook")
+
+scala&gt; Country.findAll
+res2: List[code.model.Country] = List(class code.model.Country={_id=uk,
+  population=Map(Brighton -&gt; 134293, Liverpool -&gt; 469017,
+    Birmingham -&gt; 970892)})</pre>
+</div></div>
+</div>
+<div class="sect3">
+<h4 id="_see_also_65">See Also</h4>
+<div class="paragraph"><p><a href="#ConnectingToMongo">[ConnectingToMongo]</a> for connecting to MongoDB and <a href="#QueryingWithRouge">[QueryingWithRouge]</a> for querying with Rouge.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="MongoUnitTest">Unit Testing Record with Mongo</h3>
+<div class="sect3">
+<h4 id="_problem_66">Problem</h4>
 <div class="paragraph"><p>You want to write unit tests to run against your Lift Record code with MongoDB.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_63">Solution</h4>
+<h4 id="_solution_65">Solution</h4>
 <div class="paragraph"><p>Using the Specs2 testing framework, surround your specification with a <em>context</em> which creates and connects to a database for each test and destroys it after the test runs.</p></div>
 <div class="paragraph"><p>Create a Scala trait to set up and destroy a connection to Mongo.  We&#8217;ll be mixing this trait into your specifications:</p></div>
 <div class="listingblock">
@@ -5900,7 +6179,7 @@ http://www.gnu.org/software/src-highlite -->
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_61">Discussion</h4>
+<h4 id="_discussion_63">Discussion</h4>
 <div class="paragraph"><p>Lift normally provides all the scaffolding you need to connect and run against MongoDB. Without a running Lift application, we need to ensure Mongo is configured when our tests run outside of Lift, and that&#8217;s what the <span class="monospaced">MongoTestKit</span> trait is providing for us.</p></div>
 <div class="paragraph"><p>The one unusual part of the test set up is including a <span class="monospaced">TestLiftSession</span>. This provides an empty session around your test, which is useful if you are accessing or testing state-related code (e.g., access to <span class="monospaced">S</span>).  It&#8217;s not strictly necessary for running tests against Record, but it has been included here because you may want to do that at some point, for example if you are testing user login via Mongo Records.</p></div>
 <div class="paragraph"><p>There are a few nice tricks in SBT to help you run tests. Running <span class="monospaced">test</span> will run all the tests in your project. If you want to focus on just one test, you can:</p></div>
@@ -5915,6 +6194,25 @@ http://www.gnu.org/software/src-highlite -->
 </div></div>
 <div class="paragraph"><p>There&#8217;s also <span class="monospaced">test-quick</span> (in SBT 0.12) which will only run tests that have not been run, have changed, or failed last time and <span class="monospaced">~test</span> to watch for changes in tests and run them.</p></div>
 <div class="paragraph"><p><span class="monospaced">test-only</span> together with modifications to <span class="monospaced">around</span> in <span class="monospaced">MongoTestKit</span> can be a good way to track down any issues you have with a test.  By disabling the call to <span class="monospaced">destroyDb()</span> you can jump into the MongoDB shell and examine the state of the database after a test has run.</p></div>
+<div class="paragraph"><p>One way to resolve that is to clean up each individual collection, by defining the collections you need to clean up, and replacing <span class="monospaced">destroyDb</span> with a method that will remove all entries in those collections:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">lazy</span></span> <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> collections <span style="font-weight: bold"><span style="color: #0000FF">:</span></span> List<span style="color: #990000">[</span>MongoMetaRecord<span style="color: #990000">[</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span><span style="color: #990000">]]</span> <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">List</span></span><span style="color: #990000">(</span>MyRecord<span style="color: #990000">)</span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">destroyDb</span></span><span style="color: #990000">()</span> <span style="font-weight: bold"><span style="color: #0000FF">:</span></span> Unit <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">{</span>
+  <span style="font-weight: bold"><span style="color: #000000">collections.foreach</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span> bulkDelete<span style="font-weight: bold"><span style="color: #0000FF">_</span></span><span style="color: #990000">!!</span> <span style="font-weight: bold"><span style="color: #0000FF">new</span></span> BasicDBObject<span style="color: #990000">)</span>
+  MongoDB<span style="color: #990000">.</span>close
+<span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="paragraph"><p>Note that the collection list is <span class="monospaced">lazy</span> to avoid start up of the Record system before we&#8217;ve initialized our database connections.</p></div>
+<div class="sect4">
+<h5 id="_database_cleanup">Database Cleanup</h5>
+<div class="paragraph"><p>Around each test we&#8217;ve simply deleted the database so the next time we try to use it, it&#8217;ll be empty.  In some situations you may not be able to do this.  For example, if you&#8217;re running tests against a database hosted with companies such as MongoLabs or MongoHQ, then deleting the database will mean you won&#8217;t be able to connect to it next time you run.</p></div>
+</div>
+<div class="sect4">
+<h5 id="_parallel_tests">Parallel Tests</h5>
 <div class="paragraph"><p>If your tests are modifying data and have the potential to interact, you&#8217;ll want to stop SBT from running your tests in parallel. A symptom of this would be tests that fail apparently randomly, or working tests that stop working when you add a new test, or tests that seem to lock up.  Disable by adding the following to <span class="monospaced">build.sbt</span>:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -5923,6 +6221,9 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>parallelExecution in Test <span style="font-weight: bold"><span style="color: #0000FF">:=</span></span> <span style="font-weight: bold"><span style="color: #0000FF">false</span></span></tt></pre></div></div>
 <div class="paragraph"><p>You&#8217;ll notice that the example specification includes the line: <span class="monospaced">sequential</span>.  This disables the default behaviour in Specs2 of running all tests concurrently.</p></div>
+</div>
+<div class="sect4">
+<h5 id="_running_tests_in_ides">Running tests in IDEs</h5>
 <div class="paragraph"><p>IntelliJ IDEA detects and allows you to runs Specs2 tests automatically.  With Eclipse, you&#8217;ll need to include the JUnit runner annotation at the start of your specification:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -5937,10 +6238,13 @@ http://www.gnu.org/software/src-highlite -->
 <span style="color: #990000">...</span></tt></pre></div></div>
 <div class="paragraph"><p>You can then "Run As&#8230;" the class in Eclipse.</p></div>
 </div>
+</div>
 <div class="sect3">
-<h4 id="_see_also_64">See Also</h4>
+<h4 id="_see_also_66">See Also</h4>
 <div class="paragraph"><p>Specs2 is documented at: <a href="http://specs2.org/">http://specs2.org/</a>.</p></div>
 <div class="paragraph"><p>If you prefer to use the Scala Test framework (<a href="http://www.scalatest.org">http://www.scalatest.org</a>), take a look at Tim Nelson&#8217;s <em>Mongo Auth</em> Lift module at <a href="https://github.com/eltimn/lift-mongoauth">https://github.com/eltimn/lift-mongoauth</a>. It includes tests using that framework that run against Mongo.  Much of what Tim has written there has been used to produce this recipe for Specs2.</p></div>
+<div class="paragraph"><p>The Lift Mongo Record library includes a variation on testing with Specs2, using just <span class="monospaced">Before</span> and <span class="monospaced">After</span> rather than the <span class="monospaced">around</span> example used in this recipe. If you prefer that approach, you&#8217;ll find the code in: <a href="https://github.com/lift/framework/tree/master/persistence/mongodb-record/src/test/scala/net/liftweb/mongodb/record">https://github.com/lift/framework/tree/master/persistence/mongodb-record/src/test/scala/net/liftweb/mongodb/record</a>.</p></div>
+<div class="paragraph"><p>Flapdoodle (<a href="https://github.com/flapdoodle-oss/embedmongo.flapdoodle.de">https://github.com/flapdoodle-oss/embedmongo.flapdoodle.de</a> provides a way to automate the download, install, set up and clean up of a MongoDB database. This automation is something you can wrap around your unit tests, and a Specs2 integration is included using the same <span class="monospaced">Before</span> and <span class="monospaced">After</span> approach to testing used by Lift Mongo Record: <a href="https://github.com/athieriot/specs2-embedmongo">https://github.com/athieriot/specs2-embedmongo</a>.</p></div>
 <div class="paragraph"><p>The test interface provided by SBT, such as the <span class="monospaced">test</span> command, also supports the ability to fork tests, set specific configurations for test cases, and ways to select which tests are run. You&#8217;ll find it at: <a href="http://www.scala-sbt.org/release/docs/Detailed-Topics/Testing">http://www.scala-sbt.org/release/docs/Detailed-Topics/Testing</a>.</p></div>
 <div class="paragraph"><p>The Lift Wiki describes more about unit testing and Lift sessions:
 <a href="https://www.assembla.com/wiki/show/liftweb/Unit_Testing_Snippets_With_A_Logged_In_User">https://www.assembla.com/wiki/show/liftweb/Unit_Testing_Snippets_With_A_Logged_In_User</a>.</p></div>
@@ -5956,11 +6260,11 @@ as sending email or scheduling tasks.</p></div>
 <div class="sect2">
 <h3 id="_sending_plain_text_email">Sending plain text email</h3>
 <div class="sect3">
-<h4 id="_problem_65">Problem</h4>
+<h4 id="_problem_67">Problem</h4>
 <div class="paragraph"><p>You want to send a plain email from your Lift application.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_64">Solution</h4>
+<h4 id="_solution_66">Solution</h4>
 <div class="paragraph"><p>Use the <span class="monospaced">Mailer</span>:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -5975,7 +6279,7 @@ http://www.gnu.org/software/src-highlite -->
   <span style="font-weight: bold"><span style="color: #000000">PlainMailBodyType</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"Hello from Lift"</span><span style="color: #990000">)</span> <span style="color: #990000">)</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_62">Discussion</h4>
+<h4 id="_discussion_64">Discussion</h4>
 <div class="paragraph"><p><span class="monospaced">Mailer</span> sends the message asynchronously, meaning <span class="monospaced">sendMail</span> will
 return immediately, so you don&#8217;t have to worry about the time costs of
 negotiating with an SMTP server. There&#8217;s also a <span class="monospaced">blockingSendMail</span>
@@ -5995,7 +6299,7 @@ the use of <span class="monospaced">PlainMailBodyType</span> with
 <span class="monospaced">PlainPlusBodyType("Hello from Lift", "ISO8859_1")</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_65">See Also</h4>
+<h4 id="_see_also_67">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6009,11 +6313,11 @@ Lift</a>, Appendix F.
 <div class="sect2">
 <h3 id="_sending_html_email">Sending HTML email</h3>
 <div class="sect3">
-<h4 id="_problem_66">Problem</h4>
+<h4 id="_problem_68">Problem</h4>
 <div class="paragraph"><p>You want to send an HTML email from your Lift application.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_65">Solution</h4>
+<h4 id="_solution_67">Solution</h4>
 <div class="paragraph"><p>Give <span class="monospaced">Mailer</span> a <span class="monospaced">NodeSeq</span> containing your HTML message:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -6038,7 +6342,7 @@ http://www.gnu.org/software/src-highlite -->
   html<span style="color: #990000">)</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_63">Discussion</h4>
+<h4 id="_discussion_65">Discussion</h4>
 <div class="paragraph"><p>An implicit converts the <span class="monospaced">NodeSeq</span> into a <span class="monospaced">XHTMLMailBodyType</span>. This
 ensures the mime type of the email is "text/html". Despite the name of
 XHTML, the message is to converted into a string for transmission using
@@ -6050,11 +6354,11 @@ HTML5 semantics.</p></div>
 <div class="sect2">
 <h3 id="_sending_authenticated_email">Sending authenticated email</h3>
 <div class="sect3">
-<h4 id="_problem_67">Problem</h4>
+<h4 id="_problem_69">Problem</h4>
 <div class="paragraph"><p>You need to authenticate with an SMTP server to send email.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_66">Solution</h4>
+<h4 id="_solution_68">Solution</h4>
 <div class="paragraph"><p>Set the <span class="monospaced">Mailer.authenticator</span> in <span class="monospaced">Boot</span> with the credentials for your
 SMTP server and enable the <span class="monospaced">mail.smtp.auth</span> flag in your Lift props
 file.</p></div>
@@ -6088,7 +6392,7 @@ mail<span style="color: #990000">.</span>password<span style="font-weight: bold"
 mail<span style="color: #990000">.</span>smtp<span style="color: #990000">.</span>host<span style="font-weight: bold"><span style="color: #0000FF">=</span></span>smtp<span style="color: #990000">.</span>sendgrid<span style="color: #990000">.</span>net</tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_64">Discussion</h4>
+<h4 id="_discussion_66">Discussion</h4>
 <div class="paragraph"><p>We&#8217;ve used Lift properties as a way to configure SMTP authentication.
 This has the benefit of allowing us to enable authentication for just
 some run modes. For example, if our <span class="monospaced">default.props</span> did not contain
@@ -6100,7 +6404,7 @@ also supports JNDI). However, some mail services do require
 <span class="monospaced">mail.smtp.auth=true</span> to be set.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_66">See Also</h4>
+<h4 id="_see_also_68">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6113,11 +6417,11 @@ The <a href="http://javamail.kenai.com/nonav/javadocs/com/sun/mail/smtp/package-
 <div class="sect2">
 <h3 id="_sending_email_with_attachments">Sending email with attachments</h3>
 <div class="sect3">
-<h4 id="_problem_68">Problem</h4>
+<h4 id="_problem_70">Problem</h4>
 <div class="paragraph"><p>You want to send an email with one or more attachments.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_67">Solution</h4>
+<h4 id="_solution_69">Solution</h4>
 <div class="paragraph"><p>Use Mailer&#8217;s <span class="monospaced">XHTMLPlusImages</span> body types:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -6146,14 +6450,14 @@ http://www.gnu.org/software/src-highlite -->
   msg<span style="color: #990000">)</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_65">Discussion</h4>
+<h4 id="_discussion_67">Discussion</h4>
 <div class="paragraph"><p><span class="monospaced">XHTMLPlusImages</span> can also accept more than one <span class="monospaced">PlusImageHolder</span> if you
 have more than one file to attach.</p></div>
 <div class="paragraph"><p>Messages are sent using the "related" multi-part mime heading with
 "inline" disposition.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_67">See Also</h4>
+<h4 id="_see_also_69">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6171,12 +6475,12 @@ Wikipedia entry on <a href="http://en.wikipedia.org/wiki/MIME">Multipurpose Inte
 <div class="sect2">
 <h3 id="_logging_email_rather_than_sending">Logging email rather than sending</h3>
 <div class="sect3">
-<h4 id="_problem_69">Problem</h4>
+<h4 id="_problem_71">Problem</h4>
 <div class="paragraph"><p>You don&#8217;t want email sent when developing your Lift application locally,
 but you do want to see what would have been sent.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_68">Solution</h4>
+<h4 id="_solution_70">Solution</h4>
 <div class="paragraph"><p>The solution is to use <span class="monospaced">Mailer.devModeSend</span> and here is an example for
 <span class="monospaced">Boot.scala</span>:</p></div>
 <div class="listingblock">
@@ -6202,7 +6506,7 @@ of the first body part of the message. The key part is setting a
 <span class="monospaced">MimeMessage =&gt; Unit</span> function on <span class="monospaced">Mailer.devModeSend</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_66">Discussion</h4>
+<h4 id="_discussion_68">Discussion</h4>
 <div class="paragraph"><p>When developing an application it is inconvenient to have to worry about
 setting up an SMTP server or inadvertently sending test messages to
 users. The above is a useful way to know what would have been sent.</p></div>
@@ -6215,11 +6519,11 @@ profile, pilot and test). The default is to send email, except for
 <div class="sect2">
 <h3 id="_run_a_task_later">Run a task later</h3>
 <div class="sect3">
-<h4 id="_problem_70">Problem</h4>
+<h4 id="_problem_72">Problem</h4>
 <div class="paragraph"><p>You want to schedule code to run later.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_69">Solution</h4>
+<h4 id="_solution_71">Solution</h4>
 <div class="paragraph"><p>Use <span class="monospaced">net.liftweb.util.Schedule</span>:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -6231,7 +6535,7 @@ http://www.gnu.org/software/src-highlite -->
 seconds.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_67">Discussion</h4>
+<h4 id="_discussion_69">Discussion</h4>
 <div class="paragraph"><p><span class="monospaced">Schedule</span> also includes a <span class="monospaced">schedule</span> method which will send a specified
 actor a specified message after a given delay.</p></div>
 <div class="paragraph"><p>The above example makes use of the Lift <span class="monospaced">TimeHelpers</span>, but there are
@@ -6240,7 +6544,7 @@ variant calls that accept <span class="monospaced">Long</span> millisecond value
 library, which allows you to <span class="monospaced">cancel</span> the activity.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_68">See Also</h4>
+<h4 id="_see_also_70">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6264,11 +6568,11 @@ Recipe for <a href="Run+tasks+periodically.html">Running tasks periodically</a>
 <div class="sect2">
 <h3 id="RunTasksPeriodically">Run Tasks Periodically</h3>
 <div class="sect3">
-<h4 id="_problem_71">Problem</h4>
+<h4 id="_problem_73">Problem</h4>
 <div class="paragraph"><p>You want a scheduled task to run periodically.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_70">Solution</h4>
+<h4 id="_solution_72">Solution</h4>
 <div class="paragraph"><p>Use <span class="monospaced">net.liftweb.util.Schedule</span> ensuring that you call <span class="monospaced">schedule</span> again
 during your task to re-schedule it. For example:</p></div>
 <div class="listingblock">
@@ -6316,7 +6620,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-weight: bold"><span style="color: #000000">LiftRules.unloadHooks.append(</span></span> <span style="color: #990000">()</span> <span style="font-weight: bold"><span style="color: #0000FF">=&gt;</span></span> MyScheduledTask <span style="color: #990000">!</span> MyScheduledTask<span style="color: #990000">.</span>Stop <span style="color: #990000">)</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_68">Discussion</h4>
+<h4 id="_discussion_70">Discussion</h4>
 <div class="paragraph"><p>Without the <span class="monospaced">Stop</span> message your actor would continue to be rescheduled
 until the JVM exits. This may be acceptable, but note that during
 development with SBT, without the <span class="monospaced">Stop</span> message, you will continue to
@@ -6325,7 +6629,7 @@ schedule tasks after issuing the <span class="monospaced">container:stop</span> 
 library, which allows you to <span class="monospaced">cancel</span> the activity.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_69">See Also</h4>
+<h4 id="_see_also_71">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6349,11 +6653,11 @@ uses <span class="monospaced">Schedule</span>, and further examples can be found
 <div class="sect2">
 <h3 id="_fetching_urls">Fetching URLs</h3>
 <div class="sect3">
-<h4 id="_problem_72">Problem</h4>
+<h4 id="_problem_74">Problem</h4>
 <div class="paragraph"><p>You want to fetch a URL from inside your Lift app.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_71">Solution</h4>
+<h4 id="_solution_73">Solution</h4>
 <div class="paragraph"><p>Use <em>Dispatch</em>, "a library for HTTP interaction, from asynchronous GETs
 to multi-part OAuth-enticated POSTs". Before you start, include the
 dependencies in your <span class="monospaced">build.sbt</span> file:</p></div>
@@ -6397,7 +6701,7 @@ http://www.gnu.org/software/src-highlite -->
 <span style="color: #FF0000">  standards."</span> name<span style="font-weight: bold"><span style="color: #0000FF">=</span></span><span style="color: #FF0000">"description"</span><span style="color: #990000">&gt;&lt;/</span>meta<span style="color: #990000">&gt;)</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_69">Discussion</h4>
+<h4 id="_discussion_71">Discussion</h4>
 <div class="paragraph"><p>As URL fetching has latency, you will want to look at making the request
 from an actor, a lazy-load snippet, via the various Dispatch executors
 or similar mechanism.</p></div>
@@ -6409,7 +6713,7 @@ what&#8217;s available.</p></div>
 includes functions for manipulating the real-world HTML you fetch.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_70">See Also</h4>
+<h4 id="_see_also_72">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6461,12 +6765,12 @@ Tanuj Khare (2012) <em>Apache Tomcat 7 Essentials</em>, Packt Publishing.
 <div class="sect2">
 <h3 id="CloudBees">Deploying to CloudBees</h3>
 <div class="sect3">
-<h4 id="_problem_73">Problem</h4>
+<h4 id="_problem_75">Problem</h4>
 <div class="paragraph"><p>You have an account with the CloudBees PaaS hosting environment, and you
 want to deploy your Lift application there.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_72">Solution</h4>
+<h4 id="_solution_74">Solution</h4>
 <div class="paragraph"><p>Use the SBT <span class="monospaced">package</span> command to produce a WAR file that can be deployed
 to CloudBees, and then use the CloudBees SDK to configure and deploy your
 application.</p></div>
@@ -6497,7 +6801,7 @@ $ bees -a app<span style="color: #990000">:</span>deploy <span style="color: #99
 <div class="paragraph"><p>This will send your WAR file to CloudBees and deploy it.  You&#8217;ll see the location (URL) of your application output from the bees <span class="monospaced">app:deploy</span> command when it completes.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_70">Discussion</h4>
+<h4 id="_discussion_72">Discussion</h4>
 <div class="paragraph"><p>If you are deploying an application to multiple CloudBees
 instances, be aware that by default CloudBees will round robin requests
 to each instance. If you use any of Lift&#8217;s state features you&#8217;ll want to
@@ -6637,7 +6941,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_71">See Also</h4>
+<h4 id="_see_also_73">See Also</h4>
 <div class="paragraph"><p>The CloudBees SDK provides command line tools for configuring and controlling applications. It can be found at <a href="https://wiki.cloudbees.com/bin/view/RUN/BeesSDK">https://wiki.cloudbees.com/bin/view/RUN/BeesSDK</a>.</p></div>
 <div class="paragraph"><p>The CloudBees developer portal (<a href="https://developer.cloudbees.com">https://developer.cloudbees.com</a>)contains a "Resources" section which provides details of the CloudBees services.</p></div>
 <div class="paragraph"><p>A plugin is available to automate deployments from SBT. The plugin and the excellent
@@ -6647,11 +6951,11 @@ instructions for installing and configuring it can be found at <a href="https://
 <div class="sect2">
 <h3 id="Beanstalk">Deploying to Amazon Elastic Beanstalk</h3>
 <div class="sect3">
-<h4 id="_problem_74">Problem</h4>
+<h4 id="_problem_76">Problem</h4>
 <div class="paragraph"><p>You want to run your Lift application on Amazon Web Services (AWS) Elastic Beanstalk.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_73">Solution</h4>
+<h4 id="_solution_75">Solution</h4>
 <div class="paragraph"><p>Create a new Tomcat 7 <em>environment</em>, use SBT to package your Lift application as a WAR file, and then deploy the application to your environment.</p></div>
 <div class="paragraph"><p>To create a new environment, visit the AWS console, navigate to Elastic Beanstalk and select "Apache Tomcat 7" as your environment. This will create and launch a default Beanstalk application. This will take a few minutes, but eventually report "Successfully running version Sample Application". You&#8217;ll be shown the URL of the application (something like <span class="monospaced">http://default-environment-nsdmixm7ja.elasticbeanstalk.com</span>) and visiting the URL you&#8217;re given will show the running default Amazon application.</p></div>
 <div class="paragraph"><p>Prepare your WAR file by running:</p></div>
@@ -6672,7 +6976,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_71">Discussion</h4>
+<h4 id="_discussion_73">Discussion</h4>
 <div class="paragraph"><p>Elastic Beanstalk provides a pre-built stack of software and infrastructure, in this case: Linux, Tomcat 7, a 64 bit "t1.micro" EC2 instance, load balancing, and an S3 bucket. That&#8217;s the <em>environment</em> and it has reasonable default settings.  Beanstalk also provides an easy way to deploy your Lift application.  As we&#8217;ve seen in this recipe, you upload an application (WAR file) to Beanstalk and deploy it to the environment.</p></div>
 <div class="paragraph"><p>As with many cloud providers keep in mind that you want to avoid local file storage. The reason for this is to allow instances to be terminated or restarted without data loss. With your Beanstalk application you do have a file system and you can write to it, but it is lost if the image is restarted. You can get persistent local file storage, for example using Amazon Elastic Block Storage, but you&#8217;re fighting against the nature of the platform.</p></div>
 <div class="paragraph"><p>Log files are written to the local file system. To access them, from the AWS console, navigate to your environment, into the "Logs" tab and hit the "Snapshot" button. This will take a copy of the logs and store them in an S3 bucket, and give you a link to the file contents.  This is a single file showing the content of variety of log files, and <span class="monospaced">catalina.out</span> will be the one showing any output from your Lift application.  If you want to try to keep these log files around, you can configure the environment to rotate the logs to S3 every hour from the "Container" tab under "Edit Configuration".</p></div>
@@ -6726,7 +7030,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_72">See Also</h4>
+<h4 id="_see_also_74">See Also</h4>
 <div class="paragraph"><p>Amazon provide a walk-through with screen shots, showing how to create a Beanstalk application.  It&#8217;s at: <a href="http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/GettingStarted.Walkthrough.html">http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/GettingStarted.Walkthrough.html</a>.</p></div>
 <div class="paragraph"><p><em>Elastic Beanstalk</em>, by van Villet <em>et al</em> (2011, O&#8217;Reilly Media, Inc) goes into the details of the Beanstalk infrastructure, how to work with Eclipse, enabling continuous integration, and how to hack the instance, for example to use NGINX as a front-end to Beanstalk.</p></div>
 <div class="paragraph"><p>The Amazon documentation for "Configuring Databases with AWS Elastic Beanstalk" describes the RDS settings in more detail: <a href="http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/using-features.managing.db.html">http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/using-features.managing.db.html</a>.</p></div>
@@ -6735,11 +7039,11 @@ http://www.gnu.org/software/src-highlite -->
 <div class="sect2">
 <h3 id="HerokuDeployment">Deploying to Heroku</h3>
 <div class="sect3">
-<h4 id="_problem_75">Problem</h4>
+<h4 id="_problem_77">Problem</h4>
 <div class="paragraph"><p>You want to deploy your Lift application to your account on the Heroku cloud platform.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_74">Solution</h4>
+<h4 id="_solution_76">Solution</h4>
 <div class="paragraph"><p>Package your Lift application as a WAR file and use the Heroku deploy plugin to send and run your application. This will give you an application running under Tomcat 7. Anyone can use this method to deploy an application but Heroku only provide support for it for Enterprise Java customers.</p></div>
 <div class="paragraph"><p>This recipe walks through the process in three stages: one-time set up; deployment of the WAR; and configuration of your Lift application for production performance.</p></div>
 <div class="paragraph"><p>If you&#8217;ve not already done so, download and install the Heroku command line tools ("Toolbelt") and login using your Heuroku credentials and upload an SSH key:</p></div>
@@ -6796,9 +7100,18 @@ Created release v6</tt></pre></div></div>
 <div class="paragraph"><p>Your Lift application is now running on Heroku.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_72">Discussion</h4>
-<div class="paragraph"><p>There are a couple of important comments regarding Lift applications on Heroku. First, note that there&#8217;s no support for session affinity. This means if you deploy to multiple <em>dynos</em> (Heroku terminology for instances), there is no co-ordination over which requests go to which servers. As a consequence, you won&#8217;t be able to make use of Lift&#8217;s stateful features and will want to turn them off (<a href="#RunningStateless">[RunningStateless]</a> describes for how to do that).</p></div>
-<div class="paragraph"><p>The second important point to note is that the dyno will be restarted every day. Additionally, if you are only running one web dyno, it will be idled after an hour of inactivity. You can see this happening by tailing your application log:</p></div>
+<h4 id="_discussion_74">Discussion</h4>
+<div class="paragraph"><p>There are a few important comments regarding Lift applications on Heroku. First, note that there&#8217;s no support for session affinity. This means if you deploy to multiple <em>dynos</em> (Heroku terminology for instances), there is no co-ordination over which requests go to which servers. As a consequence, you won&#8217;t be able to make use of Lift&#8217;s stateful features and will want to turn them off (<a href="#RunningStateless">[RunningStateless]</a> describes for how to do that).</p></div>
+<div class="paragraph"><p>Second, if you are using Lift comet features, there&#8217;s an adjustment to make in <span class="monospaced">Boot.scala</span> to work a little better in the Heroku environment:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>LiftRules<span style="color: #990000">.</span>cometRequestTimeout <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">Full</span></span><span style="color: #990000">(</span><span style="color: #993399">25</span><span style="color: #990000">)</span></tt></pre></div></div>
+<div class="paragraph"><p>This setting controls how long Lift waits before testing a comet connection. We&#8217;re replacing the Lift default of 120 seconds
+with 25 seconds because Heroku terminates connections after 30 seconds.  Although Lift recovers from this, the user experience may be to see a delay when interacting with a page.</p></div>
+<div class="paragraph"><p>A third important point to note is that the dyno will be restarted every day. Additionally, if you are only running one web dyno, it will be idled after an hour of inactivity. You can see this happening by tailing your application log:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
@@ -6952,21 +7265,22 @@ $</tt></pre></div></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_73">See Also</h4>
+<h4 id="_see_also_75">See Also</h4>
 <div class="paragraph"><p>Both the Scala and Java articles at Heroku are useful to learn more of the details described in this recipe: <a href="https://devcenter.heroku.com/categories/scala">https://devcenter.heroku.com/categories/scala</a> and <a href="https://devcenter.heroku.com/categories/java">https://devcenter.heroku.com/categories/java</a>.</p></div>
 <div class="paragraph"><p><em>Dynos and the Dyno Manifold</em> are described at: <a href="https://devcenter.heroku.com/articles/dynos">https://devcenter.heroku.com/articles/dynos</a>.</p></div>
 <div class="paragraph"><p>The JVM shutdown hooks are described in the JDK documentation: <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html">http://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html</a>.</p></div>
 <div class="paragraph"><p>Heroku&#8217;s guide to containerless deployment makes use of Maven to package your application, as is documented at <a href="https://devcenter.heroku.com/articles/java-webapp-runner">https://devcenter.heroku.com/articles/java-webapp-runner</a>.  There are also a template SBT project from Matthew Henderson that includes a <span class="monospaced">JettyLauncher</span> class: <a href="https://github.com/ghostm/lift_blank_heroku">https://github.com/ghostm/lift_blank_heroku</a>.</p></div>
+<div class="paragraph"><p>The way Heroku deal with comet long-poling is described at <a href="https://devcenter.heroku.com/articles/request-timeout">https://devcenter.heroku.com/articles/request-timeout</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="DistributedComet">Distributing Comet Across Multiple Servers</h3>
 <div class="sect3">
-<h4 id="_problem_76">Problem</h4>
+<h4 id="_problem_78">Problem</h4>
 <div class="paragraph"><p>You use Lift&#8217;s Comet support, and want to run across multiple servers for increased redundancy or to handle increased load.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_75">Solution</h4>
+<h4 id="_solution_77">Solution</h4>
 <div class="paragraph"><p>Use the <em>publish/subscribe</em> (pubsub) model to connect each server to a <em>topic</em> and route comet message out to the topic where it can be broadcast to all servers that are part of your application.</p></div>
 <div class="paragraph"><p>There are a variety of technologies you can use to accomplish this, such as databases, message systems, actor systems. For this recipe we will use the RabitMQ message service, but there are examples using CouchDB and Amazon&#8217;s Simple Notification Service in the <em>See Also</em> section.</p></div>
 <div class="paragraph"><p>Regardless of the technology, the principle is that illustrated in <a href="#DistributedCometDiagram">[DistributedCometDiagram]</a>. A comet event originating on one Lift application, is sent to a service for redistribution. It is the responsibility of this service (labeled as "topic" in the figure) is to ensure all the participating Lift applications receive the event so it can be processed as normal by Lift.</p></div>
@@ -7060,7 +7374,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>This change means all our comet chat messages go out to RabbitMQ where they are distributed to all the instances of our Lift application, and all the instances receive the messages back as <span class="monospaced">AMQPMessage</span> instances and update chat clients as normal.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_73">Discussion</h4>
+<h4 id="_discussion_75">Discussion</h4>
 <div class="paragraph"><p>To run more than one instance of your Lift application locally, you&#8217;ll want to start SBT as normal, and then in another terminal start again but on a different port number:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
@@ -7104,7 +7418,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>Note that <span class="monospaced">Props.productionMode</span> is <span class="monospaced">true</span> for the run modes of <span class="monospaced">Production</span>, <span class="monospaced">Staging</span> and <span class="monospaced">Pilot</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_74">See Also</h4>
+<h4 id="_see_also_76">See Also</h4>
 <div class="paragraph"><p>The Lift Chat example is described in <em>Simply Lift</em> at <a href="http://simply.liftweb.net/">http://simply.liftweb.net/</a>. The source code used in this recipe can be found at: <a href="https://github.com/LiftCookbook/rabbitmq_chat">https://github.com/LiftCookbook/rabbitmq_chat</a>.</p></div>
 <div class="paragraph"><p>The Lift AMQP module is: <a href="https://github.com/liftmodules/amqp">https://github.com/liftmodules/amqp</a>.</p></div>
 <div class="paragraph"><p>If you want to learn more about RabbitMQ, take a look at the tutorials (<a href="http://www.rabbitmq.com/tutorials/tutorial-five-java.html">http://www.rabbitmq.com/tutorials/tutorial-five-java.html</a>) or Alvaro Videla and Jason J.W. Williams (2012), <em>RabbitMQ in Action: Distributed Messaging for Everyone</em>, Manning Publications.</p></div>
@@ -7120,20 +7434,20 @@ http://www.gnu.org/software/src-highlite -->
 <div class="sect2">
 <h3 id="_you_8217_d_like_some_help">You&#8217;d Like Some Help</h3>
 <div class="sect3">
-<h4 id="_problem_77">Problem</h4>
+<h4 id="_problem_79">Problem</h4>
 <div class="paragraph"><p>You&#8217;re stuck on something in Lift and you&#8217;d like some help.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_76">Solution</h4>
+<h4 id="_solution_78">Solution</h4>
 <div class="paragraph"><p>Ask a question on the Lift mailing list at <a href="https://groups.google.com/group/liftweb">https://groups.google.com/group/liftweb</a>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_74">Discussion</h4>
+<h4 id="_discussion_76">Discussion</h4>
 <div class="paragraph"><p>You will find some information about Lift on StackOverflow, Quora and elsewhere, but the mailing list is <em>the</em> place to go to get help and support. You can search the archive to see if your question has already been addressed, but questions are very welcome as it helps the Lift community understand what users need and what might be causing problems or need explanation. Much of what you&#8217;re reading here originates from questions that have been asked on the mailing list.</p></div>
 <div class="paragraph"><p>New members to the mailing list are moderated to help reduce spam. This means the first time you post your message may take a few hours to show up.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_75">See Also</h4>
+<h4 id="_see_also_77">See Also</h4>
 <div class="paragraph"><p>The Lift community is one of the things that makes Lift what it is. Please take a look at <a href="http://liftweb.net/community">http://liftweb.net/community</a> before posting: you&#8217;ll get the best response with a polite question.</p></div>
 <div class="paragraph"><p>If you need paid consulting, development or SLA-backed support, there&#8217;s a list of organizations on the Wiki at <a href="https://www.assembla.com/spaces/liftweb/wiki/Commercial_Support">https://www.assembla.com/spaces/liftweb/wiki/Commercial_Support</a>.</p></div>
 </div>
@@ -7141,18 +7455,18 @@ http://www.gnu.org/software/src-highlite -->
 <div class="sect2">
 <h3 id="_how_to_report_bugs">How to Report Bugs</h3>
 <div class="sect3">
-<h4 id="_problem_78">Problem</h4>
+<h4 id="_problem_80">Problem</h4>
 <div class="paragraph"><p>You&#8217;ve found a bug and want to report it.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_77">Solution</h4>
+<h4 id="_solution_79">Solution</h4>
 <div class="paragraph"><p>Discuss your findings on the Lift mailing list, saying what you&#8217;re
 seeing, and what you&#8217;d expect to see.</p></div>
 <div class="paragraph"><p>By all means look at the existing tickets to see if your issue is there or recently fixed, but please do not
 raise a ticket unless asked to do so by a Lift committer on the mailing list.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_75">Discussion</h4>
+<h4 id="_discussion_77">Discussion</h4>
 <div class="quoteblock">
 <div class="content">
 <div class="paragraph"><p>If Lift is not behaving as you expect, please ask questions about what
@@ -7173,7 +7487,7 @@ necessarily a bug in Lift.</p></div>
 <div class="paragraph"><p>A great way to get help with the issue you have, or getting a bug fixed, is to produce a small example to illustrate the problem and posting it on GitHub. The key is to provide instructions so someone can run the example and see exactly what you see without having to jump though hoops.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_76">See Also</h4>
+<h4 id="_see_also_78">See Also</h4>
 <div class="paragraph"><p>You&#8217;ll find a list of tickets at <a href="http://ticket.liftweb.net/">http://ticket.liftweb.net/</a>.</p></div>
 <div class="paragraph"><p>If you&#8217;re asked to, or want to, post example code there&#8217;s a guide at <a href="http://www.assembla.com/wiki/show/liftweb/Posting_example_code">http://www.assembla.com/wiki/show/liftweb/Posting_example_code</a>.</p></div>
 <div class="paragraph"><p>If you&#8217;ve found a bug, and you&#8217;re asked to create a ticket, the main thing to do is to include a link to the mailing list discussion of the issue, as described at <a href="http://www.assembla.com/wiki/show/liftweb/Creating_tickets">http://www.assembla.com/wiki/show/liftweb/Creating_tickets</a>.</p></div>
@@ -7182,11 +7496,11 @@ necessarily a bug in Lift.</p></div>
 <div class="sect2">
 <h3 id="LiftCodeContributions">Contributing Small Code Changes and ScalaDoc</h3>
 <div class="sect3">
-<h4 id="_problem_79">Problem</h4>
+<h4 id="_problem_81">Problem</h4>
 <div class="paragraph"><p>You have a small change or ScalaDoc improvement you&#8217;d like incorporated into Lift.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_78">Solution</h4>
+<h4 id="_solution_80">Solution</h4>
 <div class="paragraph"><p>You can issue pull requests against the Lift source providing your change meets one of the following requirements:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -7208,7 +7522,7 @@ It&#8217;s a <em>small</em> change, enhancements, or bug fix to Lift.
 <div class="paragraph"><p>Your pull request must include an edit to add your signature to the bottom of the <span class="monospaced">contributors.md</span> file.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_76">Discussion</h4>
+<h4 id="_discussion_78">Discussion</h4>
 <div class="paragraph"><p>Historically Lift had a strict contributor policy of simply not accepting any code contributions except from committers who had signed an agreement to assign copyright to the Lift project.  This allowed corporations wanting to adopt Lift to do so without litigation concerns.</p></div>
 <div class="paragraph"><p>The safety is still there, now via the requirement for a signature on the contributors file, which reads:</p></div>
 <div class="quoteblock">
@@ -7220,7 +7534,7 @@ It&#8217;s a <em>small</em> change, enhancements, or bug fix to Lift.
 <div class="paragraph"><p>What&#8217;s a small change? That&#8217;s a good question, and if you&#8217;re unsure, talk about your proposed change on the mailing list.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_77">See Also</h4>
+<h4 id="_see_also_79">See Also</h4>
 <div class="paragraph"><p>This contribution policy was introduced in November 2012, and can be read about at <a href="http://www.lift.la/blog/new_contribution_policy">http://www.lift.la/blog/new_contribution_policy</a>.</p></div>
 <div class="paragraph"><p>The <span class="monospaced">contributors.md</span> file is found at: <a href="https://github.com/lift/framework/blob/master/contributors.md">https://github.com/lift/framework/blob/master/contributors.md</a>.</p></div>
 <div class="paragraph"><p>The Lift source is on GitHub at <a href="https://github.com/lift/">https://github.com/lift/</a>.  The <em>framework</em> project is probably the one you want, although you&#8217;ll also find Git repositories for examples and Lift web sites there.</p></div>
@@ -7231,32 +7545,32 @@ It&#8217;s a <em>small</em> change, enhancements, or bug fix to Lift.
 <div class="sect2">
 <h3 id="wiki">Contributing Documentation</h3>
 <div class="sect3">
-<h4 id="_problem_80">Problem</h4>
+<h4 id="_problem_82">Problem</h4>
 <div class="paragraph"><p>You&#8217;d like to contribute documentation to Lift.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_79">Solution</h4>
+<h4 id="_solution_81">Solution</h4>
 <div class="paragraph"><p>Update or add to the Lift wiki at <a href="https://www.assembla.com/wiki/show/liftweb">https://www.assembla.com/wiki/show/liftweb</a>.</p></div>
 <div class="paragraph"><p>You&#8217;ll need to sign in, or create a free account, with Assembla, the company that hosts the wiki. You then need to become a <em>watcher</em> of the Lift wiki, which is offered as a link on the top right of the Lift wiki page.  As a watcher you can edit pages and create new pages.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_77">Discussion</h4>
+<h4 id="_discussion_79">Discussion</h4>
 <div class="paragraph"><p>If you&#8217;re unsure about a change you&#8217;d like to make, just ask for feedback on the Lift mailing list.</p></div>
 <div class="paragraph"><p>One limitation of the watcher role on Assembla is that you cannot move pages. If you create a new page in the wrong section, or want to reorganise pages, you&#8217;ll need to ask on the Lift mailing list for someone with permissions to do that for you.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_78">See Also</h4>
+<h4 id="_see_also_80">See Also</h4>
 <div class="paragraph"><p>The markup format for the Wiki pages is Textile. A reference guide can be found at: <a href="http://redcloth.org/hobix.com/textile/">http://redcloth.org/hobix.com/textile/</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_how_to_add_a_new_recipe_to_this_cookbook">How to Add a New Recipe to this Cookbook</h3>
 <div class="sect3">
-<h4 id="_problem_81">Problem</h4>
-<div class="paragraph"><p>You&#8217;d like to add (or change) a section or chapter to this cookbook.</p></div>
+<h4 id="_problem_83">Problem</h4>
+<div class="paragraph"><p>You&#8217;d like to add a section or chapter to this cookbook.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_80">Solution</h4>
+<h4 id="_solution_82">Solution</h4>
 <div class="paragraph"><p>If you&#8217;re comfortable using Git, you can fork the repository and send a
 pull request.</p></div>
 <div class="paragraph"><p>Alternatively, download a template file, write your recipe, and email
@@ -7264,51 +7578,30 @@ to the Lift mailing list at <a href="https://groups.google.com/group/liftweb">ht
 <div class="paragraph"><p>You can find the template file at: <a href="https://raw.github.com/d6y/lift-cookbook/master/template.asciidoc">https://raw.github.com/d6y/lift-cookbook/master/template.asciidoc</a>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_78">Discussion</h4>
+<h4 id="_discussion_80">Discussion</h4>
 <div class="paragraph"><p>Anything you&#8217;ve puzzled over, or things which have surprised you, impressed you or are non-obvious are great topics for recipes. Improvements, discussions and clarifications of existing recipes are welcome too.</p></div>
 <div class="paragraph"><p>The cookbook is structured using a markup language called Asciidoc. If you&#8217;re familiar with Markdown or Textile, you&#8217;ll find similarities. For the cookbook you only need to know about section headings, source code formatting and links.  Examples of all of these are in the <span class="monospaced">template.asciidoc</span> file.</p></div>
 <div class="paragraph"><p>To find out where to make a change you need to know that each chapter is a separate file, and each recipe is a section in that file.</p></div>
 <div class="sect4">
 <h5 id="_licensing">Licensing</h5>
-<div class="paragraph"><p>This Cookbook is built upon the contributions of many people, under a Creative Commons license. Your contribution will need to be in agreement with that, but there is also a version produced by O&#8217;Reilly (perhaps you&#8217;re holding that version?), and O&#8217;Reilly also need the rights to produce the book. Consequently, each contribution will need to include the following:</p></div>
-<div class="quoteblock">
-<div class="content">
-<div class="paragraph"><p>By submitting this content, I understand and agree that:</p></div>
+<div class="paragraph"><p>We ask contributors the following:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-I am the owner of the content I am submitting.
+You agree to license your work (including the words you write, the code you use and any images) to us under the Creative Commons Attribution, Non Commercial, No Derivatives license.
 </p>
 </li>
 <li>
 <p>
-The the content is original work, except for pre-existing material which is in the public domain.
-</p>
-</li>
-<li>
-<p>
-The text can be used and modified and published in the web version of this text under the Creative Commons Attribution Noncommercial No Derivative Works license.
-</p>
-</li>
-<li>
-<p>
-O&#8217;Reilly will have other exclusive rights to print, copy, publish, market, display, distribute, and provide access to the content.
-</p>
-</li>
-<li>
-<p>
-Any author royalties will be passed to charity.
+You assert that the work is your own, or you have the necessary permission for the work.
 </p>
 </li>
 </ul></div>
-</div>
-<div class="attribution">
-</div></div>
-<div class="paragraph"><p>The best way to supply that will be in your commit message in Git, or via email if you&#8217;ve send a file that way.</p></div>
+<div class="paragraph"><p>To keep things simple, all author royalties from this book are given to charity.</p></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_79">See Also</h4>
+<h4 id="_see_also_81">See Also</h4>
 <div class="paragraph"><p>The source to this book is at: <a href="https://github.com/d6y/lift-cookbook/">https://github.com/d6y/lift-cookbook/</a>.</p></div>
 <div class="paragraph"><p>The AsciiDoc cheetsheet at <a href="http://powerman.name/doc/asciidoc">http://powerman.name/doc/asciidoc</a> is a quick way to get into AsciiDoc, but if you need more, the AsciiDoc home page has the details: <a href="http://www.methods.co.nz/asciidoc/">http://www.methods.co.nz/asciidoc/</a>.</p></div>
 <div class="paragraph"><p>GitHub provide an introduction to pull requests at <a href="https://help.github.com/articles/using-pull-requests">https://help.github.com/articles/using-pull-requests</a>.</p></div>
@@ -7318,11 +7611,11 @@ Any author royalties will be passed to charity.
 <div class="sect2">
 <h3 id="modules">Sharing Code in Modules</h3>
 <div class="sect3">
-<h4 id="_problem_82">Problem</h4>
+<h4 id="_problem_84">Problem</h4>
 <div class="paragraph"><p>You have code you&#8217;d like to share between Lift projects.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_81">Solution</h4>
+<h4 id="_solution_83">Solution</h4>
 <div class="paragraph"><p>Create a Lift module, and then reference the module from your Lift projects.</p></div>
 <div class="paragraph"><p>As an example, let&#8217;s create a module to embed the Snowstorm snow fall effect on every page in your Lift web application (please don&#8217;t do this).</p></div>
 <div class="paragraph"><p>There&#8217;s nothing special about modules: they are code, packaged and used like any other dependency. What makes them possible is the exposure of extension points via <span class="monospaced">LiftRules</span>. The main convention is to have an <span class="monospaced">init</span> method that Lift applications can use to initialize your module.</p></div>
@@ -7412,7 +7705,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>When we run our Lift application, white snow will be falling on every page, supplied by the module.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_79">Discussion</h4>
+<h4 id="_discussion_81">Discussion</h4>
 <div class="paragraph"><p>The module is self contained: there&#8217;s no need for users to copy JavaScript files around or modify their templates.  To achieve that we&#8217;ve made use of <span class="monospaced">ResourceServer</span>.  When we reference the JavaScript file via <span class="monospaced">/classpath/snowstorm.js</span>, Lift will attempt to locate <span class="monospaced">snowstorm.js</span> from the classpath.  This is what we want for our Lift application because <span class="monospaced">snowstorm.js</span> will be inside the module JAR file.</p></div>
 <div class="paragraph"><p>However, we do not want to expose all files on the classpath to anyone visiting our application. To avoid that, Lift looks for resources inside a <span class="monospaced">toserve</span> folder, which for our purposes means files and folders inside <span class="monospaced">src/main/resources/toserve</span>.  You can think of <span class="monospaced">/classpath</span> meaning <span class="monospaced">toserve</span> (although, you can change those values via <span class="monospaced">LiftRules.resourceServerPath</span> and <span class="monospaced">ResourceServer.baseResourceLocation</span>).</p></div>
 <div class="paragraph"><p>As a further precaution you need to explicitly allow access to these resources.  That&#8217;s done with:</p></div>
@@ -7483,7 +7776,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_80">See Also</h4>
+<h4 id="_see_also_82">See Also</h4>
 <div class="paragraph"><p>Originally Lift included a set of modules, but these have been separated out to individual projects at <a href="https://github.com/liftmodules/">https://github.com/liftmodules/</a>.  The Lift contributor policy outlined in <a href="#LiftCodeContributions">[LiftCodeContributions]</a> doesn&#8217;t apply to Lift modules: you&#8217;re free to contribute to these modules as you would any other open source project.</p></div>
 <div class="paragraph"><p>The Lift wiki pages for modules can be reached via <a href="http://liftmodules.net">http://liftmodules.net</a>.</p></div>
 <div class="paragraph"><p>The Snowstorm project ("setting CPUs on fire worldwide every winter since 2003") is at: <a href="https://github.com/scottschiller/snowstorm/">https://github.com/scottschiller/snowstorm/</a> and the module developed for this recipe is at <a href="https://github.com/LiftCookbook/snowstorm-example-module">https://github.com/LiftCookbook/snowstorm-example-module</a>.</p></div>
@@ -7497,7 +7790,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-01-10 14:27:30 GMT
+Last updated 2013-01-14 22:15:58 GMT
 </div>
 </div>
 </body>
