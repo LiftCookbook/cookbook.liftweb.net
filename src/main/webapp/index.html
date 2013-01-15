@@ -5780,14 +5780,14 @@ the object being referenced, a later call to <span class="monospaced">obj</span>
 </div>
 </div>
 <div class="sect2">
-<h3 id="QueryingWithRouge">Using Rouge</h3>
+<h3 id="QueryingWithRogue">Using Rogue</h3>
 <div class="sect3">
 <h4 id="_problem_63">Problem</h4>
-<div class="paragraph"><p>You want to use Foursquare&#8217;s type-safe domain specific language (DSL), Rouge, for querying and updating Mongo records.</p></div>
+<div class="paragraph"><p>You want to use Foursquare&#8217;s type-safe domain specific language (DSL), Rogue, for querying and updating Mongo records.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_62">Solution</h4>
-<div class="paragraph"><p>You need to include the Rouge dependency in your build and import Rouge into your code.</p></div>
+<div class="paragraph"><p>You need to include the Rogue dependency in your build and import Rogue into your code.</p></div>
 <div class="paragraph"><p>For the first step, edit <span class="monospaced">build.sbt</span> and add:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -5795,7 +5795,7 @@ by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="color: #FF0000">"com.foursquare"</span> <span style="color: #990000">%%</span> <span style="color: #FF0000">"rogue"</span> <span style="color: #990000">%</span> <span style="color: #FF0000">"1.1.8"</span> <span style="font-weight: bold"><span style="color: #000000">intransitive</span></span><span style="color: #990000">()</span></tt></pre></div></div>
-<div class="paragraph"><p>In your code <span class="monospaced">import com.foursquare.rogue._</span> and then start using Rouge.  For example, using the Scala console (see <a href="#MongoScalaConsole">[MongoScalaConsole]</a>):</p></div>
+<div class="paragraph"><p>In your code <span class="monospaced">import com.foursquare.rogue._</span> and then start using Rogue.  For example, using the Scala console (see <a href="#MongoScalaConsole">[MongoScalaConsole]</a>):</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
@@ -5820,7 +5820,7 @@ scala<span style="color: #990000">&gt;</span> <span style="font-weight: bold"><s
 </div>
 <div class="sect3">
 <h4 id="_discussion_60">Discussion</h4>
-<div class="paragraph"><p>Rouge is able to use information in your Lift Record to offer an elegant way to query and update records. It&#8217;s type safe meaning, for example, if you try to use an <span class="monospaced">Int</span> where a <span class="monospaced">String</span> is expected in a query, Mongo would allow that and fail to find results at runtime, but Rouge enables Scala to reject the query at compile time:</p></div>
+<div class="paragraph"><p>Rogue is able to use information in your Lift Record to offer an elegant way to query and update records. It&#8217;s type safe meaning, for example, if you try to use an <span class="monospaced">Int</span> where a <span class="monospaced">String</span> is expected in a query, Mongo would allow that and fail to find results at runtime, but Rogue enables Scala to reject the query at compile timeRogue</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
@@ -5869,14 +5869,14 @@ http://www.gnu.org/software/src-highlite -->
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>The query language itself is expressive, and the best place to explore the variety of queries is in the <span class="monospaced">QueryTest</span> specification in the source for Rouge.  You&#8217;ll find a link to this in the README of the project on Github.</p></div>
+<div class="paragraph"><p>The query language itself is expressive, and the best place to explore the variety of queries is in the <span class="monospaced">QueryTest</span> specification in the source for Rogue.  You&#8217;ll find a link to this in the README of the project on Github.</p></div>
 <div class="admonitionblock">
 <table><tr>
 <td class="icon">
 <div class="title">Note</div>
 </td>
-<td class="content">Rouge is working towards a v2 release which introduces a number of new concepts. If you want to give it a try, take a look at the
-instructions and comments on the Rouge
+<td class="content">Rogue is working towards a v2 release which introduces a number of new concepts. If you want to give it a try, take a look at the
+instructions and comments on the Rogue
 mailing list at: <a href="https://groups.google.com/d/topic/rogue-users/SdtFCU-w3ng/">https://groups.google.com/d/topic/rogue-users/SdtFCU-w3ng/</a>.</td>
 </tr></table>
 </div>
@@ -5884,8 +5884,8 @@ mailing list at: <a href="https://groups.google.com/d/topic/rogue-users/SdtFCU-w
 <div class="sect3">
 <h4 id="_see_also_63">See Also</h4>
 <div class="paragraph"><p>For geospacial queries, see <a href="#MongoGeospatial">[MongoGeospatial]</a>.</p></div>
-<div class="paragraph"><p>The README page for Rouge is a great starting point, and includes a link to <span class="monospaced">QueryTest</span> giving plenty of example queries to crib from: <a href="https://github.com/foursquare/rogue">https://github.com/foursquare/rogue</a>.</p></div>
-<div class="paragraph"><p>The motivation for Rouge is described in a Foursquare engineering blog post: <a href="http://engineering.foursquare.com/2011/01/21/rogue-a-type-safe-scala-dsl-for-querying-mongodb/">http://engineering.foursquare.com/2011/01/21/rogue-a-type-safe-scala-dsl-for-querying-mongodb/</a>.</p></div>
+<div class="paragraph"><p>The README page for Rogue is a great starting point, and includes a link to <span class="monospaced">QueryTest</span> giving plenty of example queries to crib from: <a href="https://github.com/foursquare/rogue">https://github.com/foursquare/rogue</a>.</p></div>
+<div class="paragraph"><p>The motivation for Rogue is described in a Foursquare engineering blog post: <a href="http://engineering.foursquare.com/2011/01/21/rogue-a-type-safe-scala-dsl-for-querying-mongodb/">http://engineering.foursquare.com/2011/01/21/rogue-a-type-safe-scala-dsl-for-querying-mongodb/</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
@@ -5896,7 +5896,7 @@ mailing list at: <a href="https://groups.google.com/d/topic/rogue-users/SdtFCU-w
 </div>
 <div class="sect3">
 <h4 id="_solution_63">Solution</h4>
-<div class="paragraph"><p>Use Rouge&#8217;s <span class="monospaced">LatLong</span> class to embed location information in your model. For
+<div class="paragraph"><p>Use Rogue&#8217;s <span class="monospaced">LatLong</span> class to embed location information in your model. For
 example, we can store the location of a city like this:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -5975,7 +5975,7 @@ http://www.gnu.org/software/src-highlite -->
 </div></div>
 <div class="sect4">
 <h5 id="_querying">Querying</h5>
-<div class="paragraph"><p>The reason this recipe uses Rouge&#8217;s <span class="monospaced">LatLong</span> class is to enable us to query using the Rouge DSL.  Suppose we&#8217;ve inserted other cities into our collection:</p></div>
+<div class="paragraph"><p>The reason this recipe uses Rogue&#8217;s <span class="monospaced">LatLong</span> class is to enable us to query using the Rogue DSL.  Suppose we&#8217;ve inserted other cities into our collection:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
 <pre>&gt; db.example.city.find({}, {_id:0} )
@@ -6006,7 +6006,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>The form of the query is a centre point and a spherical radius.  Records falling
 inside that radius match the query and are returned closest first. We calculate
 the radius in radians: 500km divided by the radius of the Earth, approximately 6378km, gives
-us an angle in radians. We convert this to <span class="monospaced">Degrees</span> as required by Rouge.</p></div>
+us an angle in radians. We convert this to <span class="monospaced">Degrees</span> as required by Rogue.</p></div>
 </div>
 </div>
 <div class="sect3">
@@ -6077,7 +6077,7 @@ res2: List[code.model.Country] = List(class code.model.Country={_id=uk,
 </div>
 <div class="sect3">
 <h4 id="_see_also_65">See Also</h4>
-<div class="paragraph"><p><a href="#ConnectingToMongo">[ConnectingToMongo]</a> for connecting to MongoDB and <a href="#QueryingWithRouge">[QueryingWithRouge]</a> for querying with Rouge.</p></div>
+<div class="paragraph"><p><a href="#ConnectingToMongo">[ConnectingToMongo]</a> for connecting to MongoDB and <a href="#QueryingWithRogue">[QueryingWithRogue]</a> for querying with Rogue.</p></div>
 </div>
 </div>
 <div class="sect2">
@@ -7790,7 +7790,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-01-14 22:34:30 GMT
+Last updated 2013-01-15 14:20:52 GMT
 </div>
 </div>
 </body>
