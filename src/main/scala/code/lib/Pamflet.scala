@@ -24,7 +24,7 @@ object PamfletUrl {
     "Including HTML5 Shiv.html" -> "#_including_html5_shiv",
     "Adding a Google +1 button.html" -> "removed.html",
     "Returning snippet markup unchanged.html" -> "#_returning_snippet_markup_unchanged",
-    "Snippet not found when using HTML5.html" -> "#_snippet_not_found_when_using_html5",
+    "Snippet not found when using HTML5.html" -> "#SnippetNotFound",
     "Avoiding CSS and JavaScript caching.html" -> "#_avoiding_css_and_javascript_caching",
     "Adding to the head of a page.html" -> "#_adding_to_the_head_of_a_page",
     "Custom 404 page.html" -> "#_custom_404_page",
