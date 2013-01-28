@@ -9,13 +9,13 @@ object PamfletUrl {
 
   val redirect = Map[PamfletPage, HtmlSectionName](
     "About this text.html" -> "#_about_this_text",
-    "Install and Running.html" -> "#_install_and_running",
-    "Downloading and running Lift.html" -> "#_downloading_and_running_lift",
+    "Install and Running.html" -> "#InstallAndRunning",
+    "Downloading and running Lift.html" -> "#DownloadAndRun",
     "Developing using a text editor.html" -> "#texteditor",
     "Developing using Eclipse.html" -> "#eclipse",
-    "Viewing the lift_proto H2 database.html" -> "#_viewing_the_lift_proto_h2_database",
+    "Viewing the lift_proto H2 database.html" -> "#ViewH2",
     "Using the latest Lift build.html" -> "#snapshot",
-    "Using a new version of Scala.html" -> "#_using_a_new_version_of_scala",
+    "Using a new version of Scala.html" -> "#NewScala",
     "HTML.html" -> "#_html",
     "Testing and debugging CSS selectors.html" -> "#_testing_and_debugging_css_selectors",
     "Sequencing CSS selector operations.html" -> "#_sequencing_css_selector_operations",

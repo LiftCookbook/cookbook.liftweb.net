@@ -939,11 +939,11 @@ Marek Żebrowski
 </div>
 </div>
 <div class="sect1">
-<h2 id="_install_and_running">Install and Running</h2>
+<h2 id="InstallAndRunning">Install and Running</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>This chapter covers questions regarding starting development with Lift: running a first Lift application and setting up a coding environment. You&#8217;ll find answers regarding production deployment in <a href="#deployment">[deployment]</a>.</p></div>
 <div class="sect2">
-<h3 id="_downloading_and_running_lift">Downloading and Running Lift</h3>
+<h3 id="DownloadAndRun">Downloading and Running Lift</h3>
 <div class="sect3">
 <h4 id="_problem">Problem</h4>
 <div class="paragraph"><p>You want to install and run Lift on your computer.</p></div>
@@ -1540,7 +1540,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect2">
-<h3 id="_viewing_the_lift_proto_h2_database">Viewing the lift_proto H2 Database</h3>
+<h3 id="ViewH2">Viewing the lift_proto H2 Database</h3>
 <div class="sect3">
 <h4 id="_problem_7">Problem</h4>
 <div class="paragraph"><p>You&#8217;re developing using the default <span class="monospaced">lift_proto.db</span> H2 database, and
@@ -1636,7 +1636,7 @@ versions by running the command <span class="monospaced">clean</span> and then <
 </div>
 </div>
 <div class="sect2">
-<h3 id="_using_a_new_version_of_scala">Using a New Version of Scala</h3>
+<h3 id="NewScala">Using a New Version of Scala</h3>
 <div class="sect3">
 <h4 id="_problem_9">Problem</h4>
 <div class="paragraph"><p>A new Scala version has just been released and you want to immediately
@@ -3403,6 +3403,7 @@ http://www.gnu.org/software/src-highlite -->
 <h4 id="_see_also_29">See Also</h4>
 <div class="paragraph"><p>Diego Medina has posted a Gist of Lift REST code to integrate more fully with the image upload and image reviewing features of the widget, specifically implementing the JSON response that the widget expects for that functionality.  You&#8217;ll find it at: <a href="https://gist.github.com/a6715d1e3664f73cd03a">https://gist.github.com/a6715d1e3664f73cd03a</a>.</p></div>
 <div class="paragraph"><p><a href="#FileUpload">[FileUpload]</a> describes the basic file upload behaviour of Lift and how to control where files are stored.</p></div>
+<div class="paragraph"><p>Antonio Salazar Cardozo has posted example code for performing Ajax file upload using Lift&#8217;s Ajax mechanisms, which avoids external JavaScript libraries. You can find a description and link to the code at: <a href="https://groups.google.com/d/msg/liftweb/OuN1sqRMO_c/TrUGUaSvoN4J">https://groups.google.com/d/msg/liftweb/OuN1sqRMO_c/TrUGUaSvoN4J</a>.</p></div>
 </div>
 </div>
 </div>
@@ -4956,15 +4957,7 @@ by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-weight: bold"><span style="color: #000080">import</span></span> net<span style="color: #990000">.</span>liftweb<span style="color: #990000">.</span>squerylrecord<span style="color: #990000">.</span>RecordTypeMode<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
-<span style="font-weight: bold"><span style="color: #000000">MyRecord.createRecord.myField</span></span><span style="color: #990000">(</span>aValue<span style="color: #990000">).</span>save</tt></pre></div></div>
-<div class="paragraph"><p>Or, if you prefer the Squery style of inserts:</p></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.7
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000080">import</span></span> net<span style="color: #990000">.</span>liftweb<span style="color: #990000">.</span>squerylrecord<span style="color: #990000">.</span>RecordTypeMode<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
-<span style="font-weight: bold"><span style="color: #000000">myTable.insert</span></span><span style="color: #990000">(</span> <span style="font-weight: bold"><span style="color: #000000">MyRecord.createRecord.myField</span></span><span style="color: #990000">(</span>aValue<span style="color: #990000">)</span> <span style="color: #990000">)</span></tt></pre></div></div>
+<span style="font-weight: bold"><span style="color: #0000FF">val</span></span> r <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">myTable.insert(MyRecord.createRecord.myField</span></span><span style="color: #990000">(</span>aValue<span style="color: #990000">))</span></tt></pre></div></div>
 <div class="paragraph"><p>In this recipe, the <span class="monospaced">PostgreSqlAdapter</span> is being used. SQueryl also supports: <span class="monospaced">OracleAdapter</span>, <span class="monospaced">MySQLInnoDBAdapter</span> and <span class="monospaced">MySQLAdapter</span>, <span class="monospaced">MSSQLServer</span>, <span class="monospaced">H2Adapter</span>, <span class="monospaced">DB2Adapter</span> and <span class="monospaced">DerbyAdapter</span>.</p></div>
 </div>
 <div class="sect3">
@@ -5044,14 +5037,201 @@ For Tomcat, the JNDI configuration guide is: <a href="http://tomcat.apache.org/t
 </div>
 </div>
 <div class="sect2">
-<h3 id="QuerylyOneToMany">One-to-Many Relationship</h3>
+<h3 id="SquerylyOneToMany">One-to-Many Relationship</h3>
 <div class="sect3">
 <h4 id="_problem_53">Problem</h4>
-<div class="paragraph"><p>You want to model a one-to-many relationship, such as a person having one biological mother, and a mother having many children.</p></div>
+<div class="paragraph"><p>You want to model a one-to-many relationship, such as a satellite belonging to a single planet, but a planet possibly having many satellites.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_52">Solution</h4>
+<div class="paragraph"><p>Use Squeryl&#8217;s <span class="monospaced">oneToManyRelation</span> in your schema, and on your Lift model include a reference from the satellite to the planet.</p></div>
+<div class="paragraph"><p>The objective is to model the relationship as shown in <a href="#SquerylPlanetOneToManyFigure">[SquerylPlanetOneToManyFigure]</a>.</p></div>
+<div class="imageblock" id="SquerylPlanetOneToManyFigure">
+<div class="content">
+<img src="images/planets.png" alt="images/planets.png" width="640">
 </div>
+<div class="title">Figure 3. One planet may have many setellites, but a satellite has one planet.</div>
+</div>
+<div class="paragraph"><p>In code:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000080">package</span></span> code<span style="color: #990000">.</span>model
+
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> org<span style="color: #990000">.</span>squeryl<span style="color: #990000">.</span>Schema
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> net<span style="color: #990000">.</span>liftweb<span style="color: #990000">.</span>record<span style="color: #990000">.</span><span style="color: #FF0000">{</span>MetaRecord<span style="color: #990000">,</span> Record<span style="color: #FF0000">}</span>
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> net<span style="color: #990000">.</span>liftweb<span style="color: #990000">.</span>squerylrecord<span style="color: #990000">.</span>KeyedRecord
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> net<span style="color: #990000">.</span>liftweb<span style="color: #990000">.</span>record<span style="color: #990000">.</span>field<span style="color: #990000">.</span><span style="color: #FF0000">{</span>StringField<span style="color: #990000">,</span> LongField<span style="color: #FF0000">}</span>
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> net<span style="color: #990000">.</span>liftweb<span style="color: #990000">.</span>squerylrecord<span style="color: #990000">.</span>RecordTypeMode<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">object</span></span> MySchema <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> Schema <span style="color: #FF0000">{</span>
+
+  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> planets <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> table<span style="color: #990000">[</span>Planet<span style="color: #990000">]</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> satellites <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> table<span style="color: #990000">[</span>Satellite<span style="color: #990000">]</span>
+
+  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> planetToSatellites <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">oneToManyRelation</span></span><span style="color: #990000">(</span>planets<span style="color: #990000">,</span> satellites<span style="color: #990000">).</span>
+    <span style="font-weight: bold"><span style="color: #000000">via(</span></span><span style="color: #990000">(</span>p<span style="color: #990000">,</span>s<span style="color: #990000">)</span> <span style="font-weight: bold"><span style="color: #0000FF">=&gt;</span></span> p<span style="color: #990000">.</span>id <span style="font-weight: bold"><span style="color: #0000FF">===</span></span> s<span style="color: #990000">.</span>planetId<span style="color: #990000">)</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">on</span></span><span style="color: #990000">(</span>satellites<span style="color: #990000">)</span> <span style="color: #FF0000">{</span> s <span style="font-weight: bold"><span style="color: #0000FF">=&gt;</span></span>
+    <span style="font-weight: bold"><span style="color: #000000">declare</span></span><span style="color: #990000">(</span>s<span style="color: #990000">.</span>planetId defineAs <span style="font-weight: bold"><span style="color: #000000">indexed</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"planet_idx"</span><span style="color: #990000">))</span>
+  <span style="color: #FF0000">}</span>
+
+  <span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="color: #008080">Planet</span> <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> Record<span style="color: #990000">[</span>Planet<span style="color: #990000">]</span> <span style="font-weight: bold"><span style="color: #0000FF">with</span></span> KeyedRecord<span style="color: #990000">[</span><span style="color: #009900">Long</span><span style="color: #990000">]</span> <span style="color: #FF0000">{</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">override</span></span> <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> meta <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> Planet
+    <span style="font-weight: bold"><span style="color: #0000FF">override</span></span> <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> idField <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #0000FF">new</span></span> <span style="font-weight: bold"><span style="color: #000000">LongField</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">this</span></span><span style="color: #990000">)</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> name <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #0000FF">new</span></span> <span style="font-weight: bold"><span style="color: #000000">StringField</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">this</span></span><span style="color: #990000">,</span> <span style="color: #993399">256</span><span style="color: #990000">)</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">lazy</span></span> <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> satellites <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">MySchema.planetToSatellites.left</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">this</span></span><span style="color: #990000">)</span>
+  <span style="color: #FF0000">}</span>
+
+  <span style="font-weight: bold"><span style="color: #0000FF">object</span></span> Planet <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> Planet <span style="font-weight: bold"><span style="color: #0000FF">with</span></span> MetaRecord<span style="color: #990000">[</span>Planet<span style="color: #990000">]</span>
+
+  <span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="color: #008080">Satellite</span> <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> Record<span style="color: #990000">[</span>Satellite<span style="color: #990000">]</span> <span style="font-weight: bold"><span style="color: #0000FF">with</span></span> KeyedRecord<span style="color: #990000">[</span><span style="color: #009900">Long</span><span style="color: #990000">]</span> <span style="color: #FF0000">{</span>
+     <span style="font-weight: bold"><span style="color: #0000FF">override</span></span> <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> meta <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> Satellite
+     <span style="font-weight: bold"><span style="color: #0000FF">override</span></span> <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> idField <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #0000FF">new</span></span> <span style="font-weight: bold"><span style="color: #000000">LongField</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">this</span></span><span style="color: #990000">)</span>
+     <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> name <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #0000FF">new</span></span> <span style="font-weight: bold"><span style="color: #000000">StringField</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">this</span></span><span style="color: #990000">,</span> <span style="color: #993399">256</span><span style="color: #990000">)</span>
+     <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> planetId <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #0000FF">new</span></span> <span style="font-weight: bold"><span style="color: #000000">LongField</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">this</span></span><span style="color: #990000">)</span>
+     <span style="font-weight: bold"><span style="color: #0000FF">lazy</span></span> <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> planet <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">MySchema.planetToSatellites.right</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">this</span></span><span style="color: #990000">)</span>
+  <span style="color: #FF0000">}</span>
+
+  <span style="font-weight: bold"><span style="color: #0000FF">object</span></span> Satellite <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> Satellite <span style="font-weight: bold"><span style="color: #0000FF">with</span></span> MetaRecord<span style="color: #990000">[</span>Satellite<span style="color: #990000">]</span>
+
+<span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="paragraph"><p>This schema defines the two tables based on the Record classes, as  <span class="monospaced">table[Planet]</span> and <span class="monospaced">table[Satellite]</span>. It establishes a one-to-many relation based on (<span class="monospaced">via</span>) the <span class="monospaced">planetId</span> in the satellite table.</p></div>
+<div class="paragraph"><p>This gives Squeryl the information it needs to produce a foreign key to constrain the <span class="monospaced">planetId</span> to reference an existing record in the planet table. This can be seen in the schema generated by Squeryl:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">-- table declarations :</span></span>
+<span style="font-weight: bold"><span style="color: #0000FF">create</span></span> <span style="font-weight: bold"><span style="color: #0000FF">table</span></span> Planet <span style="color: #990000">(</span>
+    name <span style="color: #009900">varchar</span><span style="color: #990000">(</span><span style="color: #993399">256</span><span style="color: #990000">)</span> <span style="font-weight: bold"><span style="color: #0000FF">not</span></span> <span style="font-weight: bold"><span style="color: #0000FF">null</span></span><span style="color: #990000">,</span>
+    idField <span style="color: #009900">bigint</span> <span style="font-weight: bold"><span style="color: #0000FF">not</span></span> <span style="font-weight: bold"><span style="color: #0000FF">null</span></span> <span style="font-weight: bold"><span style="color: #0000FF">primary</span></span> <span style="font-weight: bold"><span style="color: #0000FF">key</span></span> <span style="font-weight: bold"><span style="color: #0000FF">auto_increment</span></span>
+  <span style="color: #990000">);</span>
+<span style="font-weight: bold"><span style="color: #0000FF">create</span></span> <span style="font-weight: bold"><span style="color: #0000FF">table</span></span> Satellite <span style="color: #990000">(</span>
+    name <span style="color: #009900">varchar</span><span style="color: #990000">(</span><span style="color: #993399">256</span><span style="color: #990000">)</span> <span style="font-weight: bold"><span style="color: #0000FF">not</span></span> <span style="font-weight: bold"><span style="color: #0000FF">null</span></span><span style="color: #990000">,</span>
+    idField <span style="color: #009900">bigint</span> <span style="font-weight: bold"><span style="color: #0000FF">not</span></span> <span style="font-weight: bold"><span style="color: #0000FF">null</span></span> <span style="font-weight: bold"><span style="color: #0000FF">primary</span></span> <span style="font-weight: bold"><span style="color: #0000FF">key</span></span> <span style="font-weight: bold"><span style="color: #0000FF">auto_increment</span></span><span style="color: #990000">,</span>
+    planetId <span style="color: #009900">bigint</span> <span style="font-weight: bold"><span style="color: #0000FF">not</span></span> <span style="font-weight: bold"><span style="color: #0000FF">null</span></span>
+  <span style="color: #990000">);</span>
+<span style="font-style: italic"><span style="color: #9A1900">-- indexes on Satellite</span></span>
+<span style="font-weight: bold"><span style="color: #0000FF">create</span></span> <span style="font-weight: bold"><span style="color: #0000FF">index</span></span> planet_idx <span style="font-weight: bold"><span style="color: #0000FF">on</span></span> Satellite <span style="color: #990000">(</span>planetId<span style="color: #990000">);</span>
+<span style="font-style: italic"><span style="color: #9A1900">-- foreign key constraints :</span></span>
+<span style="font-weight: bold"><span style="color: #0000FF">alter</span></span> <span style="font-weight: bold"><span style="color: #0000FF">table</span></span> Satellite <span style="font-weight: bold"><span style="color: #0000FF">add</span></span> constraint SatelliteFK1 <span style="font-weight: bold"><span style="color: #0000FF">foreign</span></span> <span style="font-weight: bold"><span style="color: #0000FF">key</span></span> <span style="color: #990000">(</span>planetId<span style="color: #990000">)</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">references</span></span> Planet<span style="color: #990000">(</span>idField<span style="color: #990000">);</span></tt></pre></div></div>
+<div class="paragraph"><p>An index called <span class="monospaced">planet_idx</span> is declared on the <span class="monospaced">planetId</span> field to improve query performance during joins.</p></div>
+<div class="paragraph"><p>Finally we make use of the <span class="monospaced">planetToSatellites.left</span> and <span class="monospaced">right</span> methods to establish lookup queries.  We can demonstrate their use by inserting example data and running the queries:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>inTransaction <span style="color: #FF0000">{</span>
+  code<span style="color: #990000">.</span>model<span style="color: #990000">.</span>MySchema<span style="color: #990000">.</span>create
+
+  <span style="font-weight: bold"><span style="color: #000080">import</span></span> code<span style="color: #990000">.</span>model<span style="color: #990000">.</span>MySchema<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
+
+  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> earth <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">planets.insert(Planet.createRecord.name</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"Earth"</span><span style="color: #990000">))</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> mars <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">planets.insert(Planet.createRecord.name</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"Mars"</span><span style="color: #990000">))</span>
+
+  <span style="font-style: italic"><span style="color: #9A1900">// `.save` as a short-hand for `satellite.insert` when we don't need</span></span>
+  <span style="font-style: italic"><span style="color: #9A1900">// to immediately reference the record (`save` returns `Unit`).</span></span>
+  <span style="font-weight: bold"><span style="color: #000000">Satellite.createRecord.name</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"The Moon"</span><span style="color: #990000">).</span><span style="font-weight: bold"><span style="color: #000000">planetId</span></span><span style="color: #990000">(</span>earth<span style="color: #990000">.</span>idField<span style="color: #990000">.</span>is<span style="color: #990000">).</span>save
+  <span style="font-weight: bold"><span style="color: #000000">Satellite.createRecord.name("Phobos").planetId</span></span><span style="color: #990000">(</span>mars<span style="color: #990000">.</span>idField<span style="color: #990000">.</span>is<span style="color: #990000">).</span>save
+
+  <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> deimos <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">satellites.insert</span></span><span style="color: #990000">(</span>
+    <span style="font-weight: bold"><span style="color: #000000">Satellite.createRecord.name("Deimos").planetId</span></span><span style="color: #990000">(</span>mars<span style="color: #990000">.</span>idField<span style="color: #990000">.</span>is<span style="color: #990000">)</span> <span style="color: #990000">)</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">println</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"Deimos orbits: "</span><span style="color: #990000">+</span>deimos<span style="color: #990000">.</span>planet<span style="color: #990000">.</span>single<span style="color: #990000">.</span>name<span style="color: #990000">.</span>is<span style="color: #990000">)</span>
+  <span style="font-weight: bold"><span style="color: #000000">println</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"Moons of Mars are: "</span><span style="color: #990000">+</span><span style="font-weight: bold"><span style="color: #000000">mars.satellites.map</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span><span style="color: #990000">.</span>name<span style="color: #990000">.</span>is<span style="color: #990000">))</span>
+
+<span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="paragraph"><p>Running this code produce the output:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>Deimos orbits: Mars
+Moons of Mars are: List(Phobos, Deimos)</pre>
+</div></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_discussion_51">Discussion</h3>
+<div class="paragraph"><p>The <span class="monospaced">planetToSatellites.left</span> method is not a simple collection of <span class="monospaced">Satellite</span> objects.  It&#8217;s a Squeryl <span class="monospaced">Query[Satellite]</span>, meaning you can treat it like any other kind of <span class="monospaced">Queryable[Satellite]</span>.  For example we could ask for those satellites of a planet that are alphabetically after "E", which for Mars would match "Phobos":</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000000">mars.satellites.where</span></span><span style="color: #990000">(</span>s <span style="font-weight: bold"><span style="color: #0000FF">=&gt;</span></span> s<span style="color: #990000">.</span>name gt <span style="font-weight: bold"><span style="color: #000000">"E").map</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span><span style="color: #990000">.</span>name<span style="color: #990000">)</span></tt></pre></div></div>
+<div class="paragraph"><p>The <span class="monospaced">left</span> method result is also a <span class="monospaced">OneToMany[Satellite]</span> which adds the following methods:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<span class="monospaced">assign</span>&#8201;&#8212;&#8201;adds a new relationship, but does not update the database.
+</p>
+</li>
+<li>
+<p>
+<span class="monospaced">associate</span>&#8201;&#8212;&#8201;which is like <span class="monospaced">assign</span> but does update the database.
+</p>
+</li>
+<li>
+<p>
+<span class="monospaced">deleteAll</span>&#8201;&#8212;&#8201;to remove the relationships.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>The <span class="monospaced">assign</span> call gives the satellite the relationship to the planet:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">val</span></span> express <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">Satellite.createRecord.name</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"Mars Express"</span><span style="color: #990000">)</span>
+<span style="font-weight: bold"><span style="color: #000000">mars.satellites.assign</span></span><span style="color: #990000">(</span>express<span style="color: #990000">)</span>
+express<span style="color: #990000">.</span>save</tt></pre></div></div>
+<div class="paragraph"><p>The next time we query <span class="monospaced">mars.satellites</span> we will find the Mars Express orbiter.</p></div>
+<div class="paragraph"><p>A call to <span class="monospaced">associate</span> would go one step further for us, making Squeryl insert or update the satellite automatically:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">val</span></span> express <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">Satellite.createRecord.name</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"Mars Express"</span><span style="color: #990000">)</span>
+<span style="font-weight: bold"><span style="color: #000000">mars.satellites.associate</span></span><span style="color: #990000">(</span>express<span style="color: #990000">)</span></tt></pre></div></div>
+<div class="paragraph"><p>The third method, <span class="monospaced">deleteAll</span> does what it sounds like it should do: it would execute the following and return the number of rows removed:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">delete</span></span> <span style="font-weight: bold"><span style="color: #0000FF">from</span></span> Satellite</tt></pre></div></div>
+<div class="paragraph"><p>The right side of the one-to-many also has additional methods added by <span class="monospaced">ManyToOne[Planet]</span> of <span class="monospaced">assign</span> and <span class="monospaced">delete</span>.  Be aware that to delete the "one" side of a many-to-one, anything assigned to record will need to have been deleted already to avoid a database constraint error that would arise from, for example, leaving satellites referencing non-existent planets.</p></div>
+<div class="paragraph"><p>As <span class="monospaced">left</span> and <span class="monospaced">right</span> are queries, it means each time you use them you&#8217;ll be sending a new query to the database.  Squeryl refer to these forms as <em>stateless relations</em>.</p></div>
+<div class="paragraph"><p>The <em>stateful</em> versions of <span class="monospaced">left</span> and <span class="monospaced">right</span> look like this:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="color: #008080">Planet</span> <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> Record<span style="color: #990000">[</span>Planet<span style="color: #990000">]</span> <span style="font-weight: bold"><span style="color: #0000FF">with</span></span> KeyedRecord<span style="color: #990000">[</span><span style="color: #009900">Long</span><span style="color: #990000">]</span> <span style="color: #FF0000">{</span>
+ <span style="color: #990000">...</span>
+ <span style="font-weight: bold"><span style="color: #0000FF">lazy</span></span> <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> satellites <span style="font-weight: bold"><span style="color: #0000FF">:</span></span> StatefulOneToMany<span style="color: #990000">[</span>Satellite<span style="color: #990000">]</span> <span style="font-weight: bold"><span style="color: #0000FF">=</span></span>
+   <span style="font-weight: bold"><span style="color: #000000">MySchema.planetToSatellites.leftStateful</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">this</span></span><span style="color: #990000">)</span>
+<span style="color: #FF0000">}</span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="color: #008080">Satellite</span> <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> Record<span style="color: #990000">[</span>Satellite<span style="color: #990000">]</span> <span style="font-weight: bold"><span style="color: #0000FF">with</span></span> KeyedRecord<span style="color: #990000">[</span><span style="color: #009900">Long</span><span style="color: #990000">]</span> <span style="color: #FF0000">{</span>
+  <span style="color: #990000">...</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">lazy</span></span> <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> planet <span style="font-weight: bold"><span style="color: #0000FF">:</span></span> StatefulManyToOne<span style="color: #990000">[</span>Planet<span style="color: #990000">]</span> <span style="font-weight: bold"><span style="color: #0000FF">=</span></span>
+    <span style="font-weight: bold"><span style="color: #000000">MySchema.planetToSatellites.rightStateful</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">this</span></span><span style="color: #990000">)</span>
+<span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="paragraph"><p>This change means the results of <span class="monospaced">mars.satellites</span> will be cached. Subsequent calls on that instance of a <span class="monospaced">Planet</span> won&#8217;t trigger a round trip to the database. You can still <span class="monospaced">associate</span> new records or <span class="monospaced">deleteAll</span> records which will work as you expect, but if a relationship is added or changed elsewhere you&#8217;ll need to call <span class="monospaced">refresh</span> on the relation to see the change.</p></div>
+<div class="paragraph"><p>Which version should you use? That will depend on your application, but you can use both in the same record if you need to.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_see_also_53">See Also</h3>
+<div class="paragraph"><p>Squeryl relations are documented at <a href="http://squeryl.org/relations.html">http://squeryl.org/relations.html</a>.</p></div>
 </div>
 <div class="sect2">
 <h3 id="FieldValidation">Adding Validation to a Field</h3>
@@ -5094,7 +5274,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-weight: bold"><span style="color: #0000FF">&lt;p</span></span> <span style="color: #009900">class</span><span style="color: #990000">=</span><span style="color: #FF0000">"lift:Msg?id=title_id&amp;errorClass=error"</span><span style="font-weight: bold"><span style="color: #0000FF">&gt;</span></span>Msg to appear here<span style="font-weight: bold"><span style="color: #0000FF">&lt;/p&gt;</span></span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_51">Discussion</h4>
+<h4 id="_discussion_52">Discussion</h4>
 <div class="paragraph"><p>The built-in validations are:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -5129,7 +5309,7 @@ http://www.gnu.org/software/src-highlite -->
 <span style="color: #FF0000">}</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_53">See Also</h4>
+<h4 id="_see_also_54">See Also</h4>
 <div class="paragraph"><p>The <span class="monospaced">BaseField.scala</span> class in the Lift source code contains the definition of the built-in <span class="monospaced">StringValidators</span>. Find the source at: <a href="https://github.com/lift/framework/blob/master/core/util/src/main/scala/net/liftweb/util/BaseField.scala">https://github.com/lift/framework/blob/master/core/util/src/main/scala/net/liftweb/util/BaseField.scala</a>.</p></div>
 </div>
 </div>
@@ -5173,7 +5353,7 @@ http://www.gnu.org/software/src-highlite -->
 <span style="color: #FF0000">}</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_52">Discussion</h4>
+<h4 id="_discussion_53">Discussion</h4>
 <div class="paragraph"><p>By convention validation functions have two argument lists: the first
 for the error message; the second to receive the value to validate. This
 allows you to easily re-use your validation function on other fields.</p></div>
@@ -5194,7 +5374,7 @@ http://www.gnu.org/software/src-highlite -->
   <span style="font-weight: bold"><span style="color: #000000">select</span></span> <span style="color: #990000">(</span>l<span style="color: #990000">)).</span>headOption</tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_54">See Also</h4>
+<h4 id="_see_also_55">See Also</h4>
 <div class="paragraph"><p><a href="#FieldValidation">[FieldValidation]</a> discusses field validation and the built-in validations.</p></div>
 </div>
 </div>
@@ -5219,7 +5399,7 @@ http://www.gnu.org/software/src-highlite -->
 <span style="color: #FF0000">}</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_53">Discussion</h4>
+<h4 id="_discussion_54">Discussion</h4>
 <div class="paragraph"><p>The built-in filters are:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -5250,7 +5430,7 @@ http://www.gnu.org/software/src-highlite -->
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_55">See Also</h4>
+<h4 id="_see_also_56">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5279,14 +5459,14 @@ http://www.gnu.org/software/src-highlite -->
 the random field.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_54">Discussion</h4>
+<h4 id="_discussion_55">Discussion</h4>
 <div class="paragraph"><p>The field is a kind of <span class="monospaced">StringField</span> and the default value for the field
 comes from <span class="monospaced">StringHelpers.randomString</span>.</p></div>
 <div class="paragraph"><p>Note the <span class="monospaced">{}</span> in the example: this is required as <span class="monospaced">UniqueIdField</span> is an
 abstract class.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_56">See Also</h4>
+<h4 id="_see_also_57">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5358,7 +5538,7 @@ http://www.gnu.org/software/src-highlite -->
   <span style="color: #990000">...</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_55">Discussion</h4>
+<h4 id="_discussion_56">Discussion</h4>
 <div class="paragraph"><p><em>This recipe requires Lift 2.5 or later.</em></p></div>
 <div class="paragraph"><p>Although there is a built in <span class="monospaced">net.lifetweb.record.LifecycleCallbacks</span>
 trait in which allows you trigger behaviour onUpdate, afterDelete and so
@@ -5399,7 +5579,7 @@ callbacks also support other triggered behaviours:</p></div>
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_57">See Also</h4>
+<h4 id="_see_also_58">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5438,12 +5618,12 @@ execute that function with the SQL it runs. In this example, we are
 simply printing the SQL to the console.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_56">Discussion</h4>
+<h4 id="_discussion_57">Discussion</h4>
 <div class="paragraph"><p>This recipe is not specific to Lift, and will work wherever you use
 Squeryl.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_58">See Also</h4>
+<h4 id="_see_also_59">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5479,7 +5659,7 @@ http://www.gnu.org/software/src-highlite -->
 <span style="color: #990000">))</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_57">Discussion</h4>
+<h4 id="_discussion_58">Discussion</h4>
 <div class="paragraph"><p>You can continue to use <span class="monospaced">StringField</span>, but regardless of the size you
 pass, the schema will be:</p></div>
 <div class="listingblock">
@@ -5494,7 +5674,7 @@ http://www.gnu.org/software/src-highlite -->
 Squeryl.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_59">See Also</h4>
+<h4 id="_see_also_60">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5539,7 +5719,7 @@ Your MySQL database has been created using a UTF-8 character set.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_60">See Also</h4>
+<h4 id="_see_also_61">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5596,7 +5776,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-weight: bold"><span style="color: #0000FF">ALTER</span></span> SEQUENCE mytable_id_seq RESTART <span style="font-weight: bold"><span style="color: #0000FF">WITH</span></span> <span style="color: #993399">1000</span><span style="color: #990000">;</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_58">Discussion</h4>
+<h4 id="_discussion_59">Discussion</h4>
 <div class="paragraph"><p>Lift defers to the database sequence facility to generate primary key
 values. If you insert data by-passing the sequence, the sequence value
 will not know about the specific primary key values you have used (this
@@ -5606,7 +5786,7 @@ your database.</p></div>
 <div class="paragraph"><p>The same instructions apply for using Record as well as Mapper.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_61">See Also</h4>
+<h4 id="_see_also_62">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5657,7 +5837,7 @@ http://www.gnu.org/software/src-highlite -->
 <span style="color: #FF0000">}</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_59">Discussion</h4>
+<h4 id="_discussion_60">Discussion</h4>
 <div class="paragraph"><p>The arguments and return value for <span class="monospaced">schemify</span> are:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -5690,7 +5870,7 @@ The result is a <span class="monospaced">List[String]</span> which are the state
 best fit your needs.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_62">See Also</h4>
+<h4 id="_see_also_63">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5745,7 +5925,7 @@ http://www.gnu.org/software/src-highlite -->
 "mydb".</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_60">Discussion</h4>
+<h4 id="_discussion_61">Discussion</h4>
 <div class="paragraph"><p>If your database needs authentication, use <span class="monospaced">MongoDB.defineDbAuth</span>:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -5807,7 +5987,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>The <span class="monospaced">lift-mongodb-record</span> dependency itself depends on another Lift module, <span class="monospaced">lift-mongodb</span>, which provides connectivity and other other lower-level access to MongoDB. Both bottom out with the MongoDB Java driver.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_63">See Also</h4>
+<h4 id="_see_also_64">See Also</h4>
 <div class="paragraph"><p>Connection configuration that includes replica sets and Mongo options, such as timeout settings, are described on the Lift wiki at:  <a href="https://www.assembla.com/wiki/show/liftweb/Mongo_Configuration">https://www.assembla.com/wiki/show/liftweb/Mongo_Configuration</a>.</p></div>
 <div class="paragraph"><p>The full specification for Mongo connection URLs is: <a href="http://docs.mongodb.org/manual/reference/connection-string/">http://docs.mongodb.org/manual/reference/connection-string/</a>.</p></div>
 </div>
@@ -5902,7 +6082,7 @@ system.indexes
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_61">Discussion</h4>
+<h4 id="_discussion_62">Discussion</h4>
 <div class="paragraph"><p>If you do not set a value for the map, the default will be an empty map, represented in Mongo
 as:</p></div>
 <div class="listingblock">
@@ -5964,7 +6144,7 @@ runtime.</p></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_64">See Also</h4>
+<h4 id="_see_also_65">See Also</h4>
 <div class="paragraph"><p>A discussion on the mailing list regarding the limited type support in <span class="monospaced">MongoMapField</span> and a possible way around it by overriding <span class="monospaced">asDBObject</span> can be found at: <a href="https://groups.google.com/d/msg/liftweb/XoseG-8mIPc/OLyIu6FrHIgJ">https://groups.google.com/d/msg/liftweb/XoseG-8mIPc/OLyIu6FrHIgJ</a>.</p></div>
 </div>
 </div>
@@ -6034,7 +6214,7 @@ http://www.gnu.org/software/src-highlite -->
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_62">Discussion</h4>
+<h4 id="_discussion_63">Discussion</h4>
 <div class="paragraph"><p>If you don&#8217;t set a value on the embedded document, the default will be
 saved as:</p></div>
 <div class="listingblock">
@@ -6076,7 +6256,7 @@ http://www.gnu.org/software/src-highlite -->
 <span style="color: #FF0000">}</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_65">See Also</h4>
+<h4 id="_see_also_66">See Also</h4>
 <div class="paragraph"><p>The Lift Wiki describes BsonRecord in more detail at: <a href="https://www.assembla.com/spaces/liftweb/wiki/Mongo_Record_Embedded_Objects">https://www.assembla.com/spaces/liftweb/wiki/Mongo_Record_Embedded_Objects</a>.</p></div>
 </div>
 </div>
@@ -6140,7 +6320,7 @@ then referenced in the <span class="monospaced">planet</span> field with the id 
 <span class="monospaced">Box[Planet]</span> in this example.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_63">Discussion</h4>
+<h4 id="_discussion_64">Discussion</h4>
 <div class="paragraph"><p>Referenced records are fetched from Mongo when you call the <span class="monospaced">obj</span> method
 on a <span class="monospaced">MongoRefField</span>. You can see this by turning on logging in the
 Mongo driver. Do this by adding the following to the start of your
@@ -6263,7 +6443,7 @@ the object being referenced, a later call to <span class="monospaced">obj</span>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_66">See Also</h4>
+<h4 id="_see_also_67">See Also</h4>
 <div class="paragraph"><p>10Gen Inc&#8217;s <em>Data Modeling Decisions</em> describes embedding of documents compared to referencing objects. You&#8217;ll find the article at: <a href="http://docs.mongodb.org/manual/core/data-modeling/">http://docs.mongodb.org/manual/core/data-modeling/</a>.</p></div>
 </div>
 </div>
@@ -6307,7 +6487,7 @@ scala<span style="color: #990000">&gt;</span> <span style="font-weight: bold"><s
 </tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_64">Discussion</h4>
+<h4 id="_discussion_65">Discussion</h4>
 <div class="paragraph"><p>Rogue is able to use information in your Lift Record to offer an elegant way to query and update records. It&#8217;s type safe meaning, for example, if you try to use an <span class="monospaced">Int</span> where a <span class="monospaced">String</span> is expected in a query, Mongo would allow that and fail to find results at runtime, but Rogue enables Scala to reject the query at compile timeRogue</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -6370,7 +6550,7 @@ mailing list at: <a href="https://groups.google.com/d/topic/rogue-users/SdtFCU-w
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_67">See Also</h4>
+<h4 id="_see_also_68">See Also</h4>
 <div class="paragraph"><p>For geospacial queries, see <a href="#MongoGeospatial">[MongoGeospatial]</a>.</p></div>
 <div class="paragraph"><p>The README page for Rogue is a great starting point, and includes a link to <span class="monospaced">QueryTest</span> giving plenty of example queries to crib from: <a href="https://github.com/foursquare/rogue">https://github.com/foursquare/rogue</a>.</p></div>
 <div class="paragraph"><p>The motivation for Rogue is described in a Foursquare engineering blog post: <a href="http://engineering.foursquare.com/2011/01/21/rogue-a-type-safe-scala-dsl-for-querying-mongodb/">http://engineering.foursquare.com/2011/01/21/rogue-a-type-safe-scala-dsl-for-querying-mongodb/</a>.</p></div>
@@ -6432,7 +6612,7 @@ http://www.gnu.org/software/src-highlite -->
 <span style="color: #FF0000">}</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_65">Discussion</h4>
+<h4 id="_discussion_66">Discussion</h4>
 <div class="paragraph"><p>MongoDB supports <em>geospatial indexes</em>, and we&#8217;re making use of this by doing two things.  First,
 we are storing the location information in one of MongoDB&#8217;s permitted formats.  The format is
 an embedding document containing the coordinates. We could also have use a array of two values
@@ -6498,7 +6678,7 @@ us an angle in radians. We convert this to <span class="monospaced">Degrees</spa
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_68">See Also</h4>
+<h4 id="_see_also_69">See Also</h4>
 <div class="paragraph"><p>The MongoDB manual discusses geospatial index at: <a href="http://docs.mongodb.org/manual/core/geospatial-indexes/">http://docs.mongodb.org/manual/core/geospatial-indexes/</a>.</p></div>
 <div class="paragraph"><p>You can learn more about write concerns at <a href="http://docs.mongodb.org/manual/core/write-operations/">http://docs.mongodb.org/manual/core/write-operations/</a>, and
 the various values to pass to <span class="monospaced">save</span> are described in the Java MongoDB driver: <a href="http://api.mongodb.org/java/current/">http://api.mongodb.org/java/current/</a>.</p></div>
@@ -6544,7 +6724,7 @@ scala&gt; :q</pre>
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_66">Discussion</h4>
+<h4 id="_discussion_67">Discussion</h4>
 <div class="paragraph"><p>Running everything in <span class="monospaced">Boot</span> may be a little heavy handed, especially if you starting up various services and background tasks.  All we need to do is define a database connection. For example, using the example code presented in <a href="#ConnectingToMongo">[ConnectingToMongo]</a>, we could initialise a conection with:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
@@ -6564,7 +6744,7 @@ res2: List[code.model.Country] = List(class code.model.Country={_id=uk,
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_69">See Also</h4>
+<h4 id="_see_also_70">See Also</h4>
 <div class="paragraph"><p><a href="#ConnectingToMongo">[ConnectingToMongo]</a> for connecting to MongoDB and <a href="#QueryingWithRogue">[QueryingWithRogue]</a> for querying with Rogue.</p></div>
 </div>
 </div>
@@ -6667,7 +6847,7 @@ http://www.gnu.org/software/src-highlite -->
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_67">Discussion</h4>
+<h4 id="_discussion_68">Discussion</h4>
 <div class="paragraph"><p>Lift normally provides all the scaffolding you need to connect and run against MongoDB. Without a running Lift application, we need to ensure Mongo is configured when our tests run outside of Lift, and that&#8217;s what the <span class="monospaced">MongoTestKit</span> trait is providing for us.</p></div>
 <div class="paragraph"><p>The one unusual part of the test set up is including a <span class="monospaced">TestLiftSession</span>. This provides an empty session around your test, which is useful if you are accessing or testing state-related code (e.g., access to <span class="monospaced">S</span>).  It&#8217;s not strictly necessary for running tests against Record, but it has been included here because you may want to do that at some point, for example if you are testing user login via Mongo Records.</p></div>
 <div class="paragraph"><p>There are a few nice tricks in SBT to help you run tests. Running <span class="monospaced">test</span> will run all the tests in your project. If you want to focus on just one test, you can:</p></div>
@@ -6728,7 +6908,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_70">See Also</h4>
+<h4 id="_see_also_71">See Also</h4>
 <div class="paragraph"><p>Specs2 is documented at: <a href="http://specs2.org/">http://specs2.org/</a>.</p></div>
 <div class="paragraph"><p>If you prefer to use the Scala Test framework (<a href="http://www.scalatest.org">http://www.scalatest.org</a>), take a look at Tim Nelson&#8217;s <em>Mongo Auth</em> Lift module at <a href="https://github.com/eltimn/lift-mongoauth">https://github.com/eltimn/lift-mongoauth</a>. It includes tests using that framework that run against Mongo.  Much of what Tim has written there has been used to produce this recipe for Specs2.</p></div>
 <div class="paragraph"><p>The Lift Mongo Record library includes a variation on testing with Specs2, using just <span class="monospaced">Before</span> and <span class="monospaced">After</span> rather than the <span class="monospaced">around</span> example used in this recipe. If you prefer that approach, you&#8217;ll find the code in: <a href="https://github.com/lift/framework/tree/master/persistence/mongodb-record/src/test/scala/net/liftweb/mongodb/record">https://github.com/lift/framework/tree/master/persistence/mongodb-record/src/test/scala/net/liftweb/mongodb/record</a>.</p></div>
@@ -6767,7 +6947,7 @@ http://www.gnu.org/software/src-highlite -->
   <span style="font-weight: bold"><span style="color: #000000">PlainMailBodyType</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"Hello from Lift"</span><span style="color: #990000">)</span> <span style="color: #990000">)</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_68">Discussion</h4>
+<h4 id="_discussion_69">Discussion</h4>
 <div class="paragraph"><p><span class="monospaced">Mailer</span> sends the message asynchronously, meaning <span class="monospaced">sendMail</span> will
 return immediately, so you don&#8217;t have to worry about the time costs of
 negotiating with an SMTP server. There&#8217;s also a <span class="monospaced">blockingSendMail</span>
@@ -6787,7 +6967,7 @@ the use of <span class="monospaced">PlainMailBodyType</span> with
 <span class="monospaced">PlainPlusBodyType("Hello from Lift", "ISO8859_1")</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_71">See Also</h4>
+<h4 id="_see_also_72">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6830,7 +7010,7 @@ http://www.gnu.org/software/src-highlite -->
   html<span style="color: #990000">)</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_69">Discussion</h4>
+<h4 id="_discussion_70">Discussion</h4>
 <div class="paragraph"><p>An implicit converts the <span class="monospaced">NodeSeq</span> into a <span class="monospaced">XHTMLMailBodyType</span>. This
 ensures the mime type of the email is "text/html". Despite the name of
 XHTML, the message is to converted into a string for transmission using
@@ -6880,7 +7060,7 @@ mail<span style="color: #990000">.</span>password<span style="font-weight: bold"
 mail<span style="color: #990000">.</span>smtp<span style="color: #990000">.</span>host<span style="font-weight: bold"><span style="color: #0000FF">=</span></span>smtp<span style="color: #990000">.</span>sendgrid<span style="color: #990000">.</span>net</tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_70">Discussion</h4>
+<h4 id="_discussion_71">Discussion</h4>
 <div class="paragraph"><p>We&#8217;ve used Lift properties as a way to configure SMTP authentication.
 This has the benefit of allowing us to enable authentication for just
 some run modes. For example, if our <span class="monospaced">default.props</span> did not contain
@@ -6892,7 +7072,7 @@ also supports JNDI). However, some mail services do require
 <span class="monospaced">mail.smtp.auth=true</span> to be set.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_72">See Also</h4>
+<h4 id="_see_also_73">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6938,14 +7118,14 @@ http://www.gnu.org/software/src-highlite -->
   msg<span style="color: #990000">)</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_71">Discussion</h4>
+<h4 id="_discussion_72">Discussion</h4>
 <div class="paragraph"><p><span class="monospaced">XHTMLPlusImages</span> can also accept more than one <span class="monospaced">PlusImageHolder</span> if you
 have more than one file to attach.</p></div>
 <div class="paragraph"><p>Messages are sent using the "related" multi-part mime heading with
 "inline" disposition.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_73">See Also</h4>
+<h4 id="_see_also_74">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6994,7 +7174,7 @@ of the first body part of the message. The key part is setting a
 <span class="monospaced">MimeMessage =&gt; Unit</span> function on <span class="monospaced">Mailer.devModeSend</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_72">Discussion</h4>
+<h4 id="_discussion_73">Discussion</h4>
 <div class="paragraph"><p>When developing an application it is inconvenient to have to worry about
 setting up an SMTP server or inadvertently sending test messages to
 users. The above is a useful way to know what would have been sent.</p></div>
@@ -7023,7 +7203,7 @@ http://www.gnu.org/software/src-highlite -->
 seconds.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_73">Discussion</h4>
+<h4 id="_discussion_74">Discussion</h4>
 <div class="paragraph"><p><span class="monospaced">Schedule</span> also includes a <span class="monospaced">schedule</span> method which will send a specified
 actor a specified message after a given delay.</p></div>
 <div class="paragraph"><p>The above example makes use of the Lift <span class="monospaced">TimeHelpers</span>, but there are
@@ -7032,7 +7212,7 @@ variant calls that accept <span class="monospaced">Long</span> millisecond value
 library, which allows you to <span class="monospaced">cancel</span> the activity.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_74">See Also</h4>
+<h4 id="_see_also_75">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -7108,7 +7288,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-weight: bold"><span style="color: #000000">LiftRules.unloadHooks.append(</span></span> <span style="color: #990000">()</span> <span style="font-weight: bold"><span style="color: #0000FF">=&gt;</span></span> MyScheduledTask <span style="color: #990000">!</span> MyScheduledTask<span style="color: #990000">.</span>Stop <span style="color: #990000">)</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_74">Discussion</h4>
+<h4 id="_discussion_75">Discussion</h4>
 <div class="paragraph"><p>Without the <span class="monospaced">Stop</span> message your actor would continue to be rescheduled
 until the JVM exits. This may be acceptable, but note that during
 development with SBT, without the <span class="monospaced">Stop</span> message, you will continue to
@@ -7117,7 +7297,7 @@ schedule tasks after issuing the <span class="monospaced">container:stop</span> 
 library, which allows you to <span class="monospaced">cancel</span> the activity.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_75">See Also</h4>
+<h4 id="_see_also_76">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -7189,7 +7369,7 @@ http://www.gnu.org/software/src-highlite -->
 <span style="color: #FF0000">  standards."</span> name<span style="font-weight: bold"><span style="color: #0000FF">=</span></span><span style="color: #FF0000">"description"</span><span style="color: #990000">&gt;&lt;/</span>meta<span style="color: #990000">&gt;)</span></tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_75">Discussion</h4>
+<h4 id="_discussion_76">Discussion</h4>
 <div class="paragraph"><p>As URL fetching has latency, you will want to look at making the request
 from an actor, a lazy-load snippet, via the various Dispatch executors
 or similar mechanism.</p></div>
@@ -7201,7 +7381,7 @@ what&#8217;s available.</p></div>
 includes functions for manipulating the real-world HTML you fetch.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_76">See Also</h4>
+<h4 id="_see_also_77">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -7285,11 +7465,11 @@ http://www.gnu.org/software/src-highlite -->
 <span style="color: #990000">...</span>
 <span style="color: #990000">[</span>info<span style="color: #990000">]</span> Packaging /Users/richard/myapp/target/scala-<span style="color: #993399">2.9</span><span style="color: #990000">.</span><span style="color: #993399">1</span>/myapp<span style="color: #990000">.</span>war<span style="color: #990000">...</span>
 <span style="color: #990000">...</span>
-$ bees -a app<span style="color: #990000">:</span>deploy <span style="color: #990000">.</span>/target/scala-<span style="color: #993399">2.9</span><span style="color: #990000">.</span><span style="color: #993399">1</span>/myapp<span style="color: #990000">.</span>war</tt></pre></div></div>
+$ bees app<span style="color: #990000">:</span>deploy -a myaccount/myapp <span style="color: #990000">.</span>/target/scala-<span style="color: #993399">2.9</span><span style="color: #990000">.</span><span style="color: #993399">1</span>/myapp<span style="color: #990000">.</span>war</tt></pre></div></div>
 <div class="paragraph"><p>This will send your WAR file to CloudBees and deploy it.  You&#8217;ll see the location (URL) of your application output from the bees <span class="monospaced">app:deploy</span> command when it completes.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_76">Discussion</h4>
+<h4 id="_discussion_77">Discussion</h4>
 <div class="paragraph"><p>If you are deploying an application to multiple CloudBees
 instances, be aware that by default CloudBees will round robin requests
 to each instance. If you use any of Lift&#8217;s state features you&#8217;ll want to
@@ -7429,7 +7609,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_77">See Also</h4>
+<h4 id="_see_also_78">See Also</h4>
 <div class="paragraph"><p>The CloudBees SDK provides command line tools for configuring and controlling applications. It can be found at <a href="https://wiki.cloudbees.com/bin/view/RUN/BeesSDK">https://wiki.cloudbees.com/bin/view/RUN/BeesSDK</a>.</p></div>
 <div class="paragraph"><p>The CloudBees developer portal (<a href="https://developer.cloudbees.com">https://developer.cloudbees.com</a>)contains a "Resources" section which provides details of the CloudBees services.</p></div>
 <div class="paragraph"><p>A plugin is available to automate deployments from SBT. The plugin and the excellent
@@ -7460,11 +7640,11 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <img src="images/beanstalkconsole.png" alt="images/beanstalkconsole.png" width="640">
 </div>
-<div class="title">Figure 3. AWS Console, with Elastic Beanstalk service selected.</div>
+<div class="title">Figure 4. AWS Console, with Elastic Beanstalk service selected.</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_77">Discussion</h4>
+<h4 id="_discussion_78">Discussion</h4>
 <div class="paragraph"><p>Elastic Beanstalk provides a pre-built stack of software and infrastructure, in this case: Linux, Tomcat 7, a 64 bit "t1.micro" EC2 instance, load balancing, and an S3 bucket. That&#8217;s the <em>environment</em> and it has reasonable default settings.  Beanstalk also provides an easy way to deploy your Lift application.  As we&#8217;ve seen in this recipe, you upload an application (WAR file) to Beanstalk and deploy it to the environment.</p></div>
 <div class="paragraph"><p>As with many cloud providers keep in mind that you want to avoid local file storage. The reason for this is to allow instances to be terminated or restarted without data loss. With your Beanstalk application you do have a file system and you can write to it, but it is lost if the image is restarted. You can get persistent local file storage, for example using Amazon Elastic Block Storage, but you&#8217;re fighting against the nature of the platform.</p></div>
 <div class="paragraph"><p>Log files are written to the local file system. To access them, from the AWS console, navigate to your environment, into the "Logs" tab and hit the "Snapshot" button. This will take a copy of the logs and store them in an S3 bucket, and give you a link to the file contents.  This is a single file showing the content of variety of log files, and <span class="monospaced">catalina.out</span> will be the one showing any output from your Lift application.  If you want to try to keep these log files around, you can configure the environment to rotate the logs to S3 every hour from the "Container" tab under "Edit Configuration".</p></div>
@@ -7518,7 +7698,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_78">See Also</h4>
+<h4 id="_see_also_79">See Also</h4>
 <div class="paragraph"><p>Amazon provide a walk-through with screen shots, showing how to create a Beanstalk application.  It&#8217;s at: <a href="http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/GettingStarted.Walkthrough.html">http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/GettingStarted.Walkthrough.html</a>.</p></div>
 <div class="paragraph"><p><em>Elastic Beanstalk</em>, by van Villet <em>et al</em> (2011, O&#8217;Reilly Media, Inc) goes into the details of the Beanstalk infrastructure, how to work with Eclipse, enabling continuous integration, and how to hack the instance, for example to use NGINX as a front-end to Beanstalk.</p></div>
 <div class="paragraph"><p>The Amazon documentation for "Configuring Databases with AWS Elastic Beanstalk" describes the RDS settings in more detail: <a href="http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/using-features.managing.db.html">http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/using-features.managing.db.html</a>.</p></div>
@@ -7588,7 +7768,7 @@ Created release v6</tt></pre></div></div>
 <div class="paragraph"><p>Your Lift application is now running on Heroku.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_78">Discussion</h4>
+<h4 id="_discussion_79">Discussion</h4>
 <div class="paragraph"><p>There are a few important comments regarding Lift applications on Heroku. First, note that there&#8217;s no support for session affinity. This means if you deploy to multiple <em>dynos</em> (Heroku terminology for instances), there is no co-ordination over which requests go to which servers. As a consequence, you won&#8217;t be able to make use of Lift&#8217;s stateful features and will want to turn them off (<a href="#RunningStateless">[RunningStateless]</a> describes for how to do that).</p></div>
 <div class="paragraph"><p>Second, if you are using Lift comet features, there&#8217;s an adjustment to make in <span class="monospaced">Boot.scala</span> to work a little better in the Heroku environment:</p></div>
 <div class="listingblock">
@@ -7753,7 +7933,7 @@ $</tt></pre></div></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_79">See Also</h4>
+<h4 id="_see_also_80">See Also</h4>
 <div class="paragraph"><p>Both the Scala and Java articles at Heroku are useful to learn more of the details described in this recipe: <a href="https://devcenter.heroku.com/categories/scala">https://devcenter.heroku.com/categories/scala</a> and <a href="https://devcenter.heroku.com/categories/java">https://devcenter.heroku.com/categories/java</a>.</p></div>
 <div class="paragraph"><p><em>Dynos and the Dyno Manifold</em> are described at: <a href="https://devcenter.heroku.com/articles/dynos">https://devcenter.heroku.com/articles/dynos</a>.</p></div>
 <div class="paragraph"><p>The JVM shutdown hooks are described in the JDK documentation: <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html">http://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html</a>.</p></div>
@@ -7776,7 +7956,7 @@ $</tt></pre></div></div>
 <div class="content">
 <img src="images/topic.png" alt="images/topic.png" width="640">
 </div>
-<div class="title">Figure 4. Comet events originating on one server are distributed via a topic.</div>
+<div class="title">Figure 5. Comet events originating on one server are distributed via a topic.</div>
 </div>
 <div class="paragraph"><p>The first step is to download and install RabbitMQ from <a href="http://rabbitmq.com/">http://rabbitmq.com/</a>. Then start the server:</p></div>
 <div class="listingblock">
@@ -7862,7 +8042,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>This change means all our comet chat messages go out to RabbitMQ where they are distributed to all the instances of our Lift application, and all the instances receive the messages back as <span class="monospaced">AMQPMessage</span> instances and update chat clients as normal.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_79">Discussion</h4>
+<h4 id="_discussion_80">Discussion</h4>
 <div class="paragraph"><p>To run more than one instance of your Lift application locally, you&#8217;ll want to start SBT as normal, and then in another terminal start again but on a different port number:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
@@ -7906,7 +8086,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>Note that <span class="monospaced">Props.productionMode</span> is <span class="monospaced">true</span> for the run modes of <span class="monospaced">Production</span>, <span class="monospaced">Staging</span> and <span class="monospaced">Pilot</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_80">See Also</h4>
+<h4 id="_see_also_81">See Also</h4>
 <div class="paragraph"><p>The Lift Chat example is described in <em>Simply Lift</em> at <a href="http://simply.liftweb.net/">http://simply.liftweb.net/</a>. The source code used in this recipe can be found at: <a href="https://github.com/LiftCookbook/rabbitmq_chat">https://github.com/LiftCookbook/rabbitmq_chat</a>.</p></div>
 <div class="paragraph"><p>The Lift AMQP module is: <a href="https://github.com/liftmodules/amqp">https://github.com/liftmodules/amqp</a>.</p></div>
 <div class="paragraph"><p>If you want to learn more about RabbitMQ, take a look at the tutorials (<a href="http://www.rabbitmq.com/tutorials/tutorial-five-java.html">http://www.rabbitmq.com/tutorials/tutorial-five-java.html</a>) or Alvaro Videla and Jason J.W. Williams (2012), <em>RabbitMQ in Action: Distributed Messaging for Everyone</em>, Manning Publications.</p></div>
@@ -7930,12 +8110,12 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>Ask a question on the Lift mailing list at <a href="https://groups.google.com/group/liftweb">https://groups.google.com/group/liftweb</a>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_80">Discussion</h4>
+<h4 id="_discussion_81">Discussion</h4>
 <div class="paragraph"><p>You will find some information about Lift on StackOverflow, Quora and elsewhere, but the mailing list is <em>the</em> place to go to get help and support. You can search the archive to see if your question has already been addressed, but questions are very welcome as it helps the Lift community understand what users need and what might be causing problems or need explanation. Much of what you&#8217;re reading here originates from questions that have been asked on the mailing list.</p></div>
 <div class="paragraph"><p>New members to the mailing list are moderated to help reduce spam. This means the first time you post your message may take a few hours to show up.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_81">See Also</h4>
+<h4 id="_see_also_82">See Also</h4>
 <div class="paragraph"><p>The Lift community is one of the things that makes Lift what it is. Please take a look at <a href="http://liftweb.net/community">http://liftweb.net/community</a> before posting: you&#8217;ll get the best response with a polite question.</p></div>
 <div class="paragraph"><p>If you need paid consulting, development or SLA-backed support, there&#8217;s a list of organizations on the Wiki at <a href="https://www.assembla.com/spaces/liftweb/wiki/Commercial_Support">https://www.assembla.com/spaces/liftweb/wiki/Commercial_Support</a>.</p></div>
 </div>
@@ -7954,7 +8134,7 @@ seeing, and what you&#8217;d expect to see.</p></div>
 raise a ticket unless asked to do so by a Lift committer on the mailing list.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_81">Discussion</h4>
+<h4 id="_discussion_82">Discussion</h4>
 <div class="quoteblock">
 <div class="content">
 <div class="paragraph"><p>If Lift is not behaving as you expect, please ask questions about what
@@ -7975,7 +8155,7 @@ necessarily a bug in Lift.</p></div>
 <div class="paragraph"><p>A great way to get help with the issue you have, or getting a bug fixed, is to produce a small example to illustrate the problem and posting it on GitHub. The key is to provide instructions so someone can run the example and see exactly what you see without having to jump though hoops.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_82">See Also</h4>
+<h4 id="_see_also_83">See Also</h4>
 <div class="paragraph"><p>You&#8217;ll find a list of tickets at <a href="http://ticket.liftweb.net/">http://ticket.liftweb.net/</a>.</p></div>
 <div class="paragraph"><p>If you&#8217;re asked to, or want to, post example code there&#8217;s a guide at <a href="http://www.assembla.com/wiki/show/liftweb/Posting_example_code">http://www.assembla.com/wiki/show/liftweb/Posting_example_code</a>.</p></div>
 <div class="paragraph"><p>If you&#8217;ve found a bug, and you&#8217;re asked to create a ticket, the main thing to do is to include a link to the mailing list discussion of the issue, as described at <a href="http://www.assembla.com/wiki/show/liftweb/Creating_tickets">http://www.assembla.com/wiki/show/liftweb/Creating_tickets</a>.</p></div>
@@ -8010,7 +8190,7 @@ It&#8217;s a <em>small</em> change, enhancements, or bug fix to Lift.
 <div class="paragraph"><p>Your pull request must include an edit to add your signature to the bottom of the <span class="monospaced">contributors.md</span> file.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_82">Discussion</h4>
+<h4 id="_discussion_83">Discussion</h4>
 <div class="paragraph"><p>Historically Lift had a strict contributor policy of simply not accepting any code contributions except from committers who had signed an agreement to assign copyright to the Lift project.  This allowed corporations wanting to adopt Lift to do so without litigation concerns.</p></div>
 <div class="paragraph"><p>The safety is still there, now via the requirement for a signature on the contributors file, which reads:</p></div>
 <div class="quoteblock">
@@ -8022,7 +8202,7 @@ It&#8217;s a <em>small</em> change, enhancements, or bug fix to Lift.
 <div class="paragraph"><p>What&#8217;s a small change? That&#8217;s a good question, and if you&#8217;re unsure, talk about your proposed change on the mailing list.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_83">See Also</h4>
+<h4 id="_see_also_84">See Also</h4>
 <div class="paragraph"><p>This contribution policy was introduced in November 2012, and can be read about at <a href="http://www.lift.la/blog/new_contribution_policy">http://www.lift.la/blog/new_contribution_policy</a>.</p></div>
 <div class="paragraph"><p>The <span class="monospaced">contributors.md</span> file is found at: <a href="https://github.com/lift/framework/blob/master/contributors.md">https://github.com/lift/framework/blob/master/contributors.md</a>.</p></div>
 <div class="paragraph"><p>The Lift source is on GitHub at <a href="https://github.com/lift/">https://github.com/lift/</a>.  The <em>framework</em> project is probably the one you want, although you&#8217;ll also find Git repositories for examples and Lift web sites there.</p></div>
@@ -8042,12 +8222,12 @@ It&#8217;s a <em>small</em> change, enhancements, or bug fix to Lift.
 <div class="paragraph"><p>You&#8217;ll need to sign in, or create a free account, with Assembla, the company that hosts the wiki. You then need to become a <em>watcher</em> of the Lift wiki, which is offered as a link on the top right of the Lift wiki page.  As a watcher you can edit pages and create new pages.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_83">Discussion</h4>
+<h4 id="_discussion_84">Discussion</h4>
 <div class="paragraph"><p>If you&#8217;re unsure about a change you&#8217;d like to make, just ask for feedback on the Lift mailing list.</p></div>
 <div class="paragraph"><p>One limitation of the watcher role on Assembla is that you cannot move pages. If you create a new page in the wrong section, or want to reorganise pages, you&#8217;ll need to ask on the Lift mailing list for someone with permissions to do that for you.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_84">See Also</h4>
+<h4 id="_see_also_85">See Also</h4>
 <div class="paragraph"><p>The markup format for the Wiki pages is Textile. A reference guide can be found at: <a href="http://redcloth.org/hobix.com/textile/">http://redcloth.org/hobix.com/textile/</a>.</p></div>
 </div>
 </div>
@@ -8066,7 +8246,7 @@ to the Lift mailing list at <a href="https://groups.google.com/group/liftweb">ht
 <div class="paragraph"><p>You can find the template file at: <a href="https://raw.github.com/d6y/lift-cookbook/master/template.asciidoc">https://raw.github.com/d6y/lift-cookbook/master/template.asciidoc</a>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_84">Discussion</h4>
+<h4 id="_discussion_85">Discussion</h4>
 <div class="paragraph"><p>Anything you&#8217;ve puzzled over, or things which have surprised you, impressed you or are non-obvious are great topics for recipes. Improvements, discussions and clarifications of existing recipes are welcome too.</p></div>
 <div class="paragraph"><p>The cookbook is structured using a markup language called Asciidoc. If you&#8217;re familiar with Markdown or Textile, you&#8217;ll find similarities. For the cookbook you only need to know about section headings, source code formatting and links.  Examples of all of these are in the <span class="monospaced">template.asciidoc</span> file.</p></div>
 <div class="paragraph"><p>To find out where to make a change you need to know that each chapter is a separate file, and each recipe is a section in that file.</p></div>
@@ -8089,7 +8269,7 @@ You assert that the work is your own, or you have the necessary permission for t
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_85">See Also</h4>
+<h4 id="_see_also_86">See Also</h4>
 <div class="paragraph"><p>The source to this book is at: <a href="https://github.com/d6y/lift-cookbook/">https://github.com/d6y/lift-cookbook/</a>.</p></div>
 <div class="paragraph"><p>The AsciiDoc cheetsheet at <a href="http://powerman.name/doc/asciidoc">http://powerman.name/doc/asciidoc</a> is a quick way to get into AsciiDoc, but if you need more, the AsciiDoc home page has the details: <a href="http://www.methods.co.nz/asciidoc/">http://www.methods.co.nz/asciidoc/</a>.</p></div>
 <div class="paragraph"><p>GitHub provide an introduction to pull requests at <a href="https://help.github.com/articles/using-pull-requests">https://help.github.com/articles/using-pull-requests</a>.</p></div>
@@ -8193,7 +8373,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>When we run our Lift application, white snow will be falling on every page, supplied by the module.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_85">Discussion</h4>
+<h4 id="_discussion_86">Discussion</h4>
 <div class="paragraph"><p>The module is self contained: there&#8217;s no need for users to copy JavaScript files around or modify their templates.  To achieve that we&#8217;ve made use of <span class="monospaced">ResourceServer</span>.  When we reference the JavaScript file via <span class="monospaced">/classpath/snowstorm.js</span>, Lift will attempt to locate <span class="monospaced">snowstorm.js</span> from the classpath.  This is what we want for our Lift application because <span class="monospaced">snowstorm.js</span> will be inside the module JAR file.</p></div>
 <div class="paragraph"><p>However, we do not want to expose all files on the classpath to anyone visiting our application. To avoid that, Lift looks for resources inside a <span class="monospaced">toserve</span> folder, which for our purposes means files and folders inside <span class="monospaced">src/main/resources/toserve</span>.  You can think of <span class="monospaced">/classpath</span> meaning <span class="monospaced">toserve</span> (although, you can change those values via <span class="monospaced">LiftRules.resourceServerPath</span> and <span class="monospaced">ResourceServer.baseResourceLocation</span>).</p></div>
 <div class="paragraph"><p>As a further precaution you need to explicitly allow access to these resources.  That&#8217;s done with:</p></div>
@@ -8264,7 +8444,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_86">See Also</h4>
+<h4 id="_see_also_87">See Also</h4>
 <div class="paragraph"><p>Originally Lift included a set of modules, but these have been separated out to individual projects at <a href="https://github.com/liftmodules/">https://github.com/liftmodules/</a>.  The Lift contributor policy outlined in <a href="#LiftCodeContributions">[LiftCodeContributions]</a> doesn&#8217;t apply to Lift modules: you&#8217;re free to contribute to these modules as you would any other open source project.</p></div>
 <div class="paragraph"><p>The Lift wiki pages for modules can be reached via <a href="http://liftmodules.net">http://liftmodules.net</a>.</p></div>
 <div class="paragraph"><p>The Snowstorm project ("setting CPUs on fire worldwide every winter since 2003") is at: <a href="https://github.com/scottschiller/snowstorm/">https://github.com/scottschiller/snowstorm/</a> and the module developed for this recipe is at <a href="https://github.com/LiftCookbook/snowstorm-example-module">https://github.com/LiftCookbook/snowstorm-example-module</a>.</p></div>
@@ -8278,7 +8458,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-01-21 22:19:06 GMT
+Last updated 2013-01-28 07:46:17 GMT
 </div>
 </div>
 </body>
