@@ -6029,15 +6029,19 @@ http://www.gnu.org/software/src-highlite -->
 <span style="font-weight: bold"><span style="color: #000080">import</span></span> org<span style="color: #990000">.</span>specs2<span style="color: #990000">.</span>mutable<span style="color: #990000">.</span>Around
 <span style="font-weight: bold"><span style="color: #000080">import</span></span> org<span style="color: #990000">.</span>specs2<span style="color: #990000">.</span>execute<span style="color: #990000">.</span>Result
 
+<span style="font-weight: bold"><span style="color: #0000FF">trait</span></span> <span style="color: #008080">TestLiftSession</span> <span style="color: #FF0000">{</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> session <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #0000FF">new</span></span> <span style="font-weight: bold"><span style="color: #000000">LiftSession</span></span><span style="color: #990000">(</span><span style="color: #FF0000">""</span><span style="color: #990000">,</span> <span style="font-weight: bold"><span style="color: #000000">StringHelpers.randomString</span></span><span style="color: #990000">(</span><span style="color: #993399">20</span><span style="color: #990000">),</span> Empty<span style="color: #990000">)</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">inSession[T]</span></span><span style="color: #990000">(</span>a<span style="font-weight: bold"><span style="color: #0000FF">:</span></span> <span style="font-weight: bold"><span style="color: #0000FF">=&gt;</span></span> T<span style="color: #990000">)</span><span style="font-weight: bold"><span style="color: #0000FF">:</span></span> T <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">S.init</span></span><span style="color: #990000">(</span>Req<span style="color: #990000">.</span>nil<span style="color: #990000">,</span> session<span style="color: #990000">)</span> <span style="color: #FF0000">{</span> a <span style="color: #FF0000">}</span>
+<span style="color: #FF0000">}</span>
+
 <span style="font-weight: bold"><span style="color: #0000FF">trait</span></span> <span style="color: #008080">DBTestKit</span> <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> Loggable <span style="color: #FF0000">{</span>
 
   <span style="font-weight: bold"><span style="color: #000000">Class.forName</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"org.h2.Driver"</span><span style="color: #990000">)</span>
 
-  <span style="font-style: italic"><span style="color: #9A1900">// Configure Lift's logging:</span></span>
   Logger<span style="color: #990000">.</span>setup <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">Full(net.liftweb.util.LoggingAutoConfigurer</span></span><span style="color: #990000">())</span>
   Logger<span style="color: #990000">.</span>setup<span style="color: #990000">.</span>foreach <span style="color: #FF0000">{</span> <span style="font-weight: bold"><span style="color: #0000FF">_</span></span><span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">apply</span></span><span style="color: #990000">()</span> <span style="color: #FF0000">}</span>
 
-  <span style="font-weight: bold"><span style="color: #0000FF">private</span></span> <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">configureH2</span></span><span style="color: #990000">()</span> <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">{</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">configureH2</span></span><span style="color: #990000">()</span> <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">{</span>
     <span style="font-weight: bold"><span style="color: #000000">SquerylRecord.initWithSquerylSession</span></span><span style="color: #990000">(</span>
       <span style="font-weight: bold"><span style="color: #000000">Session.create</span></span><span style="color: #990000">(</span>
         <span style="font-weight: bold"><span style="color: #000000">DriverManager.getConnection</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"jdbc:h2:mem:dbname;DB_CLOSE_DELAY=-1"</span><span style="color: #990000">,</span> <span style="color: #FF0000">"sa"</span><span style="color: #990000">,</span> <span style="color: #FF0000">""</span><span style="color: #990000">),</span>
@@ -6045,7 +6049,7 @@ http://www.gnu.org/software/src-highlite -->
     <span style="color: #990000">)</span>
   <span style="color: #FF0000">}</span>
 
-  <span style="font-weight: bold"><span style="color: #0000FF">private</span></span> <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">createDb</span></span><span style="color: #990000">()</span> <span style="color: #FF0000">{</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">createDb</span></span><span style="color: #990000">()</span> <span style="color: #FF0000">{</span>
     inTransaction <span style="color: #FF0000">{</span>
       <span style="font-weight: bold"><span style="color: #0000FF">try</span></span> <span style="color: #FF0000">{</span>
         MySchema<span style="color: #990000">.</span>drop
@@ -6058,23 +6062,18 @@ http://www.gnu.org/software/src-highlite -->
     <span style="color: #FF0000">}</span>
   <span style="color: #FF0000">}</span>
 
-  <span style="font-weight: bold"><span style="color: #0000FF">trait</span></span> <span style="color: #008080">TestLiftSession</span> <span style="color: #FF0000">{</span>
-    <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> session <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #0000FF">new</span></span> <span style="font-weight: bold"><span style="color: #000000">LiftSession</span></span><span style="color: #990000">(</span><span style="color: #FF0000">""</span><span style="color: #990000">,</span> <span style="font-weight: bold"><span style="color: #000000">StringHelpers.randomString</span></span><span style="color: #990000">(</span><span style="color: #993399">20</span><span style="color: #990000">),</span> Empty<span style="color: #990000">)</span>
-    <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">inSession[T]</span></span><span style="color: #990000">(</span>a<span style="font-weight: bold"><span style="color: #0000FF">:</span></span> <span style="font-weight: bold"><span style="color: #0000FF">=&gt;</span></span> T<span style="color: #990000">)</span><span style="font-weight: bold"><span style="color: #0000FF">:</span></span> T <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">S.init</span></span><span style="color: #990000">(</span>Req<span style="color: #990000">.</span>nil<span style="color: #990000">,</span> session<span style="color: #990000">)</span> <span style="color: #FF0000">{</span> a <span style="color: #FF0000">}</span>
-  <span style="color: #FF0000">}</span>
+<span style="color: #FF0000">}</span>
 
-  <span style="font-weight: bold"><span style="color: #0000FF">object</span></span> InMemoryDB <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> Around <span style="font-weight: bold"><span style="color: #0000FF">with</span></span> TestLiftSession <span style="color: #FF0000">{</span>
-    <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> around<span style="color: #990000">[</span>T <span style="font-weight: bold"><span style="color: #0000FF">&lt;%</span></span> <span style="font-weight: bold"><span style="color: #000000">Result]</span></span><span style="color: #990000">(</span>testToRun<span style="font-weight: bold"><span style="color: #0000FF">:</span></span> <span style="font-weight: bold"><span style="color: #0000FF">=&gt;</span></span>T<span style="color: #990000">)</span> <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">{</span>
-      configureH2
-      createDb
-      inSession <span style="color: #FF0000">{</span>
-        inTransaction <span style="color: #FF0000">{</span>
-          testToRun
-        <span style="color: #FF0000">}</span>
+<span style="font-weight: bold"><span style="color: #0000FF">case</span></span> <span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="color: #008080">InMemoryDB</span><span style="color: #990000">()</span> <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> Around <span style="font-weight: bold"><span style="color: #0000FF">with</span></span> DBTestKit <span style="font-weight: bold"><span style="color: #0000FF">with</span></span> TestLiftSession <span style="color: #FF0000">{</span>
+  <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> around<span style="color: #990000">[</span>T <span style="font-weight: bold"><span style="color: #0000FF">&lt;%</span></span> <span style="font-weight: bold"><span style="color: #000000">Result]</span></span><span style="color: #990000">(</span>testToRun<span style="font-weight: bold"><span style="color: #0000FF">:</span></span> <span style="font-weight: bold"><span style="color: #0000FF">=&gt;</span></span>T<span style="color: #990000">)</span> <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="color: #FF0000">{</span>
+    configureH2
+    createDb
+    inSession <span style="color: #FF0000">{</span>
+      inTransaction <span style="color: #FF0000">{</span>
+        testToRun
       <span style="color: #FF0000">}</span>
     <span style="color: #FF0000">}</span>
   <span style="color: #FF0000">}</span>
-
 <span style="color: #FF0000">}</span></tt></pre></div></div>
 <div class="paragraph"><p>In summary, this trail provides an <span class="monospaced">InMemoryDB</span> <em>context</em> for Specs2. This context ensures that the database is configured, the schema created and a transaction is supplied around your test.</p></div>
 <div class="paragraph"><p>Finally, mix the trait into your test and execute in the scope of the <span class="monospaced">InMemoryDB</span> context.</p></div>
@@ -6096,7 +6095,7 @@ http://www.gnu.org/software/src-highlite -->
 
   <span style="color: #FF0000">"Planets"</span> <span style="color: #990000">&gt;&gt;</span> <span style="color: #FF0000">{</span>
 
-    <span style="color: #FF0000">"know that Mars has two moons"</span> <span style="color: #990000">&gt;&gt;</span> InMemoryDB <span style="color: #FF0000">{</span>
+    <span style="color: #FF0000">"know that Mars has two moons"</span> <span style="color: #990000">&gt;&gt;</span> <span style="font-weight: bold"><span style="color: #000000">InMemoryDB</span></span><span style="color: #990000">()</span> <span style="color: #FF0000">{</span>
 
       <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> mars <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">planets.insert(Planet.createRecord.name</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"Mars"</span><span style="color: #990000">))</span>
       <span style="font-weight: bold"><span style="color: #000000">Satellite.createRecord.name("Phobos").planetId</span></span><span style="color: #990000">(</span>mars<span style="color: #990000">.</span>idField<span style="color: #990000">.</span>is<span style="color: #990000">).</span>save
@@ -6131,9 +6130,43 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>The <span class="monospaced">DBTestKit</span> trait has to do quite a lot of work for us.  At the lowest level, it loads the H2 driver and configures Squeryl with an in-memory connection. The <span class="monospaced">mem</span> part of the JDBC connection string (<span class="monospaced">jdbc:h2:mem:dbname;DB_CLOSE_DELAY=-1</span>) means that H2 won&#8217;t try to persist the data to disk.  The database just resides in memory, so there are no files in disk to maintain, and it runs quickly.</p></div>
 <div class="paragraph"><p>By default, when a connection is closed, the in memory database is destroyed. In this recipe we&#8217;ve disabled that by adding the <span class="monospaced">DB_CLOSE_DELAY=-1</span>, which will allow us to write unit tests that span connections if we want to.</p></div>
 <div class="paragraph"><p>The next step up from connection management is the creation of the database schema in memory. We do this in <span class="monospaced">createDb</span> by throwing away the schema and any data when we start a test, and create it afresh.  If you have very common test datasets, this might be a good place to insert that data before your test runs.</p></div>
-<div class="paragraph"><p>These steps are brought together at the <span class="monospaced">InMemoryDB</span> object, which implements a Specs2 interface for code to run <span class="monospaced">Around</span> a test.  We&#8217;ve also wrapped the test around a <span class="monospaced">TestLiftSession</span>. This provides an empty session, which is useful if you are accessing state-related code (such as the <span class="monospaced">S</span> object).  It&#8217;s not necessary for running tests against Record and Squeryl, but it has been included here because you may want to do that at some point.</p></div>
+<div class="paragraph"><p>These steps are brought together at the <span class="monospaced">InMemoryDB</span> class, which implements a Specs2 interface for code to run <span class="monospaced">Around</span> a test.  We&#8217;ve also wrapped the test around a <span class="monospaced">TestLiftSession</span>. This provides an empty session, which is useful if you are accessing state-related code (such as the <span class="monospaced">S</span> object).  It&#8217;s not necessary for running tests against Record and Squeryl, but it has been included here because you may want to do that at some point.</p></div>
 <div class="paragraph"><p>In our specification itself, we mix in the <span class="monospaced">DBTestKit</span> and reference the <span class="monospaced">InMemoryDB</span> context on the tests that access the database.  You&#8217;ll note that we&#8217;ve used <span class="monospaced">&gt;&gt;</span> rather than Specs2&#8217;s <span class="monospaced">should</span> and <span class="monospaced">in</span> that you may have seen elsewhere. This is to avoid name conflicts between Specs2 and Squery that you might come across.</p></div>
 <div class="paragraph"><p>As we disabled parallel execution with SBT, we also disable parallel execution in Specs2 with <span class="monospaced">sequential</span>.  We are doing this to prevent a situation where one test might be expecting data that another test is modifying at the same time.</p></div>
+<div class="paragraph"><p>If all the tests in a specification are going to use the database, you can use the Specs2 <span class="monospaced">AroundContextExample[T]</span> to avoid having to mention <span class="monospaced">InMemoryDB</span> on every test.  To do that, mix in <span class="monospaced">AroundContextExample[InMemoryDB]</span> and define <span class="monospaced">aroundContext</span>:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000080">package</span></span> code<span style="color: #990000">.</span>model
+
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> MySchema<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
+
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> org<span style="color: #990000">.</span>specs2<span style="color: #990000">.</span>mutable<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> org<span style="color: #990000">.</span>specs2<span style="color: #990000">.</span>specification<span style="color: #990000">.</span>AroundContextExample
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> net<span style="color: #990000">.</span>liftweb<span style="color: #990000">.</span>squerylrecord<span style="color: #990000">.</span>RecordTypeMode<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">_</span></span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="color: #008080">AlternativePlanetsSpec</span> <span style="font-weight: bold"><span style="color: #0000FF">extends</span></span> Specification <span style="font-weight: bold"><span style="color: #0000FF">with</span></span>
+  AroundContextExample<span style="color: #990000">[</span>InMemoryDB<span style="color: #990000">]</span> <span style="color: #FF0000">{</span>
+
+  sequential
+
+  <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> aroundContext <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #0000FF">new</span></span> <span style="font-weight: bold"><span style="color: #000000">InMemoryDB</span></span><span style="color: #990000">()</span>
+
+  <span style="color: #FF0000">"Solar System"</span> <span style="color: #990000">&gt;&gt;</span> <span style="color: #FF0000">{</span>
+
+    <span style="color: #FF0000">"know that Mars has two moons"</span> <span style="color: #990000">&gt;&gt;</span> <span style="color: #FF0000">{</span>
+
+      <span style="font-weight: bold"><span style="color: #0000FF">val</span></span> mars <span style="font-weight: bold"><span style="color: #0000FF">=</span></span> <span style="font-weight: bold"><span style="color: #000000">planets.insert(Planet.createRecord.name</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"Mars"</span><span style="color: #990000">))</span>
+      <span style="font-weight: bold"><span style="color: #000000">Satellite.createRecord.name("Phobos").planetId</span></span><span style="color: #990000">(</span>mars<span style="color: #990000">.</span>idField<span style="color: #990000">.</span>is<span style="color: #990000">).</span>save
+      <span style="font-weight: bold"><span style="color: #000000">Satellite.createRecord.name("Deimos").planetId</span></span><span style="color: #990000">(</span>mars<span style="color: #990000">.</span>idField<span style="color: #990000">.</span>is<span style="color: #990000">).</span>save
+
+      mars<span style="color: #990000">.</span>satellites<span style="color: #990000">.</span>size must<span style="font-weight: bold"><span style="color: #0000FF">_==</span></span> <span style="color: #993399">2</span>
+    <span style="color: #FF0000">}</span>
+  <span style="color: #FF0000">}</span>
+<span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="paragraph"><p>All the tests in <span class="monospaced">AlternativePlanetsSpec</span> will now be run with an <span class="monospaced">InMemoryDB</span> around them.</p></div>
 <div class="paragraph"><p>We&#8217;ve used a database with an in-memory mode for the advantages of speed and no files to clean up. However, you could use any regular database: you&#8217;d need to change the driver and connection string.</p></div>
 </div>
 <div class="sect3">
@@ -9543,7 +9576,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-02-09 12:01:54 GMT
+Last updated 2013-02-09 12:58:49 GMT
 </div>
 </div>
 </body>
