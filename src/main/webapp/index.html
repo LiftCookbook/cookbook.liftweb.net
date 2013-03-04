@@ -1754,8 +1754,9 @@ break compatibility.  For example Scala 2.9.1 is compatible with Scala 2.9.0, bu
 </div>
 <div class="sect3">
 <h4 id="_solution_9">Solution</h4>
-<div class="paragraph"><p>Use the Scala REPL to run your CSS selector. From withing SBT use the <span class="monospaced">console</span> command to get into the REPL.</p></div>
-<div class="paragraph"><p>Here&#8217;s an example were we test out a CSS selector which adds an href attribute to a link:</p></div>
+<div class="paragraph"><p>You can use the Scala REPL to run your CSS selectors.</p></div>
+<div class="paragraph"><p>Here&#8217;s an example were we test out a CSS selector which adds an <em>href</em> attribute to a link.
+Start from within SBT and use the <span class="monospaced">console</span> command to get into the REPL:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
 <pre>&gt; console
@@ -1837,9 +1838,9 @@ Type :help for more information.</pre>
 <div class="paragraph"><p>When using <span class="monospaced">&amp;</span> think of the CSS selectors as always applying to the
 original template, no matter what other expressions you are combining.
 This is because <span class="monospaced">&amp;</span> is aggregating the selectors together before applying them; whereas <span class="monospaced">andThen</span> is
-a method of all Scala functions that composes two functions together, with the fist being
+a method of all Scala functions that composes two functions together, with the first being
 called before the second.</p></div>
-<div class="paragraph"><p>Compare the example above if we change the <span class="monospaced">andThen</span> with
+<div class="paragraph"><p>Compare the example above if we change the <span class="monospaced">andThen</span> to
 <span class="monospaced">&amp;</span>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">render</span> <span class="k">=</span> <span class="s">&quot;#foo&quot;</span> <span class="o">#&gt;</span> <span class="o">&lt;</span><span class="n">div</span> <span class="n">id</span><span class="o">=</span><span class="s">&quot;bar&quot;</span> <span class="o">/&gt;</span> <span class="o">&amp;</span> <span class="s">&quot;#bar *&quot;</span> <span class="o">#&gt;</span> <span class="s">&quot;bar content&quot;</span>
@@ -1877,7 +1878,7 @@ attribute:</p></div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_12">Discussion</h4>
-<div class="paragraph"><p>The <span class="monospaced">@</span> selector selects all elements with the given name. It&#8217;s useful in this case to change <span class="monospaced">&lt;meta name="keyword"&gt;</span> tag, but you may also see it used with elsewhere, for example with HTML forms to select input fields, such as <span class="monospaced">&lt;input name="address"&gt;</span>.</p></div>
+<div class="paragraph"><p>The <span class="monospaced">@</span> selector selects all elements with the given name. It&#8217;s useful in this case to change <span class="monospaced">&lt;meta name="keyword"&gt;</span> tag, but you may also see it used with elsewhere. For example, in an HTML form you can select input fields such as <span class="monospaced">&lt;input name="address"&gt;</span> with <span class="monospaced">"@address"</span>.</p></div>
 <div class="paragraph"><p>The <span class="monospaced">[content]</span> part is an example of a <em>replacement rule</em> that can follow a selector. That&#8217;s to say, it&#8217;s not specific to the <span class="monospaced">@</span> selector and can be used with other selectors.  In this example it replaces the value of the attribute called "content".  If the meta tag had no "content" attribute, it would be added.</p></div>
 <div class="paragraph"><p>There are two other replacement rules useful for manipulating attributes:</p></div>
 <div class="ulist"><ul>
@@ -1892,7 +1893,7 @@ attribute:</p></div>
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>Examples of these would be:</p></div>
+<div class="paragraph"><p>Examples of these would be&#8230;</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">import</span> <span class="nn">net.liftweb.util.Helpers._</span>
 <span class="k">import</span> <span class="nn">net.liftweb.util.Helpers._</span>
@@ -1901,24 +1902,27 @@ attribute:</p></div>
 <span class="n">in</span><span class="k">:</span> <span class="kt">scala.xml.Elem</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">meta</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;keywords&quot;</span> <span class="n">content</span><span class="o">=</span><span class="s">&quot;words, here, please&quot;</span><span class="o">&gt;&lt;/</span><span class="n">meta</span><span class="o">&gt;</span>
 
 <span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">remove</span> <span class="k">=</span> <span class="s">&quot;@keywords [content!]&quot;</span> <span class="o">#&gt;</span> <span class="s">&quot;words, here, please&quot;</span>
-<span class="n">remove</span><span class="k">:</span> <span class="kt">net.liftweb.util.CssSel</span> <span class="o">=</span> <span class="nc">CssBind</span><span class="o">(</span><span class="nc">Full</span><span class="o">(</span><span class="nd">@keywords</span> <span class="o">[</span><span class="kt">content!</span><span class="o">]),</span> <span class="nc">Full</span><span class="o">(</span><span class="nc">NameSelector</span><span class="o">(</span><span class="n">keywords</span><span class="o">,</span><span class="nc">Full</span><span class="o">(</span><span class="nc">AttrRemoveSubNode</span><span class="o">(</span><span class="n">content</span><span class="o">)))))</span>
+<span class="n">remove</span><span class="k">:</span> <span class="kt">net.liftweb.util.CssSel</span> <span class="o">=</span> <span class="nc">CssBind</span><span class="o">(</span><span class="nc">Full</span><span class="o">(</span><span class="nd">@keywords</span> <span class="o">[</span><span class="kt">content!</span><span class="o">]),</span>
+  <span class="nc">Full</span><span class="o">(</span><span class="nc">NameSelector</span><span class="o">(</span><span class="n">keywords</span><span class="o">,</span><span class="nc">Full</span><span class="o">(</span><span class="nc">AttrRemoveSubNode</span><span class="o">(</span><span class="n">content</span><span class="o">)))))</span>
 
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">remove</span><span class="o">(</span><span class="n">in</span><span class="o">)</span>
 <span class="n">res0</span><span class="k">:</span> <span class="kt">scala.xml.NodeSeq</span> <span class="o">=</span> <span class="nc">NodeSeq</span><span class="o">(&lt;</span><span class="n">meta</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;keywords&quot;</span><span class="o">&gt;&lt;/</span><span class="n">meta</span><span class="o">&gt;)</span>
 </pre></div></div></div>
-<div class="paragraph"><p>and</p></div>
+<div class="paragraph"><p>&#8230;and&#8230;</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">add</span> <span class="k">=</span> <span class="s">&quot;@keywords [content+]&quot;</span> <span class="o">#&gt;</span> <span class="s">&quot;, thank you&quot;</span>
-<span class="n">add</span><span class="k">:</span> <span class="kt">net.liftweb.util.CssSel</span> <span class="o">=</span> <span class="nc">CssBind</span><span class="o">(</span><span class="nc">Full</span><span class="o">(</span><span class="nd">@keywords</span> <span class="o">[</span><span class="kt">content+</span><span class="o">]),</span> <span class="nc">Full</span><span class="o">(</span><span class="nc">NameSelector</span><span class="o">(</span><span class="n">keywords</span><span class="o">,</span><span class="nc">Full</span><span class="o">(</span><span class="nc">AttrAppendSubNode</span><span class="o">(</span><span class="n">content</span><span class="o">)))))</span>
+<span class="n">add</span><span class="k">:</span> <span class="kt">net.liftweb.util.CssSel</span> <span class="o">=</span> <span class="nc">CssBind</span><span class="o">(</span><span class="nc">Full</span><span class="o">(</span><span class="nd">@keywords</span> <span class="o">[</span><span class="kt">content+</span><span class="o">]),</span>
+  <span class="nc">Full</span><span class="o">(</span><span class="nc">NameSelector</span><span class="o">(</span><span class="n">keywords</span><span class="o">,</span><span class="nc">Full</span><span class="o">(</span><span class="nc">AttrAppendSubNode</span><span class="o">(</span><span class="n">content</span><span class="o">)))))</span>
 
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">add</span><span class="o">(</span><span class="n">in</span><span class="o">)</span>
-<span class="n">res1</span><span class="k">:</span> <span class="kt">scala.xml.NodeSeq</span> <span class="o">=</span> <span class="nc">NodeSeq</span><span class="o">(&lt;</span><span class="n">meta</span> <span class="n">content</span><span class="o">=</span><span class="s">&quot;words, here, please, thank you&quot;</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;keywords&quot;</span><span class="o">&gt;&lt;/</span><span class="n">meta</span><span class="o">&gt;)</span>
+<span class="n">res1</span><span class="k">:</span> <span class="kt">scala.xml.NodeSeq</span> <span class="o">=</span> <span class="nc">NodeSeq</span><span class="o">(&lt;</span><span class="n">meta</span> <span class="n">content</span><span class="o">=</span><span class="s">&quot;words, here, please, thank you&quot;</span>
+  <span class="n">name</span><span class="o">=</span><span class="s">&quot;keywords&quot;</span><span class="o">&gt;&lt;/</span><span class="n">meta</span><span class="o">&gt;)</span>
 </pre></div></div></div>
 <div class="sect4">
 <h5 id="_appending_to_a_span_class_monospaced_class_span_attribute">Appending to a <span class="monospaced">class</span> Attribute</h5>
 <div class="paragraph"><p>Although not directly relevant to <span class="monospaced">meta</span> tags, you should be aware of there is one convenient special case for appending to an attribute. If the attribute is <span class="monospaced">class</span>, a space is added together with your class value. As a demonstration of that, here&#8217;s an example of appending a class called "btn-primary" to a <span class="monospaced">div</span>:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">render</span> <span class="k">=</span> <span class="s">&quot;div [class+]&quot;</span> <span class="o">#&gt;</span> <span class="s">&quot;funky&quot;</span>
+<div class="content"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">render</span> <span class="k">=</span> <span class="s">&quot;div [class+]&quot;</span> <span class="o">#&gt;</span> <span class="s">&quot;btn-primary&quot;</span>
 <span class="n">render</span><span class="k">:</span> <span class="kt">net.liftweb.util.CssSel</span>
 
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">render</span><span class="o">(&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s">&quot;btn&quot;</span><span class="o">/&gt;)</span>
@@ -1929,6 +1933,7 @@ attribute:</p></div>
 <div class="sect3">
 <h4 id="_see_also_12">See Also</h4>
 <div class="paragraph"><p>The syntax for selectors is best described in <em>Simply Lift</em> at <a href="http://simply.liftweb.net/">http://simply.liftweb.net/</a>.</p></div>
+<div class="paragraph"><p>See <a href="#TestingAndDebuggingSelectors">[TestingAndDebuggingSelectors]</a> for how to run selectors from the REPL.</p></div>
 </div>
 </div>
 <div class="sect2">
@@ -1965,7 +1970,7 @@ title followed by the page title:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nt">&lt;title</span> <span class="na">class=</span><span class="s">&quot;lift:Menu.title&quot;</span><span class="nt">&gt;</span>Site Title - <span class="nt">&lt;/title&gt;</span>
 </pre></div></div></div>
-<div class="paragraph"><p>If you need more control, you can of course bind on title using a
+<div class="paragraph"><p>If you need more control, you can of course bind on <span class="monospaced">&lt;title&gt;</span> using a
 regular snippet. This example uses a custom snippet to put the site
 title after the page title:</p></div>
 <div class="listingblock">
@@ -1983,7 +1988,7 @@ title after the page title:</p></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="ConditionalINcludes">HTML Conditional Comments</h3>
+<h3 id="ConditionalIncludes">HTML Conditional Comments</h3>
 <div class="sect3">
 <h4 id="_problem_14">Problem</h4>
 <div class="paragraph"><p>You want to make use of Internet Explorer HTML conditional comments in your templates.</p></div>
@@ -2130,17 +2135,13 @@ is given:</p></div>
 </pre></div></div></div>
 <div class="paragraph"><p>The pattern of converting one <span class="monospaced">NodeSeq</span> to another is simple, but also powerful enough to get you out of most situations as you can always arbitrarily re-write the <span class="monospaced">NodeSeq</span>.</p></div>
 </div>
-<div class="sect3">
-<h4 id="_see_also_15">See Also</h4>
-</div>
 </div>
 <div class="sect2">
 <h3 id="SnippetNotFound">Snippet Not Found when using HTML5</h3>
 <div class="sect3">
 <h4 id="_problem_16">Problem</h4>
-<div class="paragraph"><p>You&#8217;re using Lift with the HTML5 parser and one of your snippets,
-perhaps <span class="monospaced">&lt;lift:HelloWorld.howdy /&gt;</span>, is rendering with a "Class Not
-Found" error.</p></div>
+<div class="paragraph"><p>You&#8217;re using Lift with the HTML5 parser and one of your snippets is rendering with a "Class Not
+Found" error. It even happens for <span class="monospaced">&lt;lift:HelloWorld.howdy /&gt;</span>.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_15">Solution</h4>
@@ -2163,7 +2164,7 @@ case when looking up snippets. This means Lift would take <span class="monospace
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_16">See Also</h4>
+<h4 id="_see_also_15">See Also</h4>
 <div class="paragraph"><p>The key differences between the XHTML and HTML5 parser are outlined on the mailing list at <a href="https://groups.google.com/d/msg/liftweb/H-xe1uRLW1c/B60UH8P54VAJ">https://groups.google.com/d/msg/liftweb/H-xe1uRLW1c/B60UH8P54VAJ</a>.</p></div>
 </div>
 </div>
@@ -2204,7 +2205,7 @@ resource name with an id appended.</p></div>
 avoid doing this in the <span class="monospaced">&lt;head&gt;</span> of your page as the HTML5 parser will
 move the tags to be outside of the head section.</p></div>
 <div class="paragraph"><p>Note that some proxies may choose not to cache resources with query
-parameters at all. If that impacts you, it&#8217;s possible to code a custom resource id method
+parameters at all. If that impacts you, it&#8217;s possible to code a custom resource-id method
 to move the random resource ID out of the query parameter and into the path.</p></div>
 <div class="paragraph"><p>Here&#8217;s one approach to doing this. Rather than generate JavaScript and CSS links that look like <span class="monospaced">/assets/style.css?F61973</span>, we will generate <span class="monospaced">/cache/F61973/assets/style.css</span>. We then will need to tell Lift to take requests
 that look like this new format, and render the correct content for the request.  The code for this is:</p></div>
@@ -2265,7 +2266,7 @@ A <span class="monospaced">RewriteResponse</span> which is the result we want if
 <div class="paragraph"><p>Looking at the <span class="monospaced">RewriteRequest</span> first, this expects three arguments: the path, which we care about, and then the method (e.g., <span class="monospaced">GetRequest</span>, <span class="monospaced">PutRequest</span>, etc) and the <span class="monospaced">HTTPRequest</span> itself, neither of which concern us in this instance.  In the path part we&#8217;re match on patterns that start with "cache", followed by something (we don&#8217;t care what), and then the rest of the path, represented by the name <span class="monospaced">file</span>.  In that situation, we rewrite to the original path, which is just the <span class="monospaced">file</span> with the <span class="monospaced">suffix</span>, effectively removing the <span class="monospaced">/cache/F352555437877UHCNRW</span> part.  This is the content that Lift will serve.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_17">See Also</h4>
+<h4 id="_see_also_16">See Also</h4>
 <div class="paragraph"><p>The source for <span class="monospaced">LiftRules</span> shows the default implementation of <span class="monospaced">attachResourceId</span>: <a href="https://github.com/lift/framework/blob/master/web/webkit/src/main/scala/net/liftweb/http/LiftRules.scala">https://github.com/lift/framework/blob/master/web/webkit/src/main/scala/net/liftweb/http/LiftRules.scala</a>.</p></div>
 <div class="paragraph"><p>Google&#8217;s <em>Optimize caching</em> notes are a good source of information about browser behaviour: <a href="https://developers.google.com/speed/docs/best-practices/caching">https://developers.google.com/speed/docs/best-practices/caching</a>.</p></div>
 <div class="paragraph"><p>You can learn more about URL re-writing at the Lift wiki: <a href="https://www.assembla.com/spaces/liftweb/wiki/URL_Rewriting">https://www.assembla.com/spaces/liftweb/wiki/URL_Rewriting</a>.</p></div>
@@ -2351,12 +2352,12 @@ the HTML in your template and page is valid HTML5.</p></div>
 expressions, and will see <span class="monospaced">&lt;head_merge&gt;...&lt;/head_merge&gt;</span> used in code
 example as an alternative to <span class="monospaced">&lt;lift:head&gt;</span>.</p></div>
 <div class="paragraph"><p>Another variant you may see is <span class="monospaced">data-lift="head"</span>, as an alternative to <span class="monospaced">class="lift:head"</span>.</p></div>
-<div class="paragraph"><p>The <span class="monospaced">lift:head</span> snippet is a built-in snippet, and no different from a snippet you might write.  What the snippet does is emit a <span class="monospaced">&lt;head&gt;</span> block, containing the elements you want in the head.  These can be <span class="monospaced">&lt;title&gt;</span>, <span class="monospaced">&lt;link&gt;</span>, <span class="monospaced">&lt;meta&gt;</span>, <span class="monospaced">&lt;style&gt;</span>, <span class="monospaced">&lt;script&gt;</span> or <span class="monospaced">&lt;base&gt;</span> tags.  How does this <span class="monospaced">&lt;head&gt;</span> block produced by the <span class="monospaced">lift:head</span> snippet end up inside the main <span class="monospaced">&lt;head&gt;</span> section of the page?  When Lift processes your template, it automatically merges all <span class="monospaced">&lt;head&gt;</span> tags into the main <span class="monospaced">&lt;head&gt;</span> section of the page.</p></div>
+<div class="paragraph"><p>The <span class="monospaced">lift:head</span> snippet is a built-in snippet, but otherwise no different from any snippet you might write.  What the snippet does is emit a <span class="monospaced">&lt;head&gt;</span> block, containing the elements you want in the head.  These can be <span class="monospaced">&lt;title&gt;</span>, <span class="monospaced">&lt;link&gt;</span>, <span class="monospaced">&lt;meta&gt;</span>, <span class="monospaced">&lt;style&gt;</span>, <span class="monospaced">&lt;script&gt;</span> or <span class="monospaced">&lt;base&gt;</span> tags.  How does this <span class="monospaced">&lt;head&gt;</span> block produced by the <span class="monospaced">lift:head</span> snippet end up inside the main <span class="monospaced">&lt;head&gt;</span> section of the page?  When Lift processes your template, it automatically merges all <span class="monospaced">&lt;head&gt;</span> tags into the main <span class="monospaced">&lt;head&gt;</span> section of the page.</p></div>
 <div class="paragraph"><p>You might suspect you can therefore put a plain old <span class="monospaced">&lt;head&gt;</span> section anywhere on your template, but that would not necessarily be valid HTML5 mark up.</p></div>
 <div class="paragraph"><p>There&#8217;s also <span class="monospaced">lift:tail</span> which works in a similar way, except anything marked with this snippet is moved to be just before the close of the body tag.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_18">See Also</h4>
+<h4 id="_see_also_17">See Also</h4>
 <div class="paragraph"><p>The W3C HTML validator is a useful tool for tracking down HTML markup issues that may cause problems with content being moved into the head of your page. <a href="http://validator.w3.org/">http://validator.w3.org/</a>.</p></div>
 </div>
 </div>
@@ -2384,7 +2385,7 @@ unknown resources.</p></div>
 <div class="sect3">
 <h4 id="_discussion_19">Discussion</h4>
 <div class="paragraph"><p>The <span class="monospaced">uriNotFound</span> Lift rule needs to return a <span class="monospaced">NotFound</span> in reply to a
-<span class="monospaced">Req</span> and optional <span class="monospaced">Box[Failure]</span>. This allows you to customise the
+<span class="monospaced">Req</span> and <span class="monospaced">Box[Failure]</span>. This allows you to customise the
 response based on the type of failure or the request that was made.</p></div>
 <div class="paragraph"><p>There are three types of <span class="monospaced">NotFound</span>:</p></div>
 <div class="ulist"><ul>
@@ -2420,7 +2421,7 @@ in this case, they&#8217;re not relevant.</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_19">See Also</h4>
+<h4 id="_see_also_18">See Also</h4>
 <div class="paragraph"><p><a href="#CatchException">[CatchException]</a> for how to catch any exception thrown from your code.</p></div>
 </div>
 </div>
@@ -2526,7 +2527,7 @@ the contents of the <em>403.html</em> template.</p></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_20">See Also</h4>
+<h4 id="_see_also_19">See Also</h4>
 <div class="paragraph"><p><a href="#Custom404">[Custom404]</a> explains the built-in support for custom 404 messages.</p></div>
 <div class="paragraph"><p><a href="#CatchException">[CatchException]</a> for how to catch any exception thrown from your code.</p></div>
 </div>
@@ -2552,12 +2553,12 @@ the contents of the <em>403.html</em> template.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_21">Discussion</h4>
-<div class="paragraph"><p>You may be more familiar with <span class="monospaced">S.error(String)`signature of the Lift notices than the versions
-that take a `NodeSeq</span> as an argument, but the <span class="monospaced">String</span> versions just convert the <span class="monospaced">String</span> argument
-to a <span class="monospaced">scala.xml.Text</span> type of <span class="monospaced">NodeSeq</span>.</p></div>
+<div class="paragraph"><p>You may be more familiar with the <span class="monospaced">S.error(String)</span> signature of the Lift notices than the versions
+that take a <span class="monospaced">NodeSeq</span> as an argument, but the <span class="monospaced">String</span> versions just convert the <span class="monospaced">String</span> argument
+to a <span class="monospaced">scala.xml.Text</span> kind of <span class="monospaced">NodeSeq</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_21">See Also</h4>
+<h4 id="_see_also_20">See Also</h4>
 <div class="paragraph"><p>Lift notices are described on the Wiki: <a href="http://www.assembla.com/spaces/liftweb/wiki/Lift_Notices_and_Auto_Fadeout">http://www.assembla.com/spaces/liftweb/wiki/Lift_Notices_and_Auto_Fadeout</a>.</p></div>
 </div>
 </div>
@@ -2646,7 +2647,7 @@ to Lift that the response is complete, so the page being linked to (<span class=
 <div class="paragraph"><p>However, in other situations you might want to avoid holding this data as a function on a link. In that case, you&#8217;ll want to create a REST service that returns a <span class="monospaced">LiftResponse</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_22">See Also</h4>
+<h4 id="_see_also_21">See Also</h4>
 <div class="paragraph"><p><a href="#REST">[REST]</a> looks at REST-based services in Lift.</p></div>
 <div class="paragraph"><p><a href="#RestStreamContent">[RestStreamContent]</a> discusses <span class="monospaced">InMemoryResponse</span> and similar responses to return content to the browser</p></div>
 <div class="paragraph"><p>For reports, the Apache POI project, <a href="http://poi.apache.org/">http://poi.apache.org/</a>, includes libraries for generating Excel files; and OpenCSV, <a href="http://opencsv.sourceforge.net">http://opencsv.sourceforge.net</a>, is a library for generating CSV files.</p></div>
@@ -2811,7 +2812,7 @@ out the various scenarios and pipe them through a function.</p></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_23">See Also</h4>
+<h4 id="_see_also_22">See Also</h4>
 <div class="paragraph"><p>The Lift wiki discusses this topic and also other approaches such as testing with Selenium. <a href="https://www.assembla.com/spaces/liftweb/wiki/Testing_Lift_Applications">https://www.assembla.com/spaces/liftweb/wiki/Testing_Lift_Applications</a>.</p></div>
 </div>
 </div>
@@ -2840,40 +2841,36 @@ following to the list of dependencies:</p></div>
 <span class="s"> | The module in &quot;Lift&quot;:http://www.liftweb.net for turning Textile markup</span>
 <span class="s"> | into HTML is pretty easy to use.</span>
 <span class="s"> |</span>
-<span class="s"> | * As you can see</span>
-<span class="s"> | * in this example.</span>
+<span class="s"> | * As you can see.</span>
+<span class="s"> | * In this example.</span>
 <span class="s"> | &quot;&quot;&quot;</span><span class="o">)</span>
 <span class="n">res0</span><span class="k">:</span> <span class="kt">scala.xml.NodeSeq</span> <span class="o">=</span>
 <span class="nc">NodeSeq</span><span class="o">(,</span> <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="nc">Hi</span><span class="o">!&lt;/</span><span class="n">h1</span><span class="o">&gt;,</span>
-<span class="o">,</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="nc">The</span> <span class="n">module</span> <span class="n">in</span> <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s">&quot;http://www.liftweb.net&quot;</span><span class="o">&gt;</span><span class="nc">Lift</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span> <span class="k">for</span> <span class="n">turning</span> <span class="nc">Textile</span> <span class="n">markup</span><span class="o">&lt;</span><span class="n">br</span><span class="o">&gt;&lt;/</span><span class="n">br</span><span class="o">&gt;</span><span class="n">into</span> <span class="nc">HTML</span> <span class="n">is</span> <span class="n">pretty</span> <span class="n">easy</span> <span class="n">to</span> <span class="n">use</span><span class="o">.&lt;/</span><span class="n">p</span><span class="o">&gt;,</span>
-<span class="o">,</span> <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;&lt;</span><span class="n">li</span><span class="o">&gt;</span> <span class="nc">As</span> <span class="n">you</span> <span class="n">can</span> <span class="n">see</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span> <span class="n">in</span> <span class="k">this</span> <span class="n">example</span><span class="o">.&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="o">,</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="nc">The</span> <span class="n">module</span> <span class="n">in</span> <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s">&quot;http://www.liftweb.net&quot;</span><span class="o">&gt;</span><span class="nc">Lift</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span> <span class="k">for</span> <span class="n">turning</span> <span class="nc">Textile</span>
+  <span class="n">markup</span><span class="o">&lt;</span><span class="n">br</span><span class="o">&gt;&lt;/</span><span class="n">br</span><span class="o">&gt;</span><span class="n">into</span> <span class="nc">HTML</span> <span class="n">is</span> <span class="n">pretty</span> <span class="n">easy</span> <span class="n">to</span> <span class="n">use</span><span class="o">.&lt;/</span><span class="n">p</span><span class="o">&gt;,</span>
+<span class="o">,</span> <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;&lt;</span><span class="n">li</span><span class="o">&gt;</span> <span class="nc">As</span> <span class="n">you</span> <span class="n">can</span> <span class="n">see</span><span class="o">.&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span> <span class="nc">In</span> <span class="k">this</span> <span class="n">example</span><span class="o">.&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
 <span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;,</span>
 <span class="o">,</span> <span class="o">)</span>
 </pre></div></div></div>
 <div class="paragraph"><p>It&#8217;s a little easier to see the output if we pretty print it:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">pp</span> <span class="k">=</span> <span class="k">new</span> <span class="n">xml</span><span class="o">.</span><span class="nc">PrettyPrinter</span><span class="o">(</span><span class="mi">20</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>
+<div class="content"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">pp</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PrettyPrinter</span><span class="o">(</span><span class="n">width</span><span class="k">=</span><span class="mi">35</span><span class="o">,</span> <span class="n">step</span><span class="k">=</span><span class="mi">2</span><span class="o">)</span>
 <span class="n">pp</span><span class="k">:</span> <span class="kt">scala.xml.PrettyPrinter</span> <span class="o">=</span> <span class="n">scala</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="nc">PrettyPrinter</span><span class="k">@</span><span class="mi">54</span><span class="n">c19de8</span>
 
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">pp</span><span class="o">.</span><span class="n">formatNodes</span><span class="o">(</span><span class="n">res0</span><span class="o">)</span>
 <span class="n">res1</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span>
 <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="nc">Hi</span><span class="o">!&lt;/</span><span class="n">h1</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span>
   <span class="nc">The</span> <span class="n">module</span> <span class="n">in</span>
-  <span class="o">&lt;</span><span class="n">a</span>
-  <span class="n">href</span><span class="o">=</span><span class="s">&quot;http://www.liftweb.net&quot;</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s">&quot;http://www.liftweb.net&quot;</span><span class="o">&gt;</span>
     <span class="nc">Lift</span>
-<span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
+  <span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
   <span class="k">for</span> <span class="n">turning</span> <span class="nc">Textile</span> <span class="n">markup</span>
   <span class="o">&lt;</span><span class="n">br</span><span class="o">&gt;&lt;/</span><span class="n">br</span><span class="o">&gt;</span>
   <span class="n">into</span> <span class="nc">HTML</span> <span class="n">is</span> <span class="n">pretty</span> <span class="n">easy</span> <span class="n">to</span> <span class="n">use</span><span class="o">.</span>
 <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
-  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span>
-    <span class="nc">As</span> <span class="n">you</span> <span class="n">can</span> <span class="n">see</span>
-  <span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span>
-    <span class="n">in</span> <span class="k">this</span> <span class="n">example</span><span class="o">.</span>
-  <span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span> <span class="nc">As</span> <span class="n">you</span> <span class="n">can</span> <span class="n">see</span><span class="o">.&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span> <span class="nc">In</span> <span class="k">this</span> <span class="n">example</span><span class="o">.&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
 <span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
 </pre></div></div></div>
 </div>
@@ -2889,7 +2886,7 @@ following to the list of dependencies:</p></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_24">See Also</h4>
+<h4 id="_see_also_23">See Also</h4>
 <div class="paragraph"><p>There&#8217;s no real specification of what Textile is, but there are references available which cover the typical kinds of mark up to enter and what HTML you can expect to see: <a href="http://redcloth.org/hobix.com/textile/">http://redcloth.org/hobix.com/textile/</a>.</p></div>
 <div class="paragraph"><p>The home of the Textile module: <a href="https://github.com/liftmodules/textile">https://github.com/liftmodules/textile</a>.</p></div>
 <div class="paragraph"><p>The unit tests for the Textile module give you a good set of examples of what is supported: <a href="https://github.com/liftmodules/textile/blob/master/src/test/scala/net/liftmodules/textile/TextileSpec.scala">https://github.com/liftmodules/textile/blob/master/src/test/scala/net/liftmodules/textile/TextileSpec.scala</a>.</p></div>
@@ -2971,7 +2968,7 @@ you just want to pull values from a request, as demonstrated in this
 recipe.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_25">See Also</h4>
+<h4 id="_see_also_24">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3057,7 +3054,7 @@ decide to send nothing.</p></div>
 triggering actions on input or selection changes.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_26">See Also</h4>
+<h4 id="_see_also_25">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3189,7 +3186,7 @@ be "unchecked since it is eliminated by erasure".</p></div>
 Rest helpers in Lift to do that.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_27">See Also</h4>
+<h4 id="_see_also_26">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3268,7 +3265,7 @@ easier to write this discussion section. You can of course in-line the
 test, as is done in the mailing list post referenced below.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_28">See Also</h4>
+<h4 id="_see_also_27">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3419,7 +3416,7 @@ note that the function receives a list of <span class="monospaced">Item</span>:<
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_29">See Also</h4>
+<h4 id="_see_also_28">See Also</h4>
 <div class="paragraph"><p><em>Exploring Lift</em>, Chapter 6, "Forms in Lift", <a href="http://exploring.liftweb.net/">http://exploring.liftweb.net/</a>.</p></div>
 <div class="paragraph"><p>Ticket relating to no options being selected: <a href="https://github.com/lift/framework/issues/1139">https://github.com/lift/framework/issues/1139</a></p></div>
 </div>
@@ -3547,7 +3544,7 @@ like this:</p></div>
 <div class="paragraph"><p>This is the progress of the whole multi-part upload, not just the file being uploaded.  In particular, the <span class="monospaced">contentLength</span> may not be known (in which case it will be <span class="monospaced">-1</span>), but if it is known it is the size of the complete multi-part upload. In the example in this recipe that would include the size of the file, but also the submit button value.  This also explains the <span class="monospaced">fieldIndex</span>, which is a counter as to which part is being processed. It will take on the values of 0 and 1 for the two parts in this example.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_30">See Also</h4>
+<h4 id="_see_also_29">See Also</h4>
 <div class="paragraph"><p>The HTTP file upload mechanics are described in RFC 1867, <em>Form-based File Upload in HTML</em>:
 <a href="http://tools.ietf.org/html/rfc1867">http://tools.ietf.org/html/rfc1867</a></p></div>
 <div class="paragraph"><p><a href="#RestBinaryData">[RestBinaryData]</a> discusses file upload in the context of a REST service.</p></div>
@@ -3664,7 +3661,7 @@ like this:</p></div>
 <div class="paragraph"><p>If we uploaded, say a JPEG, the browser would show an alert dialog reporting "Only PNGs".</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_31">See Also</h4>
+<h4 id="_see_also_30">See Also</h4>
 <div class="paragraph"><p>Diego Medina has posted a Gist of Lift REST code to integrate more fully with the image upload and image reviewing features of the widget, specifically implementing the JSON response that the widget expects for that functionality.  You&#8217;ll find it at: <a href="https://gist.github.com/a6715d1e3664f73cd03a">https://gist.github.com/a6715d1e3664f73cd03a</a>.</p></div>
 <div class="paragraph"><p><a href="#FileUpload">[FileUpload]</a> describes the basic file upload behaviour of Lift and how to control where files are stored.</p></div>
 <div class="paragraph"><p>Antonio Salazar Cardozo has posted example code for performing Ajax file upload using Lift&#8217;s Ajax mechanisms, which avoids external JavaScript libraries. You can find a description and link to the code at: <a href="https://groups.google.com/d/msg/liftweb/OuN1sqRMO_c/TrUGUaSvoN4J">https://groups.google.com/d/msg/liftweb/OuN1sqRMO_c/TrUGUaSvoN4J</a>.</p></div>
@@ -3735,7 +3732,7 @@ your REST service structure.</p></div>
 <div class="paragraph"><p>In this example we&#8217;ve arbitrarily decided to return XML and to match on an XML request using <span class="monospaced">XmlGet</span> and <span class="monospaced">XmlDelete</span>.  The test for an XML request requires a content-type of <em>text/xml</em> or <em>application/xml</em>, a request for a path that ends with <span class="monospaced">.xml</span>.   This is why the cURL request includes a header with with the <span class="monospaced">-H</span> flag.  If we hadn&#8217;t included that, the request would not match any of our patterns, and the result would be a 404 response.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_32">See Also</h4>
+<h4 id="_see_also_31">See Also</h4>
 <div class="paragraph"><p><a href="#JSONREST">[JSONREST]</a> gives an example of accepting and returning JSON.</p></div>
 </div>
 </div>
@@ -3842,7 +3839,7 @@ You requested 123, would send 123.webp</pre>
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_33">See Also</h4>
+<h4 id="_see_also_32">See Also</h4>
 <div class="paragraph"><p><a href="#MissingDotCom">[MissingDotCom]</a> shows how to remove items from <span class="monospaced">explicitlyParsedSuffixes</span>.</p></div>
 <div class="paragraph"><p>The source for <span class="monospaced">HttpHelpers.scala</span> contains the <span class="monospaced">explicitlyParsedSuffixes</span> list, which is the default list of suffixes that Lift parses from a URL:  <a href="https://github.com/lift/framework/blob/master/core/util/src/main/scala/net/liftweb/util/HttpHelpers.scala">https://github.com/lift/framework/blob/master/core/util/src/main/scala/net/liftweb/util/HttpHelpers.scala
 </a>.</p></div>
@@ -3902,7 +3899,7 @@ At end: you@example</pre>
 <div class="paragraph"><p>Note that because other top-level domains, such as ".uk", ".nl", ".gov", are not in <span class="monospaced">explicitlyParsedSuffixes</span>, those email addresses are left untouched.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_34">See Also</h4>
+<h4 id="_see_also_33">See Also</h4>
 <div class="paragraph"><p><a href="#MissingSuffix">[MissingSuffix]</a> describes the suffix processing in more detail.</p></div>
 </div>
 </div>
@@ -3942,7 +3939,7 @@ would match with:</p></div>
 <div class="paragraph"><p>Here we&#8217;re matching on no suffix (<span class="monospaced">""</span>). In this case <span class="monospaced">name</span> would be set to "foo.csv".  This is because Lift separates file suffixes from the end of URLs only for file suffixes that are registered with <span class="monospaced">explicitlyParsedSuffixes</span>.  Because <span class="monospaced">csv</span> is not one of the default registered suffixes, "foo.csv" is not split. That&#8217;s why <span class="monospaced">csv</span> in the suffix position of <span class="monospaced">Req</span> pattern match won&#8217;t match the request, but an empty string in that position will.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_35">See Also</h4>
+<h4 id="_see_also_34">See Also</h4>
 <div class="paragraph"><p><a href="#MissingSuffix">[MissingSuffix]</a> explains more about the suffix removal in Lift.</p></div>
 </div>
 </div>
@@ -4017,7 +4014,7 @@ Check with documentation for the container for changing these limits.</p></div>
 <div class="paragraph"><p>We have defined an extractor called <span class="monospaced">JPeg</span> which returns <span class="monospaced">Some[Req]</span> if the content type of the upload is "image/jpg"; otherwise the result will be <span class="monospaced">None</span>.  This is used in the REST pattern match as <span class="monospaced">JPeg(req)</span>.  Note that the <span class="monospaced">unapply</span> needs to return <span class="monospaced">Option[Req]</span> as this is what&#8217;s expected by the <span class="monospaced">Post</span> extractor.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_36">See Also</h4>
+<h4 id="_see_also_35">See Also</h4>
 <div class="paragraph"><p>Odersky <em>et al.</em>, (2008), <em>Programming in Scala</em>, chapter 24, discusses extractors in detail: <a href="http://www.artima.com/pins1ed/extractors.html">http://www.artima.com/pins1ed/extractors.html</a>.</p></div>
 <div class="paragraph"><p><a href="#FileUpload">[FileUpload]</a> describes form-based (multi-part) file uploads</p></div>
 </div>
@@ -4079,7 +4076,7 @@ to return a <span class="monospaced">JValue</span>.</p></div>
 everything else you expect of JSON.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_37">See Also</h4>
+<h4 id="_see_also_36">See Also</h4>
 <div class="paragraph"><p>The README file for the lift-json project is a great source of examples for using the JSON DSL: <a href="https://github.com/lift/framework/tree/master/core/json">https://github.com/lift/framework/tree/master/core/json</a>.</p></div>
 </div>
 </div>
@@ -4187,7 +4184,7 @@ everything else you expect of JSON.</p></div>
 <div class="paragraph"><p>Note that Google Sitemaps need dates to be in ISO 8601 format. The built-in <span class="monospaced">java.text.SimpleDateFormat</span> does not support this format prior to Java 7. If you are using Java 6 you need to use <span class="monospaced">org.joda.time.DateTime</span> as we are in this example.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_38">See Also</h4>
+<h4 id="_see_also_37">See Also</h4>
 <div class="paragraph"><p>Sitemaps are described at: <a href="http://support.google.com/webmasters/bin/answer.py?hl=en&amp;answer=156184">http://support.google.com/webmasters/bin/answer.py?hl=en&amp;answer=156184</a>.</p></div>
 </div>
 </div>
@@ -4282,7 +4279,7 @@ everything else you expect of JSON.</p></div>
 <div class="paragraph"><p>"If multiple files are selected, they should be transferred together using the multipart/mixed format."</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_39">See Also</h4>
+<h4 id="_see_also_38">See Also</h4>
 <div class="paragraph"><p><a href="http://simply.liftweb.net/index-5.4.html#prev">http://simply.liftweb.net/index-5.4.html#prev</a>.</p></div>
 <div class="paragraph"><p>see lines 178-188
 <a href="http://main.scala-tools.org/mvnsites/liftweb-2.0/framework/scaladocs/net/liftweb/http/Req.scala.html#Some(296">http://main.scala-tools.org/mvnsites/liftweb-2.0/framework/scaladocs/net/liftweb/http/Req.scala.html#Some(296</a>)</p></div>
@@ -4361,7 +4358,7 @@ object will be passed to your server-side function.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_40">See Also</h4>
+<h4 id="_see_also_39">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4467,7 +4464,7 @@ like this:</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_41">See Also</h4>
+<h4 id="_see_also_40">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4526,7 +4523,7 @@ JavasScript required to set focus on that field. The example uses
 components, or any JavaScript Lift response.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_42">See Also</h4>
+<h4 id="_see_also_41">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4582,7 +4579,7 @@ source</a>
 class names, e.g., <span class="monospaced">class=myClass%20anotherClass</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_43">See Also</h4>
+<h4 id="_see_also_42">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4642,7 +4639,7 @@ to a <span class="monospaced">JsCmd</span> which is sent back to the browser to 
 the page into the div.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_44">See Also</h4>
+<h4 id="_see_also_43">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4743,7 +4740,7 @@ all requests starting <em>/paypal</em>:</p></div>
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_45">See Also</h4>
+<h4 id="_see_also_44">See Also</h4>
 <div class="paragraph"><p>If you need to catch the end of a request, there is also an <span class="monospaced">onEndServicing</span> which can be given functions of type
 <span class="monospaced">(Req, Box[LiftResponse]) =&gt; Unit</span>.</p></div>
 <div class="paragraph"><p><a href="#RunningStateless">[RunningStateless]</a> describe show to force requests to be stateless.</p></div>
@@ -4821,7 +4818,7 @@ are a useful guide to these stages.</p></div>
 <div class="paragraph"><p>There are two other hooks in <span class="monospaced">LiftSession</span>: <span class="monospaced">onSessionActivate</span> and <span class="monospaced">onSessionPassivate</span>. These may be of use if you are working with a servlet container in distributed mode, and want to be notified when the servlet HTTP session is about to be serialized (passivated) and de-serialized (activated) between container instances. These hooks are rarely used.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_46">See Also</h4>
+<h4 id="_see_also_45">See Also</h4>
 <div class="paragraph"><p>Session management is discussed in section 9.5 of <em>Exploring Lift</em>: <a href="http://exploring.liftweb.net/">http://exploring.liftweb.net/</a>.</p></div>
 <div class="paragraph"><p><a href="#RunningStateless">[RunningStateless]</a> shows how to run without state.</p></div>
 </div>
@@ -4851,7 +4848,7 @@ specification, "by the web container to indicate to a filter that it is
 being taken out of service".</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_47">See Also</h4>
+<h4 id="_see_also_46">See Also</h4>
 <div class="paragraph"><p><a href="#RunTasksPeriodically">[RunTasksPeriodically]</a> includes an example of using a unload hook.</p></div>
 </div>
 </div>
@@ -4904,7 +4901,7 @@ executed without a session, and convenient for REST-based services.</p></div>
 <div class="paragraph"><p>A request for <em>/demo</em> would be processed without state.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_48">See Also</h4>
+<h4 id="_see_also_47">See Also</h4>
 <div class="paragraph"><p><a href="#REST">[REST]</a> contains recipes for REST-based services in Lift.</p></div>
 <div class="paragraph"><p>The Lift Wiki gives further details on the processing of stateless requests: <a href="http://www.assembla.com/wiki/show/liftweb/Stateless_Requests">http://www.assembla.com/wiki/show/liftweb/Stateless_Requests</a>.</p></div>
 <div class="paragraph"><p>This stateless request control was introduced in Lift 2.2.  The announcement on the mailing list gives more details: <a href="https://groups.google.com/d/msg/liftweb/2rVMCnWppSo/KoaUMHeQAEAJ">https://groups.google.com/d/msg/liftweb/2rVMCnWppSo/KoaUMHeQAEAJ</a>.</p></div>
@@ -5002,7 +4999,7 @@ errors. The default is to retry the Ajax command three times
 server cannot be contacted at this time"</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_49">See Also</h4>
+<h4 id="_see_also_48">See Also</h4>
 <div class="paragraph"><p><a href="#Custom404">[Custom404]</a> for how to create a custom 404 (not found) page.</p></div>
 </div>
 </div>
@@ -5130,7 +5127,7 @@ is no more data because the end of the stream has been reached".</p></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_50">See Also</h4>
+<h4 id="_see_also_49">See Also</h4>
 <div class="paragraph"><p>The contract for Java IO is described at <a href="http://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html">http://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html</a>.</p></div>
 </div>
 </div>
@@ -5227,7 +5224,7 @@ for these.</p></div>
 to best fit the way you want the code to look and work.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_51">See Also</h4>
+<h4 id="_see_also_50">See Also</h4>
 <div class="paragraph"><p><em>Chatper 24: Extractors</em> from <em>Programming in Scala</em>: <a href="http://www.artima.com/pins1ed/extractors.html">http://www.artima.com/pins1ed/extractors.html</a>.</p></div>
 </div>
 </div>
@@ -5287,7 +5284,7 @@ that&#8217;s just the default.</p></div>
 whatever you put in that page.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_52">See Also</h4>
+<h4 id="_see_also_51">See Also</h4>
 <div class="paragraph"><p>The Lift wiki gives a summary of Lift&#8217;s Site Map and the tests you can include in site map entries: <a href="https://www.assembla.com/wiki/show/liftweb/SiteMap">https://www.assembla.com/wiki/show/liftweb/SiteMap</a>.</p></div>
 <div class="paragraph"><p>There are further details in chapter 7 of <em>Exploring Lift</em> at <a href="http://exploring.liftweb.net">http://exploring.liftweb.net</a>, and "SiteMap and access control", chapter 7 of <em>Lift in Action</em> (Perrett, 2012, Manning Publications Co.).</p></div>
 </div>
@@ -5385,7 +5382,7 @@ and the load balancer."</p></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_53">See Also</h4>
+<h4 id="_see_also_52">See Also</h4>
 <div class="paragraph"><p>The <em>Overview of Elastic Load Balancing</em> can be found at: <a href="http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/DeveloperGuide/arch-loadbalancing.html">http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/DeveloperGuide/arch-loadbalancing.html</a>.</p></div>
 </div>
 </div>
@@ -5449,7 +5446,7 @@ a transaction around all HTTP requests. This is also configured in <span class="
 <div class="paragraph"><p>In this recipe, the <span class="monospaced">PostgreSqlAdapter</span> is being used. Squeryl also supports: <span class="monospaced">OracleAdapter</span>, <span class="monospaced">MySQLInnoDBAdapter</span> and <span class="monospaced">MySQLAdapter</span>, <span class="monospaced">MSSQLServer</span>, <span class="monospaced">H2Adapter</span>, <span class="monospaced">DB2Adapter</span> and <span class="monospaced">DerbyAdapter</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_54">See Also</h4>
+<h4 id="_see_also_53">See Also</h4>
 <div class="paragraph"><p>The Squeryl <em>Getting Started Guide</em> links to more information about session management and configuration: <a href="http://squeryl.org/getting-started.html">http://squeryl.org/getting-started.html</a>.</p></div>
 <div class="paragraph"><p>See <a href="#SquerylJNDI">[SquerylJNDI]</a> for configuring connections via Java Naming and Directory Interface (JNDI).</p></div>
 </div>
@@ -5497,7 +5494,7 @@ in your <span class="monospaced">src/main/webapp/WEB-INF/web.xml</span> file:</p
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_55">See Also</h4>
+<h4 id="_see_also_54">See Also</h4>
 <div class="paragraph"><p>Resources for JDNI configuration include:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -5688,7 +5685,7 @@ Moons of Mars are: List(Phobos, Deimos)</pre>
 <div class="paragraph"><p>Which version should you use? That will depend on your application, but you can use both in the same record if you need to.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_56">See Also</h4>
+<h4 id="_see_also_55">See Also</h4>
 <div class="paragraph"><p>Squeryl relations are documented at <a href="http://squeryl.org/relations.html">http://squeryl.org/relations.html</a>.</p></div>
 </div>
 </div>
@@ -5953,7 +5950,7 @@ Moons of Mars are: List(Phobos, Deimos)</pre>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_57">See Also</h4>
+<h4 id="_see_also_56">See Also</h4>
 <div class="paragraph"><p><a href="#SquerylOneToMany">[SquerylOneToMany]</a>, on one-to-many relationships, discusses <span class="monospaced">leftStateful</span> and <span class="monospaced">rightStaeful</span> relations, which are also applicable for many-to-many relationships.</p></div>
 <div class="paragraph"><p>Foreign keys, cascading deletes, are described at: <a href="http://squeryl.org/relations.html">http://squeryl.org/relations.html</a>.</p></div>
 </div>
@@ -6091,7 +6088,7 @@ is shown near the top of the page, just below the <span class="monospaced">&lt;h
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_58">See Also</h4>
+<h4 id="_see_also_57">See Also</h4>
 <div class="paragraph"><p>The <span class="monospaced">BaseField.scala</span> class in the Lift source code contains the definition of the built-in <span class="monospaced">StringValidators</span>. Find the source at: <a href="https://github.com/lift/framework/blob/master/core/util/src/main/scala/net/liftweb/util/BaseField.scala">https://github.com/lift/framework/blob/master/core/util/src/main/scala/net/liftweb/util/BaseField.scala</a>.</p></div>
 <div class="paragraph"><p><a href="#Forms">[Forms]</a> describes form processing, notices and errors.</p></div>
 </div>
@@ -6175,7 +6172,7 @@ resolve it via <span class="monospaced">S.?</span>:</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_59">See Also</h4>
+<h4 id="_see_also_58">See Also</h4>
 <div class="paragraph"><p><a href="#FieldValidation">[FieldValidation]</a> discusses field validation and the built-in validations.</p></div>
 <div class="paragraph"><p>Text localisation is discussed on the Lift wiki at: <a href="https://www.assembla.com/wiki/show/liftweb/Localization">https://www.assembla.com/wiki/show/liftweb/Localization</a>.</p></div>
 </div>
@@ -6248,7 +6245,7 @@ the modified version.  For example, to clean a value by removing leading and tra
 <div class="paragraph"><p>&#8230;a user entering "jaglan beta" as a planet name would see it stored in the database as "Jaglan Beta".</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_60">See Also</h4>
+<h4 id="_see_also_59">See Also</h4>
 <div class="paragraph"><p>The best place to understand the filters is the trait <span class="monospaced">StringValidators</span> in the source for <span class="monospaced">BaseField</span>: <a href="https://github.com/lift/framework/blob/master/core/util/src/main/scala/net/liftweb/util/BaseField.scala">https://github.com/lift/framework/blob/master/core/util/src/main/scala/net/liftweb/util/BaseField.scala</a>.</p></div>
 <div class="paragraph"><p>If you really do need to apply title case to a value, the Apache Commons <span class="monospaced">WordUtils</span> class provides ready-made functions for this.  See: <a href="http://commons.apache.org/lang/">http://commons.apache.org/lang/</a>.</p></div>
 </div>
@@ -6423,7 +6420,7 @@ the modified version.  For example, to clean a value by removing leading and tra
 <div class="paragraph"><p>We&#8217;ve used a database with an in-memory mode for the advantages of speed and no files to clean up. However, you could use any regular database: you&#8217;d need to change the driver and connection string.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_61">See Also</h4>
+<h4 id="_see_also_60">See Also</h4>
 <div class="paragraph"><p>See <a href="http://www.h2database.com/html/features.html#in_memory_databases">http://www.h2database.com/html/features.html#in_memory_databases</a> for more about H2&#8217;s in-memory database settings.</p></div>
 <div class="paragraph"><p><a href="#MongoUnitTest">[MongoUnitTest]</a> discusses unit testing with MongoDB, but the comments on SBT&#8217;s other testing commands and testing in an IDE would apply to this recipie too.</p></div>
 </div>
@@ -6467,7 +6464,7 @@ comes from <span class="monospaced">StringHelpers.randomString</span>. The value
 <div class="paragraph"><p>This will automatically insert values of the form "6481a844-460a-a4e0-9191-c808e3051519" in records you create.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_62">See Also</h4>
+<h4 id="_see_also_61">See Also</h4>
 <div class="paragraph"><p>Java&#8217;s UUID support is described at <a href="http://docs.oracle.com/javase/7/docs/api/java/util/UUID.html">http://docs.oracle.com/javase/7/docs/api/java/util/UUID.html</a> and includes a link to RFC 4122 which defines UUIDs.</p></div>
 </div>
 </div>
@@ -6584,7 +6581,7 @@ callbacks also support other triggered behaviours:</p></div>
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_63">See Also</h4>
+<h4 id="_see_also_62">See Also</h4>
 <div class="paragraph"><p>For a discussion of the difference between partial and full updates in Squeryl, see : <a href="http://squeryl.org/inserts-updates-delete.html">http://squeryl.org/inserts-updates-delete.html</a>.</p></div>
 </div>
 </div>
@@ -6647,7 +6644,7 @@ simply printing the SQL to the console.</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_64">See Also</h4>
+<h4 id="_see_also_63">See Also</h4>
 <div class="paragraph"><p>Squeryl <span class="monospaced">setLogger</span> is documented at: <a href="http://squeryl.org/miscellaneous.html">http://squeryl.org/miscellaneous.html</a>.</p></div>
 <div class="paragraph"><p>You can learn about logging in Lift from the Logging wiki page: <a href="https://www.assembla.com/spaces/liftweb/wiki/Logging">https://www.assembla.com/spaces/liftweb/wiki/Logging</a>.</p></div>
 </div>
@@ -6691,7 +6688,7 @@ doesn&#8217;t have this option.</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_65">See Also</h4>
+<h4 id="_see_also_64">See Also</h4>
 <div class="paragraph"><p>The schema definition page for Squeryl gives examples of attributes you can apply to tables and columns: <a href="http://squeryl.org/schema-definition.html">http://squeryl.org/schema-definition.html</a>.</p></div>
 </div>
 </div>
@@ -6738,7 +6735,7 @@ Your MySQL database has been created using a UTF-8 character set.
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_66">See Also</h4>
+<h4 id="_see_also_65">See Also</h4>
 <div class="paragraph"><p>The MySQL JDBC configuration guide is at: <a href="http://dev.mysql.com/doc/refman/5.6/en/connector-j-reference-configuration-properties.html">http://dev.mysql.com/doc/refman/5.6/en/connector-j-reference-configuration-properties.html</a>.</p></div>
 </div>
 </div>
@@ -6783,7 +6780,7 @@ your database.</p></div>
 <div class="paragraph"><p>The same instructions apply for using Record as well as Mapper.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_67">See Also</h4>
+<h4 id="_see_also_66">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6864,7 +6861,7 @@ The result is a <span class="monospaced">List[String]</span> which are the state
 best fit your needs.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_68">See Also</h4>
+<h4 id="_see_also_67">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6966,7 +6963,7 @@ using <span class="monospaced">java.net.URI</span> to parse the URL and make a c
 <div class="paragraph"><p>The <span class="monospaced">lift-mongodb-record</span> dependency itself depends on another Lift module, <span class="monospaced">lift-mongodb</span>, which provides connectivity and other other lower-level access to MongoDB. Both bottom out with the MongoDB Java driver.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_69">See Also</h4>
+<h4 id="_see_also_68">See Also</h4>
 <div class="paragraph"><p>Connection configuration that includes replica sets and Mongo options, such as timeout settings, are described on the Lift wiki at:  <a href="https://www.assembla.com/wiki/show/liftweb/Mongo_Configuration">https://www.assembla.com/wiki/show/liftweb/Mongo_Configuration</a>.</p></div>
 <div class="paragraph"><p>The full specification for Mongo connection URLs is: <a href="http://docs.mongodb.org/manual/reference/connection-string/">http://docs.mongodb.org/manual/reference/connection-string/</a>.</p></div>
 </div>
@@ -7102,7 +7099,7 @@ runtime.</p></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_70">See Also</h4>
+<h4 id="_see_also_69">See Also</h4>
 <div class="paragraph"><p>A discussion on the mailing list regarding the limited type support in <span class="monospaced">MongoMapField</span> and a possible way around it by overriding <span class="monospaced">asDBObject</span> can be found at: <a href="https://groups.google.com/d/msg/liftweb/XoseG-8mIPc/OLyIu6FrHIgJ">https://groups.google.com/d/msg/liftweb/XoseG-8mIPc/OLyIu6FrHIgJ</a>.</p></div>
 </div>
 </div>
@@ -7193,7 +7190,7 @@ document:</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_71">See Also</h4>
+<h4 id="_see_also_70">See Also</h4>
 <div class="paragraph"><p>The Lift Wiki describes BsonRecord in more detail at: <a href="https://www.assembla.com/spaces/liftweb/wiki/Mongo_Record_Embedded_Objects">https://www.assembla.com/spaces/liftweb/wiki/Mongo_Record_Embedded_Objects</a>.</p></div>
 </div>
 </div>
@@ -7353,7 +7350,7 @@ the object being referenced, a later call to <span class="monospaced">obj</span>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_72">See Also</h4>
+<h4 id="_see_also_71">See Also</h4>
 <div class="paragraph"><p>10Gen Inc&#8217;s <em>Data Modeling Decisions</em> describes embedding of documents compared to referencing objects. You&#8217;ll find the article at: <a href="http://docs.mongodb.org/manual/core/data-modeling/">http://docs.mongodb.org/manual/core/data-modeling/</a>.</p></div>
 </div>
 </div>
@@ -7450,7 +7447,7 @@ mailing list at: <a href="https://groups.google.com/d/topic/rogue-users/SdtFCU-w
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_73">See Also</h4>
+<h4 id="_see_also_72">See Also</h4>
 <div class="paragraph"><p>For geospacial queries, see <a href="#MongoGeospatial">[MongoGeospatial]</a>.</p></div>
 <div class="paragraph"><p>The README page for Rogue is a great starting point, and includes a link to <span class="monospaced">QueryTest</span> giving plenty of example queries to crib from: <a href="https://github.com/foursquare/rogue">https://github.com/foursquare/rogue</a>.</p></div>
 <div class="paragraph"><p>The motivation for Rogue is described in a Foursquare engineering blog post: <a href="http://engineering.foursquare.com/2011/01/21/rogue-a-type-safe-scala-dsl-for-querying-mongodb/">http://engineering.foursquare.com/2011/01/21/rogue-a-type-safe-scala-dsl-for-querying-mongodb/</a>.</p></div>
@@ -7563,7 +7560,7 @@ us an angle in radians. We convert this to <span class="monospaced">Degrees</spa
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_74">See Also</h4>
+<h4 id="_see_also_73">See Also</h4>
 <div class="paragraph"><p>The MongoDB manual discusses geospatial index at: <a href="http://docs.mongodb.org/manual/core/geospatial-indexes/">http://docs.mongodb.org/manual/core/geospatial-indexes/</a>.</p></div>
 <div class="paragraph"><p>You can learn more about write concerns at <a href="http://docs.mongodb.org/manual/core/write-operations/">http://docs.mongodb.org/manual/core/write-operations/</a>, and
 the various values to pass to <span class="monospaced">save</span> are described in the Java MongoDB driver: <a href="http://api.mongodb.org/java/current/">http://api.mongodb.org/java/current/</a>.</p></div>
@@ -7629,7 +7626,7 @@ res2: List[code.model.Country] = List(class code.model.Country={_id=uk,
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_75">See Also</h4>
+<h4 id="_see_also_74">See Also</h4>
 <div class="paragraph"><p><a href="#ConnectingToMongo">[ConnectingToMongo]</a> for connecting to MongoDB and <a href="#QueryingWithRogue">[QueryingWithRogue]</a> for querying with Rogue.</p></div>
 </div>
 </div>
@@ -7778,7 +7775,7 @@ res2: List[code.model.Country] = List(class code.model.Country={_id=uk,
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_76">See Also</h4>
+<h4 id="_see_also_75">See Also</h4>
 <div class="paragraph"><p>Specs2 is documented at: <a href="http://specs2.org/">http://specs2.org/</a>.</p></div>
 <div class="paragraph"><p>If you prefer to use the Scala Test framework (<a href="http://www.scalatest.org">http://www.scalatest.org</a>), take a look at Tim Nelson&#8217;s <em>Mongo Auth</em> Lift module at <a href="https://github.com/eltimn/lift-mongoauth">https://github.com/eltimn/lift-mongoauth</a>. It includes tests using that framework that run against Mongo.  Much of what Tim has written there has been used to produce this recipe for Specs2.</p></div>
 <div class="paragraph"><p>The Lift Mongo Record library includes a variation on testing with Specs2, using just <span class="monospaced">Before</span> and <span class="monospaced">After</span> rather than the <span class="monospaced">around</span> example used in this recipe. If you prefer that approach, you&#8217;ll find the code in: <a href="https://github.com/lift/framework/tree/master/persistence/mongodb-record/src/test/scala/net/liftweb/mongodb/record">https://github.com/lift/framework/tree/master/persistence/mongodb-record/src/test/scala/net/liftweb/mongodb/record</a>.</p></div>
@@ -7903,7 +7900,7 @@ the use of <span class="monospaced">PlainMailBodyType</span> with
 <span class="monospaced">PlainPlusBodyType("Hello from Lift", "ISO8859_1")</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_77">See Also</h4>
+<h4 id="_see_also_76">See Also</h4>
 <div class="paragraph"><p><a href="#EmailWithAttachments">[EmailWithAttachments]</a> describes email with attachments.</p></div>
 <div class="paragraph"><p>For HTML email, see <a href="#HTMLEmail">[HTMLEmail]</a>.</p></div>
 </div>
@@ -8038,7 +8035,7 @@ DEBUG SMTP: trying to connect to host "localhost", port 25, isSSL false
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_78">See Also</h4>
+<h4 id="_see_also_77">See Also</h4>
 <div class="paragraph"><p>Run modes are described at: <a href="https://www.assembla.com/spaces/liftweb/wiki/Run_Modes">https://www.assembla.com/spaces/liftweb/wiki/Run_Modes</a>.</p></div>
 </div>
 </div>
@@ -8129,7 +8126,7 @@ Content-Transfer-Encoding: 7bit
 <div class="paragraph"><p>When receiving a message with this content, it is up to the mail client to decide which version to show (text or HTML).</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_79">See Also</h4>
+<h4 id="_see_also_78">See Also</h4>
 <div class="paragraph"><p>For sending with attachments, see <a href="#EmailWithAttachments">[EmailWithAttachments]</a>.</p></div>
 </div>
 </div>
@@ -8181,7 +8178,7 @@ also supports JNDI, or you could lookup a username and password some other way a
 <div class="paragraph"><p>However, some mail services such as SendGrid do require <span class="monospaced">mail.smtp.auth=true</span> to be set, and that should go into your Lift properties file or set as a JVM argument: <span class="monospaced">-Dmail.smtp.auth=true</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_80">See Also</h4>
+<h4 id="_see_also_79">See Also</h4>
 <div class="paragraph"><p>As well as <span class="monospaced">mail.smtp.auth</span> there are a range of settings to control the Java Mail API. examples include controlling port numbers and timeouts.  These are listed at: <a href="http://javamail.kenai.com/nonav/javadocs/com/sun/mail/smtp/package-summary.html">http://javamail.kenai.com/nonav/javadocs/com/sun/mail/smtp/package-summary.html</a>.</p></div>
 </div>
 </div>
@@ -8255,7 +8252,7 @@ have more than one file to attach.  Although the name <span class="monospaced">P
 <div class="paragraph"><p>The <span class="monospaced">loadResource</span> returns a <span class="monospaced">Box[Array[Byte]]</span> as we have no guarantee the file will exist. We map this to a <span class="monospaced">Box[XHTMLPlusImages]</span> and match on that result to either send the email, or log that the file wasn&#8217;t found.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_81">See Also</h4>
+<h4 id="_see_also_80">See Also</h4>
 <div class="paragraph"><p>Messages are sent using the "multipart/related" mime heading, with an "inline" disposition.  Lift ticket #1197 links to a discussion regarding "multipart/mixed" which may be preferable for working around issues with Microsoft Exchange. See: <a href="https://github.com/lift/framework/issues/1197">https://github.com/lift/framework/issues/1197</a>.</p></div>
 <div class="paragraph"><p>RFC 2183 describes the "Content-Disposition" header: <a href="http://www.ietf.org/rfc/rfc2183.txt">http://www.ietf.org/rfc/rfc2183.txt</a>.</p></div>
 </div>
@@ -8290,7 +8287,7 @@ seconds from now.</p></div>
 actor a specified message after a given delay.  This takes a <span class="monospaced">TimeSpan</span> delay, but again there&#8217;s also a <span class="monospaced">Schedule.perform</span> version that accepts a <span class="monospaced">Long</span> as a delay.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_82">See Also</h4>
+<h4 id="_see_also_81">See Also</h4>
 <div class="paragraph"><p><a href="#RunTasksPeriodically">[RunTasksPeriodically]</a> includes an example of scheduling with actors.</p></div>
 <div class="paragraph"><p><span class="monospaced">ScheduledFuture</span> is documented via the Java Doc for <span class="monospaced">Future</span> at: <a href="http://docs.oracle.com/javase/6/docs/api/java/util/concurrent/Future.html">http://docs.oracle.com/javase/6/docs/api/java/util/concurrent/Future.html</a>.  If you&#8217;re building complex, low-level, cancellable concurrency functions, it&#8217;s advisable to have a copy of <em>Java Concurrency in Practice</em> close by (Goetz <em>et al.</em>, 2006, Addison-Wesley Professional).</p></div>
 </div>
@@ -8355,7 +8352,7 @@ schedule tasks after issuing the <span class="monospaced">container:stop</span> 
 library, which allows you to <span class="monospaced">cancel</span> the activity.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_83">See Also</h4>
+<h4 id="_see_also_82">See Also</h4>
 <div class="paragraph"><p>Chapter 1 of <em>Lift in Action</em> (Perrett, 2011, Manning Publications Co) includes a Comet Actor clock example that uses <span class="monospaced">Schedule</span>.</p></div>
 </div>
 </div>
@@ -8484,7 +8481,7 @@ library, which allows you to <span class="monospaced">cancel</span> the activity
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_84">See Also</h4>
+<h4 id="_see_also_83">See Also</h4>
 <div class="paragraph"><p>The Dispatch documentation is well-written and guides you through the way Dispatch approaches HTTP.  Do spend some time with it at: <a href="http://dispatch.databinder.net/Dispatch.html">http://dispatch.databinder.net/Dispatch.html</a>.</p></div>
 <div class="paragraph"><p>To see what&#8217;s available on Dispatch&#8217;s <span class="monospaced">Promise</span>, browse the source: <a href="https://github.com/dispatch/reboot/blob/master/core/src/main/scala/promise.scala">https://github.com/dispatch/reboot/blob/master/core/src/main/scala/promise.scala</a>.</p></div>
 <div class="paragraph"><p>For questions about Dispatch, the best place is the Dispatch Google Group: <a href="https://groups.google.com/forum/!forum/dispatch-scala">https://groups.google.com/forum/!forum/dispatch-scala</a>.</p></div>
@@ -8572,7 +8569,7 @@ often. To turn this feature off, run the following:</p></div>
 </pre></div></div></div>
 <div class="paragraph"><p>As with the run mode setting, CloudBees will remember these settings, so you
 only need to set them once.</p></div>
-<div class="paragraph"><p>Finally, you may want to increase the -permanent generation_ memory setting of the JVM. By default, an application has 64M assigned for the permgen. To increase this to 128M, run the <span class="monospaced">bees:update</span> commannd:</p></div>
+<div class="paragraph"><p>Finally, you may want to increase the <em>permanent generation</em> memory setting of the JVM. By default, an application has 64M assigned for the permgen. To increase this to 128M, run the <span class="monospaced">bees:update</span> commannd:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>bees app:update -a myaccount/myapp <span class="nv">jvmPermSize</span><span class="o">=</span>128
 </pre></div></div></div>
@@ -8675,7 +8672,7 @@ when deploying.</p></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_85">See Also</h4>
+<h4 id="_see_also_84">See Also</h4>
 <div class="paragraph"><p>The CloudBees SDK provides command line tools for configuring and controlling applications. It can be found at <a href="https://wiki.cloudbees.com/bin/view/RUN/BeesSDK">https://wiki.cloudbees.com/bin/view/RUN/BeesSDK</a>.</p></div>
 <div class="paragraph"><p>The CloudBees developer portal (<a href="https://developer.cloudbees.com">https://developer.cloudbees.com</a>)contains a "Resources" section which provides details of the CloudBees services.</p></div>
 <div class="paragraph"><p>The JVM PermGen settings for CloudBees are described at <a href="https://wiki.cloudbees.com/bin/view/RUN/JVM+PermGen+Space">https://wiki.cloudbees.com/bin/view/RUN/JVM+PermGen+Space</a>, and settings for which JVM is used can be found at <a href="https://developer.cloudbees.com/bin/view/RUN/JVMVersion">https://developer.cloudbees.com/bin/view/RUN/JVMVersion</a>.  The run time stack defaults to Tomcat 6, but can also be changed as described at <a href="https://developer.cloudbees.com/bin/view/RUN/ClickStack">https://developer.cloudbees.com/bin/view/RUN/ClickStack</a>.</p></div>
@@ -8756,7 +8753,7 @@ instructions for installing and configuring it can be found at <a href="https://
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_86">See Also</h4>
+<h4 id="_see_also_85">See Also</h4>
 <div class="paragraph"><p>Amazon provide a walk-through with screen shots, showing how to create a Beanstalk application.  It&#8217;s at: <a href="http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/GettingStarted.Walkthrough.html">http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/GettingStarted.Walkthrough.html</a>.</p></div>
 <div class="paragraph"><p><em>Elastic Beanstalk</em>, by van Villet <em>et al</em> (2011, O&#8217;Reilly Media, Inc) goes into the details of the Beanstalk infrastructure, how to work with Eclipse, enabling continuous integration, and how to hack the instance, for example to use NGINX as a front-end to Beanstalk.</p></div>
 <div class="paragraph"><p>The Amazon documentation for "Configuring Databases with AWS Elastic Beanstalk" describes the RDS settings in more detail: <a href="http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/using-features.managing.db.html">http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/using-features.managing.db.html</a>.</p></div>
@@ -8958,7 +8955,7 @@ No relations found.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_87">See Also</h4>
+<h4 id="_see_also_86">See Also</h4>
 <div class="paragraph"><p>Both the Scala and Java articles at Heroku are useful to learn more of the details described in this recipe: <a href="https://devcenter.heroku.com/categories/scala">https://devcenter.heroku.com/categories/scala</a> and <a href="https://devcenter.heroku.com/categories/java">https://devcenter.heroku.com/categories/java</a>.</p></div>
 <div class="paragraph"><p><em>Dynos and the Dyno Manifold</em> are described at: <a href="https://devcenter.heroku.com/articles/dynos">https://devcenter.heroku.com/articles/dynos</a>.</p></div>
 <div class="paragraph"><p>The JVM shutdown hooks are described in the JDK documentation: <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html">http://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html</a>.</p></div>
@@ -9090,7 +9087,7 @@ The first modification is to include the Lift module to talk to RabbitMQ. This i
 <div class="paragraph"><p>Note that <span class="monospaced">Props.productionMode</span> is <span class="monospaced">true</span> for the run modes of <span class="monospaced">Production</span>, <span class="monospaced">Staging</span> and <span class="monospaced">Pilot</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_88">See Also</h4>
+<h4 id="_see_also_87">See Also</h4>
 <div class="paragraph"><p>The Lift Chat example is described in <em>Simply Lift</em> at <a href="http://simply.liftweb.net/">http://simply.liftweb.net/</a>. The source code used in this recipe can be found at: <a href="https://github.com/LiftCookbook/rabbitmq_chat">https://github.com/LiftCookbook/rabbitmq_chat</a>.</p></div>
 <div class="paragraph"><p>The Lift AMQP module is: <a href="https://github.com/liftmodules/amqp">https://github.com/liftmodules/amqp</a>.</p></div>
 <div class="paragraph"><p>If you want to learn more about RabbitMQ, take a look at the tutorials (<a href="http://www.rabbitmq.com/tutorials/tutorial-five-java.html">http://www.rabbitmq.com/tutorials/tutorial-five-java.html</a>) or Alvaro Videla and Jason J.W. Williams (2012), <em>RabbitMQ in Action: Distributed Messaging for Everyone</em>, Manning Publications.</p></div>
@@ -9119,7 +9116,7 @@ The first modification is to include the Lift module to talk to RabbitMQ. This i
 <div class="paragraph"><p>New members to the mailing list are moderated to help reduce spam. This means the first time you post your message may take a few hours to show up.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_89">See Also</h4>
+<h4 id="_see_also_88">See Also</h4>
 <div class="paragraph"><p>The Lift community is one of the things that makes Lift what it is. Please take a look at <a href="http://liftweb.net/community">http://liftweb.net/community</a> before posting: you&#8217;ll get the best response with a polite question.</p></div>
 <div class="paragraph"><p>If you need paid consulting, development or SLA-backed support, there&#8217;s a list of organizations on the Wiki at <a href="https://www.assembla.com/spaces/liftweb/wiki/Commercial_Support">https://www.assembla.com/spaces/liftweb/wiki/Commercial_Support</a>.</p></div>
 </div>
@@ -9159,7 +9156,7 @@ necessarily a bug in Lift.</p></div>
 <div class="paragraph"><p>A great way to get help with the issue you have, or getting a bug fixed, is to produce a small example to illustrate the problem and posting it on GitHub. The key is to provide instructions so someone can run the example and see exactly what you see without having to jump though hoops.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_90">See Also</h4>
+<h4 id="_see_also_89">See Also</h4>
 <div class="paragraph"><p>You&#8217;ll find a list of tickets at <a href="http://ticket.liftweb.net/">http://ticket.liftweb.net/</a>.</p></div>
 <div class="paragraph"><p>If you&#8217;re asked to, or want to, post example code there&#8217;s a guide at <a href="http://www.assembla.com/wiki/show/liftweb/Posting_example_code">http://www.assembla.com/wiki/show/liftweb/Posting_example_code</a>.</p></div>
 <div class="paragraph"><p>If you&#8217;ve found a bug, and you&#8217;re asked to create a ticket, the main thing to do is to include a link to the mailing list discussion of the issue, as described at <a href="http://www.assembla.com/wiki/show/liftweb/Creating_tickets">http://www.assembla.com/wiki/show/liftweb/Creating_tickets</a>.</p></div>
@@ -9206,7 +9203,7 @@ It&#8217;s a <em>small</em> change, enhancements, or bug fix to Lift.
 <div class="paragraph"><p>What&#8217;s a small change? That&#8217;s a good question, and if you&#8217;re unsure, talk about your proposed change on the mailing list.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_91">See Also</h4>
+<h4 id="_see_also_90">See Also</h4>
 <div class="paragraph"><p>This contribution policy was introduced in November 2012, and can be read about at <a href="http://www.lift.la/blog/new_contribution_policy">http://www.lift.la/blog/new_contribution_policy</a>.</p></div>
 <div class="paragraph"><p>The <span class="monospaced">contributors.md</span> file is found at: <a href="https://github.com/lift/framework/blob/master/contributors.md">https://github.com/lift/framework/blob/master/contributors.md</a>.</p></div>
 <div class="paragraph"><p>The Lift source is on GitHub at <a href="https://github.com/lift/">https://github.com/lift/</a>.  The <em>framework</em> project is probably the one you want, although you&#8217;ll also find Git repositories for examples and Lift web sites there.</p></div>
@@ -9231,7 +9228,7 @@ It&#8217;s a <em>small</em> change, enhancements, or bug fix to Lift.
 <div class="paragraph"><p>One limitation of the watcher role on Assembla is that you cannot move pages. If you create a new page in the wrong section, or want to reorganise pages, you&#8217;ll need to ask on the Lift mailing list for someone with permissions to do that for you.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_92">See Also</h4>
+<h4 id="_see_also_91">See Also</h4>
 <div class="paragraph"><p>The markup format for the Wiki pages is Textile. A reference guide can be found at: <a href="http://redcloth.org/hobix.com/textile/">http://redcloth.org/hobix.com/textile/</a>.</p></div>
 </div>
 </div>
@@ -9273,7 +9270,7 @@ You assert that the work is your own, or you have the necessary permission for t
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_93">See Also</h4>
+<h4 id="_see_also_92">See Also</h4>
 <div class="paragraph"><p>The source to this book is at: <a href="https://github.com/d6y/lift-cookbook/">https://github.com/d6y/lift-cookbook/</a>.</p></div>
 <div class="paragraph"><p>The AsciiDoc cheetsheet at <a href="http://powerman.name/doc/asciidoc">http://powerman.name/doc/asciidoc</a> is a quick way to get into AsciiDoc, but if you need more, the AsciiDoc home page has the details: <a href="http://www.methods.co.nz/asciidoc/">http://www.methods.co.nz/asciidoc/</a>.</p></div>
 <div class="paragraph"><p>GitHub provide an introduction to pull requests at <a href="https://help.github.com/articles/using-pull-requests">https://help.github.com/articles/using-pull-requests</a>.</p></div>
@@ -9424,7 +9421,7 @@ JavaScript to the head of every page.</p></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_94">See Also</h4>
+<h4 id="_see_also_93">See Also</h4>
 <div class="paragraph"><p>Originally Lift included a set of modules, but these have been separated out to individual projects at <a href="https://github.com/liftmodules/">https://github.com/liftmodules/</a>.  The Lift contributor policy outlined in <a href="#LiftCodeContributions">[LiftCodeContributions]</a> doesn&#8217;t apply to Lift modules: you&#8217;re free to contribute to these modules as you would any other open source project.</p></div>
 <div class="paragraph"><p>The Lift wiki pages for modules can be reached via <a href="http://liftmodules.net">http://liftmodules.net</a>.</p></div>
 <div class="paragraph"><p>The Snowstorm project ("setting CPUs on fire worldwide every winter since 2003") is at: <a href="https://github.com/scottschiller/snowstorm/">https://github.com/scottschiller/snowstorm/</a> and the module developed for this recipe is at <a href="https://github.com/LiftCookbook/snowstorm-example-module">https://github.com/LiftCookbook/snowstorm-example-module</a>.</p></div>
@@ -9438,7 +9435,7 @@ JavaScript to the head of every page.</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-03-04 09:31:45 GMT
+Last updated 2013-03-04 12:37:40 GMT
 </div>
 </div>
 </body>

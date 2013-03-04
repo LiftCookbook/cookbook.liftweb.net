@@ -21,7 +21,7 @@ object PamfletUrl {
     "Sequencing CSS selector operations.html" -> "#SequencingSelectorOps",
     "Setting meta tag contents.html" -> "#SetMetaTag",
     "Setting the page title.html" -> "#SetPageTitle",
-    "Including HTML5 Shiv.html" -> "#Html5Shiv",
+    "Including HTML5 Shiv.html" -> "#ConditionalIncludes",
     "Adding a Google +1 button.html" -> "removed.html",
     "Returning snippet markup unchanged.html" -> "#PassThru",
     "Snippet not found when using HTML5.html" -> "#SnippetNotFound",
