@@ -37,7 +37,7 @@ object PamfletUrl {
     "Ajax form processing.html" -> "#_ajax_form_processing",
     "Ajax JSON form processing.html" -> "#_ajax_json_form_processing",
     "Conditionally disable a checkbox.html" -> "#_conditionally_disable_a_checkbox",
-    "Use a select box with multiple options.html" -> "#_use_a_select_box_with_multiple_options",
+    "Use a select box with multiple options.html" -> "#MultiSelectBox",
     "REST.html" -> "#REST",
     "DRY URLs.html" -> "#DRYURLs",
     "Google Sitemap.html" -> "#GoogleSitemap",
