@@ -33,10 +33,10 @@ object PamfletUrl {
     "Rendering Textile markup.html" -> "#Textile",
     "Access restriction by HTTP header.html" -> "#RestrictByHeader",
     "Forms processing in Lift.html" -> "#Forms",
-    "Plain old form processing.html" -> "#_plain_old_form_processing",
-    "Ajax form processing.html" -> "#_ajax_form_processing",
-    "Ajax JSON form processing.html" -> "#_ajax_json_form_processing",
-    "Conditionally disable a checkbox.html" -> "#_conditionally_disable_a_checkbox",
+    "Plain old form processing.html" -> "#PlainFormProcessing",
+    "Ajax form processing.html" -> "#AjaxFormProcessing",
+    "Ajax JSON form processing.html" -> "#JsonForms",
+    "Conditionally disable a checkbox.html" -> "#DisableCheckbox",
     "Use a select box with multiple options.html" -> "#MultiSelectBox",
     "REST.html" -> "#REST",
     "DRY URLs.html" -> "#DRYURLs",
@@ -89,11 +89,11 @@ object PamfletUrl {
     "Run tasks periodically.html" -> "#RunTasksPeriodically",
     "Fetching URLs.html" -> "#FetchURLs",
     "Production deployment.html" -> "#deployment",
-    "Deploying to CloudBees.html" -> "#_deploying_to_cloudbees",
+    "Deploying to CloudBees.html" -> "#CloudBees",
     "MySQL unicode charset encoding.html" -> "#MySQLCharSet",
-    "Contributing, bug reports & getting help.html" -> "#_contributing_bug_reports_amp_getting_help",
-    "How to add a new recipe to this Cookbook.html" -> "#_how_to_add_a_new_recipe_to_this_cookbook",
-    "How to report bugs.html" -> "#_how_to_report_bugs"
+    "Contributing, bug reports & getting help.html" -> "#ContributingAndHelp",
+    "How to add a new recipe to this Cookbook.html" -> "#AddRecipe",
+    "How to report bugs.html" -> "#HowToReportBugs"
 
   )
 

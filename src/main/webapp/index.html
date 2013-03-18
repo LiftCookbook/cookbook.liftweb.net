@@ -2904,7 +2904,7 @@ following to the list of dependencies:</p></div>
 <div class="paragraph"><p>This section gives examples of working with Lift forms in different
 ways.  You&#8217;ll find many of the examples in <a href="https://github.com/LiftCookbook/cookbook_forms">https://github.com/LiftCookbook/cookbook_forms</a>.</p></div>
 <div class="sect2">
-<h3 id="_plain_old_form_processing">Plain Old Form Processing</h3>
+<h3 id="PlainFormProcessing">Plain Old Form Processing</h3>
 <div class="sect3">
 <h4 id="_problem_25">Problem</h4>
 <div class="paragraph"><p>You want to process form data in a regular old-fashioned, non-Ajax, way.</p></div>
@@ -2992,7 +2992,7 @@ Lift project.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ajax_form_processing">Ajax Form Processing</h3>
+<h3 id="AjaxFormProcessing">Ajax Form Processing</h3>
 <div class="sect3">
 <h4 id="_problem_26">Problem</h4>
 <div class="paragraph"><p>You want to process a form on the server via Ajax, without reloading the
@@ -3089,7 +3089,7 @@ Lift&#8217;s <a href="http://demo.liftweb.net/ajax">Ajax Demo page</a>.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ajax_json_form_processing">Ajax JSON Form Processing</h3>
+<h3 id="JsonForms">Ajax JSON Form Processing</h3>
 <div class="sect3">
 <h4 id="_problem_27">Problem</h4>
 <div class="paragraph"><p>You want to process a form via Ajax, sending the data in JSON format.</p></div>
@@ -3223,7 +3223,7 @@ Section 10.4, JSON, in
 </div>
 </div>
 <div class="sect2">
-<h3 id="_conditionally_disable_a_checkbox">Conditionally Disable a Checkbox</h3>
+<h3 id="DisableCheckbox">Conditionally Disable a Checkbox</h3>
 <div class="sect3">
 <h4 id="_problem_28">Problem</h4>
 <div class="paragraph"><p>You want to add the <span class="monospaced">disabled</span> attribute to a <span class="monospaced">SHtml.checkbox</span> based on
@@ -3443,7 +3443,7 @@ note that the function receives a list of <span class="monospaced">Item</span>:<
   <span class="nt">&lt;script </span><span class="na">id=</span><span class="s">&quot;json&quot;</span> <span class="na">src=</span><span class="s">&quot;/classpath/json.js&quot;</span> <span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
 <span class="nt">&lt;/head&gt;</span>
 <span class="nt">&lt;body&gt;</span>
-<span class="nt">&lt;form</span> <span class="na">class=</span><span class="s">&quot;lift:FileUploadSnippet?form=post;multipart=true&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">data-lift=</span><span class="s">&quot;FileUploadSnippet?form=post;multipart=true&quot;</span><span class="nt">&gt;</span>
    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;file&quot;</span><span class="nt">&gt;</span>
      Select a file: <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">&quot;file&quot;</span><span class="nt">&gt;&lt;/input&gt;</span>
    <span class="nt">&lt;/label&gt;</span>
@@ -3459,9 +3459,10 @@ note that the function receives a list of <span class="monospaced">Item</span>:<
 <span class="k">import</span> <span class="nn">net.liftweb.util.Helpers._</span>
 <span class="k">import</span> <span class="nn">net.liftweb.http.SHtml._</span>
 <span class="k">import</span> <span class="nn">net.liftweb.http.FileParamHolder</span>
-<span class="k">import</span> <span class="nn">net.liftweb.common.</span><span class="o">{</span><span class="nc">Full</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">,</span> <span class="nc">Box</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">net.liftweb.common.</span><span class="o">{</span><span class="nc">Loggable</span><span class="o">,</span> <span class="nc">Full</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">,</span> <span class="nc">Box</span><span class="o">}</span>
 
-<span class="k">class</span> <span class="nc">FileUploadSnippet</span> <span class="o">{</span>
+
+<span class="k">class</span> <span class="nc">FileUploadSnippet</span> <span class="k">extends</span> <span class="nc">Loggable</span> <span class="o">{</span>
 
   <span class="k">def</span> <span class="n">render</span> <span class="k">=</span> <span class="o">{</span>
 
@@ -3469,15 +3470,13 @@ note that the function receives a list of <span class="monospaced">Item</span>:<
 
     <span class="k">def</span> <span class="n">processForm</span><span class="o">()</span> <span class="k">=</span> <span class="n">upload</span> <span class="k">match</span> <span class="o">{</span>
       <span class="k">case</span> <span class="nc">Full</span><span class="o">(</span><span class="nc">FileParamHolder</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="n">mimeType</span><span class="o">,</span> <span class="n">fileName</span><span class="o">,</span> <span class="n">file</span><span class="o">))</span> <span class="k">=&gt;</span>
-        <span class="n">println</span><span class="o">(</span><span class="s">&quot;%s of type %s is %d bytes long&quot;</span><span class="o">.</span>
-           <span class="n">format</span> <span class="o">(</span><span class="n">fileName</span><span class="o">,</span> <span class="n">mimeType</span><span class="o">,</span> <span class="n">file</span><span class="o">.</span><span class="n">length</span><span class="o">)</span> <span class="o">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="o">(</span><span class="s">&quot;%s of type %s is %d bytes long&quot;</span> <span class="n">format</span> <span class="o">(</span><span class="n">fileName</span><span class="o">,</span> <span class="n">mimeType</span><span class="o">,</span> <span class="n">file</span><span class="o">.</span><span class="n">length</span><span class="o">))</span>
 
-      <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="s">&quot;No file?&quot;</span><span class="o">)</span>
+      <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="o">(</span><span class="s">&quot;No file?&quot;</span><span class="o">)</span>
     <span class="o">}</span>
 
     <span class="s">&quot;#file&quot;</span> <span class="o">#&gt;</span> <span class="n">fileUpload</span><span class="o">(</span><span class="n">f</span> <span class="k">=&gt;</span> <span class="n">upload</span> <span class="k">=</span> <span class="nc">Full</span><span class="o">(</span><span class="n">f</span><span class="o">))</span> <span class="o">&amp;</span>
       <span class="s">&quot;type=submit&quot;</span> <span class="o">#&gt;</span> <span class="n">onSubmitUnit</span><span class="o">(</span><span class="n">processForm</span><span class="o">)</span>
-
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div></div></div>
@@ -3528,12 +3527,12 @@ like this:</p></div>
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="n">processForm</span><span class="o">()</span> <span class="k">=</span> <span class="n">upload</span> <span class="k">match</span> <span class="o">{</span>
 
   <span class="k">case</span> <span class="nc">Full</span><span class="o">(</span><span class="n">content</span> <span class="k">:</span> <span class="kt">OnDiskFileParamHolder</span><span class="o">)</span> <span class="k">=&gt;</span>
-    <span class="n">println</span><span class="o">(</span><span class="s">&quot;File is at &quot;</span><span class="o">+</span><span class="n">content</span><span class="o">.</span><span class="n">localFile</span><span class="o">.</span><span class="n">getAbsolutePath</span><span class="o">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="o">(</span><span class="s">&quot;File: &quot;</span><span class="o">+</span><span class="n">content</span><span class="o">.</span><span class="n">localFile</span><span class="o">.</span><span class="n">getAbsolutePath</span><span class="o">)</span>
     <span class="k">val</span> <span class="n">in</span><span class="k">:</span> <span class="kt">InputStream</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">fileStream</span>
-    <span class="c1">// do something with the stream here</span>
+    <span class="c1">// ...do something with the stream here...</span>
     <span class="k">val</span> <span class="n">wasDeleted_?</span> <span class="k">=</span> <span class="n">content</span><span class="o">.</span><span class="n">localFile</span><span class="o">.</span><span class="n">delete</span><span class="o">()</span>
 
-  <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="s">&quot;No file?&quot;</span><span class="o">)</span>
+  <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="o">(</span><span class="s">&quot;No file?&quot;</span><span class="o">)</span>
 <span class="o">}</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Be aware that <span class="monospaced">OnDiskFileParamHolder</span> implements <span class="monospaced">FileParamHolder</span> so would  match the original <span class="monospaced">FileParamHolder</span> pattern used in the recipe. However, if you access the <span class="monospaced">file</span> field of <span class="monospaced">OnDiskFileParamHolder</span>, you&#8217;ll bring the file into memory, which would defeat the point of storing it on disk to process it as a stream.</p></div>
@@ -3552,123 +3551,7 @@ like this:</p></div>
 <div class="paragraph"><p>The HTTP file upload mechanics are described in RFC 1867, <em>Form-based File Upload in HTML</em>:
 <a href="http://tools.ietf.org/html/rfc1867">http://tools.ietf.org/html/rfc1867</a></p></div>
 <div class="paragraph"><p><a href="#RestBinaryData">[RestBinaryData]</a> discusses file upload in the context of a REST service.</p></div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="AjaxFileUpload">Ajax File Upload</h3>
-<div class="sect3">
-<h4 id="_problem_31">Problem</h4>
-<div class="paragraph"><p>You want to offer your users an Ajax file upload tool, with progress bars and drag and drop support.</p></div>
-</div>
-<div class="sect3">
-<h4 id="_solution_30">Solution</h4>
-<div class="paragraph"><p>Add Sebastian Tschan&#8217;s <em>jQuery File Upload</em> widget (<a href="https://github.com/blueimp/jQuery-File-Upload">https://github.com/blueimp/jQuery-File-Upload</a>) to your project, and implement a REST end point to receive files.</p></div>
-<div class="paragraph"><p>The first step is to download the widget, and drag the <span class="monospaced">js</span> folder into your application as <span class="monospaced">src/main/webapp/js</span>.  We can then use the JavaScript in a template:</p></div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE HTML&gt;</span>
-<span class="nt">&lt;html&gt;</span>
-<span class="nt">&lt;head&gt;</span>
-  <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;title&gt;</span>jQuery File Upload Example<span class="nt">&lt;/title&gt;</span>
-<span class="nt">&lt;/head&gt;</span>
-<span class="nt">&lt;body&gt;</span>
-
-<span class="nt">&lt;h1&gt;</span>Drag files onto this page<span class="nt">&lt;/h1&gt;</span>
-
-<span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">&quot;fileupload&quot;</span> <span class="na">type=</span><span class="s">&quot;file&quot;</span> <span class="na">name=</span><span class="s">&quot;files[]&quot;</span> <span class="na">data-url=</span><span class="s">&quot;/upload&quot;</span> <span class="na">multiple</span><span class="nt">&gt;</span>
-
-<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;progress&quot;</span> <span class="na">style=</span><span class="s">&quot;width:20em; border: 1pt solid silver; display: none&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;progress-bar&quot;</span> <span class="na">style=</span><span class="s">&quot;background: green; height: 1em; width:0%&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
-<span class="nt">&lt;/div&gt;</span>
-
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;js/vendor/jquery.ui.widget.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;js/jquery.iframe-transport.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;js/jquery.fileupload.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-
-<span class="nt">&lt;script&gt;</span>
-  <span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#fileupload&#39;</span><span class="p">).</span><span class="nx">fileupload</span><span class="p">({</span>
-      <span class="nx">dataType</span><span class="o">:</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span>
-      <span class="nx">add</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#progress-bar&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;width&#39;</span><span class="p">,</span> <span class="s1">&#39;0%&#39;</span><span class="p">);</span>
-        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#progress&#39;</span><span class="p">).</span><span class="nx">show</span><span class="p">();</span>
-        <span class="nx">data</span><span class="p">.</span><span class="nx">submit</span><span class="p">();</span>
-      <span class="p">},</span>
-      <span class="nx">progressall</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">progress</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">loaded</span> <span class="o">/</span> <span class="nx">data</span><span class="p">.</span><span class="nx">total</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;%&#39;</span><span class="p">;</span>
-        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#progress-bar&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;width&#39;</span><span class="p">,</span> <span class="nx">progress</span><span class="p">);</span>
-      <span class="p">},</span>
-      <span class="nx">done</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">files</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">file</span><span class="p">)</span> <span class="p">{</span>
-          <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;&lt;p/&gt;&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">name</span><span class="p">).</span><span class="nx">appendTo</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">);</span>
-        <span class="p">});</span>
-        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#progress&#39;</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">();</span>
-      <span class="p">}</span>
-    <span class="p">});</span>
-  <span class="p">});</span>
-<span class="nt">&lt;/script&gt;</span>
-
-<span class="nt">&lt;/body&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
-</pre></div></div></div>
-<div class="paragraph"><p>This template provides an input field for files, an area to use as a progress indicator, and configures the widget when the page loads in a JQuery <span class="monospaced">$( ... )</span> block.</p></div>
-<div class="paragraph"><p>The final part is to implement a Lift REST service to receive the file or files.  The URL of the service, <span class="monospaced">/upload</span>, is set in <span class="monospaced">data-url</span> on the <span class="monospaced">input</span> field, and that&#8217;s the address we match on:</p></div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="k">package</span> <span class="nn">code.rest</span>
-
-<span class="k">import</span> <span class="nn">net.liftweb.http.rest.RestHelper</span>
-<span class="k">import</span> <span class="nn">net.liftweb.http.OkResponse</span>
-
-<span class="k">object</span> <span class="nc">AjaxFileUpload</span> <span class="k">extends</span> <span class="nc">RestHelper</span> <span class="o">{</span>
-
-  <span class="n">serve</span> <span class="o">{</span>
-
-    <span class="k">case</span> <span class="s">&quot;upload&quot;</span> <span class="o">::</span> <span class="nc">Nil</span> <span class="nc">Post</span> <span class="n">req</span> <span class="k">=&gt;</span>
-      <span class="k">for</span> <span class="o">(</span><span class="n">file</span> <span class="k">&lt;-</span> <span class="n">req</span><span class="o">.</span><span class="n">uploadedFiles</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">println</span><span class="o">(</span><span class="s">&quot;Received: &quot;</span><span class="o">+</span><span class="n">file</span><span class="o">.</span><span class="n">fileName</span><span class="o">)</span>
-      <span class="o">}</span>
-      <span class="nc">OkResponse</span><span class="o">()</span>
-
-  <span class="o">}</span>
-
-<span class="o">}</span>
-</pre></div></div></div>
-<div class="paragraph"><p>This implementation simply logs the name of the file received and acknowledges successful delivery with a 200 status code back to the widget.</p></div>
-<div class="paragraph"><p>As with all REST services, it needs to be registered in <span class="monospaced">Boot.scala</span>:</p></div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nc">LiftRules</span><span class="o">.</span><span class="n">dispatch</span><span class="o">.</span><span class="n">append</span><span class="o">(</span><span class="n">code</span><span class="o">.</span><span class="n">rest</span><span class="o">.</span><span class="nc">AjaxFileUpload</span><span class="o">)</span>
-</pre></div></div></div>
-<div class="paragraph"><p>By default the widget makes the whole HTML page a drop-target for files, meaning you can drag a file onto the page and it will immediately be uploaded to your Lift application.</p></div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_31">Discussion</h4>
-<div class="paragraph"><p>In this recipe we&#8217;ve shown just the basic integration of the widget with a Lift application.  The demo site for the widget, <a href="http://blueimp.github.com/jQuery-File-Upload/">http://blueimp.github.com/jQuery-File-Upload/</a>, shows other capabilities, and provides documentation on how to integrate them.</p></div>
-<div class="paragraph"><p>May of the features just require JavaScript configuration.  For example, we&#8217;ve used the widget&#8217;s <span class="monospaced">add</span>, <span class="monospaced">progressall</span>, and <span class="monospaced">done</span> handlers to show, update and then fade out a progress bar.  When the upload is completed, the name of the uploaded file is appended to the page.</p></div>
-<div class="paragraph"><p>In the REST service the uploaded file are available via the <span class="monospaced">uploadedFiles</span> method on the request. When Lift receives a multi-part form it automatically extracts files as <span class="monospaced">uploadedFiles</span>, each of which is a <span class="monospaced">FileParamHolder</span> which gives us access to the <span class="monospaced">fileName</span>, <span class="monospaced">length</span>, <span class="monospaced">mimeType</span> and <span class="monospaced">fileStream</span>.</p></div>
-<div class="paragraph"><p>By default uploaded files are held in memory, but that can be changed (see <a href="#UploadToDisk">[UploadToDisk]</a> in <a href="#FileUpload">[FileUpload]</a>).</p></div>
-<div class="paragraph"><p>In the recipe we return a 200 (<span class="monospaced">OkResponse</span>).  If we wanted to signal to the widget that a file was rejected we can return another code. For example, perhaps we want to reject all files except PNG images.  On the server-side we can do that by replacing the <span class="monospaced">OkResponse</span> with a test:</p></div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">net.liftweb.http.</span><span class="o">{</span><span class="nc">ResponseWithReason</span><span class="o">,</span> <span class="nc">BadResponse</span><span class="o">,</span> <span class="nc">OkResponse</span><span class="o">}</span>
-
-<span class="k">if</span> <span class="o">(</span><span class="n">req</span><span class="o">.</span><span class="n">uploadedFiles</span><span class="o">.</span><span class="n">exists</span><span class="o">(</span> <span class="k">_</span><span class="o">.</span><span class="n">mimeType</span> <span class="o">!=</span> <span class="s">&quot;image/png&quot;</span> <span class="o">))</span>
-  <span class="nc">ResponseWithReason</span><span class="o">(</span><span class="nc">BadResponse</span><span class="o">(),</span> <span class="s">&quot;Only PNGs&quot;</span><span class="o">)</span>
-<span class="k">else</span>
-  <span class="nc">OkResponse</span><span class="o">()</span>
-</pre></div></div></div>
-<div class="paragraph"><p>We would mirror this with a <span class="monospaced">fail</span> handler in the client JavaScript:</p></div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nx">fail</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">alert</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">errorThrown</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div></div></div>
-<div class="paragraph"><p>If we uploaded, say a JPEG, the browser would show an alert dialog reporting "Only PNGs".</p></div>
-</div>
-<div class="sect3">
-<h4 id="_see_also_30">See Also</h4>
-<div class="paragraph"><p>Diego Medina has posted a Gist of Lift REST code to integrate more fully with the image upload and image reviewing features of the widget, specifically implementing the JSON response that the widget expects for that functionality.  You&#8217;ll find it at: <a href="https://gist.github.com/a6715d1e3664f73cd03a">https://gist.github.com/a6715d1e3664f73cd03a</a>.</p></div>
-<div class="paragraph"><p><a href="#FileUpload">[FileUpload]</a> describes the basic file upload behaviour of Lift and how to control where files are stored.</p></div>
-<div class="paragraph"><p>Antonio Salazar Cardozo has posted example code for performing Ajax file upload using Lift&#8217;s Ajax mechanisms, which avoids external JavaScript libraries. You can find a description and link to the code at: <a href="https://groups.google.com/d/msg/liftweb/OuN1sqRMO_c/TrUGUaSvoN4J">https://groups.google.com/d/msg/liftweb/OuN1sqRMO_c/TrUGUaSvoN4J</a>.</p></div>
+<div class="paragraph"><p>See <a href="#AjaxFileUpload">[AjaxFileUpload]</a> for an example of an Ajax file upload through integration with a JavaScript library, providing progress indicators and drag-and-drop support.</p></div>
 </div>
 </div>
 </div>
@@ -3681,12 +3564,12 @@ like this:</p></div>
 <div class="sect2">
 <h3 id="DRYURLs">DRY URLs</h3>
 <div class="sect3">
-<h4 id="_problem_32">Problem</h4>
+<h4 id="_problem_31">Problem</h4>
 <div class="paragraph"><p>You found yourself repeating parts of URL paths in your <span class="monospaced">RestHelper</span>, and
 you Don&#8217;t want to Repeat Yourself.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_31">Solution</h4>
+<h4 id="_solution_30">Solution</h4>
 <div class="paragraph"><p>Use <span class="monospaced">prefix</span> in your <span class="monospaced">RestHelper</span>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">package</span> <span class="nn">code.rest</span>
@@ -3730,25 +3613,25 @@ $ curl -X DELETE -H 'Content-Type: application/xml'
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_32">Discussion</h4>
+<h4 id="_discussion_31">Discussion</h4>
 <div class="paragraph"><p>You can have many <span class="monospaced">serve</span> blocks in your <span class="monospaced">RestHelper</span>, which helps give
 your REST service structure.</p></div>
 <div class="paragraph"><p>In this example we&#8217;ve arbitrarily decided to return XML and to match on an XML request using <span class="monospaced">XmlGet</span> and <span class="monospaced">XmlDelete</span>.  The test for an XML request requires a content-type of <em>text/xml</em> or <em>application/xml</em>, a request for a path that ends with <span class="monospaced">.xml</span>.   This is why the cURL request includes a header with with the <span class="monospaced">-H</span> flag.  If we hadn&#8217;t included that, the request would not match any of our patterns, and the result would be a 404 response.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_31">See Also</h4>
+<h4 id="_see_also_30">See Also</h4>
 <div class="paragraph"><p><a href="#JSONREST">[JSONREST]</a> gives an example of accepting and returning JSON.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="MissingSuffix">Missing File Suffix</h3>
 <div class="sect3">
-<h4 id="_problem_33">Problem</h4>
+<h4 id="_problem_32">Problem</h4>
 <div class="paragraph"><p>Your <span class="monospaced">RestHelper</span> expects a filename as part of the URL, but the suffix
 (extension) is missing, and you need it.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_32">Solution</h4>
+<h4 id="_solution_31">Solution</h4>
 <div class="paragraph"><p>Access <span class="monospaced">req.path.suffix</span> to recover the suffix.</p></div>
 <div class="paragraph"><p>For example, when
 processing <span class="monospaced">/download/123.png</span> you want to be able reconstruct
@@ -3787,7 +3670,7 @@ You requested 123.png</pre>
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_33">Discussion</h4>
+<h4 id="_discussion_32">Discussion</h4>
 <div class="paragraph"><p>When Lift parses a request it splits the request into constituent parts
 (e.g., turning the path into a <span class="monospaced">List[String]</span>). This includes a
 separation of <em>some</em> suffixes. This is good for pattern matching when you
@@ -3843,7 +3726,7 @@ You requested 123, would send 123.webp</pre>
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_32">See Also</h4>
+<h4 id="_see_also_31">See Also</h4>
 <div class="paragraph"><p><a href="#MissingDotCom">[MissingDotCom]</a> shows how to remove items from <span class="monospaced">explicitlyParsedSuffixes</span>.</p></div>
 <div class="paragraph"><p>The source for <span class="monospaced">HttpHelpers.scala</span> contains the <span class="monospaced">explicitlyParsedSuffixes</span> list, which is the default list of suffixes that Lift parses from a URL:  <a href="https://github.com/lift/framework/blob/master/core/util/src/main/scala/net/liftweb/util/HttpHelpers.scala">https://github.com/lift/framework/blob/master/core/util/src/main/scala/net/liftweb/util/HttpHelpers.scala
 </a>.</p></div>
@@ -3853,7 +3736,7 @@ You requested 123, would send 123.webp</pre>
 <h3 id="MissingDotCom">Missing .com from Email Addresses</h3>
 <div class="paragraph"><p>When submitting an email address to a REST service, a domain ending ".com" is stripped before your REST service can handle the request.</p></div>
 <div class="sect3">
-<h4 id="_solution_33">Solution</h4>
+<h4 id="_solution_32">Solution</h4>
 <div class="paragraph"><p>Modify <span class="monospaced">LiftRules.explicitlyParsedSuffixes</span> so that Lift doesn&#8217;t change URLs that end with ".com".</p></div>
 <div class="paragraph"><p>In <span class="monospaced">Boot.scala</span>:</p></div>
 <div class="listingblock">
@@ -3862,7 +3745,7 @@ You requested 123, would send 123.webp</pre>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_34">Discussion</h4>
+<h4 id="_discussion_33">Discussion</h4>
 <div class="paragraph"><p>By default Lift will strip off file suffixes from URLs to make it easy to match on suffixes. An example would be needing to match on all requests ending in ".xml" or ".pdf".  However, ".com" is registered as one of those suffixes, but is inconvenient if you have URLs that end with email addresses.</p></div>
 <div class="paragraph"><p>Note that this doesn&#8217;t impact email addresses in the middle of URLs.  For example, consider the following REST service:</p></div>
 <div class="listingblock">
@@ -3903,19 +3786,19 @@ At end: you@example</pre>
 <div class="paragraph"><p>Note that because other top-level domains, such as ".uk", ".nl", ".gov", are not in <span class="monospaced">explicitlyParsedSuffixes</span>, those email addresses are left untouched.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_33">See Also</h4>
+<h4 id="_see_also_32">See Also</h4>
 <div class="paragraph"><p><a href="#MissingSuffix">[MissingSuffix]</a> describes the suffix processing in more detail.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="SuffixMatchFail">Failing to Match on a File Suffix</h3>
 <div class="sect3">
-<h4 id="_problem_34">Problem</h4>
+<h4 id="_problem_33">Problem</h4>
 <div class="paragraph"><p>You&#8217;re trying to match on a file suffix (extension), but your match is
 failing.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_34">Solution</h4>
+<h4 id="_solution_33">Solution</h4>
 <div class="paragraph"><p>Ensure the suffix you&#8217;re matching on is included in
 <span class="monospaced">LiftRules.explicitlyParsedSuffixes</span>.</p></div>
 <div class="paragraph"><p>As an example, perhaps you want to match anything ending in <span class="monospaced">.csv</span> at
@@ -3933,7 +3816,7 @@ for foo", but you get a 404.</p></div>
 <div class="paragraph"><p>The pattern will now match.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_35">Discussion</h4>
+<h4 id="_discussion_34">Discussion</h4>
 <div class="paragraph"><p>Without adding ".csv" to the <span class="monospaced">explicitlyParsedSuffixes</span>, the example URL
 would match with:</p></div>
 <div class="listingblock">
@@ -3943,19 +3826,19 @@ would match with:</p></div>
 <div class="paragraph"><p>Here we&#8217;re matching on no suffix (<span class="monospaced">""</span>). In this case <span class="monospaced">name</span> would be set to "foo.csv".  This is because Lift separates file suffixes from the end of URLs only for file suffixes that are registered with <span class="monospaced">explicitlyParsedSuffixes</span>.  Because <span class="monospaced">csv</span> is not one of the default registered suffixes, "foo.csv" is not split. That&#8217;s why <span class="monospaced">csv</span> in the suffix position of <span class="monospaced">Req</span> pattern match won&#8217;t match the request, but an empty string in that position will.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_34">See Also</h4>
+<h4 id="_see_also_33">See Also</h4>
 <div class="paragraph"><p><a href="#MissingSuffix">[MissingSuffix]</a> explains more about the suffix removal in Lift.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="RestBinaryData">Accept binary data in a REST service</h3>
 <div class="sect3">
-<h4 id="_problem_35">Problem</h4>
+<h4 id="_problem_34">Problem</h4>
 <div class="paragraph"><p>You want to accept an image upload, or other binary data, in your RESTful
 service.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_35">Solution</h4>
+<h4 id="_solution_34">Solution</h4>
 <div class="paragraph"><p>Access the request body in your REST helper:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">package</span> <span class="nn">code.rest</span>
@@ -3993,7 +3876,7 @@ service.</p></div>
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_36">Discussion</h4>
+<h4 id="_discussion_35">Discussion</h4>
 <div class="paragraph"><p>In the above example the binary data is accessed via the <span class="monospaced">req.body</span>, which returns
  a <span class="monospaced">Box[Array[Byte]]</span>.  We turn this into a <span class="monospaced">Box[Elem]</span> to send back to the client.
  Implicits in <span class="monospaced">RestHelper</span> turn this into an <span class="monospaced">XmlResponse</span> for Lift to handle.</p></div>
@@ -4018,7 +3901,7 @@ Check with documentation for the container for changing these limits.</p></div>
 <div class="paragraph"><p>We have defined an extractor called <span class="monospaced">JPeg</span> which returns <span class="monospaced">Some[Req]</span> if the content type of the upload is "image/jpg"; otherwise the result will be <span class="monospaced">None</span>.  This is used in the REST pattern match as <span class="monospaced">JPeg(req)</span>.  Note that the <span class="monospaced">unapply</span> needs to return <span class="monospaced">Option[Req]</span> as this is what&#8217;s expected by the <span class="monospaced">Post</span> extractor.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_35">See Also</h4>
+<h4 id="_see_also_34">See Also</h4>
 <div class="paragraph"><p>Odersky <em>et al.</em>, (2008), <em>Programming in Scala</em>, chapter 24, discusses extractors in detail: <a href="http://www.artima.com/pins1ed/extractors.html">http://www.artima.com/pins1ed/extractors.html</a>.</p></div>
 <div class="paragraph"><p><a href="#FileUpload">[FileUpload]</a> describes form-based (multi-part) file uploads</p></div>
 </div>
@@ -4026,11 +3909,11 @@ Check with documentation for the container for changing these limits.</p></div>
 <div class="sect2">
 <h3 id="JSONREST">Returning JSON</h3>
 <div class="sect3">
-<h4 id="_problem_36">Problem</h4>
+<h4 id="_problem_35">Problem</h4>
 <div class="paragraph"><p>You want to return JSON from a REST call.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_36">Solution</h4>
+<h4 id="_solution_35">Solution</h4>
 <div class="paragraph"><p>Use the Lift JSON domain specific language (DSL). For example:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">package</span> <span class="nn">code.rest</span>
@@ -4070,7 +3953,7 @@ Check with documentation for the container for changing these limits.</p></div>
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_37">Discussion</h4>
+<h4 id="_discussion_36">Discussion</h4>
 <div class="paragraph"><p>The <em>type ascription</em> at the end of the JSON expression (<span class="monospaced">: JValue</span>)
 tells the compiler that the expression is expected to be of type
 <span class="monospaced">JValue</span>. This is required to allow the DSL to apply. If would not be
@@ -4080,18 +3963,18 @@ to return a <span class="monospaced">JValue</span>.</p></div>
 everything else you expect of JSON.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_36">See Also</h4>
+<h4 id="_see_also_35">See Also</h4>
 <div class="paragraph"><p>The README file for the lift-json project is a great source of examples for using the JSON DSL: <a href="https://github.com/lift/framework/tree/master/core/json">https://github.com/lift/framework/tree/master/core/json</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="GoogleSitemap">Google Sitemap</h3>
 <div class="sect3">
-<h4 id="_problem_37">Problem</h4>
+<h4 id="_problem_36">Problem</h4>
 <div class="paragraph"><p>You want to make a Google Sitemap using Lift&#8217;s rendering capabilities.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_37">Solution</h4>
+<h4 id="_solution_36">Solution</h4>
 <div class="paragraph"><p>Create the sitemap structure, and bind to it as you would for any template in Lift.</p></div>
 <div class="paragraph"><p>Start with a <span class="monospaced">sitemap.html</span> in your <span class="monospaced">webapp</span> folder containing valid XML-Sitemap markup:</p></div>
 <div class="listingblock">
@@ -4182,24 +4065,24 @@ everything else you expect of JSON.</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_38">Discussion</h4>
+<h4 id="_discussion_37">Discussion</h4>
 <div class="paragraph"><p>You may be wondering why we&#8217;ve used REST here, when we could have used a regular HTML template and snippet. The reason is that we want XML rather than HTML output.  We use the same mechanism, but invoke it and wrap it in an <span class="monospaced">XmlResponse</span>.</p></div>
 <div class="paragraph"><p>The <span class="monospaced">S.render</span> method takes a <span class="monospaced">NodeSeq</span> and a <span class="monospaced">HTTPRequst</span>. The first we supply by running the <span class="monospaced">sitemap.html</span> snippet; the second is simply the current request.  <span class="monospaced">XmlResponse</span> requires a <span class="monospaced">Node</span> rather than a <span class="monospaced">NodeSeq</span>, which is why we call <span class="monospaced">head</span>&#8201;&#8212;&#8201;as there&#8217;s only one node in the response, this does what we need.</p></div>
 <div class="paragraph"><p>Note that Google Sitemaps need dates to be in ISO 8601 format. The built-in <span class="monospaced">java.text.SimpleDateFormat</span> does not support this format prior to Java 7. If you are using Java 6 you need to use <span class="monospaced">org.joda.time.DateTime</span> as we are in this example.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_37">See Also</h4>
+<h4 id="_see_also_36">See Also</h4>
 <div class="paragraph"><p>Sitemaps are described at: <a href="http://support.google.com/webmasters/bin/answer.py?hl=en&amp;answer=156184">http://support.google.com/webmasters/bin/answer.py?hl=en&amp;answer=156184</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="iOSNativePost">Calling REST Service from a Native iOS Application</h3>
 <div class="sect3">
-<h4 id="_problem_38">Problem</h4>
+<h4 id="_problem_37">Problem</h4>
 <div class="paragraph"><p>You want to make a HTTP POST from a native iOS device to a Lift REST service.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_38">Solution</h4>
+<h4 id="_solution_37">Solution</h4>
 <div class="paragraph"><p>Use <span class="monospaced">NSURLConnection</span> ensuring you set the content-type to "application/json".</p></div>
 <div class="paragraph"><p>For example, suppose we want to call this service:</p></div>
 <div class="listingblock">
@@ -4289,7 +4172,7 @@ everything else you expect of JSON.</p></div>
 be a starting point for use in your application.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_39">Discussion</h4>
+<h4 id="_discussion_38">Discussion</h4>
 <div class="paragraph"><p>There are many ways to do HTTP POST from iOS and it can be confusing to identify the correct way that works, especially without the aid of external library. The example above uses the iOS native API.</p></div>
 <div class="paragraph"><p>Another way is to use <em>AFNetworking</em>. This is a popular external library for iOS development, can cope with many scenarios and is simple to use:</p></div>
 <div class="listingblock">
@@ -4345,7 +4228,7 @@ be a starting point for use in your application.</p></div>
 <div class="paragraph"><p>The <span class="monospaced">NSURLConnection</span> approach is more versatile and gives you starting point to craft your own solution, such as by making the content type more specific. However, <span class="monospaced">AFNetworking</span> is popular and you may prefer that route.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_38">See Also</h4>
+<h4 id="_see_also_37">See Also</h4>
 <div class="paragraph"><p>You may find the "Complete REST Example" in <em>Simply Lift</em> to be a good test ground for your calls to Lift. <a href="http://simply.liftweb.net/index-5.4.html">http://simply.liftweb.net/index-5.4.html</a>.</p></div>
 </div>
 </div>
@@ -4359,12 +4242,12 @@ be a starting point for use in your application.</p></div>
 <div class="sect2">
 <h3 id="ButtonTriggerServerCode">Trigger Server-Side Code from a Button</h3>
 <div class="sect3">
-<h4 id="_problem_39">Problem</h4>
+<h4 id="_problem_38">Problem</h4>
 <div class="paragraph"><p>You want to trigger some server-side code when the user presses a
 button.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_39">Solution</h4>
+<h4 id="_solution_38">Solution</h4>
 <div class="paragraph"><p>Use <span class="monospaced">ajaxInvoke</span>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">package</span> <span class="nn">code.snippet</span>
@@ -4394,7 +4277,7 @@ arranges for the function you gave <span class="monospaced">ajaxInvoke</span> to
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_40">Discussion</h4>
+<h4 id="_discussion_39">Discussion</h4>
 <div class="paragraph"><p>The signature of the function you pass to <span class="monospaced">ajaxInvoke</span> is
 <span class="monospaced">Unit =&gt; JsCmd</span>, meaning you can trigger a range of behaviours, from
 returning <span class="monospaced">Noop</span> if you want nothing to happen, through changing DOM
@@ -4566,7 +4449,7 @@ used <span class="monospaced">ValById</span> which looks up the value of an elem
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_39">See Also</h4>
+<h4 id="_see_also_38">See Also</h4>
 <div class="paragraph"><p><a href="#SelectOptionChange">[SelectOptionChange]</a> includes an example of <span class="monospaced">SHtml.onEvents</span> which will bind a function to a number of events on a <span class="monospaced">NodeSeq</span>.</p></div>
 <div class="paragraph"><p>For another example of <span class="monospaced">AjaxInvoke</span> take a look at the <em>Call Scala code from JavaScript</em> section of Diego Medina&#8217;s blog at: <a href="http://blog.fmpwizard.com/scala-lift-custom-wizard">http://blog.fmpwizard.com/scala-lift-custom-wizard</a>.</p></div>
 <div class="paragraph"><p><em>Exploring Lift</em>, chapter 10, lists various <span class="monospaced">JsExp</span> classes you can use for <span class="monospaced">ajaxCall</span>: <a href="http://exploring.liftweb.net/master/index-10.html">http://exploring.liftweb.net/master/index-10.html</a>.</p></div>
@@ -4575,11 +4458,11 @@ used <span class="monospaced">ValById</span> which looks up the value of an elem
 <div class="sect2">
 <h3 id="SelectOptionChange">Call Server when Select Option Changes</h3>
 <div class="sect3">
-<h4 id="_problem_40">Problem</h4>
+<h4 id="_problem_39">Problem</h4>
 <div class="paragraph"><p>When a HTML select option is selected, you want to trigger a function on the server.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_40">Solution</h4>
+<h4 id="_solution_39">Solution</h4>
 <div class="paragraph"><p>Register a <span class="monospaced">String =&gt; JsCmd</span> function with <span class="monospaced">SHtml.ajaxSelect</span>.</p></div>
 <div class="paragraph"><p>In this example we will lookup the distance from Earth to the planet a user selects.  This lookup will
 happen on the server and update the browser with the result:</p></div>
@@ -4646,7 +4529,7 @@ of the selected item.</p></div>
 different.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_41">Discussion</h4>
+<h4 id="_discussion_40">Discussion</h4>
 <div class="paragraph"><p>To understand what&#8217;s going on here, take a look at the HTML that Lift produces:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nt">&lt;select</span> <span class="na">id=</span><span class="s">&quot;dropdown&quot;</span>
@@ -4690,19 +4573,19 @@ different.</p></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_40">See Also</h4>
+<h4 id="_see_also_39">See Also</h4>
 <div class="paragraph"><p><a href="#MultiSelectBox">[MultiSelectBox]</a> describes how to use classes rather than <span class="monospaced">String</span> values for select boxes.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="ClientSideOnlyActions">Creating Client-Side Actions from your Scala Code</h3>
 <div class="sect3">
-<h4 id="_problem_41">Problem</h4>
+<h4 id="_problem_40">Problem</h4>
 <div class="paragraph"><p>In your Lift code you want to set up a action that is run purely in
 client-side JavaScript.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_41">Solution</h4>
+<h4 id="_solution_40">Solution</h4>
 <div class="paragraph"><p>Bind your JavaScript directly to the event handler you want to run.</p></div>
 <div class="paragraph"><p>Here&#8217;s an example where we make a button slowly fade away when you press it, but notice
 that we&#8217;re setting up this binding in our server-side Lift code:</p></div>
@@ -4727,7 +4610,7 @@ that we&#8217;re setting up this binding in our server-side Lift code:</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_42">Discussion</h4>
+<h4 id="_discussion_41">Discussion</h4>
 <div class="paragraph"><p>Lift includes a JavaScript abstraction which you can use to build up
 more elaborate expressions for the client-side. For example you can
 combine basic commands&#8230;</p></div>
@@ -4765,19 +4648,19 @@ like this:</p></div>
 <div class="paragraph"><p>Note that the types <span class="monospaced">String</span> and <span class="monospaced">Int</span> have been preserved in the JavaScript syntax of the call. This has happened because <span class="monospaced">JE.Call</span> takes a variable number of <span class="monospaced">JsExp</span> arguments after the JavaScript function name. There are wrappers for JavaScript primitive types (<span class="monospaced">JE.Str</span>, <span class="monospaced">JE.Num</span>, <span class="monospaced">JsTrue</span>, <span class="monospaced">JsFalse</span>) and implicit conversions to save you having to wrap the Scala values yourself.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_41">See Also</h4>
+<h4 id="_see_also_40">See Also</h4>
 <div class="paragraph"><p>Chapter 10 of <em>Exploring Lift</em> at <a href="http://exploring.liftweb.net/">http://exploring.liftweb.net/</a> gives a list of <span class="monospaced">JsCmds</span> and <span class="monospaced">JE</span> expressions.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="FocusOnLoad">Focus on a Field on Page Load</h3>
 <div class="sect3">
-<h4 id="_problem_42">Problem</h4>
+<h4 id="_problem_41">Problem</h4>
 <div class="paragraph"><p>When a page loads you want the browser to select a particular field for
 input focus from the user&#8217;s keyboard.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_42">Solution</h4>
+<h4 id="_solution_41">Solution</h4>
 <div class="paragraph"><p>Wrap the input with a <span class="monospaced">FocusOnLoad</span> command:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">package</span> <span class="nn">code.snippet</span>
@@ -4795,7 +4678,7 @@ when the page loads.</p></div>
 <div class="paragraph"><p>Although we&#8217;re focusing on in-line HTML, this could be any <span class="monospaced">NodeSeq</span>, such as the one produced by <span class="monospaced">SHtml.text</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_43">Discussion</h4>
+<h4 id="_discussion_42">Discussion</h4>
 <div class="paragraph"><p><span class="monospaced">FocusOnLoad</span> is an example of a <span class="monospaced">NodeSeq =&gt; NodeSeq</span> transformation. It appends to the <span class="monospaced">NodeSeq</span> with the
 JavaScript required to set focus on that field.</p></div>
 <div class="paragraph"><p>The JavaScript that performs the focus simply looks up the node in the DOM by ID and calls <span class="monospaced">focus</span> on it. Although the example code above doesn&#8217;t specify an ID, the <span class="monospaced">FocusOn</span> command is smart enough to add one automatically for us.</p></div>
@@ -4817,18 +4700,18 @@ JavaScript required to set focus on that field.</p></div>
 components dynamically.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_42">See Also</h4>
+<h4 id="_see_also_41">See Also</h4>
 <div class="paragraph"><p>The source for <span class="monospaced">FocusOnLoad</span> is worth checking out to understand how it, and related commands, are constructed.  This may help you package your own JavaScript functionality up into commands that can be used in CSS binding expressions: <a href="https://github.com/lift/framework/blob/master/web/webkit/src/main/scala/net/liftweb/http/js/JsCommands.scala">https://github.com/lift/framework/blob/master/web/webkit/src/main/scala/net/liftweb/http/js/JsCommands.scala</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="CSSClassOnAjaxForm">Add CSS Class to an Ajax Form</h3>
 <div class="sect3">
-<h4 id="_problem_43">Problem</h4>
+<h4 id="_problem_42">Problem</h4>
 <div class="paragraph"><p>You want to set the CSS class of an AJAX form.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_43">Solution</h4>
+<h4 id="_solution_42">Solution</h4>
 <div class="paragraph"><p>Name the class via <span class="monospaced">?class=</span> query parameter:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nt">&lt;form</span> <span class="na">data-lift=</span><span class="s">&quot;form.ajax?class=boxed&quot;</span><span class="nt">&gt;</span>
@@ -4837,13 +4720,13 @@ components dynamically.</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_44">Discussion</h4>
+<h4 id="_discussion_43">Discussion</h4>
 <div class="paragraph"><p>If you need to set multiple CSS classes, encode a space between the
 class names, e.g., <span class="monospaced">class=boxed+primary</span>.</p></div>
 <div class="paragraph"><p>The <span class="monospaced">form.ajax</span> construction is a regular snippet call: the <span class="monospaced">Form</span> snippet is one of the handful of built-in snippets, and in this case we&#8217;re calling the <span class="monospaced">ajax</span> method on that object.  However, normally snippet calls do not copy attributes into the resulting markup, but this snippet is implemented to do exactly that.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_43">See Also</h4>
+<h4 id="_see_also_42">See Also</h4>
 <div class="paragraph"><p>For an example of accessing these query parameters in your own snippets, see <a href="#ConditionalIncludes">[ConditionalIncludes]</a>.</p></div>
 <div class="paragraph"><p><em>Simply Lift</em>, chapter 4, introduces Ajax forms at <a href="http://simply.liftweb.net/">http://simply.liftweb.net/</a>.</p></div>
 </div>
@@ -4851,11 +4734,11 @@ class names, e.g., <span class="monospaced">class=boxed+primary</span>.</p></div
 <div class="sect2">
 <h3 id="DynamicTemplateLoading">Running a Template via JavaScript</h3>
 <div class="sect3">
-<h4 id="_problem_44">Problem</h4>
+<h4 id="_problem_43">Problem</h4>
 <div class="paragraph"><p>You want to load an entire page, with template and snippets executed, inside of the current page (i.e., without a browser refresh).</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_44">Solution</h4>
+<h4 id="_solution_43">Solution</h4>
 <div class="paragraph"><p>Use <span class="monospaced">Template</span> to load the template, and <span class="monospaced">SetHtml</span> to place the content
 on the page.</p></div>
 <div class="paragraph"><p>Let&#8217;s populate a <span class="monospaced">&lt;div&gt;</span> with the site home page when a button is pressed:</p></div>
@@ -4886,7 +4769,7 @@ on the page.</p></div>
 loaded into the <span class="monospaced">inject</span> element.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_45">Discussion</h4>
+<h4 id="_discussion_44">Discussion</h4>
 <div class="paragraph"><p><span class="monospaced">Templates</span> produces a <span class="monospaced">Box[NodeSeq]</span>.  In the example above, we map this content into a <span class="monospaced">JsCmd</span> which will populate the <span class="monospaced">inject</span> div.</p></div>
 <div class="paragraph"><p>If you write unit tests to access templates, be aware that you may need to modify your development or testing environment to include the <span class="monospaced">webapps</span> folder.  To do this for SBT, add the following to <span class="monospaced">build.sbt</span>:</p></div>
 <div class="listingblock">
@@ -4895,18 +4778,18 @@ loaded into the <span class="monospaced">inject</span> element.</p></div>
 <div class="paragraph"><p>For your IDE you&#8217;ll need to add <span class="monospaced">webapp</span> as a source folder, if your running tests that try to locate templates.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_44">See Also</h4>
+<h4 id="_see_also_43">See Also</h4>
 <div class="paragraph"><p><a href="#ButtonTriggerServerCode">[ButtonTriggerServerCode]</a> describes <span class="monospaced">ajaxInvoke</span> and related methods.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="JavaScriptTail">Move JavaScript to End of Page</h3>
 <div class="sect3">
-<h4 id="_problem_45">Problem</h4>
+<h4 id="_problem_44">Problem</h4>
 <div class="paragraph"><p>You want the JavaScript created in your snippet to be included at the end of the HTML page.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_45">Solution</h4>
+<h4 id="_solution_44">Solution</h4>
 <div class="paragraph"><p>Use <span class="monospaced">S.appendJs</span> which places your JavaScript just before the closing <span class="monospaced">&lt;/body&gt;</span> tag, along with other JavaScript produced by Lift.</p></div>
 <div class="paragraph"><p>In this HTML we have placed a <span class="monospaced">&lt;script&gt;</span> tag in the middle of the page, and marked it with a snippet called <span class="monospaced">JavascriptTail</span>:</p></div>
 <div class="listingblock">
@@ -4963,7 +4846,7 @@ hanging the snippet on the <span class="monospaced">&lt;script&gt;</span> tag is
 end of the page.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_46">Discussion</h4>
+<h4 id="_discussion_45">Discussion</h4>
 <div class="paragraph"><p>There are three other ways you could tackle this problem.  The first is to move your JavaScript to an external file, and simply include it on the page where you want it.  For substantial JavaScript code, this might make sense.</p></div>
 <div class="paragraph"><p>The second is a variation on <span class="monospaced">S.appendJs</span>: <span class="monospaced">S.appendGlobalJs</span> works in the same way but does not include the jQuery <span class="monospaced">ready</span> around your JavaScript.  This means you have no guarantee the DOM has loaded when your function is called.</p></div>
 <div class="paragraph"><p>A third option is wrap your JavaScript in a <span class="monospaced">&lt;lift:tail&gt;</span> snippet:</p></div>
@@ -4976,18 +4859,18 @@ end of the page.</p></div>
 <div class="paragraph"><p>Note that <span class="monospaced">lift:tail</span> is a general-purpose Lift snippet and be used to move various kinds of content to the end of the page, not just JavaScript.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_45">See Also</h4>
+<h4 id="_see_also_44">See Also</h4>
 <div class="paragraph"><p><a href="#AddToHead">[AddToHead]</a> discusses a related Lift snippet for moving content to the head of the page.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="CometSessionLossJS">Run JavaScript on Comet Session Loss</h3>
 <div class="sect3">
-<h4 id="_problem_46">Problem</h4>
+<h4 id="_problem_45">Problem</h4>
 <div class="paragraph"><p>You&#8217;re using a comet actor and you want to arrange for some JavaScript to be executed in the event of the session being lost.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_46">Solution</h4>
+<h4 id="_solution_45">Solution</h4>
 <div class="paragraph"><p>Configure your JavaScript via <span class="monospaced">LiftRules.noCometSessionCmd</span>.</p></div>
 <div class="paragraph"><p>As an example we can modify the standard Lift chat demo to save the message being typed in the event of the session loss.  In the style of the demo we would have a Ajax form for entering a message and the comet chat area for displaying messages received:</p></div>
 <div class="listingblock">
@@ -5032,7 +4915,7 @@ end of the page.</p></div>
 <div class="paragraph"><p>To test the example, type a message into the message field, then restart your Lift application.  Wait 10 seconds, and you&#8217;ll see the effect.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_47">Discussion</h4>
+<h4 id="_discussion_46">Discussion</h4>
 <div class="paragraph"><p>Without changing <span class="monospaced">noCometSessionCmd</span>, the default behavior of Lift is to arrange for the browser to load the page <span class="monospaced">LiftRules.noCometSessionPage</span>&#8201;&#8212;&#8201;which will be <span class="monospaced">/</span> unless you change it.  This is carried out via the JavaScript function <span class="monospaced">lift_sessionLost</span> in <span class="monospaced">cometAjax.js</span>.</p></div>
 <div class="paragraph"><p>By providing our own <span class="monospaced">() =&gt; JsCmd</span> function to <span class="monospaced">LiftRules.noCometSessionCmd</span>, Lift arranges to call this function and deliver the <span class="monospaced">JsCmd</span>  to the browser, rather than <span class="monospaced">lift_sessionLost</span>.  If you watch the HTTP traffic between your browser and Lift, you&#8217;ll see the <span class="monospaced">stash</span> function call being returned in response to a comet request.</p></div>
 <div class="sidebarblock">
@@ -5043,9 +4926,126 @@ end of the page.</p></div>
 <div class="paragraph"><p>This recipe has focused on the handling of loss of session for Comet, and for Ajax, there&#8217;s a corresponding <span class="monospaced">LiftRules.noAjaxSessionCmd</span> setting.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_46">See Also</h4>
+<h4 id="_see_also_45">See Also</h4>
 <div class="paragraph"><p>You&#8217;ll find the <em>The ubiquitous Chat app</em> in <em>Simply Lift</em>: <a href="http://simply.liftweb.net/">http://simply.liftweb.net/</a>.</p></div>
 <div class="paragraph"><p>Being able to debug HTTP traffic is a useful way to understand how your Comet or Ajax application is performing.  There are many plugins and products to help with this, such as the <em>HttpFox</em> plugin for Firefox: <a href="https://addons.mozilla.org/en-us/firefox/addon/httpfox/">https://addons.mozilla.org/en-us/firefox/addon/httpfox/</a>.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="AjaxFileUpload">Ajax File Upload</h3>
+<div class="sect3">
+<h4 id="_problem_46">Problem</h4>
+<div class="paragraph"><p>You want to offer your users an Ajax file upload tool, with progress bars and drag and drop support.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_solution_46">Solution</h4>
+<div class="paragraph"><p>Add Sebastian Tschan&#8217;s <em>jQuery File Upload</em> widget (<a href="https://github.com/blueimp/jQuery-File-Upload">https://github.com/blueimp/jQuery-File-Upload</a>) to your project, and implement a REST end point to receive files.</p></div>
+<div class="paragraph"><p>The first step is to download the widget, and drag the <span class="monospaced">js</span> folder into your application as <span class="monospaced">src/main/webapp/js</span>.  We can then use the JavaScript in a template:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE HTML&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;title&gt;</span>jQuery File Upload Example<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+<span class="nt">&lt;h1&gt;</span>Drag files onto this page<span class="nt">&lt;/h1&gt;</span>
+
+<span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">&quot;fileupload&quot;</span> <span class="na">type=</span><span class="s">&quot;file&quot;</span> <span class="na">name=</span><span class="s">&quot;files[]&quot;</span> <span class="na">data-url=</span><span class="s">&quot;/upload&quot;</span> <span class="na">multiple</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;progress&quot;</span> <span class="na">style=</span><span class="s">&quot;width:20em; border: 1pt solid silver; display: none&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;progress-bar&quot;</span> <span class="na">style=</span><span class="s">&quot;background: green; height: 1em; width:0%&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;js/vendor/jquery.ui.widget.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;js/jquery.iframe-transport.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;js/jquery.fileupload.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+  <span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#fileupload&#39;</span><span class="p">).</span><span class="nx">fileupload</span><span class="p">({</span>
+      <span class="nx">dataType</span><span class="o">:</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span>
+      <span class="nx">add</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#progress-bar&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;width&#39;</span><span class="p">,</span> <span class="s1">&#39;0%&#39;</span><span class="p">);</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#progress&#39;</span><span class="p">).</span><span class="nx">show</span><span class="p">();</span>
+        <span class="nx">data</span><span class="p">.</span><span class="nx">submit</span><span class="p">();</span>
+      <span class="p">},</span>
+      <span class="nx">progressall</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">progress</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">loaded</span> <span class="o">/</span> <span class="nx">data</span><span class="p">.</span><span class="nx">total</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;%&#39;</span><span class="p">;</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#progress-bar&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;width&#39;</span><span class="p">,</span> <span class="nx">progress</span><span class="p">);</span>
+      <span class="p">},</span>
+      <span class="nx">done</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">files</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">file</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;&lt;p/&gt;&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">name</span><span class="p">).</span><span class="nx">appendTo</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">);</span>
+        <span class="p">});</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#progress&#39;</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">();</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div></div></div>
+<div class="paragraph"><p>This template provides an input field for files, an area to use as a progress indicator, and configures the widget when the page loads in a JQuery <span class="monospaced">$( ... )</span> block.</p></div>
+<div class="paragraph"><p>The final part is to implement a Lift REST service to receive the file or files.  The URL of the service, <span class="monospaced">/upload</span>, is set in <span class="monospaced">data-url</span> on the <span class="monospaced">input</span> field, and that&#8217;s the address we match on:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">package</span> <span class="nn">code.rest</span>
+
+<span class="k">import</span> <span class="nn">net.liftweb.http.rest.RestHelper</span>
+<span class="k">import</span> <span class="nn">net.liftweb.http.OkResponse</span>
+
+<span class="k">object</span> <span class="nc">AjaxFileUpload</span> <span class="k">extends</span> <span class="nc">RestHelper</span> <span class="o">{</span>
+
+  <span class="n">serve</span> <span class="o">{</span>
+
+    <span class="k">case</span> <span class="s">&quot;upload&quot;</span> <span class="o">::</span> <span class="nc">Nil</span> <span class="nc">Post</span> <span class="n">req</span> <span class="k">=&gt;</span>
+      <span class="k">for</span> <span class="o">(</span><span class="n">file</span> <span class="k">&lt;-</span> <span class="n">req</span><span class="o">.</span><span class="n">uploadedFiles</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">println</span><span class="o">(</span><span class="s">&quot;Received: &quot;</span><span class="o">+</span><span class="n">file</span><span class="o">.</span><span class="n">fileName</span><span class="o">)</span>
+      <span class="o">}</span>
+      <span class="nc">OkResponse</span><span class="o">()</span>
+
+  <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p>This implementation simply logs the name of the file received and acknowledges successful delivery with a 200 status code back to the widget.</p></div>
+<div class="paragraph"><p>As with all REST services, it needs to be registered in <span class="monospaced">Boot.scala</span>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nc">LiftRules</span><span class="o">.</span><span class="n">dispatch</span><span class="o">.</span><span class="n">append</span><span class="o">(</span><span class="n">code</span><span class="o">.</span><span class="n">rest</span><span class="o">.</span><span class="nc">AjaxFileUpload</span><span class="o">)</span>
+</pre></div></div></div>
+<div class="paragraph"><p>By default the widget makes the whole HTML page a drop-target for files, meaning you can drag a file onto the page and it will immediately be uploaded to your Lift application.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_47">Discussion</h4>
+<div class="paragraph"><p>In this recipe we&#8217;ve shown just the basic integration of the widget with a Lift application.  The demo site for the widget, <a href="http://blueimp.github.com/jQuery-File-Upload/">http://blueimp.github.com/jQuery-File-Upload/</a>, shows other capabilities, and provides documentation on how to integrate them.</p></div>
+<div class="paragraph"><p>May of the features just require JavaScript configuration.  For example, we&#8217;ve used the widget&#8217;s <span class="monospaced">add</span>, <span class="monospaced">progressall</span>, and <span class="monospaced">done</span> handlers to show, update and then fade out a progress bar.  When the upload is completed, the name of the uploaded file is appended to the page.</p></div>
+<div class="paragraph"><p>In the REST service the uploaded file are available via the <span class="monospaced">uploadedFiles</span> method on the request. When Lift receives a multi-part form it automatically extracts files as <span class="monospaced">uploadedFiles</span>, each of which is a <span class="monospaced">FileParamHolder</span> which gives us access to the <span class="monospaced">fileName</span>, <span class="monospaced">length</span>, <span class="monospaced">mimeType</span> and <span class="monospaced">fileStream</span>.</p></div>
+<div class="paragraph"><p>By default uploaded files are held in memory, but that can be changed (see <a href="#UploadToDisk">[UploadToDisk]</a> in <a href="#FileUpload">[FileUpload]</a>).</p></div>
+<div class="paragraph"><p>In the recipe we return a 200 (<span class="monospaced">OkResponse</span>).  If we wanted to signal to the widget that a file was rejected we can return another code. For example, perhaps we want to reject all files except PNG images.  On the server-side we can do that by replacing the <span class="monospaced">OkResponse</span> with a test:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">net.liftweb.http.</span><span class="o">{</span><span class="nc">ResponseWithReason</span><span class="o">,</span> <span class="nc">BadResponse</span><span class="o">,</span> <span class="nc">OkResponse</span><span class="o">}</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">req</span><span class="o">.</span><span class="n">uploadedFiles</span><span class="o">.</span><span class="n">exists</span><span class="o">(</span> <span class="k">_</span><span class="o">.</span><span class="n">mimeType</span> <span class="o">!=</span> <span class="s">&quot;image/png&quot;</span> <span class="o">))</span>
+  <span class="nc">ResponseWithReason</span><span class="o">(</span><span class="nc">BadResponse</span><span class="o">(),</span> <span class="s">&quot;Only PNGs&quot;</span><span class="o">)</span>
+<span class="k">else</span>
+  <span class="nc">OkResponse</span><span class="o">()</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We would mirror this with a <span class="monospaced">fail</span> handler in the client JavaScript:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nx">fail</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">alert</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">errorThrown</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p>If we uploaded, say a JPEG, the browser would show an alert dialog reporting "Only PNGs".</p></div>
+</div>
+<div class="sect3">
+<h4 id="_see_also_46">See Also</h4>
+<div class="paragraph"><p>Diego Medina has posted a Gist of Lift REST code to integrate more fully with the image upload and image reviewing features of the widget, specifically implementing the JSON response that the widget expects for that functionality.  You&#8217;ll find it at: <a href="https://gist.github.com/a6715d1e3664f73cd03a">https://gist.github.com/a6715d1e3664f73cd03a</a>.</p></div>
+<div class="paragraph"><p><a href="#FileUpload">[FileUpload]</a> describes the basic file upload behaviour of Lift and how to control where files are stored.</p></div>
+<div class="paragraph"><p>Antonio Salazar Cardozo has posted example code for performing Ajax file upload using Lift&#8217;s Ajax mechanisms, which avoids external JavaScript libraries. You can find a description and link to the code at: <a href="https://groups.google.com/d/msg/liftweb/OuN1sqRMO_c/TrUGUaSvoN4J">https://groups.google.com/d/msg/liftweb/OuN1sqRMO_c/TrUGUaSvoN4J</a>.</p></div>
 </div>
 </div>
 </div>
@@ -9491,10 +9491,10 @@ The first modification is to include the Lift module to talk to RabbitMQ. This i
 </div>
 </div>
 <div class="sect1">
-<h2 id="_contributing_bug_reports_amp_getting_help">Contributing, Bug Reports &amp; Getting Help</h2>
+<h2 id="ContributingAndHelp">Contributing, Bug Reports &amp; Getting Help</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_you_8217_d_like_some_help">You&#8217;d Like Some Help</h3>
+<h3 id="GettingHelp">You&#8217;d Like Some Help</h3>
 <div class="sect3">
 <h4 id="_problem_92">Problem</h4>
 <div class="paragraph"><p>You&#8217;re stuck on something in Lift and you&#8217;d like some help.</p></div>
@@ -9515,7 +9515,7 @@ The first modification is to include the Lift module to talk to RabbitMQ. This i
 </div>
 </div>
 <div class="sect2">
-<h3 id="_how_to_report_bugs">How to Report Bugs</h3>
+<h3 id="HowToReportBugs">How to Report Bugs</h3>
 <div class="sect3">
 <h4 id="_problem_93">Problem</h4>
 <div class="paragraph"><p>You&#8217;ve found a bug and want to report it.</p></div>
@@ -9626,7 +9626,7 @@ It&#8217;s a <em>small</em> change, enhancements, or bug fix to Lift.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_how_to_add_a_new_recipe_to_this_cookbook">How to Add a New Recipe to this Cookbook</h3>
+<h3 id="AddRecipe">How to Add a New Recipe to this Cookbook</h3>
 <div class="sect3">
 <h4 id="_problem_96">Problem</h4>
 <div class="paragraph"><p>You&#8217;d like to add a section or chapter to this cookbook.</p></div>
@@ -9828,7 +9828,7 @@ JavaScript to the head of every page.</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-03-17 19:08:14 GMT
+Last updated 2013-03-18 08:42:56 GMT
 </div>
 </div>
 </body>
