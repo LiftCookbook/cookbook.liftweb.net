@@ -8942,6 +8942,11 @@ whole CloudBees account.</p></div>
 <span class="nv">$ </span>bees app:deploy -a myaccount/myapp ./target/scala-2.9.1/myapp.war
 </pre></div></div></div>
 <div class="paragraph"><p>This will send your WAR file to CloudBees and deploy it.  You&#8217;ll see the location (URL) of your application output from the bees <span class="monospaced">app:deploy</span> command when it completes.</p></div>
+<div class="paragraph"><p>If you change a configuration setting, you will need to restart the application for setting
+to take effect. Deploying the application will do this, otherwise run the <span class="monospaced">bees app:restart</span> command:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>bees app:restart -a myaccount/myapp
+</pre></div></div></div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_89">Discussion</h4>
@@ -8962,7 +8967,7 @@ often. To turn this feature off, run the following:</p></div>
 </pre></div></div></div>
 <div class="paragraph"><p>As with the run mode setting, CloudBees will remember these settings, so you
 only need to set them once.</p></div>
-<div class="paragraph"><p>Finally, you may want to increase the <em>permanent generation</em> memory setting of the JVM. By default, an application has 64M assigned for the permgen. To increase this to 128M, run the <span class="monospaced">bees:update</span> commannd:</p></div>
+<div class="paragraph"><p>Finally, you may want to increase the <em>permanent generation</em> memory setting of the JVM. By default, an application has 64M assigned for the permgen. To increase this to 128M, run the <span class="monospaced">bees app:update</span> commannd:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>bees app:update -a myaccount/myapp <span class="nv">jvmPermSize</span><span class="o">=</span>128
 </pre></div></div></div>
@@ -9057,6 +9062,31 @@ when deploying.</p></div>
 <div class="paragraph"><p>Running locally <span class="monospaced">hostAndPort</span> might be <span class="monospaced">192.168.1.60:8080</span> and running on CloudBees it would be something like <span class="monospaced">ec2-204-236-222-252.compute-1.amazonaws.com:8520</span>.</p></div>
 </div>
 <div class="sect4">
+<h5 id="_java_version">Java Version</h5>
+<div class="paragraph"><p>Currently the default JVM provided by CloudBees is JDK 7, but you can select 6, 7 and 8.
+To change the default Java Virtual Machine, use the <span class="monospaced">bees config:set</span> command:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>bees config:set -a myaccount/myapp -Rjava_version<span class="o">=</span>1.8
+</pre></div></div></div>
+<div class="paragraph"><p>Excluding the application identifier <span class="monospaced">-a myaccount/myapp</span> from the command will set the
+JVM as the default for all applications in the account.</p></div>
+<div class="paragraph"><p>The JVM can also be changed when an application is deployed or updated via following commands:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>bees app:deploy -a myaccount/myapp ./target/scala-2.9.2/myapp_2.9.2-1.0.war  -Rjava_version<span class="o">=</span>1.6
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>bees app:update -a myaccount/myapp -Rjava_version<span class="o">=</span>1.7
+</pre></div></div></div>
+</div>
+<div class="sect4">
+<h5 id="_container_version">Container Version</h5>
+<div class="paragraph"><p>CloudBees  offer several containers: Tomcat 6.0.32 (the default), Tomcat 7, JBoss 7.02, JBoss 7.1 and GlassFish 3.</p></div>
+<div class="paragraph"><p>To change containers the application will need to be redeployed as CloudBees uses different file configurations for the various containers.  Hence we use the <span class="monospaced">bees app:deploy</span> command. The following example updates to Tomcat 7:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre>bees app:deploy -t tomcat7 -a myaccount/myapp ./target/scala-2.9.2/myapp_2.9.2-1.0.war
+</pre></div></div></div>
+</div>
+<div class="sect4">
 <h5 id="_clickstarts">ClickStarts</h5>
 <div class="paragraph"><p>ClickStart Applications are templates to quickly get an application, and automated build, up and running at CloudBees. The Lift ClickStart creates a private Git source repository at CloudBees which contains a Lift 2.4 application, provisions a MySQL database, creates a Maven-based Jenkins build, and deploys the application.  All you need to do is provide a name for the application (without whitespace).</p></div>
 <div class="paragraph"><p>To access the Git source repository created for you, you&#8217;ll need to upload a SSH public key. You can do this in the "My Keys" section of your account settings on the CloudBees web site.</p></div>
@@ -9068,7 +9098,7 @@ when deploying.</p></div>
 <h4 id="_see_also_87">See Also</h4>
 <div class="paragraph"><p>The CloudBees SDK provides command line tools for configuring and controlling applications. It can be found at <a href="https://wiki.cloudbees.com/bin/view/RUN/BeesSDK">https://wiki.cloudbees.com/bin/view/RUN/BeesSDK</a>.</p></div>
 <div class="paragraph"><p>The CloudBees developer portal (<a href="https://developer.cloudbees.com">https://developer.cloudbees.com</a>)contains a "Resources" section which provides details of the CloudBees services.</p></div>
-<div class="paragraph"><p>The JVM PermGen settings for CloudBees are described at <a href="https://wiki.cloudbees.com/bin/view/RUN/JVM+PermGen+Space">https://wiki.cloudbees.com/bin/view/RUN/JVM+PermGen+Space</a>, and settings for which JVM is used can be found at <a href="https://developer.cloudbees.com/bin/view/RUN/JVMVersion">https://developer.cloudbees.com/bin/view/RUN/JVMVersion</a>.  The run time stack defaults to Tomcat 6, but can also be changed as described at <a href="https://developer.cloudbees.com/bin/view/RUN/ClickStack">https://developer.cloudbees.com/bin/view/RUN/ClickStack</a>.</p></div>
+<div class="paragraph"><p>The JVM PermGen settings for CloudBees are described at <a href="https://wiki.cloudbees.com/bin/view/RUN/JVM+PermGen+Space">https://wiki.cloudbees.com/bin/view/RUN/JVM+PermGen+Space</a>, and settings for which JVM is used can be found at <a href="https://developer.cloudbees.com/bin/view/RUN/JVMVersion">https://developer.cloudbees.com/bin/view/RUN/JVMVersion</a>. For information about the containers, see: <a href="https://developer.cloudbees.com/bin/view/RUN/ClickStack">https://developer.cloudbees.com/bin/view/RUN/ClickStack</a>.</p></div>
 <div class="paragraph"><p>A plugin is available to automate deployments from SBT. The plugin and the excellent
 instructions for installing and configuring it can be found at <a href="https://github.com/timperrett/sbt-cloudbees-plugin">https://github.com/timperrett/sbt-cloudbees-plugin</a>.</p></div>
 </div>
@@ -9828,7 +9858,7 @@ JavaScript to the head of every page.</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-03-18 08:42:56 GMT
+Last updated 2013-03-19 09:43:41 GMT
 </div>
 </div>
 </body>
