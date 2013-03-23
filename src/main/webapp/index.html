@@ -9037,27 +9037,25 @@ when deploying.</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">Failure</span><span class="o">(</span><span class="n">instance</span><span class="o">-</span><span class="n">data</span><span class="o">,</span><span class="nc">Full</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="nc">UnknownHostException</span><span class="k">:</span> <span class="kt">instance-data</span><span class="o">),</span><span class="nc">Empty</span><span class="o">)</span>
 </pre></div></div></div>
-<div class="paragraph"><p>The port number can be read from the JVM system property of <span class="monospaced">sun.java.command</span>. This is the command that started your application and it includes the port number. An example would be:</p></div>
+<div class="paragraph"><p>The port number can be found from the name of a file in the <span class="monospaced">.genapps/ports</span> folder of your application deployment:</p></div>
 <div class="listingblock">
-<div class="content monospaced">
-<pre>net.stax.appserver.bootstrap.Bootstrap -dir /var/genapp/apps/d414b3f4/staxcat
-  -port 8783 -config /var/genapp/apps/d414b3f4/appserver.xml</pre>
-</div></div>
-<div class="paragraph"><p>We can pick out the port number with a regular expression:</p></div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="k">val</span> <span class="n">beesPort</span> <span class="k">:</span> <span class="kt">Box</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="k">for</span> <span class="o">{</span>
-  <span class="n">command</span> <span class="k">&lt;-</span> <span class="nc">Box</span> <span class="o">!!</span> <span class="nc">System</span><span class="o">.</span><span class="n">getProperty</span><span class="o">(</span><span class="s">&quot;sun.java.command&quot;</span><span class="o">)</span>
-  <span class="n">port</span> <span class="k">&lt;-</span> <span class="s">&quot;&quot;&quot;.*-port (\d+) .*&quot;&quot;&quot;</span><span class="o">.</span><span class="n">r</span> <span class="n">findFirstMatchIn</span> <span class="n">command</span>
-<span class="o">}</span> <span class="k">yield</span> <span class="n">port</span> <span class="n">group</span> <span class="mi">1</span>
+<div class="content"><div class="highlight"><pre><span class="k">val</span> <span class="n">beesPort</span> <span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">portsDir</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="n">getenv</span><span class="o">(</span><span class="s">&quot;PWD&quot;</span><span class="o">),</span> <span class="s">&quot;.genapp/ports&quot;</span><span class="o">)</span>
+  <span class="k">for</span> <span class="o">{</span>
+    <span class="n">files</span> <span class="k">&lt;-</span> <span class="nc">Option</span><span class="o">(</span><span class="n">portsDir</span><span class="o">.</span><span class="n">list</span><span class="o">)</span>
+    <span class="n">port</span> <span class="k">&lt;-</span> <span class="n">files</span><span class="o">.</span><span class="n">flatMap</span><span class="o">(</span><span class="n">asInt</span><span class="o">).</span><span class="n">headOption</span>
+  <span class="o">}</span> <span class="k">yield</span> <span class="n">port</span>
+<span class="o">}</span>
 </pre></div></div></div>
-<div class="paragraph"><p>Running locally this will return a <span class="monospaced">Empty</span> box, but on CloudBees you&#8217;ll see a <span class="monospaced">Full[String]</span> port number.</p></div>
+<div class="paragraph"><p>The <span class="monospaced">java.io.File#list</span> method returns a list of filenames in a directory, but will return null if the directory doesn&#8217;t exist or if there are any IO errors.  For this reason, we wrap it in <span class="monospaced">Option</span> to convert null values to <span class="monospaced">None</span>.</p></div>
+<div class="paragraph"><p>Running locally this will return a <span class="monospaced">None</span>, but on CloudBees you&#8217;ll see a <span class="monospaced">Full[Int]</span> port number.</p></div>
 <div class="paragraph"><p>You might put these two values together as follows:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">java.net.InetAddress</span>
 
 <span class="k">val</span> <span class="n">hostAndPort</span> <span class="k">:</span> <span class="kt">String</span> <span class="o">=</span>
   <span class="o">(</span><span class="n">beesPublicHostname</span> <span class="n">openOr</span> <span class="nc">InetAddress</span><span class="o">.</span><span class="n">getLocalHost</span><span class="o">.</span><span class="n">getHostAddress</span><span class="o">)</span> <span class="o">+</span>
-  <span class="s">&quot;:&quot;</span> <span class="o">+</span> <span class="o">(</span><span class="n">beesPort</span> <span class="n">openOr</span> <span class="s">&quot;8080&quot;</span><span class="o">)</span>
+  <span class="s">&quot;:&quot;</span> <span class="o">+</span> <span class="o">(</span><span class="n">beesPort</span> <span class="n">getOrElse</span> <span class="mi">8080</span><span class="o">).</span><span class="n">toString</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Running locally <span class="monospaced">hostAndPort</span> might be <span class="monospaced">192.168.1.60:8080</span> and running on CloudBees it would be something like <span class="monospaced">ec2-204-236-222-252.compute-1.amazonaws.com:8520</span>.</p></div>
 </div>
@@ -9068,22 +9066,48 @@ To change the default Java Virtual Machine, use the <span class="monospaced">bee
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>bees config:set -a myaccount/myapp -Rjava_version<span class="o">=</span>1.8
 </pre></div></div></div>
-<div class="paragraph"><p>Excluding the application identifier <span class="monospaced">-a myaccount/myapp</span> from the command will set the
-JVM as the default for all applications in the account.</p></div>
+<div class="paragraph"><p>Excluding the application identifier <span class="monospaced">-a myaccount/myapp</span> from the command will set the JVM as the default for all applications in the account. The  <span class="monospaced">bees config:set</span> command will update the configuration, but not take effect until the application(s) have been updated or restarted.</p></div>
 <div class="paragraph"><p>The JVM can also be changed when an application is deployed or updated via following commands:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nv">$ </span>bees app:deploy -a myaccount/myapp ./target/scala-2.9.2/myapp_2.9.2-1.0.war  -Rjava_version<span class="o">=</span>1.6
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>bees app:deploy -a myaccount/myapp sample.war  -Rjava_version<span class="o">=</span>1.6
+<span class="nv">$ </span>bees app:update -a myaccount/myapp -Rjava_version<span class="o">=</span>1.7
 </pre></div></div></div>
+<div class="paragraph"><p>To confirm which JVM an application is currently running, use the
+<span class="monospaced">bees config:list</span> command, which will display Java version. As can be seen below:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nv">$ </span>bees app:update -a myaccount/myapp -Rjava_version<span class="o">=</span>1.7
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>bees config:list -a myaccount/myapp
+Runtime Parameters:
+  <span class="nv">java_version</span><span class="o">=</span>1.6
 </pre></div></div></div>
 </div>
 <div class="sect4">
 <h5 id="_container_version">Container Version</h5>
-<div class="paragraph"><p>CloudBees  offer several containers: Tomcat 6.0.32 (the default), Tomcat 7, JBoss 7.02, JBoss 7.1 and GlassFish 3.</p></div>
+<div class="paragraph"><p>CloudBees offer several containers: Tomcat 6.0.32 (the default), Tomcat 7, JBoss 7.02, JBoss 7.1 and GlassFish 3.</p></div>
 <div class="paragraph"><p>To change containers the application will need to be redeployed as CloudBees uses different file configurations for the various containers.  Hence we use the <span class="monospaced">bees app:deploy</span> command. The following example updates to Tomcat 7:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre>bees app:deploy -t tomcat7 -a myaccount/myapp ./target/scala-2.9.2/myapp_2.9.2-1.0.war
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>bees app:deploy -t tomcat7 -a myaccount/myapp sample.war
+</pre></div></div></div>
+<div class="paragraph"><p>The JVM and container commands can be run as a single <span class="monospaced">bees app:deploy</span> as follows:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>bees app:deploy -t tomcat -a myaccount/myapp sample.war -Rjava_version<span class="o">=</span>1.6
+</pre></div></div></div>
+<div class="paragraph"><p>This would deploy <span class="monospaced">sample.war</span> to the "myapp" application on "myaccount" with Tomcat 6.0.32 and JDK 6.</p></div>
+<div class="paragraph"><p>To determine which container an application is deployed to, use the command <span class="monospaced">bees app:info</span>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>bees app:info -a myaccount/myapp
+Application     : myaccount/myapp
+Title           : myapp
+Created         : Wed Mar 20 11:02:40 EST 2013
+Status          : active
+URL             : myapp.myaccount.cloudbees.net
+clusterSize     : 1
+container       : java_free
+containerType   : tomcat
+idleTimeout     : 21600
+maxMemory       : 256
+proxyBuffering  : <span class="nb">false</span>
+securityMode    : PUBLIC
+serverPool      : stax-global <span class="o">(</span>Stax Global Pool<span class="o">)</span>
 </pre></div></div></div>
 </div>
 <div class="sect4">
@@ -9858,7 +9882,7 @@ JavaScript to the head of every page.</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-03-19 09:43:41 GMT
+Last updated 2013-03-23 09:16:55 GMT
 </div>
 </div>
 </body>
