@@ -1562,7 +1562,7 @@ create a <span class="monospaced">~/.sbt/plugins/plugins.sbt</span> file contain
 <div class="content monospaced">
 <pre>gen-idea</pre>
 </div></div>
-<div class="paragraph"><p>This will generate the <span class="monospaced">.idea</span> and <span class="monospaced">.iml</span> files you need so you can do "File" and "Open&#8230;" in IntelliJ and navigate to your project.</p></div>
+<div class="paragraph"><p>This will generate the <span class="monospaced">.idea</span> and <span class="monospaced">.iml</span> files that IntelliJ uses. Inside IntelliJ you can open the project from the "File" menu, picking "Open&#8230;" and then navigating to your project and select the directory.</p></div>
 <div class="paragraph"><p>To see live changes as you edit and save your work, run SBT in a separate terminal window.  That is, start <span class="monospaced">sbt</span> from a terminal window outside of IntelliJ and enter the following:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
@@ -1964,19 +1964,19 @@ result in:</p></div>
 meaning the title used will be the title you&#8217;ve assigned to the page in
 the site map.  To do that, make use of <span class="monospaced">Menu.title</span> in your template directly:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;title</span> <span class="na">class=</span><span class="s">&quot;lift:Menu.title&quot;</span><span class="nt">&gt;&lt;/title&gt;</span>
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;title</span> <span class="na">data-lift=</span><span class="s">&quot;Menu.title&quot;</span><span class="nt">&gt;&lt;/title&gt;</span>
 </pre></div></div></div>
-<div class="paragraph"><p>The <span class="monospaced">lift:Menu.title</span> code appends to any existing text in the title.
+<div class="paragraph"><p>The <span class="monospaced">Menu.title</span> code appends to any existing text in the title.
 This means the following will have the phrase "Site Title - " in the
 title followed by the page title:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;title</span> <span class="na">class=</span><span class="s">&quot;lift:Menu.title&quot;</span><span class="nt">&gt;</span>Site Title - <span class="nt">&lt;/title&gt;</span>
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;title</span> <span class="na">data-lift=</span><span class="s">&quot;Menu.title&quot;</span><span class="nt">&gt;</span>Site Title - <span class="nt">&lt;/title&gt;</span>
 </pre></div></div></div>
 <div class="paragraph"><p>If you need more control, you can of course bind on <span class="monospaced">&lt;title&gt;</span> using a
 regular snippet. This example uses a custom snippet to put the site
 title after the page title:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;title</span> <span class="na">class=</span><span class="s">&quot;lift:MyTitle&quot;</span><span class="nt">&gt;&lt;/title&gt;</span>
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;title</span> <span class="na">data-lift=</span><span class="s">&quot;MyTitle&quot;</span><span class="nt">&gt;&lt;/title&gt;</span>
 </pre></div></div></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">object</span> <span class="nc">MyTitle</span> <span class="o">{</span>
@@ -1986,7 +1986,7 @@ title after the page title:</p></div>
 </div>
 <div class="sect3">
 <h4 id="_see_also_13">See Also</h4>
-<div class="paragraph"><p>At <a href="https://www.assembla.com/spaces/liftweb/wiki/SiteMap">https://www.assembla.com/spaces/liftweb/wiki/SiteMap</a> there&#8217;s more about Site Map and the <span class="monospaced">Lift:Menu</span> snippets.</p></div>
+<div class="paragraph"><p>At <a href="https://www.assembla.com/spaces/liftweb/wiki/SiteMap">https://www.assembla.com/spaces/liftweb/wiki/SiteMap</a> there&#8217;s more about Site Map and the <span class="monospaced">Menu</span> snippets.</p></div>
 </div>
 </div>
 <div class="sect2">
@@ -2015,7 +2015,7 @@ elements with legacy IE browsers.  To do that our snippet would be:</p></div>
 <div class="paragraph"><p>We would then reference the snippet in the <span class="monospaced">&lt;head&gt;</span> of a page, perhaps even in
 all pages via <span class="monospaced">templates-hidden/default.html</span>:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">class=</span><span class="s">&quot;lift:Html5Shiv&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">data-lift=</span><span class="s">&quot;Html5Shiv&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
 </pre></div></div></div>
 </div>
 <div class="sect3">
@@ -2046,7 +2046,7 @@ For example:</p></div>
 </pre></div></div></div>
 <div class="paragraph"><p>It would be used like this&#8230;</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;lift:IEOnly&quot;</span><span class="nt">&gt;</span>
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">data-lift=</span><span class="s">&quot;IEOnly&quot;</span><span class="nt">&gt;</span>
   A div just for IE
 <span class="nt">&lt;/div&gt;</span>
 </pre></div></div></div>
@@ -2058,7 +2058,7 @@ For example:</p></div>
 </pre></div></div></div>
 <div class="paragraph"><p>Notice that the <span class="monospaced">condition</span> test defaults to "IE", but first tries to look for an attribute called "cond".  This allows you to write:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;lift:IEOnly?cond=lt+IE+9&quot;</span><span class="nt">&gt;</span>
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">data-lift=</span><span class="s">&quot;IEOnly?cond=lt+IE+9&quot;</span><span class="nt">&gt;</span>
   You&#39;re using IE 8 or earlier
 <span class="nt">&lt;/div&gt;</span>
 </pre></div></div></div>
@@ -2095,7 +2095,7 @@ return the original markup.</p></div>
 
 <span class="nt">&lt;p&gt;</span>There&#39;s a 50:50 chance of seeing &quot;Try again&quot; or &quot;Congratulations!&quot;:<span class="nt">&lt;/p&gt;</span>
 
-<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;lift:PassThruSnippet&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">data-lift=</span><span class="s">&quot;PassThruSnippet&quot;</span><span class="nt">&gt;</span>
   Try again - this is the template content.
 <span class="nt">&lt;/div&gt;</span>
 </pre></div></div></div>
@@ -2149,7 +2149,7 @@ Found" error. It even happens for <span class="monospaced">&lt;lift:HelloWorld.h
 <h4 id="_solution_15">Solution</h4>
 <div class="paragraph"><p>Switch to the designer-friendly snippet invocation mechanism. E.g.,</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;lift:HellowWorld.howdy&quot;</span><span class="nt">&gt;</span>...<span class="nt">&lt;/div&gt;</span>
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">data-lift=</span><span class="s">&quot;HellowWorld.howdy&quot;</span><span class="nt">&gt;</span>...<span class="nt">&lt;/div&gt;</span>
 </pre></div></div></div>
 </div>
 <div class="sect3">
@@ -2180,12 +2180,12 @@ to avoid this browser caching.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_16">Solution</h4>
-<div class="paragraph"><p>Add the <span class="monospaced">lift:with-resource-id</span> class attribute to script or link tags:</p></div>
+<div class="paragraph"><p>Add the <span class="monospaced">with-resource-id</span> data-lift attribute to script or link tags:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">class=</span><span class="s">&quot;lift:with-resource-id&quot;</span> <span class="na">src=</span><span class="s">&quot;/myscript.js&quot;</span>
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">data-lift=</span><span class="s">&quot;with-resource-id&quot;</span> <span class="na">src=</span><span class="s">&quot;/myscript.js&quot;</span>
  <span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
 </pre></div></div></div>
-<div class="paragraph"><p>The addition of this class will cause Lift to append a "resource id" to
+<div class="paragraph"><p>The addition of this attribute will cause Lift to append a "resource id" to
 your <span class="monospaced">src</span> (or <span class="monospaced">href</span>), and as this resource id changes each time Lift
 starts, it defeats browser caching.</p></div>
 <div class="paragraph"><p>The resultant HTML might be:</p></div>
@@ -2223,7 +2223,7 @@ that look like this new format, and render the correct content for the request. 
   <span class="c1">// The random number we&#39;re using to avoid caching</span>
   <span class="k">val</span> <span class="n">resourceId</span> <span class="k">=</span> <span class="nc">Helpers</span><span class="o">.</span><span class="n">nextFuncName</span>
 
-  <span class="c1">// Prefix lift:with-resource-id links with &quot;/cache/{resouceId}&quot;</span>
+  <span class="c1">// Prefix with-resource-id links with &quot;/cache/{resouceId}&quot;</span>
   <span class="nc">LiftRules</span><span class="o">.</span><span class="n">attachResourceId</span> <span class="k">=</span> <span class="o">(</span><span class="n">path</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">{</span>
    <span class="s">&quot;/cache/&quot;</span> <span class="o">+</span> <span class="n">resourceId</span> <span class="o">+</span> <span class="n">path</span>
   <span class="o">}</span>
@@ -2244,7 +2244,7 @@ that look like this new format, and render the correct content for the request. 
 <div class="paragraph"><p>&#8230;or you could just paste all the code into <span class="monospaced">Boot.scala</span>, if you prefer.</p></div>
 <div class="paragraph"><p>With the code in place, we can, for example, modify <span class="monospaced">templates-hidden/default.html</span> and add a resource ID class to jQuery:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">id=</span><span class="s">&quot;jquery&quot;</span> <span class="na">class=</span><span class="s">&quot;lift:with-resource-id&quot;</span>
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">id=</span><span class="s">&quot;jquery&quot;</span> <span class="na">data-lift=</span><span class="s">&quot;with-resource-id&quot;</span>
   <span class="na">src=</span><span class="s">&quot;/classpath/jquery.js&quot;</span> <span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
 </pre></div></div></div>
 <div class="paragraph"><p>At run-time this would be rendered in HTML as:</p></div>
@@ -2283,14 +2283,14 @@ something to the <span class="monospaced">&lt;head&gt;</span> section.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_17">Solution</h4>
-<div class="paragraph"><p>Use the <span class="monospaced">lift:head</span> snippet or CSS class so Lift knows to merge the
+<div class="paragraph"><p>Use the <span class="monospaced">head</span> snippet or CSS class so Lift knows to merge the
 contents with the <span class="monospaced">&lt;head&gt;</span> of your page. For example, suppose you have
 the following contents in <span class="monospaced">templates-hidden/default.html</span>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span> <span class="na">xmlns:lift=</span><span class="s">&quot;http://liftweb.net/&quot;</span><span class="nt">&gt;</span>
   <span class="nt">&lt;head&gt;</span>
     <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;&lt;/meta&gt;</span>
-    <span class="nt">&lt;title</span> <span class="na">class=</span><span class="s">&quot;lift:Menu.title&quot;</span><span class="nt">&gt;</span>App: <span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;title</span> <span class="na">data-lift=</span><span class="s">&quot;Menu.title&quot;</span><span class="nt">&gt;</span>App: <span class="nt">&lt;/title&gt;</span>
     <span class="nt">&lt;script </span><span class="na">id=</span><span class="s">&quot;jquery&quot;</span> <span class="na">src=</span><span class="s">&quot;/classpath/jquery.js&quot;</span>
       <span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
     <span class="nt">&lt;script </span><span class="na">id=</span><span class="s">&quot;json&quot;</span> <span class="na">src=</span><span class="s">&quot;/classpath/json.js&quot;</span>
@@ -2302,16 +2302,16 @@ the following contents in <span class="monospaced">templates-hidden/default.html
 <span class="nt">&lt;/html&gt;</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Also suppose you have <span class="monospaced">index.html</span> on which you want to include <span class="monospaced">red-titles.css</span> to just change the style of just this page.</p></div>
-<div class="paragraph"><p>Do so by including the CSS in the part of the page that will get processed and mark it for the head with <span class="monospaced">lift:head</span>:</p></div>
+<div class="paragraph"><p>Do so by including the CSS in the part of the page that will get processed and mark it for the head with <span class="monospaced">head</span>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="nt">&lt;html&gt;</span>
  <span class="nt">&lt;head&gt;</span>
    <span class="nt">&lt;title&gt;</span>Special<span class="nt">&lt;/title&gt;</span>
  <span class="nt">&lt;/head&gt;</span>
- <span class="nt">&lt;body</span> <span class="na">class=</span><span class="s">&quot;lift:content_id=main&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;main&quot;</span> <span class="na">class=</span><span class="s">&quot;lift:surround?with=default;at=content&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;link</span> <span class="na">class=</span><span class="s">&quot;lift:head&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span>
+ <span class="nt">&lt;body</span> <span class="na">data-lift-content-id=</span><span class="s">&quot;main&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;main&quot;</span> <span class="na">data-lift=</span><span class="s">&quot;surround?with=default;at=content&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">data-lift=</span><span class="s">&quot;head&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span>
        <span class="na">href=</span><span class="s">&quot;red-titles.css&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="nt">/&gt;</span>
     <span class="nt">&lt;h2&gt;</span>Hello<span class="nt">&lt;/h2&gt;</span>
   <span class="nt">&lt;/div&gt;</span>
@@ -2353,10 +2353,10 @@ the HTML in your template and page is valid HTML5.</p></div>
 <div class="paragraph"><p>You can also use <span class="monospaced">&lt;lift:head&gt;...&lt;/lift:head&gt;</span> to wrap a number of
 expressions, and will see <span class="monospaced">&lt;head_merge&gt;...&lt;/head_merge&gt;</span> used in code
 example as an alternative to <span class="monospaced">&lt;lift:head&gt;</span>.</p></div>
-<div class="paragraph"><p>Another variant you may see is <span class="monospaced">data-lift="head"</span>, as an alternative to <span class="monospaced">class="lift:head"</span>.</p></div>
-<div class="paragraph"><p>The <span class="monospaced">lift:head</span> snippet is a built-in snippet, but otherwise no different from any snippet you might write.  What the snippet does is emit a <span class="monospaced">&lt;head&gt;</span> block, containing the elements you want in the head.  These can be <span class="monospaced">&lt;title&gt;</span>, <span class="monospaced">&lt;link&gt;</span>, <span class="monospaced">&lt;meta&gt;</span>, <span class="monospaced">&lt;style&gt;</span>, <span class="monospaced">&lt;script&gt;</span> or <span class="monospaced">&lt;base&gt;</span> tags.  How does this <span class="monospaced">&lt;head&gt;</span> block produced by the <span class="monospaced">lift:head</span> snippet end up inside the main <span class="monospaced">&lt;head&gt;</span> section of the page?  When Lift processes your template, it automatically merges all <span class="monospaced">&lt;head&gt;</span> tags into the main <span class="monospaced">&lt;head&gt;</span> section of the page.</p></div>
+<div class="paragraph"><p>Another variant you may see is <span class="monospaced">class="lift:head"</span>, as an alternative to <span class="monospaced">data-lift="head"</span>.</p></div>
+<div class="paragraph"><p>The <span class="monospaced">head</span> snippet is a built-in snippet, but otherwise no different from any snippet you might write.  What the snippet does is emit a <span class="monospaced">&lt;head&gt;</span> block, containing the elements you want in the head.  These can be <span class="monospaced">&lt;title&gt;</span>, <span class="monospaced">&lt;link&gt;</span>, <span class="monospaced">&lt;meta&gt;</span>, <span class="monospaced">&lt;style&gt;</span>, <span class="monospaced">&lt;script&gt;</span> or <span class="monospaced">&lt;base&gt;</span> tags.  How does this <span class="monospaced">&lt;head&gt;</span> block produced by the <span class="monospaced">head</span> snippet end up inside the main <span class="monospaced">&lt;head&gt;</span> section of the page?  When Lift processes your template, it automatically merges all <span class="monospaced">&lt;head&gt;</span> tags into the main <span class="monospaced">&lt;head&gt;</span> section of the page.</p></div>
 <div class="paragraph"><p>You might suspect you can therefore put a plain old <span class="monospaced">&lt;head&gt;</span> section anywhere on your template, but that would not necessarily be valid HTML5 mark up.</p></div>
-<div class="paragraph"><p>There&#8217;s also <span class="monospaced">lift:tail</span> which works in a similar way, except anything marked with this snippet is moved to be just before the close of the body tag.</p></div>
+<div class="paragraph"><p>There&#8217;s also <span class="monospaced">tail</span> which works in a similar way, except anything marked with this snippet is moved to be just before the close of the body tag.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_see_also_17">See Also</h4>
@@ -2417,7 +2417,7 @@ indicates the path we&#8217;ve given is absolute, and doesn&#8217;t end in a
 slash.  <span class="monospaced">ParsePath</span> is a representation for a URI path, and exposing
 if the path is absolute or ends in a slash are useful flags for matching on, but
 in this case, they&#8217;re not relevant.</p></div>
-<div class="paragraph"><p>Be aware that 404 pages, when rendered this way, won&#8217;t have a location in the site map. That&#8217;s because we&#8217;ve not included the <span class="monospaced">404.html</span> file in the site map, and we don&#8217;t have to because we&#8217;re rendering via <span class="monospaced">NotFoundAsTemplate</span> rather than sending a redirect to <em>/404.html</em>. However, this means that if you display an error page using a template that contains <span class="monospaced">lift:Menu.builder</span> or similar (as <span class="monospaced">templates-hidden/default.html</span> does), you&#8217;ll see "No Navigation Defined".  In that case, you&#8217;ll probably want to use a different template on your 404 page.</p></div>
+<div class="paragraph"><p>Be aware that 404 pages, when rendered this way, won&#8217;t have a location in the site map. That&#8217;s because we&#8217;ve not included the <span class="monospaced">404.html</span> file in the site map, and we don&#8217;t have to because we&#8217;re rendering via <span class="monospaced">NotFoundAsTemplate</span> rather than sending a redirect to <em>/404.html</em>. However, this means that if you display an error page using a template that contains <span class="monospaced">Menu.builder</span> or similar (as <span class="monospaced">templates-hidden/default.html</span> does), you&#8217;ll see "No Navigation Defined".  In that case, you&#8217;ll probably want to use a different template on your 404 page.</p></div>
 <div class="paragraph"><p>As an alternative, you could include the 404 page in your site map but make it hidden when the site map is displayed via the <span class="monospaced">Menu.builder</span>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">Menu</span><span class="o">.</span><span class="n">i</span><span class="o">(</span><span class="s">&quot;404&quot;</span><span class="o">)</span> <span class="o">/</span> <span class="s">&quot;404&quot;</span> <span class="o">&gt;&gt;</span> <span class="nc">Hidden</span>
@@ -2551,7 +2551,7 @@ the contents of the <em>403.html</em> template.</p></div>
 </pre></div></div></div>
 <div class="paragraph"><p>You might pair this with the following in your template&#8230;</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;lift:Msg?id=checkPrivacyPolicy&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">data-lift=</span><span class="s">&quot;Msg?id=checkPrivacyPolicy&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
 </pre></div></div></div>
 </div>
 <div class="sect3">
@@ -2911,84 +2911,94 @@ ways.  You&#8217;ll find many of the examples in <a href="https://github.com/Lif
 </div>
 <div class="sect3">
 <h4 id="_solution_24">Solution</h4>
-<div class="paragraph"><p>Extract form values with <span class="monospaced">S.param</span>. For example, we can show a form,
-process an input value, and echo the value back out. Here we have
-<span class="monospaced">dumbForm.html</span> which contains a form wrapped in a snippet:</p></div>
+<div class="paragraph"><p>Extract form values with <span class="monospaced">S.param</span>, process the values, and produce some output.</p></div>
+<div class="paragraph"><p>For example, we can show a form, process an input value, and give a message back as a notice.  The template is a regular HTML form, with the addition of a snippet:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;lift:DumbForm&quot;</span><span class="nt">&gt;</span>
-
-<span class="nt">&lt;form</span>  <span class="na">action=</span><span class="s">&quot;/dumbForm.html&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;it&quot;</span> <span class="na">value=</span><span class="s">&quot;something&quot;</span> <span class="nt">&gt;</span>
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;form</span> <span class="na">data-lift=</span><span class="s">&quot;Plain&quot;</span> <span class="na">action=</span><span class="s">&quot;/plain&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;name&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;What&#39;s your name?&quot;</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">value=</span><span class="s">&quot;Go&quot;</span> <span class="nt">&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
-
-<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;result&quot;</span><span class="nt">&gt;</span> <span class="nt">&lt;/div&gt;</span>
-
-<span class="nt">&lt;/div&gt;</span>
 </pre></div></div></div>
-<div class="paragraph"><p>Pick out the values in the snippet:</p></div>
+<div class="paragraph"><p>In the snippet we can pick out the value of the field "name" with <span class="monospaced">S.param("name")</span>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">package</span> <span class="nn">code.snippet</span>
 
-<span class="k">import</span> <span class="nn">net.liftweb.util._</span>
-<span class="k">import</span> <span class="nn">net.liftweb.common._</span>
-<span class="k">import</span> <span class="nn">Helpers._</span>
-<span class="k">import</span> <span class="nn">net.liftweb.http._</span>
+<span class="k">import</span> <span class="nn">net.liftweb.common.Full</span>
+<span class="k">import</span> <span class="nn">net.liftweb.http.S</span>
+<span class="k">import</span> <span class="nn">net.liftweb.util.PassThru</span>
 
-<span class="k">class</span> <span class="nc">DumbForm</span> <span class="o">{</span>
+<span class="k">object</span> <span class="nc">Plain</span> <span class="o">{</span>
 
-  <span class="k">val</span> <span class="n">inputParam</span> <span class="k">=</span> <span class="k">for</span> <span class="o">{</span>
-    <span class="n">r</span> <span class="k">&lt;-</span> <span class="n">S</span><span class="o">.</span><span class="n">request</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">post_?</span>  <span class="c1">// restricting to POST requests</span>
-    <span class="n">v</span> <span class="k">&lt;-</span> <span class="n">S</span><span class="o">.</span><span class="n">param</span><span class="o">(</span><span class="s">&quot;it&quot;</span><span class="o">)</span>
-  <span class="o">}</span> <span class="k">yield</span> <span class="n">v</span>
-
-  <span class="k">def</span> <span class="n">render</span> <span class="k">=</span> <span class="n">inputParam</span> <span class="k">match</span> <span class="o">{</span>
-      <span class="k">case</span> <span class="nc">Full</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="k">=&gt;</span>
-        <span class="n">println</span><span class="o">(</span><span class="s">&quot;Input is: &quot;</span><span class="o">+</span><span class="n">x</span><span class="o">)</span>
-        <span class="s">&quot;#result *&quot;</span> <span class="o">#&gt;</span> <span class="n">x</span>
-
-      <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span>
-        <span class="n">println</span><span class="o">(</span><span class="s">&quot;No input present! Rendering input form HTML&quot;</span><span class="o">)</span>
-        <span class="nc">PassThru</span>
+  <span class="k">def</span> <span class="n">render</span> <span class="k">=</span> <span class="n">S</span><span class="o">.</span><span class="n">param</span><span class="o">(</span><span class="s">&quot;name&quot;</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="nc">Full</span><span class="o">(</span><span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span>
+      <span class="n">S</span><span class="o">.</span><span class="n">notice</span><span class="o">(</span><span class="s">&quot;Hello &quot;</span><span class="o">+</span><span class="n">name</span><span class="o">)</span>
+      <span class="n">S</span><span class="o">.</span><span class="n">redirectTo</span><span class="o">(</span><span class="s">&quot;/plain&quot;</span><span class="o">)</span>
+    <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span>
+      <span class="nc">PassThru</span>
   <span class="o">}</span>
 
 <span class="o">}</span>
 </pre></div></div></div>
-<div class="paragraph"><p>When you run this code you&#8217;ll see
-<span class="monospaced">No input present! Rendering input form HTML</span> on the console, and when
-you press "Go" you&#8217;ll see <span class="monospaced">Input is: something</span> and the "something" will
-appear on the page.</p></div>
+<div class="paragraph"><p>When you reach this template in your browser, the first time through there will be no parameter so we just pass back the form unchanged. You can then enter a value into the "name" field and submit the form. This will result in Lift processing the template again, but this time with a value for the "name" input.  The result will be your browser redirected to a page with a message set for display.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_25">Discussion</h4>
-<div class="paragraph"><p>The <span class="monospaced">DumbForm</span> snippet extracts the input parameter using a for
-comprehension. The result will be of type <span class="monospaced">Box[String]</span> which we then
-match on to decide what to do next.</p></div>
-<div class="paragraph"><p>In this example, we are also checking that the request is a POST request
-before extracting the value of the <span class="monospaced">it</span> form parameter.</p></div>
+<div class="paragraph"><p>Manually plucking parameters from a request isn&#8217;t making the best use of Lift, but sometimes you need to do it, and <span class="monospaced">S.param</span> is the way you can process request parameters.</p></div>
+<div class="paragraph"><p>The result of <span class="monospaced">S.param</span> is a <span class="monospaced">Box[String]</span>, and in the above example we pattern match on a value.  With more than one parameter you&#8217;re probably see <span class="monospaced">S.param</span> used in this way:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="n">render</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">for</span> <span class="o">{</span>
+    <span class="n">name</span> <span class="k">&lt;-</span> <span class="n">S</span><span class="o">.</span><span class="n">param</span><span class="o">(</span><span class="s">&quot;name&quot;</span><span class="o">)</span>
+    <span class="n">pet</span> <span class="k">&lt;-</span> <span class="n">S</span><span class="o">.</span><span class="n">param</span><span class="o">(</span><span class="s">&quot;petName&quot;</span><span class="o">)</span>
+  <span class="o">}</span> <span class="o">{</span>
+    <span class="n">S</span><span class="o">.</span><span class="n">notice</span><span class="o">(</span><span class="s">&quot;Hello %s and %s&quot;</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="n">name</span><span class="o">,</span><span class="n">pet</span><span class="o">))</span>
+    <span class="n">S</span><span class="o">.</span><span class="n">redirectTo</span><span class="o">(</span><span class="s">&quot;/plain&quot;</span><span class="o">)</span>
+  <span class="o">}</span>
+
+ <span class="nc">PassThru</span>
+<span class="o">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p>If both "name" and "petName" are provided, the body of the <em>for</em> will be evaluated.</p></div>
+<div class="paragraph"><p>Related function on <span class="monospaced">S</span> include:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<span class="monospaced">S.params(name)</span>&#8201;&#8212;&#8201;producing a <span class="monospaced">List[String]</span> for all the request parameters with the given name.
+</p>
+</li>
+<li>
+<p>
+<span class="monospaced">S.post_?</span>, <span class="monospaced">S.get_?</span>-- to see if the request was a GET or POST.
+</p>
+</li>
+<li>
+<p>
+<span class="monospaced">S.getRequestHeader(name)</span>&#8201;&#8212;&#8201;giving the <span class="monospaced">Box[String]</span> for a header in the request with the given name.
+</p>
+</li>
+<li>
+<p>
+<span class="monospaced">S.request</span>&#8201;&#8212;&#8201;to access the <span class="monospaced">Box[Req]</span> which gives you access to further HTTP-specific information about the request.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>As an example of using <span class="monospaced">S.request</span> we could produce a <span class="monospaced">List[String]</span> for the values of all request parameters that have "name" somewhere in their parameter name:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">val</span> <span class="n">names</span> <span class="k">=</span> <span class="k">for</span> <span class="o">{</span>
+  <span class="n">req</span> <span class="k">&lt;-</span> <span class="n">S</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">toList</span>
+  <span class="n">paramName</span> <span class="k">&lt;-</span> <span class="n">req</span><span class="o">.</span><span class="n">paramNames</span>
+  <span class="k">if</span> <span class="n">paramName</span><span class="o">.</span><span class="n">toLowerCase</span> <span class="n">contains</span> <span class="s">&quot;name&quot;</span>
+  <span class="n">value</span> <span class="k">&lt;-</span> <span class="n">S</span><span class="o">.</span><span class="n">param</span><span class="o">(</span><span class="n">paramName</span><span class="o">)</span>
+<span class="o">}</span> <span class="k">yield</span> <span class="n">value</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Note that by opening up <span class="monospaced">S.request</span> we can access all the parameter names via <span class="monospaced">paramNames</span> function on <span class="monospaced">Req</span>.</p></div>
 <div class="paragraph"><p>Screen or Wizard provide alternatives for form processing, but sometimes
 you just want to pull values from a request, as demonstrated in this
 recipe.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_see_also_24">See Also</h4>
-<div class="ulist"><ul>
-<li>
-<p>
-<em>Simply Lift</em>, section 4.1,
-<a href="http://simply.liftweb.net/index-4.1.html#toc-Section-4.1">Old Fashioned
-Dumb Forms</a> and 4.9
-<a href="http://stable.simply.liftweb.net/#toc-Section-4.9">But sometimes Old
-Fashioned is good</a>.
-</p>
-</li>
-<li>
-<p>
-<a href="https://github.com/marekzebrowski/lift-basics">Simple forms</a>, example
-Lift project.
-</p>
-</li>
-</ul></div>
+<div class="paragraph"><p><em>Simply Lift</em> covers a variety of ways of processing forms.  See: <a href="http://simply.liftweb.net">http://simply.liftweb.net</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
@@ -3004,8 +3014,8 @@ whole page.</p></div>
 function to run on the server when the form is submitted. Given this
 form&#8230;</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;lift:AjaxExample&quot;</span><span class="nt">&gt;</span>
- <span class="nt">&lt;form</span> <span class="na">class=</span><span class="s">&quot;lift:form.ajax&quot;</span><span class="nt">&gt;</span>
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">data-lift=</span><span class="s">&quot;AjaxExample&quot;</span><span class="nt">&gt;</span>
+ <span class="nt">&lt;form</span> <span class="na">data-lift=</span><span class="s">&quot;form.ajax&quot;</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;info&quot;</span> <span class="na">value=</span><span class="s">&quot;&quot;</span> <span class="nt">/&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">name=</span><span class="s">&quot;sb&quot;</span> <span class="na">value=</span><span class="s">&quot;go!&quot;</span> <span class="nt">/&gt;</span>
  <span class="nt">&lt;/form&gt;</span>
@@ -3099,13 +3109,13 @@ Lift&#8217;s <a href="http://demo.liftweb.net/ajax">Ajax Demo page</a>.
 <div class="paragraph"><p>Make use of Lift&#8217;s <span class="monospaced">jlift.js</span> Javascript and <span class="monospaced">JsonHandler</span> code.
 Consider this HTML, which is not in a form, but includes <span class="monospaced">jlift.js</span>:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;lift:JsonForm&quot;</span> <span class="nt">&gt;</span>
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">data-lift=</span><span class="s">&quot;JsonForm&quot;</span> <span class="nt">&gt;</span>
 
  <span class="c">&lt;!--  required for JSON forms processing --&gt;</span>
- <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;/classpath/jlift.js&quot;</span> <span class="na">class=</span><span class="s">&quot;lift:tail&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+ <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;/classpath/jlift.js&quot;</span> <span class="na">data-lift=</span><span class="s">&quot;tail&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
 
  <span class="c">&lt;!--  placeholder script required to process the form --&gt;</span>
- <span class="nt">&lt;script </span><span class="na">id=</span><span class="s">&quot;jsonFormScript&quot;</span> <span class="na">class=</span><span class="s">&quot;lift:tail&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+ <span class="nt">&lt;script </span><span class="na">id=</span><span class="s">&quot;jsonFormScript&quot;</span> <span class="na">data-lift=</span><span class="s">&quot;tail&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
 
  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;formToJson&quot;</span> <span class="na">name=</span><span class="s">&quot;formToJson&quot;</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;name&quot;</span> <span class="na">value=</span><span class="s">&quot;Royal Society&quot;</span> <span class="nt">/&gt;</span>
@@ -3315,7 +3325,7 @@ them to select multiple values.</p></div>
 </pre></div></div></div>
 <div class="paragraph"><p>The corresponding template would be:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;lift:MySnippet.multi?form=post&quot;</span><span class="nt">&gt;</span>
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">data-lift=</span><span class="s">&quot;MySnippet.multi?form=post&quot;</span><span class="nt">&gt;</span>
   <span class="nt">&lt;p&gt;</span>What can I getcha?<span class="nt">&lt;/p&gt;</span>
   <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;opts&quot;</span><span class="nt">&gt;</span>options go here<span class="nt">&lt;/div&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">value=</span><span class="s">&quot;Submit&quot;</span> <span class="nt">/&gt;</span>
@@ -5349,8 +5359,8 @@ file with the message you want to show to users:</p></div>
 <span class="nt">&lt;head&gt;</span>
   <span class="nt">&lt;title&gt;</span>500<span class="nt">&lt;/title&gt;</span>
 <span class="nt">&lt;/head&gt;</span>
-<span class="nt">&lt;body</span> <span class="na">class=</span><span class="s">&quot;lift:content_id=main&quot;</span><span class="nt">&gt;</span>
-<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;main&quot;</span> <span class="na">class=</span><span class="s">&quot;lift:surround?with=default;at=content&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;body</span> <span class="na">data-lift-content-id=</span><span class="s">&quot;main&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;main&quot;</span> <span class="na">data-lift=</span><span class="s">&quot;surround?with=default;at=content&quot;</span><span class="nt">&gt;</span>
   <span class="nt">&lt;h1&gt;</span>Something is wrong!<span class="nt">&lt;/h1&gt;</span>
   <span class="nt">&lt;p&gt;</span>It&#39;s our fault - sorry<span class="nt">&lt;/p&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
@@ -6408,11 +6418,11 @@ Moons of Mars are: List(Phobos, Deimos)</pre>
 <span class="nt">&lt;head&gt;</span>
   <span class="nt">&lt;title&gt;</span>Planet Name Validation<span class="nt">&lt;/title&gt;</span>
 <span class="nt">&lt;/head&gt;</span>
-<span class="nt">&lt;body</span> <span class="na">class=</span><span class="s">&quot;lift:content_id=main&quot;</span><span class="nt">&gt;</span>
-<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;main&quot;</span> <span class="na">class=</span><span class="s">&quot;lift:surround?with=default;at=content&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;body</span> <span class="na">data-lift-content-id=</span><span class="s">&quot;main&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;main&quot;</span> <span class="na">data-lift=</span><span class="s">&quot;surround?with=default;at=content&quot;</span><span class="nt">&gt;</span>
   <span class="nt">&lt;h1&gt;</span>Add a planet<span class="nt">&lt;/h1&gt;</span>
 
-  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;lift:Msgs?showAll=false&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">data-lift=</span><span class="s">&quot;Msgs?showAll=false&quot;</span><span class="nt">&gt;</span>
     <span class="nt">&lt;lift:notice</span><span class="na">_class</span><span class="nt">&gt;</span>noticeBox<span class="err">&lt;</span>/lift:notice_class&gt;
   <span class="nt">&lt;/div&gt;</span>
 
@@ -6425,7 +6435,7 @@ Moons of Mars are: List(Phobos, Deimos)</pre>
     <span class="nt">&lt;div&gt;</span>
       <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;planetName&quot;</span><span class="nt">&gt;</span>Planet name:<span class="nt">&lt;/label&gt;</span>
       <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">&quot;planetName&quot;</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span><span class="nt">&gt;&lt;/input&gt;</span>
-      <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;lift:Msg?id=name_id&amp;errorClass=error&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;span</span> <span class="na">data-lift=</span><span class="s">&quot;Msg?id=name_id&amp;errorClass=error&quot;</span><span class="nt">&gt;</span>
         Msg to appear here
       <span class="nt">&lt;/span&gt;</span>
     <span class="nt">&lt;/div&gt;</span>
@@ -7408,7 +7418,7 @@ and the <span class="monospaced">population</span> is a map from a <span class="
 creates it using some canned information. The template to go with the
 snippet could include:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;lift:Places.facts&quot;</span><span class="nt">&gt;</span>
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">data-lift=</span><span class="s">&quot;Places.facts&quot;</span><span class="nt">&gt;</span>
  <span class="nt">&lt;table&gt;</span>
   <span class="nt">&lt;thead&gt;</span>
    <span class="nt">&lt;tr&gt;&lt;th&gt;</span>City<span class="nt">&lt;/th&gt;&lt;th&gt;</span>Population<span class="nt">&lt;/th&gt;&lt;/tr&gt;</span>
@@ -9882,7 +9892,7 @@ JavaScript to the head of every page.</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-03-23 09:16:55 GMT
+Last updated 2013-03-26 08:40:58 GMT
 </div>
 </div>
 </body>
