@@ -4,7 +4,10 @@ version := "2.1.0"
 
 organization := "net.liftweb"
 
-scalaVersion := "2.10.0"
+scalaVersion := "2.10.1"
+
+scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
+
 
 resolvers ++= Seq("snapshots"     at "http://oss.sonatype.org/content/repositories/snapshots",
                 "releases"        at "http://oss.sonatype.org/content/repositories/releases"
@@ -14,7 +17,6 @@ seq(com.github.siasia.WebPlugin.webSettings :_*)
 
 unmanagedResourceDirectories in Test <+= (baseDirectory) { _ / "src/main/webapp" }
 
-scalacOptions ++= Seq("-deprecation", "-unchecked")
 
 libraryDependencies ++= {
   val liftVersion = "2.5-RC2"
