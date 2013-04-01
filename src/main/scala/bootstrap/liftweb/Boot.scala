@@ -3,7 +3,7 @@ package bootstrap.liftweb
 import net.liftweb._
 import common.{Full, Empty}
 import http._
-import code.lib.PamfletUrl
+import code.lib.{Analytics, PamfletUrl}
 
 
 class Boot {
@@ -20,20 +20,19 @@ class Boot {
 
 
     LiftRules.earlyResponse.append {
-
       // The first version of the cookbook was written Pamfet.  We map the Pamflet
       // pages to the corresponding section of the current version of the cookbook:
       case PamfletUrl(name) => Full(RedirectResponse("/"+name))
-
       case _ => Empty
-
     }
 
+    // Add tracking to the page so we can see which Recipes are popular:
+    LiftSession.onBeginServicing = Analytics.addTracking _ :: LiftSession.onBeginServicing
 
-    // The index page is statically generated: Lift doesn't need to touch it.
+
     LiftRules.liftRequest.append {
-      case Req("index" :: Nil, _, _) => false
       case Req("images" ::_, _, _) => false
+      case Req("analytics" :: Nil, "js", _) => false
     }
 
 
