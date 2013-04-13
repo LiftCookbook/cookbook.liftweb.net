@@ -93,8 +93,7 @@ object PamfletUrl {
     "MySQL unicode charset encoding.html" -> "#MySQLCharSet",
     "Contributing, bug reports & getting help.html" -> "#ContributingAndHelp",
     "How to add a new recipe to this Cookbook.html" -> "#AddRecipe",
-    "How to report bugs.html" -> "#HowToReportBugs",
-
+    "How to report bugs.html" -> "#HowToReportBugs"
   )
 
   def unapply(req: Req): Option[String] = redirect get (req path 0)
