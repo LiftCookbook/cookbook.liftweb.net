@@ -1216,7 +1216,7 @@ The <span class="monospaced">container:start</span> command uses Jetty.</p></div
   <span class="k">case</span> <span class="s">&quot;0.11.1&quot;</span> <span class="k">=&gt;</span> <span class="s">&quot;com.github.siasia&quot;</span> <span class="o">%%</span> <span class="s">&quot;xsbt-web-plugin&quot;</span> <span class="o">%</span> <span class="s">&quot;0.11.1-0.2.10&quot;</span>
   <span class="k">case</span> <span class="s">&quot;0.11.2&quot;</span> <span class="k">=&gt;</span> <span class="s">&quot;com.github.siasia&quot;</span> <span class="o">%%</span> <span class="s">&quot;xsbt-web-plugin&quot;</span> <span class="o">%</span> <span class="s">&quot;0.11.2-0.2.11&quot;</span>
   <span class="k">case</span> <span class="s">&quot;0.11.3&quot;</span> <span class="k">=&gt;</span> <span class="s">&quot;com.github.siasia&quot;</span> <span class="o">%%</span> <span class="s">&quot;xsbt-web-plugin&quot;</span> <span class="o">%</span> <span class="s">&quot;0.11.3-0.2.11.1&quot;</span>
-  <span class="k">case</span> <span class="n">x</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="n">startsWith</span><span class="o">(</span><span class="s">&quot;0.12&quot;</span><span class="o">))</span> <span class="k">=&gt;</span>
+  <span class="k">case</span> <span class="n">x</span> <span class="k">if</span> <span class="n">x</span> <span class="n">startsWith</span> <span class="s">&quot;0.12&quot;</span> <span class="k">=&gt;</span>
     <span class="s">&quot;com.github.siasia&quot;</span> <span class="o">%%</span> <span class="s">&quot;xsbt-web-plugin&quot;</span> <span class="o">%</span> <span class="s">&quot;0.12.0-0.2.11.1&quot;</span>
 <span class="o">})</span>
 </pre></div></div></div>
@@ -1237,7 +1237,9 @@ The <span class="monospaced">container:start</span> command uses Jetty.</p></div
   <span class="k">val</span> <span class="n">liftVersion</span> <span class="k">=</span> <span class="s">&quot;2.5-RC2&quot;</span>
   <span class="nc">Seq</span><span class="o">(</span>
     <span class="s">&quot;net.liftweb&quot;</span> <span class="o">%%</span> <span class="s">&quot;lift-webkit&quot;</span> <span class="o">%</span> <span class="n">liftVersion</span> <span class="o">%</span> <span class="s">&quot;compile&quot;</span><span class="o">,</span>
-    <span class="s">&quot;org.eclipse.jetty&quot;</span> <span class="o">%</span> <span class="s">&quot;jetty-webapp&quot;</span> <span class="o">%</span> <span class="s">&quot;8.1.7.v20120910&quot;</span> <span class="o">%</span> <span class="s">&quot;container,test&quot;</span>
+    <span class="s">&quot;org.eclipse.jetty&quot;</span> <span class="o">%</span> <span class="s">&quot;jetty-webapp&quot;</span> <span class="o">%</span> <span class="s">&quot;8.1.7.v20120910&quot;</span>  <span class="o">%</span> <span class="s">&quot;container,test&quot;</span><span class="o">,</span>
+    <span class="s">&quot;org.eclipse.jetty.orbit&quot;</span> <span class="o">%</span> <span class="s">&quot;javax.servlet&quot;</span> <span class="o">%</span> <span class="s">&quot;3.0.0.v201112011016&quot;</span> <span class="o">%</span>
+      <span class="s">&quot;container,compile&quot;</span> <span class="n">artifacts</span> <span class="nc">Artifact</span><span class="o">(</span><span class="s">&quot;javax.servlet&quot;</span><span class="o">,</span> <span class="s">&quot;jar&quot;</span><span class="o">,</span> <span class="s">&quot;jar&quot;</span><span class="o">)</span>
   <span class="o">)</span>
 <span class="o">}</span>
 </pre></div></div></div>
@@ -9882,12 +9884,13 @@ JavaScript to the head of every page.</p></div>
 <span class="o">...</span>
 
 <span class="n">libraryDependencies</span> <span class="o">&lt;++=</span> <span class="n">liftVersion</span> <span class="o">{</span> <span class="n">v</span> <span class="k">=&gt;</span>
-  <span class="s">&quot;net.liftweb&quot;</span> <span class="o">%%</span> <span class="s">&quot;lift-webkit&quot;</span> <span class="o">%</span> <span class="n">v</span> <span class="o">%</span> <span class="s">&quot;compile-&gt;default&quot;</span> <span class="o">::</span>
+  <span class="s">&quot;net.liftweb&quot;</span> <span class="o">%%</span> <span class="s">&quot;lift-webkit&quot;</span> <span class="o">%</span> <span class="n">v</span> <span class="o">%</span> <span class="s">&quot;provided&quot;</span> <span class="o">::</span>
   <span class="nc">Nil</span>
 <span class="o">}</span>
 </pre></div></div></div>
-<div class="paragraph"><p>What this gives you is a way for the version of your module to depend on the <span class="monospaced">liftVersion</span> value.  This in turn can be set via a script.  This is what we do to publish a range of Lift Modules after each Lift release, as described at <a href="https://www.assembla.com/spaces/liftweb/wiki/Releasing_the_modules">https://www.assembla.com/spaces/liftweb/wiki/Releasing_the_modules</a>.</p></div>
-<div class="paragraph"><p>Don&#8217;t forget to announce your module on the Lift mailing list.</p></div>
+<div class="paragraph"><p>Note the "provided" configuration for Lift in the build file. This means that when your module is used the version of Lift&#8217;s webkit used be the version provided by the application being built by the person using your module.</p></div>
+<div class="paragraph"><p>What the above gives you is a way for your module to depend on Lift ("2.5"), without locking your module into a specific release it happens to be built with ("2.5-SNAPSHOT").  By using a setting of <span class="monospaced">liftVersion</span>, we can control the version via a script for all modules.  This is what we do to publish a range of Lift Modules after each Lift release, as described at <a href="https://www.assembla.com/spaces/liftweb/wiki/Releasing_the_modules">https://www.assembla.com/spaces/liftweb/wiki/Releasing_the_modules</a>.</p></div>
+<div class="paragraph"><p>When you&#8217;re module is built, don&#8217;t forget to announce it on the Lift mailing list.</p></div>
 </div>
 <div class="sect4">
 <h5 id="_debugging_your_module">Debugging Your Module</h5>
@@ -9917,7 +9920,7 @@ JavaScript to the head of every page.</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-04-13 10:25:01 BST
+Last updated 2013-04-13 17:36:02 BST
 </div>
 </div>
 </body>
