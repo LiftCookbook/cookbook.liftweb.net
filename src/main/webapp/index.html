@@ -2830,7 +2830,7 @@ out the various scenarios and pipe them through a function.</p></div>
 <div class="paragraph"><p>Install the Lift Textile module in your <span class="monospaced">build.sbt</span> file by adding the
 following to the list of dependencies:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="s">&quot;net.liftmodules&quot;</span> <span class="o">%%</span> <span class="s">&quot;textile&quot;</span> <span class="o">%</span> <span class="o">(</span><span class="n">liftVersion</span> <span class="o">+</span> <span class="s">&quot;1.3&quot;</span><span class="o">)</span>
+<div class="content"><div class="highlight"><pre><span class="s">&quot;net.liftmodules&quot;</span> <span class="o">%%</span> <span class="s">&quot;textile_2.5&quot;</span> <span class="o">%</span> <span class="s">&quot;1.3&quot;</span>
 </pre></div></div></div>
 <div class="paragraph"><p>You can then use the module to render Textile using the <span class="monospaced">toHtml</span> method.</p></div>
 <div class="paragraph"><p>For example, starting SBT after adding the module and running the SBT <em>console</em> command allows you to try out the module:</p></div>
@@ -2880,13 +2880,14 @@ following to the list of dependencies:</p></div>
 <div class="sect3">
 <h4 id="_discussion_24">Discussion</h4>
 <div class="paragraph"><p>There&#8217;s nothing special code has to do to become a Lift module, although there are common conventions: they typically are packaged as <em>net.liftmodules</em>, but don&#8217;t have to be; they usually depend on a version of Lift; they sometimes use the hooks provided by <span class="monospaced">LiftRules</span> to provide a particular behaviour.  Anyone can create and publish a Lift module, and anyone can contribute to existing modules. In the end, they are declared as dependencies in SBT, and pulled into your code just like any other dependency.</p></div>
-<div class="paragraph"><p>The dependency version is made up of two elements: the Lift version, and the module version, as shown in <a href="#ModuleVersioning">[ModuleVersioning]</a>. This is because modules have their own release cycle, so you could have versions 1.1, 1.2 and 1.3 all for the same version of Lift. However, they may also depend on certain features of Lift, hence the combined version number.</p></div>
+<div class="paragraph"><p>The dependency name is made up of two elements: the name and the "edition" of Lift that the module is compatible with, as shown in <a href="#ModuleVersioning">[ModuleVersioning]</a>. By "edition" we just mean the first part of the Lift version number. This implies the module is compatible with any Lift release that starts "2.5".</p></div>
 <div class="imageblock" id="ModuleVersioning">
 <div class="content">
-<img src="images/moduleversioning.png" alt="images/moduleversioning.png">
+<img src="images/moduleversioning.png" alt="images/moduleversioning.png" width="640">
 </div>
 <div class="title">Figure 2. The structure of a module version.</div>
 </div>
+<div class="paragraph"><p>This structure has been adopted because modules have their own release cycle, independent of Lift. However, modules may also depend on certain features of Lift, and Lift may change APIs between major releases, hence the need to use part of the Lift version number to identify the module.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_see_also_23">See Also</h4>
@@ -6367,7 +6368,7 @@ Moons of Mars are: List(Phobos, Deimos)</pre>
 </div>
 <div class="sect3">
 <h4 id="_see_also_59">See Also</h4>
-<div class="paragraph"><p><a href="#SquerylOneToMany">[SquerylOneToMany]</a>, on one-to-many relationships, discusses <span class="monospaced">leftStateful</span> and <span class="monospaced">rightStaeful</span> relations, which are also applicable for many-to-many relationships.</p></div>
+<div class="paragraph"><p><a href="#SquerylOneToMany">[SquerylOneToMany]</a>, on one-to-many relationships, discusses <span class="monospaced">leftStateful</span> and <span class="monospaced">rightStateful</span> relations, which are also applicable for many-to-many relationships.</p></div>
 <div class="paragraph"><p>Foreign keys, cascading deletes, are described at: <a href="http://squeryl.org/relations.html">http://squeryl.org/relations.html</a>.</p></div>
 </div>
 </div>
@@ -7559,7 +7560,7 @@ image within a record:</p></div>
 <div class="content"><div class="highlight"><pre><span class="k">val</span> <span class="n">unionJack</span> <span class="k">=</span>
   <span class="nc">Image</span><span class="o">.</span><span class="n">createRecord</span><span class="o">.</span><span class="n">url</span><span class="o">(</span><span class="s">&quot;http://bit.ly/unionflag200&quot;</span><span class="o">).</span><span class="n">width</span><span class="o">(</span><span class="mi">200</span><span class="o">).</span><span class="n">height</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
 
-<span class="n">uk</span><span class="o">.</span><span class="n">createRecord</span><span class="o">.</span><span class="n">id</span><span class="o">(</span><span class="s">&quot;uk&quot;</span><span class="o">).</span><span class="n">flag</span><span class="o">(</span><span class="n">unionJack</span><span class="o">).</span><span class="n">save</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+<span class="nc">Country</span><span class="o">.</span><span class="n">createRecord</span><span class="o">.</span><span class="n">id</span><span class="o">(</span><span class="s">&quot;uk&quot;</span><span class="o">).</span><span class="n">flag</span><span class="o">(</span><span class="n">unionJack</span><span class="o">).</span><span class="n">save</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
 </pre></div></div></div>
 <div class="paragraph"><p>In Mongo, the resulting data structure would be:</p></div>
 <div class="listingblock">
@@ -9847,15 +9848,20 @@ JavaScript to the head of every page.</p></div>
 <div class="sect4">
 <h5 id="_making_your_module_available">Making your Module Available</h5>
 <div class="paragraph"><p>If you do want your module to be used by a wider audience, you need to publish it to a public repository, such as Sonatype or CloudBees. You&#8217;ll also want to keep your module up-to-date with Lift releases. There are a few conventions around this.</p></div>
-<div class="paragraph"><p>One convention is to include the Lift version as part of the module version number.  For example, version 1.0.0 of your module for Lift 2.5 would be "2.5-1.0.0".  This is verbose but makes it clear which version of your module is compatible with which versions of Lift.  It also means you need to keep your module up-to-date with Lift releases.</p></div>
-<div class="paragraph"><p>One way to ease that is to make a modification to your module build to allow the Lift version number to change. This makes it possible to automate the build when new versions of Lift are released. To do that, create <span class="monospaced">project/LiftModule.scala</span> in your module:</p></div>
+<div class="paragraph"><p>One convention is to include the Lift "edition" as part of the module name.  For example, version 1.0.0 of your "foo" module for Lift 2.5 would have the name "foo_2.5".  This makes it clear your module is compatible with Lift for all of 2.5, including milestones, release candidates, snapshots and final releases.  It also means you only need publish your module once, at least until Lift 2.6 or 3.0 is available.</p></div>
+<div class="paragraph"><p>One way to ease the above is to make a modification to your module build to allow the Lift version number to change. This makes it possible to automate the build when new versions of Lift are released. To do that, create <span class="monospaced">project/LiftModule.scala</span> in your module:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">sbt._</span>
 <span class="k">import</span> <span class="nn">sbt.Keys._</span>
 
 <span class="k">object</span> <span class="nc">LiftModuleBuild</span> <span class="k">extends</span> <span class="nc">Build</span> <span class="o">{</span>
+
   <span class="k">val</span> <span class="n">liftVersion</span> <span class="k">=</span> <span class="nc">SettingKey</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">&quot;liftVersion&quot;</span><span class="o">,</span>
-    <span class="s">&quot;Version number of the Lift Web Framework&quot;</span><span class="o">)</span>
+    <span class="s">&quot;Full version number of the Lift Web Framework&quot;</span><span class="o">)</span>
+
+  <span class="k">val</span> <span class="n">liftEdition</span> <span class="k">=</span> <span class="nc">SettingKey</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">&quot;liftEdition&quot;</span><span class="o">,</span>
+    <span class="s">&quot;Lift Edition (short version number to append to artifact name)&quot;</span><span class="o">)</span>
+
   <span class="k">val</span> <span class="n">project</span> <span class="k">=</span> <span class="nc">Project</span><span class="o">(</span><span class="s">&quot;LiftModule&quot;</span><span class="o">,</span> <span class="n">file</span><span class="o">(</span><span class="s">&quot;.&quot;</span><span class="o">))</span>
 <span class="o">}</span>
 </pre></div></div></div>
@@ -9863,9 +9869,15 @@ JavaScript to the head of every page.</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;snowstorm&quot;</span>
 
+<span class="n">organization</span> <span class="o">:=</span> <span class="s">&quot;net.liftmodules&quot;</span>
+
+<span class="n">version</span> <span class="o">:=</span> <span class="s">&quot;1.0.0-SNAPSHOT&quot;</span>
+
 <span class="n">liftVersion</span> <span class="o">&lt;&lt;=</span> <span class="n">liftVersion</span> <span class="o">??</span> <span class="s">&quot;2.5-SNAPSHOT&quot;</span>
 
-<span class="n">version</span> <span class="o">&lt;&lt;=</span> <span class="n">liftVersion</span> <span class="n">apply</span> <span class="o">{</span> <span class="k">_</span> <span class="o">+</span> <span class="s">&quot;-1.0.0-SNAPSHOT&quot;</span> <span class="o">}</span>
+<span class="n">liftEdition</span> <span class="o">&lt;&lt;=</span> <span class="n">liftVersion</span> <span class="n">apply</span> <span class="o">{</span> <span class="k">_</span><span class="o">.</span><span class="n">substring</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span> <span class="o">}</span>
+
+<span class="n">name</span> <span class="o">&lt;&lt;=</span> <span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">liftEdition</span><span class="o">)</span> <span class="o">{</span> <span class="o">(</span><span class="n">n</span><span class="o">,</span> <span class="n">e</span><span class="o">)</span> <span class="k">=&gt;</span>  <span class="n">n</span> <span class="o">+</span> <span class="s">&quot;_&quot;</span> <span class="o">+</span> <span class="n">e</span> <span class="o">}</span>
 
 <span class="o">...</span>
 
@@ -9905,7 +9917,7 @@ JavaScript to the head of every page.</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-04-03 00:10:38 BST
+Last updated 2013-04-13 10:25:01 BST
 </div>
 </div>
 </body>
