@@ -1557,7 +1557,7 @@ create a <span class="monospaced">~/.sbt/plugins/plugins.sbt</span> file contain
 <div class="paragraph"><p>From the "Welcome to Intellij IDEA" screen, select "Configure" and then "Plugins". Select "Browse repositories&#8230;". In the search box, top right, type "Scala".  You&#8217;ll find on the left a number of matches: select "Scala".  On the right, you&#8217;ll see confirmation that this is the "Plugin for Scala language support" and the vendor is JetBrains Inc. Select the "Download and Install" icon from the top of the window (or right click to download and install). "Close" the dialog, and OK out of the Plugins window. You&#8217;ll be promoted to restart IntelliJ IDEA.</p></div>
 <div class="paragraph"><p>With the IDE configured, you now need to add the SBT plugin inside your Lift project by adding the following to the file <span class="monospaced">projects/plugins.sbt</span>:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.github.mpeltonen&quot;</span> <span class="o">%</span> <span class="s">&quot;sbt-idea&quot;</span> <span class="o">%</span> <span class="s">&quot;1.3.0&quot;</span><span class="o">)</span>
+<div class="content"><div class="highlight"><pre><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.github.mpeltonen&quot;</span> <span class="o">%</span> <span class="s">&quot;sbt-idea&quot;</span> <span class="o">%</span> <span class="s">&quot;1.4.0&quot;</span><span class="o">)</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Start SBT and at the SBT prompt create the IDEA project files by typing:</p></div>
 <div class="listingblock">
@@ -3066,7 +3066,7 @@ value of the <span class="monospaced">name</span> back to the element in the HTM
 </pre></div></div></div>
 <div class="paragraph"><p>In other words, when the form is asked to submit, Lift&#8217;s will serialise the form via Ajax.  This means you don&#8217;t necessarily need the submit button at all.  In this example with a single text field, if you omit the submit button you can trigger serialisation by pressing <em>return</em>.  This will trigger the <span class="monospaced">s =&gt; name = s</span> function which was bound in our regular <span class="monospaced">data-lift="EchoForm"</span> snippet. In other words, the value <span class="monospaced">name</span> will be assigned even without a submit button.</p></div>
 <div class="paragraph"><p>Adding in a submit button gives us a way to perform actions once all the field&#8217;s functions have been executed.</p></div>
-<div class="paragraph"><p>Notice that Lift&#8217;s approach is to serialise the form to the server, execute the functions associated with the fields, execute the submit function (if any), the return a JavaScript result to the client.</p></div>
+<div class="paragraph"><p>Notice that Lift&#8217;s approach is to serialise the form to the server, execute the functions associated with the fields, execute the submit function (if any), the return a JavaScript result to the client.  The default serialisation process is to use JQuery&#8217;s <span class="monospaced">serialization</span> method on the form.  This serializes fields except submit buttons and file uploads.</p></div>
 <div class="sect4">
 <h5 id="_submit_styling">Submit Styling</h5>
 <div class="paragraph"><p>The <span class="monospaced">SHtml.ajaxSubmit</span> function generates a <span class="monospaced">&lt;input type="submit"&gt;</span> element for the page. You may prefer to use a styled button for submit. For example, with Twitter Bootstrap, a button with an icon would require the following markup:</p></div>
@@ -3111,6 +3111,8 @@ Antonio Salazar Cardozo has created a helper you can include in your project: <a
 </div>
 <div class="sect3">
 <h4 id="_see_also_25">See Also</h4>
+<div class="paragraph"><p><a href="#AjaxFileUpload">[AjaxFileUpload]</a> describes Ajax file uploads.</p></div>
+<div class="paragraph"><p>Form serialization is described at <a href="http://api.jquery.com/serialize/">http://api.jquery.com/serialize/</a>.</p></div>
 <div class="paragraph"><p>Function order is discussed in the Lift Cool Tips wiki page: <a href="http://www.assembla.com/spaces/liftweb/wiki/cool_tips">http://www.assembla.com/spaces/liftweb/wiki/cool_tips</a>.</p></div>
 </div>
 </div>
@@ -3122,61 +3124,89 @@ Antonio Salazar Cardozo has created a helper you can include in your project: <a
 </div>
 <div class="sect3">
 <h4 id="_solution_26">Solution</h4>
-<div class="paragraph"><p>Make use of Lift&#8217;s <span class="monospaced">jlift.js</span> Javascript and <span class="monospaced">JsonHandler</span> code.
-Consider this HTML, which is not in a form, but includes <span class="monospaced">jlift.js</span>:</p></div>
+<div class="paragraph"><p>Make use of Lift&#8217;s <span class="monospaced">jlift.js</span> JavaScript library and <span class="monospaced">JsonHandler</span> class.</p></div>
+<div class="paragraph"><p>As an example we can create a "motto server" that will accept an institution name and the institution&#8217;s motto
+and perform some action on these values. We&#8217;re just going to echo the name and motto back to the client.</p></div>
+<div class="paragraph"><p>Consider this HTML, which is not in a form, but includes <span class="monospaced">jlift.js</span>:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">data-lift=</span><span class="s">&quot;JsonForm&quot;</span> <span class="nt">&gt;</span>
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;title&gt;</span>JSON From<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body</span> <span class="na">data-lift-content-id=</span><span class="s">&quot;main&quot;</span><span class="nt">&gt;</span>
 
- <span class="c">&lt;!--  required for JSON forms processing --&gt;</span>
- <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;/classpath/jlift.js&quot;</span> <span class="na">data-lift=</span><span class="s">&quot;tail&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;main&quot;</span> <span class="na">data-lift=</span><span class="s">&quot;surround?with=default;at=content&quot;</span><span class="nt">&gt;</span>
 
- <span class="c">&lt;!--  placeholder script required to process the form --&gt;</span>
- <span class="nt">&lt;script </span><span class="na">id=</span><span class="s">&quot;jsonFormScript&quot;</span> <span class="na">data-lift=</span><span class="s">&quot;tail&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;h1&gt;</span>Json Form example<span class="nt">&lt;/h1&gt;</span>
 
- <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;formToJson&quot;</span> <span class="na">name=</span><span class="s">&quot;formToJson&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;name&quot;</span> <span class="na">value=</span><span class="s">&quot;Royal Society&quot;</span> <span class="nt">/&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;motto&quot;</span> <span class="na">value=</span><span class="s">&quot;Nullius in verba&quot;</span> <span class="nt">/&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">name=</span><span class="s">&quot;sb&quot;</span> <span class="na">value=</span><span class="s">&quot;go!&quot;</span> <span class="nt">/&gt;</span>
- <span class="nt">&lt;/div&gt;</span>
- <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;result&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+  <span class="c">&lt;!-- Required for JSON forms processing --&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;/classpath/jlift.js&quot;</span> <span class="na">data-lift=</span><span class="s">&quot;tail&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+  <span class="nt">&lt;div</span> <span class="na">data-lift=</span><span class="s">&quot;JsonForm&quot;</span> <span class="nt">&gt;</span>
+
+    <span class="nt">&lt;script </span><span class="na">id=</span><span class="s">&quot;jsonScript&quot;</span> <span class="na">data-lift=</span><span class="s">&quot;tail&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;jsonForm&quot;</span><span class="nt">&gt;</span>
+
+      <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;name&quot;</span><span class="nt">&gt;</span>
+        Institution
+        <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">&quot;name&quot;</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;name&quot;</span> <span class="na">value=</span><span class="s">&quot;Royal Society&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;/label&gt;</span>
+
+      <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;motto&quot;</span><span class="nt">&gt;</span>
+        Motto
+        <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">&quot;motto&quot;</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;motto&quot;</span> <span class="na">value=</span><span class="s">&quot;Nullius in verba&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;/label&gt;</span>
+
+      <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">value=</span><span class="s">&quot;Send&quot;</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;/div&gt;</span>
+
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;result&quot;</span><span class="nt">&gt;</span>
+      Result will appear here.
+    <span class="nt">&lt;/div&gt;</span>
+
+  <span class="nt">&lt;/div&gt;</span>
+
 <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
 </pre></div></div></div>
-<div class="paragraph"><p>The server-side code to accept the input as JSON would be as follows:</p></div>
+<div class="paragraph"><p>This HTML presents the user with two fields, a name and a motto, wrapped in a div called <span class="monospaced">jsonForm</span>. There&#8217;s also a placeholder for some results, and you&#8217;ll  notice a <span class="monospaced">jsonScript</span> placeholder for some JavaScript code.</p></div>
+<div class="paragraph"><p>The corresponding server-side code would be as follows:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">package</span> <span class="nn">code.snippet</span>
 
-<span class="k">import</span> <span class="nn">net.liftweb.util._</span>
-<span class="k">import</span> <span class="nn">Helpers._</span>
+<span class="k">import</span> <span class="nn">scala.xml.</span><span class="o">{</span><span class="nc">Text</span><span class="o">,</span> <span class="nc">NodeSeq</span><span class="o">}</span>
 
-<span class="k">import</span> <span class="nn">net.liftweb.http._</span>
-<span class="k">import</span> <span class="nn">net.liftweb.http.js._</span>
-<span class="k">import</span> <span class="nn">JsCmds._</span>
+<span class="k">import</span> <span class="nn">net.liftweb.util.Helpers._</span>
+<span class="k">import</span> <span class="nn">net.liftweb.util.JsonCmd</span>
+<span class="k">import</span> <span class="nn">net.liftweb.http.SHtml.jsonForm</span>
+<span class="k">import</span> <span class="nn">net.liftweb.http.JsonHandler</span>
+<span class="k">import</span> <span class="nn">net.liftweb.http.js.JsCmd</span>
+<span class="k">import</span> <span class="nn">net.liftweb.http.js.JsCmds.</span><span class="o">{</span><span class="nc">SetHtml</span><span class="o">,</span> <span class="nc">Script</span><span class="o">}</span>
 
-<span class="k">import</span> <span class="nn">scala.xml._</span>
-
-<span class="k">class</span> <span class="nc">JsonForm</span> <span class="o">{</span>
+<span class="k">object</span> <span class="nc">JsonForm</span> <span class="o">{</span>
 
   <span class="k">def</span> <span class="n">render</span> <span class="k">=</span>
-     <span class="s">&quot;#formToJson&quot;</span> <span class="o">#&gt;</span> <span class="o">((</span><span class="n">ns</span><span class="k">:</span><span class="kt">NodeSeq</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">SHtml</span><span class="o">.</span><span class="n">jsonForm</span><span class="o">(</span><span class="n">jsonHandler</span><span class="o">,</span> <span class="n">ns</span><span class="o">))</span> <span class="o">&amp;</span>
-     <span class="s">&quot;#jsonFormScript&quot;</span> <span class="o">#&gt;</span> <span class="nc">Script</span><span class="o">(</span><span class="n">jsonHandler</span><span class="o">.</span><span class="n">jsCmd</span><span class="o">)</span>
+    <span class="s">&quot;#jsonForm&quot;</span> <span class="o">#&gt;</span> <span class="o">((</span><span class="n">ns</span><span class="k">:</span><span class="kt">NodeSeq</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">jsonForm</span><span class="o">(</span><span class="nc">MottoServer</span><span class="o">,</span> <span class="n">ns</span><span class="o">))</span> <span class="o">&amp;</span>
+    <span class="s">&quot;#jsonScript&quot;</span> <span class="o">#&gt;</span> <span class="nc">Script</span><span class="o">(</span><span class="nc">MottoServer</span><span class="o">.</span><span class="n">jsCmd</span><span class="o">)</span>
 
-    <span class="k">object</span> <span class="nc">jsonHandler</span> <span class="k">extends</span> <span class="nc">JsonHandler</span> <span class="o">{</span>
+  <span class="k">object</span> <span class="nc">MottoServer</span> <span class="k">extends</span> <span class="nc">JsonHandler</span> <span class="o">{</span>
 
-      <span class="k">def</span> <span class="n">apply</span><span class="o">(</span><span class="n">in</span><span class="k">:</span> <span class="kt">Any</span><span class="o">)</span><span class="k">:</span> <span class="kt">JsCmd</span> <span class="o">=</span> <span class="n">in</span> <span class="k">match</span> <span class="o">{</span>
-          <span class="k">case</span> <span class="nc">JsonCmd</span><span class="o">(</span><span class="s">&quot;processForm&quot;</span><span class="o">,</span> <span class="n">target</span><span class="o">,</span> <span class="n">params</span><span class="k">:</span> <span class="kt">Map</span><span class="o">[</span><span class="kt">String</span>, <span class="k">_</span><span class="o">],</span> <span class="n">all</span><span class="o">)</span> <span class="k">=&gt;</span>
-            <span class="k">val</span> <span class="n">name</span> <span class="k">=</span> <span class="n">params</span><span class="o">.</span><span class="n">getOrElse</span><span class="o">(</span><span class="s">&quot;name&quot;</span><span class="o">,</span> <span class="s">&quot;No Name&quot;</span><span class="o">)</span>
-            <span class="k">val</span> <span class="n">motto</span> <span class="k">=</span> <span class="n">params</span><span class="o">.</span><span class="n">getOrElse</span><span class="o">(</span><span class="s">&quot;motto&quot;</span><span class="o">,</span> <span class="s">&quot;No Motto&quot;</span><span class="o">)</span>
-            <span class="nc">SetHtml</span><span class="o">(</span><span class="s">&quot;result&quot;</span><span class="o">,</span>
-                <span class="nc">Text</span><span class="o">(</span><span class="s">&quot;The motto of %s is %s&quot;</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="n">name</span><span class="o">,</span><span class="n">motto</span><span class="o">))</span> <span class="o">)</span>
-
-          <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span>
-            <span class="nc">SetHtml</span><span class="o">(</span><span class="s">&quot;result&quot;</span><span class="o">,</span><span class="nc">Text</span><span class="o">(</span><span class="s">&quot;Unknown command&quot;</span><span class="o">))</span>
-      <span class="o">}</span>
-
+    <span class="k">def</span> <span class="n">apply</span><span class="o">(</span><span class="n">in</span><span class="k">:</span> <span class="kt">Any</span><span class="o">)</span><span class="k">:</span> <span class="kt">JsCmd</span> <span class="o">=</span> <span class="n">in</span> <span class="k">match</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="nc">JsonCmd</span><span class="o">(</span><span class="s">&quot;processForm&quot;</span><span class="o">,</span> <span class="n">target</span><span class="o">,</span> <span class="n">params</span><span class="k">:</span> <span class="kt">Map</span><span class="o">[</span><span class="kt">String</span>, <span class="kt">String</span><span class="o">],</span> <span class="n">all</span><span class="o">)</span> <span class="k">=&gt;</span>
+        <span class="k">val</span> <span class="n">name</span> <span class="k">=</span> <span class="n">params</span><span class="o">.</span><span class="n">getOrElse</span><span class="o">(</span><span class="s">&quot;name&quot;</span><span class="o">,</span> <span class="s">&quot;No Name&quot;</span><span class="o">)</span>
+        <span class="k">val</span> <span class="n">motto</span> <span class="k">=</span> <span class="n">params</span><span class="o">.</span><span class="n">getOrElse</span><span class="o">(</span><span class="s">&quot;motto&quot;</span><span class="o">,</span> <span class="s">&quot;No Motto&quot;</span><span class="o">)</span>
+        <span class="nc">SetHtml</span><span class="o">(</span><span class="s">&quot;result&quot;</span><span class="o">,</span>
+          <span class="nc">Text</span><span class="o">(</span><span class="s">&quot;The motto of %s is %s&quot;</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="n">name</span><span class="o">,</span><span class="n">motto</span><span class="o">))</span> <span class="o">)</span>
     <span class="o">}</span>
+  <span class="o">}</span>
 <span class="o">}</span>
 </pre></div></div></div>
-<div class="paragraph"><p>If you click the go button and observe the network traffic, you&#8217;ll see
+<div class="paragraph"><p>Like many snippets, this Scala code contains a <span class="monospaced">render</span> method which binds to elements on the page. Specifically, <span class="monospaced">jsonForm</span> is being bound to a function that takes a <span class="monospaced">NodeSeq</span> (which are the input fields) and calls <span class="monospaced">SHtml.jsonForm</span>.  This method turns the div containing the fields into a form that will submit the values as JSON.</p></div>
+<div class="paragraph"><p>The <span class="monospaced">jsonScript</span> element is bound to JavaScript that will perform the transmission and encoding of the values to the server.</p></div>
+<div class="paragraph"><p>If you click the "Send" button and observe the network traffic, you&#8217;ll see
 the following sent to the server:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="p">{</span>
@@ -3184,68 +3214,75 @@ the following sent to the server:</p></div>
   <span class="s2">&quot;params&quot;</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="s2">&quot;Royal Society&quot;</span><span class="p">,</span><span class="s2">&quot;motto&quot;</span><span class="o">:</span><span class="s2">&quot;Nullius in verba&quot;</span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div></div></div>
+<div class="paragraph"><p>This is the value of the <span class="monospaced">all</span> parameter in the <span class="monospaced">JsonCmd</span>.</p></div>
 <div class="paragraph"><p>The server will send back JavaScript to update the <span class="monospaced">results</span> div with
 "The motto of the Royal Society is Nullius in verba".</p></div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_27">Discussion</h4>
-<div class="paragraph"><p>The key components in the example are:</p></div>
-<div class="olist arabic"><ol class="arabic">
-<li>
-<p>
-<span class="monospaced">jlift.js</span> script that makes various JSON functions available; and
-</p>
-</li>
-<li>
-<p>
-generated JavaScript code (<span class="monospaced">jsonHandler.jsCmd</span>) that is included on
-the page to perform the actual submission.
-</p>
-</li>
-</ol></div>
-<div class="paragraph"><p>In the binding, <span class="monospaced">SHtml.jsonForm</span> takes the <span class="monospaced">jsonHandler</span> object which
-will process the form elements, and wraps your template, <span class="monospaced">ns</span>, with a
-<span class="monospaced">&lt;form&gt;</span> tag. We also bind the JavasScript required to the
-<span class="monospaced">jsonFormScript</span> placeholder.</p></div>
-<div class="paragraph"><p>When the form is submitted, the <span class="monospaced">JsonHandler.apply</span> allows us to pattern
-match on the input and extract the values we need from a <span class="monospaced">Map</span>. Note
-that compiling this code will produce a warning as <span class="monospaced">Map[String,_]</span> will
-be "unchecked since it is eliminated by erasure".</p></div>
-<div class="paragraph"><p>If you are implementing a REST service to process JSON, consider using
-Rest helpers in Lift to do that.</p></div>
+<div class="paragraph"><p>The <span class="monospaced">JsonHandler</span> class and the <span class="monospaced">SHtml.jsonForm</span> method are together performing a lot of work for us.  The <span class="monospaced">jsonForm</span> method is arranging for form fields to be encoded as JSON and sent, via Ajax, to our <span class="monospaced">MottoServer</span> as a <span class="monospaced">JsonCmd</span>. In fact, it&#8217;s a <span class="monospaced">JsonCmd</span> with a default command name of "processForm".</p></div>
+<div class="paragraph"><p>Our <span class="monospaced">MottoServer</span> class is looking for (matching on) this <span class="monospaced">JsonCmd</span>, extracting the values of the form fields, and echoing these back to the client as a <span class="monospaced">JsCmd</span> that updates a div on the page.</p></div>
+<div class="paragraph"><p>The <span class="monospaced">MottoServer.jsCmd</span> part is generating the JavaScript required to deliver the form fields to the server.  As we will see later, this is providing a general purpose function we can use to send different JSON values and commands to the server.</p></div>
+<div class="paragraph"><p>Notice also, from the network traffic, that the form fields sent are serialised with the names they are given on the page. There are no "F&#8230;" values sent which map to function calls on the server. A consequence of this is that anu fields dynamically added to the page will also be serialised to the server, where they can be picked up in the <span class="monospaced">MottoServer</span>.</p></div>
+<div class="paragraph"><p>The script <span class="monospaced">jlift.js</span> is providing the plumbing to make much of this happen.</p></div>
+<div class="paragraph"><p>Before going on, convince yourself that we&#8217;re generating JavaScript on the server-side (<span class="monospaced">MottoServer.jsCmd</span>), which is executed on the client side when the form is submitted, to deliver results to the server.</p></div>
+<div class="sect4">
+<h5 id="_additional_commands">Additional Commands</h5>
+<div class="paragraph"><p>In the above example we match on a <span class="monospaced">JsonCmd</span> with a command name of "processForm".  You may be wondering what other command can can supplied, or what the meaning of the "target" value is.</p></div>
+<div class="paragraph"><p>To demonstrate how you can implement other commands, we can add two additional buttons. These buttons will just convert the motto to upper case or lower case.  The server side <span class="monospaced">render</span> method changes as follows:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="n">render</span> <span class="k">=</span>
+  <span class="s">&quot;#jsonForm&quot;</span> <span class="o">#&gt;</span> <span class="o">((</span><span class="n">ns</span><span class="k">:</span><span class="kt">NodeSeq</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">jsonForm</span><span class="o">(</span><span class="nc">MottoServer</span><span class="o">,</span> <span class="n">ns</span><span class="o">))</span> <span class="o">&amp;</span>
+  <span class="s">&quot;#jsonScript&quot;</span> <span class="o">#&gt;</span> <span class="nc">Script</span><span class="o">(</span>
+    <span class="nc">MottoServer</span><span class="o">.</span><span class="n">jsCmd</span> <span class="o">&amp;</span>
+    <span class="nc">Function</span><span class="o">(</span><span class="s">&quot;changeCase&quot;</span><span class="o">,</span> <span class="nc">List</span><span class="o">(</span><span class="s">&quot;direction&quot;</span><span class="o">),</span>
+      <span class="nc">MottoServer</span><span class="o">.</span><span class="n">call</span><span class="o">(</span><span class="s">&quot;processCase&quot;</span><span class="o">,</span> <span class="nc">JsVar</span><span class="o">(</span><span class="s">&quot;direction&quot;</span><span class="o">),</span> <span class="nc">JsRaw</span><span class="o">(</span><span class="s">&quot;$(&#39;#motto&#39;).val()&quot;</span><span class="o">))</span>
+    <span class="o">)</span>
+  <span class="o">)</span>
+</pre></div></div></div>
+<div class="paragraph"><p>The <span class="monospaced">JsonForm</span> is unchanged and we still include <span class="monospaced">MottoServer.jsCmd</span>: we still want to wrap the fields and submit them as before. We&#8217;ve added
+an extra JavaScript function: it&#8217;s a function called "changeCase", it takes one argument called "direction" and as a body calls the <span class="monospaced">MottoServer</span> with various parameters.  When it is rendered on the page it would appear as something like this:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">changeCase</span><span class="p">(</span><span class="nx">direction</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">F299202CYGIL</span><span class="p">({</span><span class="s1">&#39;command&#39;</span><span class="o">:</span> <span class="s2">&quot;processCase&quot;</span><span class="p">,</span> <span class="s1">&#39;target&#39;</span><span class="o">:</span> <span class="nx">direction</span><span class="p">,</span> <span class="s1">&#39;params&#39;</span><span class="o">:</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#motto&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">()});</span>
+<span class="p">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p>The <span class="monospaced">F299202CYGIL</span> function (or similar name) is generated by Lift as part of <span class="monospaced">MottoServer.jsCmd</span>, and it is responsible for delivering data
+to the server.  The data it is delivering, in this case, is a JSON structure consisting of a different command ("processCase"), a target of whatever
+the JavaScript value <span class="monospaced">direction</span> evaluates to, and a parameter which is the result of the JQuery expression for the value
+of the "#motto" form field.</p></div>
+<div class="paragraph"><p>When is the <span class="monospaced">changeCase</span> function called?  That&#8217;s up to us, and one very simple way to call the function would be by this addition to the HTML:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">&quot;javascript:changeCase(&#39;upper&#39;)&quot;</span><span class="nt">&gt;</span>Upper case the Motto<span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">&quot;javascript:changeCase(&#39;lower&#39;)&quot;</span><span class="nt">&gt;</span>Lower case the Motto<span class="nt">&lt;/button&gt;</span>
+</pre></div></div></div>
+<div class="paragraph"><p>When either of these buttons are pressed, the result will be a JSON value sent to the server with the command of "processCase" and the "direction" and "params" set accordingly.  All that is left is to modify our <span class="monospaced">MottoServer</span> to pick up this <span class="monospaced">JsonCmd</span> on the server:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">object</span> <span class="nc">MottoServer</span> <span class="k">extends</span> <span class="nc">JsonHandler</span> <span class="o">{</span>
+
+  <span class="k">def</span> <span class="n">apply</span><span class="o">(</span><span class="n">in</span><span class="k">:</span> <span class="kt">Any</span><span class="o">)</span><span class="k">:</span> <span class="kt">JsCmd</span> <span class="o">=</span> <span class="n">in</span> <span class="k">match</span> <span class="o">{</span>
+
+    <span class="k">case</span> <span class="nc">JsonCmd</span><span class="o">(</span><span class="s">&quot;processForm&quot;</span><span class="o">,</span> <span class="n">target</span><span class="o">,</span> <span class="n">params</span><span class="k">:</span> <span class="kt">Map</span><span class="o">[</span><span class="kt">String</span>, <span class="kt">String</span><span class="o">],</span> <span class="n">all</span><span class="o">)</span> <span class="k">=&gt;</span>
+      <span class="k">val</span> <span class="n">name</span> <span class="k">=</span> <span class="n">params</span><span class="o">.</span><span class="n">getOrElse</span><span class="o">(</span><span class="s">&quot;name&quot;</span><span class="o">,</span> <span class="s">&quot;No Name&quot;</span><span class="o">)</span>
+      <span class="k">val</span> <span class="n">motto</span> <span class="k">=</span> <span class="n">params</span><span class="o">.</span><span class="n">getOrElse</span><span class="o">(</span><span class="s">&quot;motto&quot;</span><span class="o">,</span> <span class="s">&quot;No Motto&quot;</span><span class="o">)</span>
+      <span class="nc">SetHtml</span><span class="o">(</span><span class="s">&quot;result&quot;</span><span class="o">,</span>
+        <span class="nc">Text</span><span class="o">(</span><span class="s">&quot;The motto of %s is %s&quot;</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="n">name</span><span class="o">,</span><span class="n">motto</span><span class="o">))</span> <span class="o">)</span>
+
+    <span class="k">case</span> <span class="nc">JsonCmd</span><span class="o">(</span><span class="s">&quot;processCase&quot;</span><span class="o">,</span> <span class="n">direction</span><span class="o">,</span> <span class="n">motto</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">all</span><span class="o">)</span> <span class="k">=&gt;</span>
+      <span class="k">val</span> <span class="n">update</span> <span class="k">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">direction</span> <span class="o">==</span> <span class="s">&quot;upper&quot;</span><span class="o">)</span> <span class="n">motto</span><span class="o">.</span><span class="n">toUpperCase</span> <span class="k">else</span> <span class="n">motto</span><span class="o">.</span><span class="n">toLowerCase</span>
+      <span class="nc">SetValById</span><span class="o">(</span><span class="s">&quot;motto&quot;</span><span class="o">,</span> <span class="n">update</span><span class="o">)</span>
+
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p>The first <span class="monospaced">JsonCmd</span> is unchanged. The second matches on the parameters sent and results in updating the form fields with an upper- or lower-case version of the motto.</p></div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_see_also_26">See Also</h4>
-<div class="ulist"><ul>
-<li>
-<p>
-<a href="http://www.javabeat.net/2011/05/using-json-forms-with-ajax-in-lift-framework/">Using
-JSON forms with AJAX in Lift Framework</a>.
-</p>
-</li>
-<li>
-<p>
-<em>Lift in Action</em>, section 9.1.4 "Using JSON forms with AJAX".
-</p>
-</li>
-<li>
-<p>
-Example Lift application demonstrating
-<a href="https://github.com/marekzebrowski/lift-basics">Simple form</a> processing.
-</p>
-</li>
-<li>
-<p>
-Section 10.4, JSON, in
-<a href="http://exploring.liftweb.net/master/index-10.html">Exploring Lift</a>.
-</p>
-</li>
-<li>
-<p>
-<a href="http://en.wikipedia.org/wiki/Nullius_in_verba">Nullius in verba</a>.
-</p>
-</li>
-</ul></div>
+<div class="paragraph"><p>There are further examples of <span class="monospaced">JsonHandler</span> at <a href="http://demo.liftweb.net/json_more">http://demo.liftweb.net/json_more</a>.</p></div>
+<div class="paragraph"><p>If you want to process JSON via REST, take a look at the examples at <a href="http://demo.liftweb.net/stateless_json">http://demo.liftweb.net/stateless_json</a>.</p></div>
+<div class="paragraph"><p><em>Lift in Action</em>, section 9.1.4 discusses "Using JSON forms with AJAX", as does section 10.4 of <em>Exploring Lift</em> at <a href="http://exploring.liftweb.net">http://exploring.liftweb.net</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
@@ -9186,7 +9223,7 @@ instructions for installing and configuring it can be found at <a href="https://
 <div class="sect4">
 <h5 id="_multiple_instances">Multiple Instances</h5>
 <div class="paragraph"><p>Beanstalks enables <em>auto scaling</em> by default. That is, it launches a single instance of your Lift application, but if the load increases above a threshold, up to four instances may be running.</p></div>
-<div class="paragraph"><p>If you&#8217;re making use of Lift&#8217;s state features, you&#8217;ll need to enable sticky sessions from the "Load Balancer" tab of the environment configuration. It&#8217;s a check box named "Enable Session Stickiness"--it&#8217;s easy to miss, but that tab does scroll to show more options if you don&#8217;t see it first time.</p></div>
+<div class="paragraph"><p>If you&#8217;re making use of Lift&#8217;s state features, you&#8217;ll need to enable sticky sessions from the "Load Balancer" tab of the environment configuration. It&#8217;s a check box named "Enable Session Stickiness"&#8201;&#8212;&#8201;it&#8217;s easy to miss, but that tab does scroll to show more options if you don&#8217;t see it first time.</p></div>
 </div>
 <div class="sect4">
 <h5 id="_working_with_a_database">Working with a Database</h5>
@@ -9920,7 +9957,7 @@ JavaScript to the head of every page.</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-04-13 17:36:02 BST
+Last updated 2013-04-18 00:00:20 BST
 </div>
 </div>
 </body>
