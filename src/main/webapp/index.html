@@ -1038,7 +1038,7 @@ start a basic Lift application.</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-Visit <a href="http://liftweb.net/download">http://liftweb.net/download</a> and download the Lift 2.5-RC2 ZIP file.
+Visit <a href="http://liftweb.net/download">http://liftweb.net/download</a> and download the Lift 2.5-RC5 ZIP file.
 </p>
 </li>
 <li>
@@ -1088,7 +1088,7 @@ When you&#8217;re done, type <span class="monospaced">exit</span> at the SBT pro
 <div class="ulist"><ul>
 <li>
 <p>
-Visit <a href="http://liftweb.net/download">http://liftweb.net/download</a> locate the link to the ZIP version of Lift 2.5-RC2 and save this to disk.
+Visit <a href="http://liftweb.net/download">http://liftweb.net/download</a> locate the link to the ZIP version of Lift 2.5-RC5 and save this to disk.
 </p>
 </li>
 <li>
@@ -1234,7 +1234,7 @@ The <span class="monospaced">container:start</span> command uses Jetty.</p></div
 <span class="n">seq</span><span class="o">(</span><span class="n">com</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">siasia</span><span class="o">.</span><span class="nc">WebPlugin</span><span class="o">.</span><span class="n">webSettings</span> <span class="k">:_</span><span class="kt">*</span><span class="o">)</span>
 
 <span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">liftVersion</span> <span class="k">=</span> <span class="s">&quot;2.5-RC2&quot;</span>
+  <span class="k">val</span> <span class="n">liftVersion</span> <span class="k">=</span> <span class="s">&quot;2.5-RC5&quot;</span>
   <span class="nc">Seq</span><span class="o">(</span>
     <span class="s">&quot;net.liftweb&quot;</span> <span class="o">%%</span> <span class="s">&quot;lift-webkit&quot;</span> <span class="o">%</span> <span class="n">liftVersion</span> <span class="o">%</span> <span class="s">&quot;compile&quot;</span><span class="o">,</span>
     <span class="s">&quot;org.eclipse.jetty&quot;</span> <span class="o">%</span> <span class="s">&quot;jetty-webapp&quot;</span> <span class="o">%</span> <span class="s">&quot;8.1.7.v20120910&quot;</span>  <span class="o">%</span> <span class="s">&quot;container,test&quot;</span><span class="o">,</span>
@@ -1705,7 +1705,7 @@ with Scala 2.9.1:</p></div>
   <span class="o">)</span>
 <span class="o">}</span>
 </pre></div></div></div>
-<div class="paragraph"><p>Let&#8217;s assume that you now want to use Scala 2.9.2 but (pretend) Lift 2.5 was only
+<div class="paragraph"><p>Let&#8217;s assume that you now want to use Scala 2.9.3 but Lift 2.5 was only
 built against Scala 2.9.1. Replace <span class="monospaced">%%</span> with <span class="monospaced">%</span> for the <span class="monospaced">net.liftweb</span>
 resources and explicitly include the Scala version that Lift was built
 against for each Lift component:</p></div>
@@ -1725,7 +1725,7 @@ This works if the two different Scala versions are binary compatible.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_9">Discussion</h4>
-<div class="paragraph"><p>Dependencies have a particular naming convention.  For example, the <span class="monospaced">lift-webkit</span> library for Lift 2.5-RC2 is called <span class="monospaced">lift-webkit_2.9.1-2.5-RC2.jar</span>.  Normally in <span class="monospaced">build.sbt</span> we simply refer to <span class="monospaced">"net.liftweb" %% "lift-webkit"</span> and SBT turns that into the name of a file that can be downloaded.</p></div>
+<div class="paragraph"><p>Dependencies have a particular naming convention.  For example, the <span class="monospaced">lift-webkit</span> library for Lift 2.5-RC5 is called <span class="monospaced">lift-webkit_2.9.1-2.5-RC5.jar</span>.  Normally in <span class="monospaced">build.sbt</span> we simply refer to <span class="monospaced">"net.liftweb" %% "lift-webkit"</span> and SBT turns that into the name of a file that can be downloaded.</p></div>
 <div class="paragraph"><p>However, in this recipe we have forced SBT to explicitly fetch the 2.9.1 version
 of the Lift resources rather than allow it to compute the URL to the
 Lift components.  This is the difference between using <span class="monospaced">%%</span> and <span class="monospaced">%</span> in a
@@ -2669,7 +2669,7 @@ to Lift that the response is complete, so the page being linked to (<span class=
 <div class="paragraph"><p>Supply a mock request to Lift&#8217;s <span class="monospaced">MockWeb.testReq</span>, and run your test in the context of the <span class="monospaced">Req</span> supplied by <span class="monospaced">testReq</span>.</p></div>
 <div class="paragraph"><p>The first step is to add Lift&#8217;s Test Kit as dependency to your project in <span class="monospaced">build.sbt</span>:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;net.liftweb&quot;</span> <span class="o">%%</span> <span class="s">&quot;lift-testkit&quot;</span> <span class="o">%</span> <span class="s">&quot;2.5-RC2&quot;</span> <span class="o">%</span> <span class="s">&quot;test&quot;</span>
+<div class="content"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;net.liftweb&quot;</span> <span class="o">%%</span> <span class="s">&quot;lift-testkit&quot;</span> <span class="o">%</span> <span class="s">&quot;2.5-RC5&quot;</span> <span class="o">%</span> <span class="s">&quot;test&quot;</span>
 </pre></div></div></div>
 <div class="paragraph"><p>To demonstrate how to use <span class="monospaced">testReq</span> we will test a function that detects a Google crawler. Google identifies
 crawlers via various "User-Agent" header on a request, so the function we want to test would look like this:</p></div>
@@ -5861,7 +5861,7 @@ and the load balancer."</p></div>
 <div class="paragraph"><p>For example, to configure Squeryl with PostgreSQL, modify <span class="monospaced">build.sbt</span> to add two dependencies, one for Squeryl-Record and one for the database driver:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">liftVersion</span> <span class="k">=</span> <span class="s">&quot;2.5-RC2&quot;</span>
+  <span class="k">val</span> <span class="n">liftVersion</span> <span class="k">=</span> <span class="s">&quot;2.5-RC5&quot;</span>
   <span class="nc">Seq</span><span class="o">(</span>
     <span class="s">&quot;net.liftweb&quot;</span> <span class="o">%%</span> <span class="s">&quot;lift-webkit&quot;</span> <span class="o">%</span> <span class="n">liftVersion</span><span class="o">,</span>
     <span class="s">&quot;net.liftweb&quot;</span> <span class="o">%%</span> <span class="s">&quot;lift-squeryl-record&quot;</span> <span class="o">%</span> <span class="n">liftVersion</span><span class="o">,</span>
@@ -9844,7 +9844,7 @@ JavaScript to the head of every page.</p></div>
 <span class="n">scalacOptions</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;-deprecation&quot;</span><span class="o">,</span> <span class="s">&quot;-unchecked&quot;</span><span class="o">)</span>
 
 <span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">liftVersion</span> <span class="k">=</span> <span class="s">&quot;2.5-RC2&quot;</span>
+  <span class="k">val</span> <span class="n">liftVersion</span> <span class="k">=</span> <span class="s">&quot;2.5-RC5&quot;</span>
   <span class="nc">Seq</span><span class="o">(</span>
     <span class="s">&quot;net.liftweb&quot;</span> <span class="o">%%</span> <span class="s">&quot;lift-webkit&quot;</span>  <span class="o">%</span> <span class="n">liftVersion</span>  <span class="o">%</span> <span class="s">&quot;compile&quot;</span>
   <span class="o">)</span>
@@ -9858,7 +9858,7 @@ JavaScript to the head of every page.</p></div>
 <div class="paragraph"><p>With our module built and published, we can now include it in our Lift applications. To do that, modify the Lift application&#8217;s <span class="monospaced">build.sbt</span> to reference this new "snowstorm" dependency:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">liftVersion</span> <span class="k">=</span> <span class="s">&quot;2.5-RC2&quot;</span>
+  <span class="k">val</span> <span class="n">liftVersion</span> <span class="k">=</span> <span class="s">&quot;2.5-RC5&quot;</span>
   <span class="nc">Seq</span><span class="o">(</span>
   <span class="o">...</span>
   <span class="s">&quot;net.liftmodules&quot;</span> <span class="o">%%</span> <span class="s">&quot;snowstorm&quot;</span> <span class="o">%</span> <span class="s">&quot;1.0.0&quot;</span><span class="o">,</span>
@@ -9957,7 +9957,7 @@ JavaScript to the head of every page.</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-04-18 00:00:20 BST
+Last updated 2013-04-18 09:09:00 BST
 </div>
 </div>
 </body>
