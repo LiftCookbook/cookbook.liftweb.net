@@ -9499,7 +9499,7 @@ No relations found.
 <div class="paragraph"><p>The Lift application we&#8217;ll use to demonstrate the pubsub pattern is the real-time chat application, described in <em>Simply Lift</em>.
 The first modification is to include the Lift module to talk to RabbitMQ. This is a one-line addition to the <span class="monospaced">libraryDependencies</span> in <span class="monospaced">build.sbt</span>:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="s">&quot;net.liftmodules&quot;</span> <span class="o">%%</span> <span class="s">&quot;amqp&quot;</span> <span class="o">%</span> <span class="o">(</span><span class="n">liftVersion</span> <span class="o">+</span> <span class="s">&quot;-1.1&quot;</span><span class="o">),</span>
+<div class="content"><div class="highlight"><pre><span class="s">&quot;net.liftmodules&quot;</span> <span class="o">%%</span> <span class="s">&quot;amqp_2.5&quot;</span> <span class="o">%</span> <span class="s">&quot;1.3-SNAPSHOT&quot;</span>
 </pre></div></div></div>
 <div class="paragraph"><p>AMQP stands for Advanced Message Queuing Protocol, a protocol that RabbitMQ talks. The AMQP module provides abstract actors to send and receive messages, and we will implement these actors as <span class="monospaced">RemoteSend</span> and <span class="monospaced">RemoteReceiver</span>:</p></div>
 <div class="listingblock">
@@ -9510,28 +9510,32 @@ The first modification is to include the Lift module to talk to RabbitMQ. This i
 
 <span class="k">object</span> <span class="nc">Rabbit</span> <span class="o">{</span>
 
-  <span class="k">val</span> <span class="n">factory</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ConnectionFactory</span><span class="o">(</span><span class="k">new</span> <span class="nc">ConnectionParameters</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">factory</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ConnectionFactory</span> <span class="o">{</span>
+    <span class="k">import</span> <span class="nn">ConnectionFactory._</span>
+    <span class="n">setHost</span><span class="o">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="o">)</span>
+    <span class="n">setPort</span><span class="o">(</span><span class="nc">DEFAULT_AMQP_PORT</span><span class="o">)</span>
+  <span class="o">}</span>
 
-  <span class="k">val</span> <span class="n">host</span> <span class="k">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
-  <span class="k">val</span> <span class="n">port</span> <span class="k">=</span> <span class="mi">5672</span>
   <span class="k">val</span> <span class="n">exchange</span> <span class="k">=</span> <span class="s">&quot;lift.chat&quot;</span>
   <span class="k">val</span> <span class="n">routing</span> <span class="k">=</span> <span class="s">&quot;&quot;</span>
   <span class="k">val</span> <span class="n">durable</span> <span class="k">=</span> <span class="kc">true</span>
-  <span class="k">val</span> <span class="n">noAck</span> <span class="k">=</span> <span class="kc">false</span>
+  <span class="k">val</span> <span class="n">autoAck</span> <span class="k">=</span> <span class="kc">false</span>
 
-  <span class="k">object</span> <span class="nc">RemoteSend</span> <span class="k">extends</span> <span class="nc">AMQPSender</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="n">factory</span><span class="o">,</span> <span class="n">host</span><span class="o">,</span> <span class="n">port</span><span class="o">,</span>
-    <span class="n">exchange</span><span class="o">,</span> <span class="n">routing</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">object</span> <span class="nc">RemoteSend</span> <span class="k">extends</span> <span class="nc">AMQPSender</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="n">factory</span><span class="o">,</span> <span class="n">exchange</span><span class="o">,</span> <span class="n">routing</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">def</span> <span class="n">configure</span><span class="o">(</span><span class="n">channel</span><span class="k">:</span> <span class="kt">Channel</span><span class="o">)</span> <span class="k">=</span>
       <span class="n">channel</span><span class="o">.</span><span class="n">exchangeDeclare</span><span class="o">(</span><span class="n">exchange</span><span class="o">,</span> <span class="s">&quot;fanout&quot;</span><span class="o">,</span> <span class="n">durable</span><span class="o">)</span>
   <span class="o">}</span>
 
-  <span class="k">object</span> <span class="nc">RemoteReceiver</span> <span class="k">extends</span> <span class="nc">AMQPDispatcher</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="n">factory</span><span class="o">,</span> <span class="n">host</span><span class="o">,</span> <span class="n">port</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">object</span> <span class="nc">RemoteReceiver</span> <span class="k">extends</span> <span class="nc">AMQPDispatcher</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="n">factory</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">def</span> <span class="n">configure</span><span class="o">(</span><span class="n">channel</span><span class="k">:</span> <span class="kt">Channel</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+
       <span class="n">channel</span><span class="o">.</span><span class="n">exchangeDeclare</span><span class="o">(</span><span class="n">exchange</span><span class="o">,</span> <span class="s">&quot;fanout&quot;</span><span class="o">,</span> <span class="n">durable</span><span class="o">)</span>
       <span class="k">val</span> <span class="n">queueName</span> <span class="k">=</span> <span class="n">channel</span><span class="o">.</span><span class="n">queueDeclare</span><span class="o">().</span><span class="n">getQueue</span><span class="o">()</span>
+
       <span class="n">channel</span><span class="o">.</span><span class="n">queueBind</span><span class="o">(</span><span class="n">queueName</span><span class="o">,</span> <span class="n">exchange</span><span class="o">,</span> <span class="n">routing</span><span class="o">)</span>
-      <span class="n">channel</span><span class="o">.</span><span class="n">basicConsume</span><span class="o">(</span><span class="n">queueName</span><span class="o">,</span> <span class="n">noAck</span><span class="o">,</span>
-        <span class="k">new</span> <span class="nc">SerializedConsumer</span><span class="o">(</span><span class="n">channel</span><span class="o">,</span> <span class="k">this</span><span class="o">))</span>
+
+      <span class="n">channel</span><span class="o">.</span><span class="n">basicConsume</span><span class="o">(</span><span class="n">queueName</span><span class="o">,</span> <span class="n">autoAck</span><span class="o">,</span>
+        <span class="k">new</span> <span class="nc">SerializedConsumer</span><span class="o">(</span><span class="n">channel</span><span class="o">,</span> <span class="k">this</span><span class="o">)</span> <span class="o">)</span>
     <span class="o">}</span>
   <span class="o">}</span>
 
@@ -9957,7 +9961,7 @@ JavaScript to the head of every page.</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-04-18 09:09:00 BST
+Last updated 2013-04-19 10:27:50 BST
 </div>
 </div>
 </body>
