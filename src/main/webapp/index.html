@@ -5575,6 +5575,97 @@ end of the page.</p></div>
 <div class="paragraph"><p>Antonio Salazar Cardozo has posted example code for performing Ajax file upload using Lift&#8217;s Ajax mechanisms, which avoids external JavaScript libraries. You can find a description and link to the code at: <a href="https://groups.google.com/d/msg/liftweb/OuN1sqRMO_c/TrUGUaSvoN4J">https://groups.google.com/d/msg/liftweb/OuN1sqRMO_c/TrUGUaSvoN4J</a>.</p></div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="FormatWiring">Format A Wired Field</h3>
+<div class="sect3">
+<h4 id="_problem_49">Problem</h4>
+<div class="paragraph"><p>You want a wired UI element to have a different format than plain conversion to a string. For example, you&#8217;d like display a floating point value as a currency.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_solution_49">Solution</h4>
+<div class="paragraph"><p>Use the <span class="monospaced">WiringUI.toNode</span> method to create a wiring node that can render the output formatted as you desire.</p></div>
+<div class="paragraph"><p>As an example consider a HTML template to display the quantity of an item being purchased and the subtotal:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">data-lift=</span><span class="s">&quot;Wiring&quot;</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;table&gt;</span>
+  <span class="nt">&lt;tbody&gt;</span>
+    <span class="nt">&lt;tr&gt;&lt;td&gt;</span>Quantity<span class="nt">&lt;/td&gt;&lt;td</span> <span class="na">id=</span><span class="s">&quot;quantity&quot;</span><span class="nt">&gt;</span>?<span class="nt">&lt;/td&gt;&lt;/tr&gt;</span>
+    <span class="nt">&lt;tr&gt;&lt;td&gt;</span>Subtotal<span class="nt">&lt;/td&gt;&lt;td</span> <span class="na">id=</span><span class="s">&quot;subtotal&quot;</span><span class="nt">&gt;</span>?<span class="nt">&lt;/td&gt;&lt;/tr&gt;</span>
+  <span class="nt">&lt;/tbody&gt;</span>
+<span class="nt">&lt;/table&gt;</span>
+
+<span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">&quot;add&quot;</span><span class="nt">&gt;</span>Add Another One<span class="nt">&lt;/button&gt;</span>
+
+<span class="nt">&lt;/div&gt;</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We&#8217;d like the subtotal to display as US dollars.  The snippet would be:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">package</span> <span class="nn">code.snippet</span>
+
+<span class="k">import</span> <span class="nn">java.text.NumberFormat</span>
+<span class="k">import</span> <span class="nn">java.util.Locale</span>
+
+<span class="k">import</span> <span class="nn">scala.xml.</span><span class="o">{</span><span class="nc">NodeSeq</span><span class="o">,</span> <span class="nc">Text</span><span class="o">}</span>
+
+<span class="k">import</span> <span class="nn">net.liftweb.util.Helpers._</span>
+<span class="k">import</span> <span class="nn">net.liftweb.util.</span><span class="o">{</span><span class="nc">Cell</span><span class="o">,</span> <span class="nc">ValueCell</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">net.liftweb.http.</span><span class="o">{</span><span class="n">S</span><span class="o">,</span> <span class="nc">WiringUI</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">net.liftweb.http.SHtml.ajaxInvoke</span>
+<span class="k">import</span> <span class="nn">net.liftweb.http.js.JsCmd</span>
+
+<span class="k">class</span> <span class="nc">Wiring</span> <span class="o">{</span>
+
+  <span class="k">val</span> <span class="n">cost</span> <span class="k">=</span> <span class="nc">ValueCell</span><span class="o">(</span><span class="mf">1.99</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">quantity</span> <span class="k">=</span> <span class="nc">ValueCell</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">subtotal</span> <span class="k">=</span> <span class="n">cost</span><span class="o">.</span><span class="n">lift</span><span class="o">(</span><span class="n">quantity</span><span class="o">)(</span><span class="k">_</span> <span class="o">*</span> <span class="k">_</span><span class="o">)</span>
+
+  <span class="k">val</span> <span class="n">formatter</span> <span class="k">=</span> <span class="nc">NumberFormat</span><span class="o">.</span><span class="n">getCurrencyInstance</span><span class="o">(</span><span class="nc">Locale</span><span class="o">.</span><span class="nc">US</span><span class="o">)</span>
+
+  <span class="k">def</span> <span class="n">currency</span><span class="o">(</span><span class="n">cell</span><span class="k">:</span> <span class="kt">Cell</span><span class="o">[</span><span class="kt">Double</span><span class="o">])</span><span class="k">:</span> <span class="kt">NodeSeq</span> <span class="o">=&gt;</span> <span class="nc">NodeSeq</span> <span class="k">=</span>
+    <span class="nc">WiringUI</span><span class="o">.</span><span class="n">toNode</span><span class="o">(</span><span class="n">cell</span><span class="o">)((</span><span class="n">value</span><span class="o">,</span> <span class="n">ns</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Text</span><span class="o">(</span><span class="n">formatter</span> <span class="n">format</span> <span class="n">value</span><span class="o">))</span>
+
+  <span class="k">def</span> <span class="n">increment</span><span class="o">()</span><span class="k">:</span> <span class="kt">JsCmd</span>  <span class="o">=</span> <span class="o">{</span>
+    <span class="n">quantity</span><span class="o">.</span><span class="n">atomicUpdate</span><span class="o">(</span><span class="k">_</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
+    <span class="n">S</span><span class="o">.</span><span class="n">notice</span><span class="o">(</span><span class="s">&quot;Added One&quot;</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="n">render</span> <span class="k">=</span>
+    <span class="s">&quot;#add [onclick]&quot;</span> <span class="o">#&gt;</span> <span class="n">ajaxInvoke</span><span class="o">(</span><span class="n">increment</span><span class="o">)</span> <span class="o">&amp;</span>
+    <span class="s">&quot;#quantity *&quot;</span> <span class="o">#&gt;</span> <span class="nc">WiringUI</span><span class="o">.</span><span class="n">asText</span><span class="o">(</span><span class="n">quantity</span><span class="o">)</span> <span class="o">&amp;</span>
+    <span class="s">&quot;#subtotal *&quot;</span> <span class="o">#&gt;</span> <span class="n">currency</span><span class="o">(</span><span class="n">subtotal</span><span class="o">)</span>
+
+<span class="o">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We have defined a <span class="monospaced">currency</span> method to format the <span class="monospaced">subtotal</span> not as a <span class="monospaced">Double</span> but as currency amount using the Java number formatting capabilities.  This will result in values like "$19.90" being shown rather than "19.9".</p></div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_50">Discussion</h4>
+<div class="paragraph"><p>The primary wiring UI makes it easy to bind a cell as text. The <span class="monospaced">asText</span> method works by converting a value to a <span class="monospaced">String</span> and wraps it in a <span class="monospaced">Text</span> node. This is done via <span class="monospaced">toNode</span>, however we can use the <span class="monospaced">toNode</span> method directly
+to generate a transform function that is both hooked into the wiring UI, and
+uses our code for the translation of the item.</p></div>
+<div class="paragraph"><p>The mechanism is type-safe. In this example <span class="monospaced">cost</span> is in <span class="monospaced">Double</span> cell, <span class="monospaced">quantity</span> is an <span class="monospaced">Int</span> cell, and <span class="monospaced">subtotal</span> is inferred as a <span class="monospaced">Cell[Double]</span>.  This is why our formatting function is passed <span class="monospaced">value</span> as a <span class="monospaced">Double</span>.</p></div>
+<div class="paragraph"><p>Note that the function passed to <span class="monospaced">toNode</span> must return a node sequence. This gives a great deal of flexibility as you can return a great deal in a <span class="monospaced">NodeSeq</span>. Our example complies with this signature by wrapping a text value in a <span class="monospaced">Text</span> object.</p></div>
+<div class="paragraph"><p>The <span class="monospaced">WiringUI.toNode</span> requires a <span class="monospaced">(T, NodeSeq) =&gt; NodeSeq</span>.  In the example above, we ignore the <span class="monospaced">NodeSeq</span>, but the value would be the contents of the element we&#8217;ve bound to.  Given the input&#8230;</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;td</span> <span class="na">id=</span><span class="s">&quot;subtotal&quot;</span><span class="nt">&gt;</span>?<span class="nt">&lt;/td&gt;</span>
+</pre></div></div></div>
+<div class="paragraph"><p>&#8230;this would mean the <span class="monospaced">NodeSeq</span> passed to us would just be the text node representing "?".  With a richer template we can use CSS selectors. For example, we can modify the template&#8230;</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;td&gt;</span>Subtotal<span class="nt">&lt;/td&gt;&lt;td</span> <span class="na">id=</span><span class="s">&quot;subtotal&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;i&gt;</span>The value is <span class="nt">&lt;b</span> <span class="na">class=</span><span class="s">&quot;amount&quot;</span><span class="nt">&gt;</span>?<span class="nt">&lt;/b&gt;&lt;/i&gt;</span>
+<span class="nt">&lt;/td&gt;</span>
+</pre></div></div></div>
+<div class="paragraph"><p>&#8230;and apply a CSS selector to change the "amount" element:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="o">(</span><span class="n">value</span><span class="o">,</span> <span class="n">ns</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="s">&quot;.amount *&quot;</span> <span class="o">#&gt;</span> <span class="nc">Text</span><span class="o">(</span><span class="n">formatter</span> <span class="n">format</span> <span class="n">value</span><span class="o">))</span> <span class="n">apply</span> <span class="n">ns</span><span class="o">)</span>
+</pre></div></div></div>
+</div>
+<div class="sect3">
+<h4 id="_see_also_49">See Also</h4>
+<div class="paragraph"><p>Chapter 6 of <em>Simply Lift</em> describes Lift&#8217;s Wiring mechanism, and gives a detailed shopping example. <a href="http://simply.liftweb.net/">http://simply.liftweb.net/</a>.</p></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -5587,11 +5678,11 @@ end of the page.</p></div>
 <div class="sect2">
 <h3 id="DebugRequest">Debugging a Request</h3>
 <div class="sect3">
-<h4 id="_problem_49">Problem</h4>
+<h4 id="_problem_50">Problem</h4>
 <div class="paragraph"><p>You want to debug a request and see what&#8217;s arriving to your Lift application.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_49">Solution</h4>
+<h4 id="_solution_50">Solution</h4>
 <div class="paragraph"><p>Add an <span class="monospaced">onBeginServicing</span> function in <span class="monospaced">Boot.scala</span> to log the request.
 For example:</p></div>
 <div class="listingblock">
@@ -5601,7 +5692,7 @@ For example:</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_50">Discussion</h4>
+<h4 id="_discussion_51">Discussion</h4>
 <div class="paragraph"><p>The <span class="monospaced">onBeginServicing</span> call is called quite early in the Lift pipeline, before
 <span class="monospaced">S</span> is set up, and before Lift has the chance to 404 your request.  The function signature it expects is <span class="monospaced">Req =&gt; Unit</span>.
 We&#8217;re just logging, but the functions could be used for other purposes.</p></div>
@@ -5660,7 +5751,7 @@ all requests starting <em>/paypal</em>:</p></div>
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_49">See Also</h4>
+<h4 id="_see_also_50">See Also</h4>
 <div class="paragraph"><p>If you need to catch the end of a request, there is also an <span class="monospaced">onEndServicing</span> which can be given functions of type
 <span class="monospaced">(Req, Box[LiftResponse]) =&gt; Unit</span>.</p></div>
 <div class="paragraph"><p><a href="#RunningStateless">[RunningStateless]</a> describe show to force requests to be stateless.</p></div>
@@ -5669,11 +5760,11 @@ all requests starting <em>/paypal</em>:</p></div>
 <div class="sect2">
 <h3 id="OnSession">Running Code when Sessions are Created (or Destroyed)</h3>
 <div class="sect3">
-<h4 id="_problem_50">Problem</h4>
+<h4 id="_problem_51">Problem</h4>
 <div class="paragraph"><p>You want to carry out actions when a session is created or destroyed.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_50">Solution</h4>
+<h4 id="_solution_51">Solution</h4>
 <div class="paragraph"><p>Make use of the hooks in <span class="monospaced">LiftSession</span>. For example, in <span class="monospaced">Boot.scala</span>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">LiftSession</span><span class="o">.</span><span class="n">afterSessionCreate</span> <span class="o">::=</span>
@@ -5690,7 +5781,7 @@ all requests starting <em>/paypal</em>:</p></div>
 <span class="monospaced">onBeginServicing</span> functions.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_51">Discussion</h4>
+<h4 id="_discussion_52">Discussion</h4>
 <div class="paragraph"><p>The hooks in <span class="monospaced">LiftSession</span> allow you to insert code at various points in
 the session lifecycle: when the session is created, at the start of
 servicing the request, after servicing, when the session is about to
@@ -5738,7 +5829,7 @@ are a useful guide to these stages.</p></div>
 <div class="paragraph"><p>There are two other hooks in <span class="monospaced">LiftSession</span>: <span class="monospaced">onSessionActivate</span> and <span class="monospaced">onSessionPassivate</span>. These may be of use if you are working with a servlet container in distributed mode, and want to be notified when the servlet HTTP session is about to be serialized (passivated) and de-serialized (activated) between container instances. These hooks are rarely used.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_50">See Also</h4>
+<h4 id="_see_also_51">See Also</h4>
 <div class="paragraph"><p>Session management is discussed in section 9.5 of <em>Exploring Lift</em>: <a href="http://exploring.liftweb.net/">http://exploring.liftweb.net/</a>.</p></div>
 <div class="paragraph"><p><a href="#RunningStateless">[RunningStateless]</a> shows how to run without state.</p></div>
 </div>
@@ -5746,19 +5837,19 @@ are a useful guide to these stages.</p></div>
 <div class="sect2">
 <h3 id="ShutdownHooks">Run Code when Lift Shuts Down</h3>
 <div class="sect3">
-<h4 id="_problem_51">Problem</h4>
+<h4 id="_problem_52">Problem</h4>
 <div class="paragraph"><p>You want to have some code executed when your Lift application is
 shutting down.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_51">Solution</h4>
+<h4 id="_solution_52">Solution</h4>
 <div class="paragraph"><p>Append to <span class="monospaced">LiftRules.unloadHooks</span>.</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">LiftRules</span><span class="o">.</span><span class="n">unloadHooks</span><span class="o">.</span><span class="n">append</span><span class="o">(</span> <span class="o">()</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="s">&quot;Shutting down&quot;</span><span class="o">)</span> <span class="o">)</span>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_52">Discussion</h4>
+<h4 id="_discussion_53">Discussion</h4>
 <div class="paragraph"><p>You append functions of type <span class="monospaced">() =&gt; Unit</span> to <span class="monospaced">unloadHooks</span>, and these functions are run
 right at the end of the Lift handler, after sessions have been
 destroyed, Lift actors have been shutdown, and requests have finished
@@ -5768,18 +5859,18 @@ specification, "by the web container to indicate to a filter that it is
 being taken out of service".</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_51">See Also</h4>
+<h4 id="_see_also_52">See Also</h4>
 <div class="paragraph"><p><a href="#RunTasksPeriodically">[RunTasksPeriodically]</a> includes an example of using a unload hook.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="RunningStateless">Running Stateless</h3>
 <div class="sect3">
-<h4 id="_problem_52">Problem</h4>
+<h4 id="_problem_53">Problem</h4>
 <div class="paragraph"><p>You want to force your application to be stateless at the HTTP level.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_52">Solution</h4>
+<h4 id="_solution_53">Solution</h4>
 <div class="paragraph"><p>In <span class="monospaced">Boot.scala</span>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">LiftRules</span><span class="o">.</span><span class="n">enableContainerSessions</span> <span class="k">=</span> <span class="kc">false</span>
@@ -5791,7 +5882,7 @@ developer mode: "Access to Lift&#8217;s statefull features from Stateless mode.
 The operation on state will not complete."</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_53">Discussion</h4>
+<h4 id="_discussion_54">Discussion</h4>
 <div class="paragraph"><p>HTTP session creation is controlled via <span class="monospaced">enableContainerSessions</span>, and
 applies for all requests. Leaving this value at the default (<span class="monospaced">true</span>)
 allows more fine-grained control over which requests are stateless.</p></div>
@@ -5821,7 +5912,7 @@ executed without a session, and convenient for REST-based services.</p></div>
 <div class="paragraph"><p>A request for <em>/demo</em> would be processed without state.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_52">See Also</h4>
+<h4 id="_see_also_53">See Also</h4>
 <div class="paragraph"><p><a href="#REST">[REST]</a> contains recipes for REST-based services in Lift.</p></div>
 <div class="paragraph"><p>The Lift Wiki gives further details on the processing of stateless requests: <a href="http://www.assembla.com/wiki/show/liftweb/Stateless_Requests">http://www.assembla.com/wiki/show/liftweb/Stateless_Requests</a>.</p></div>
 <div class="paragraph"><p>This stateless request control was introduced in Lift 2.2.  The announcement on the mailing list gives more details: <a href="https://groups.google.com/d/msg/liftweb/2rVMCnWppSo/KoaUMHeQAEAJ">https://groups.google.com/d/msg/liftweb/2rVMCnWppSo/KoaUMHeQAEAJ</a>.</p></div>
@@ -5830,12 +5921,12 @@ executed without a session, and convenient for REST-based services.</p></div>
 <div class="sect2">
 <h3 id="CatchException">Catch Any Exception</h3>
 <div class="sect3">
-<h4 id="_problem_53">Problem</h4>
+<h4 id="_problem_54">Problem</h4>
 <div class="paragraph"><p>You want a wrapper around all requests to catch exceptions and display
 something to the user.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_53">Solution</h4>
+<h4 id="_solution_54">Solution</h4>
 <div class="paragraph"><p>Declare an exception handler in <span class="monospaced">Boot.scala</span>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">LiftRules</span><span class="o">.</span><span class="n">exceptionHandler</span><span class="o">.</span><span class="n">prepend</span> <span class="o">{</span>
@@ -5849,7 +5940,7 @@ are being matched, causing an error to be logged and a 500 (internal
 server error) to be returned to the browser.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_54">Discussion</h4>
+<h4 id="_discussion_55">Discussion</h4>
 <div class="paragraph"><p>The partial function you add to <span class="monospaced">exceptionHandler</span> needs to return a
 <span class="monospaced">LiftResponse</span> (i.e., something to send to the browser). The default
 behaviour is to return an <span class="monospaced">XhtmlResponse</span>, which in
@@ -5919,18 +6010,18 @@ errors. The default is to retry the Ajax command three times
 server cannot be contacted at this time"</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_53">See Also</h4>
+<h4 id="_see_also_54">See Also</h4>
 <div class="paragraph"><p><a href="#Custom404">[Custom404]</a> for how to create a custom 404 (not found) page.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="RestStreamContent">Streaming Content</h3>
 <div class="sect3">
-<h4 id="_problem_54">Problem</h4>
+<h4 id="_problem_55">Problem</h4>
 <div class="paragraph"><p>You want to stream content back to the web client.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_54">Solution</h4>
+<h4 id="_solution_55">Solution</h4>
 <div class="paragraph"><p>Use <span class="monospaced">OutputStreamResponse</span>, passing it a function that will write to the
 <span class="monospaced">OutputStream</span> that Lift supplies.</p></div>
 <div class="paragraph"><p>In this example we&#8217;ll stream all the integers from one, via a REST service:</p></div>
@@ -5967,7 +6058,7 @@ probably don&#8217;t want to try that in your web browser, but instead from some
 is easier to stop, such as cURL.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_55">Discussion</h4>
+<h4 id="_discussion_56">Discussion</h4>
 <div class="paragraph"><p><span class="monospaced">OutputStreamResponse</span> expects a function of type <span class="monospaced">OutputStream =&gt; Unit</span>. The
 <span class="monospaced">OutputStream</span> argument is the output stream to the client.  This means the bytes
 we write to the stream are written to the client. In the above example&#8230;</p></div>
@@ -5976,6 +6067,7 @@ we write to the stream are written to the client. In the above example&#8230;</p
 </pre></div></div></div>
 <div class="paragraph"><p>&#8230;we are making use of the <span class="monospaced">write(byte[])</span> method on Java&#8217;s <span class="monospaced">OutputStream</span> (<span class="monospaced">out</span>), and sending it
 the <span class="monospaced">Array[Byte]</span> being generated from our <span class="monospaced">infinite</span> stream.</p></div>
+<div class="paragraph"><p>Be aware that <span class="monospaced">OutputStreamResponse</span> is executed outside of the scope of <span class="monospaced">S</span>. This means if you need to access anything in the session, do so outside of the function you pass to <span class="monospaced">OutputStreamResponse</span>.</p></div>
 <div class="paragraph"><p>For more control over status codes, headers and cookies, there are a
 variety of signatures for the <span class="monospaced">OutputStreamResponse</span> object. For the
 most control, create an instance of the <span class="monospaced">OutputStreamResponse</span> class:</p></div>
@@ -6047,20 +6139,20 @@ is no more data because the end of the stream has been reached".</p></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_54">See Also</h4>
+<h4 id="_see_also_55">See Also</h4>
 <div class="paragraph"><p>The contract for Java IO is described at <a href="http://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html">http://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="DiskAccessControl">Serving a File with Access Control</h3>
 <div class="sect3">
-<h4 id="_problem_55">Problem</h4>
+<h4 id="_problem_56">Problem</h4>
 <div class="paragraph"><p>You have a file on disk, you want to allow a user to download it, but
 only if they are allowed to. If they are not allowed to, you
 want to explain why.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_55">Solution</h4>
+<h4 id="_solution_56">Solution</h4>
 <div class="paragraph"><p>Use <span class="monospaced">RestHelper</span> to serve the file or an explanation page.</p></div>
 <div class="paragraph"><p>For example,
 suppose we have the file <em>/tmp/important</em> and we only want selected
@@ -6120,7 +6212,7 @@ a <span class="monospaced">Box[LiftResponse]</span>. For permitted access we ser
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_56">Discussion</h4>
+<h4 id="_discussion_57">Discussion</h4>
 <div class="paragraph"><p>By turning the request into a <span class="monospaced">Box[LiftResponse]</span> we are able to serve
 up the file, send the user to a different page, and also allow Lift to
 handle the 404 (<span class="monospaced">Empty</span>) cases.</p></div>
@@ -6144,19 +6236,19 @@ for these.</p></div>
 to best fit the way you want the code to look and work.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_55">See Also</h4>
+<h4 id="_see_also_56">See Also</h4>
 <div class="paragraph"><p><em>Chatper 24: Extractors</em> from <em>Programming in Scala</em>: <a href="http://www.artima.com/pins1ed/extractors.html">http://www.artima.com/pins1ed/extractors.html</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="RestrictByHeader">Access Restriction by HTTP Header</h3>
 <div class="sect3">
-<h4 id="_problem_56">Problem</h4>
+<h4 id="_problem_57">Problem</h4>
 <div class="paragraph"><p>You need to control access to a page based on the value of a HTTP
 header.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_56">Solution</h4>
+<h4 id="_solution_57">Solution</h4>
 <div class="paragraph"><p>Use a custom <span class="monospaced">If</span> in SiteMap:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">val</span> <span class="nc">HeaderRequired</span> <span class="k">=</span> <span class="nc">If</span><span class="o">(</span>
@@ -6180,7 +6272,7 @@ request for the page will be redirected with a Lift error notice of
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_57">Discussion</h4>
+<h4 id="_discussion_58">Discussion</h4>
 <div class="paragraph"><p>The <span class="monospaced">If</span> test ensures the <span class="monospaced">() =&gt; Boolean</span> function you supply as a first
 argument returns <span class="monospaced">true</span> before the page it applies to is shown. In this example
 we&#8217;ll get true if the request contains a header called "ALLOWED", and the optional
@@ -6204,7 +6296,7 @@ that&#8217;s just the default.</p></div>
 whatever you put in that page.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_56">See Also</h4>
+<h4 id="_see_also_57">See Also</h4>
 <div class="paragraph"><p>The Lift wiki gives a summary of Lift&#8217;s Site Map and the tests you can include in site map entries: <a href="https://www.assembla.com/wiki/show/liftweb/SiteMap">https://www.assembla.com/wiki/show/liftweb/SiteMap</a>.</p></div>
 <div class="paragraph"><p>There are further details in chapter 7 of <em>Exploring Lift</em> at <a href="http://exploring.liftweb.net">http://exploring.liftweb.net</a>, and "SiteMap and access control", chapter 7 of <em>Lift in Action</em> (Perrett, 2012, Manning Publications Co.).</p></div>
 </div>
@@ -6212,11 +6304,11 @@ whatever you put in that page.</p></div>
 <div class="sect2">
 <h3 id="HttpServletRequest">Accessing <span class="monospaced">HttpServletRequest</span></h3>
 <div class="sect3">
-<h4 id="_problem_57">Problem</h4>
+<h4 id="_problem_58">Problem</h4>
 <div class="paragraph"><p>To satisfy some API you need access to the <span class="monospaced">HttpServletRequest</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_57">Solution</h4>
+<h4 id="_solution_58">Solution</h4>
 <div class="paragraph"><p>Cast <span class="monospaced">S.request</span>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">net.liftweb.http.S</span>
@@ -6234,7 +6326,7 @@ whatever you put in that page.</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_58">Discussion</h4>
+<h4 id="_discussion_59">Discussion</h4>
 <div class="paragraph"><p>Lift abstracts away from the low-level HTTP request, and from the details of the
 servlet container your application is running in.  However, it&#8217;s reassuring to know, if you
 absolutely need it, there is a way to get back down to the low-level.</p></div>
@@ -6252,11 +6344,11 @@ you&#8217;ll need to include this dependency in your SBT build:</p></div>
 <div class="sect2">
 <h3 id="RewriteForHttps">Force HTTPS Requests</h3>
 <div class="sect3">
-<h4 id="_problem_58">Problem</h4>
+<h4 id="_problem_59">Problem</h4>
 <div class="paragraph"><p>You want to ensure clients are using HTTPs.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_58">Solution</h4>
+<h4 id="_solution_59">Solution</h4>
 <div class="paragraph"><p>Add an <span class="monospaced">earlyResponse</span> function in <span class="monospaced">Boot.scala</span> redirecting http requests to https
 equivalents. For example:</p></div>
 <div class="listingblock">
@@ -6271,7 +6363,7 @@ equivalents. For example:</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_59">Discussion</h4>
+<h4 id="_discussion_60">Discussion</h4>
 <div class="paragraph"><p>The <span class="monospaced">earlyResponse</span> call is called early in the Lift pipeline. It is
 used to execute code before a request is handled and, if required, exit the
 pipeline and return a response. The function signature expected is
@@ -6302,7 +6394,7 @@ and the load balancer."</p></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_57">See Also</h4>
+<h4 id="_see_also_58">See Also</h4>
 <div class="paragraph"><p>The <em>Overview of Elastic Load Balancing</em> can be found at: <a href="http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/DeveloperGuide/arch-loadbalancing.html">http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/DeveloperGuide/arch-loadbalancing.html</a>.</p></div>
 </div>
 </div>
@@ -6316,11 +6408,11 @@ and the load balancer."</p></div>
 <div class="sect2">
 <h3 id="ConfiguringSqueryl">Configuring Squeryl and Record</h3>
 <div class="sect3">
-<h4 id="_problem_59">Problem</h4>
+<h4 id="_problem_60">Problem</h4>
 <div class="paragraph"><p>You want to configure your Lift application to use Squeryl and Record.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_59">Solution</h4>
+<h4 id="_solution_60">Solution</h4>
 <div class="paragraph"><p>Include the Squeryl-Record dependency in your build, and in <span class="monospaced">Boot.scala</span> provide a database connection function to <span class="monospaced">SquerylRecord.initWithSquerylSession</span>.</p></div>
 <div class="paragraph"><p>For example, to configure Squeryl with PostgreSQL, modify <span class="monospaced">build.sbt</span> to add two dependencies, one for Squeryl-Record and one for the database driver:</p></div>
 <div class="listingblock">
@@ -6373,7 +6465,7 @@ a transaction around all HTTP requests. This is also configured in <span class="
 <div class="paragraph"><p>This arranges for requests to be handled in the <span class="monospaced">inTransaction</span> scope. As Lift uses an exception for redirects, we catch this exception and throw it after the transaction completes, avoiding rollbacks after a <span class="monospaced">S.redirectTo</span> or similar.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_60">Discussion</h4>
+<h4 id="_discussion_61">Discussion</h4>
 <div class="paragraph"><p>You can use any JVM persistence mechanism with Lift. What Lift Record provides is a light interface around persistence with bindings to Lift&#8217;s CSS transforms, screens and wizards. Squeryl-Record is a concrete implementation to connect Record with Squeryl.  This means you can use standard Record objects, which are effectively your schema, with Squeryl and write queries which are validated at compile time.</p></div>
 <div class="paragraph"><p>Plugging into Squeryl means initializing Squeryl&#8217;s session management, which allows us to wrap queries in Squeryl&#8217;s <span class="monospaced">transaction</span> and <span class="monospaced">inTransaction</span> functions.  The difference between these two calls is that <span class="monospaced">inTransaction</span> will start a new transaction if one doesn&#8217;t exist, whereas <span class="monospaced">transaction</span> always creates a new transaction.</p></div>
 <div class="paragraph"><p>By ensuring a transaction is available for all HTTP requests via <span class="monospaced">addAround</span>, we can write queries in Lift and for the most part not have to establish transactions ourselves unless we want to.  For example:</p></div>
@@ -6384,7 +6476,7 @@ a transaction around all HTTP requests. This is also configured in <span class="
 <div class="paragraph"><p>In this recipe, the <span class="monospaced">PostgreSqlAdapter</span> is being used. Squeryl also supports: <span class="monospaced">OracleAdapter</span>, <span class="monospaced">MySQLInnoDBAdapter</span> and <span class="monospaced">MySQLAdapter</span>, <span class="monospaced">MSSQLServer</span>, <span class="monospaced">H2Adapter</span>, <span class="monospaced">DB2Adapter</span> and <span class="monospaced">DerbyAdapter</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_58">See Also</h4>
+<h4 id="_see_also_59">See Also</h4>
 <div class="paragraph"><p>The Squeryl <em>Getting Started Guide</em> links to more information about session management and configuration: <a href="http://squeryl.org/getting-started.html">http://squeryl.org/getting-started.html</a>.</p></div>
 <div class="paragraph"><p>See <a href="#SquerylJNDI">[SquerylJNDI]</a> for configuring connections via Java Naming and Directory Interface (JNDI).</p></div>
 </div>
@@ -6392,12 +6484,12 @@ a transaction around all HTTP requests. This is also configured in <span class="
 <div class="sect2">
 <h3 id="SquerylJNDI">Using a JNDI Datasource</h3>
 <div class="sect3">
-<h4 id="_problem_60">Problem</h4>
+<h4 id="_problem_61">Problem</h4>
 <div class="paragraph"><p>You want to use a JNDI data source for your Record+Squeryl Lift
 application.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_60">Solution</h4>
+<h4 id="_solution_61">Solution</h4>
 <div class="paragraph"><p>In <span class="monospaced">Boot.scala</span> call <span class="monospaced">initWithSquerylSession</span> with a <span class="monospaced">DataSource</span> looked up from the JDNI context:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">javax.sql.DataSource</span>
@@ -6412,7 +6504,7 @@ configuration, and replacing <span class="monospaced">MySQLAdapter</span> with t
 for the database you are using.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_61">Discussion</h4>
+<h4 id="_discussion_62">Discussion</h4>
 <div class="paragraph"><p>The Java Naming and Directory Interface (JNDI) is service provided by
 the web container (e.g., Jetty, Tomcat) which allows you to
 configure a database connection in the container and then refer the
@@ -6432,7 +6524,7 @@ in your <span class="monospaced">src/main/webapp/WEB-INF/web.xml</span> file:</p
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_59">See Also</h4>
+<h4 id="_see_also_60">See Also</h4>
 <div class="paragraph"><p>Resources for JDNI configuration include:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -6456,11 +6548,11 @@ For Tomcat, the JNDI configuration guide is: <a href="http://tomcat.apache.org/t
 <div class="sect2">
 <h3 id="SquerylOneToMany">One-to-Many Relationship</h3>
 <div class="sect3">
-<h4 id="_problem_61">Problem</h4>
+<h4 id="_problem_62">Problem</h4>
 <div class="paragraph"><p>You want to model a one-to-many relationship, such as a satellite belonging to a single planet, but a planet possibly having many satellites.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_61">Solution</h4>
+<h4 id="_solution_62">Solution</h4>
 <div class="paragraph"><p>Use Squeryl&#8217;s <span class="monospaced">oneToManyRelation</span> in your schema, and on your Lift model include a reference from the satellite to the planet.</p></div>
 <div class="paragraph"><p>The objective is to model the relationship as shown in <a href="#SquerylPlanetOneToManyFigure">[SquerylPlanetOneToManyFigure]</a>.</p></div>
 <div class="imageblock" id="SquerylPlanetOneToManyFigure">
@@ -6564,7 +6656,7 @@ Moons of Mars are: List(Phobos, Deimos)</pre>
 <div class="paragraph"><p>In this example code we&#8217;re calling <span class="monospaced">deimos.planet.single</span> which returns one result or will thrown an exception if the associated planet was not found. <span class="monospaced">headOption</span> is the safer way if there&#8217;s a chance the record will not be found, as it will evaluate to <span class="monospaced">None</span> or <span class="monospaced">Some[Planet]</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_62">Discussion</h4>
+<h4 id="_discussion_63">Discussion</h4>
 <div class="paragraph"><p>The <span class="monospaced">planetToSatellites.left</span> method is not a simple collection of <span class="monospaced">Satellite</span> objects.  It&#8217;s a Squeryl <span class="monospaced">Query[Satellite]</span>, meaning you can treat it like any other kind of <span class="monospaced">Queryable[Satellite]</span>.  For example we could ask for those satellites of a planet that are alphabetically after "E", which for Mars would match "Phobos":</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">mars</span><span class="o">.</span><span class="n">satellites</span><span class="o">.</span><span class="n">where</span><span class="o">(</span><span class="n">s</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">name</span> <span class="n">gt</span> <span class="s">&quot;E&quot;</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">name</span><span class="o">)</span>
@@ -6623,18 +6715,18 @@ Moons of Mars are: List(Phobos, Deimos)</pre>
 <div class="paragraph"><p>Which version should you use? That will depend on your application, but you can use both in the same record if you need to.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_60">See Also</h4>
+<h4 id="_see_also_61">See Also</h4>
 <div class="paragraph"><p>Squeryl relations are documented at <a href="http://squeryl.org/relations.html">http://squeryl.org/relations.html</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="SquerylManyToMany">Many-to-Many Relationship</h3>
 <div class="sect3">
-<h4 id="_problem_62">Problem</h4>
+<h4 id="_problem_63">Problem</h4>
 <div class="paragraph"><p>You want to model a many-to-many relationship, such as a planet being visted by many space probes, but a space probe also visiting many planets.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_62">Solution</h4>
+<h4 id="_solution_63">Solution</h4>
 <div class="paragraph"><p>Use Squeryl&#8217;s <span class="monospaced">manyToManyRelation</span> in your schema, and implement a record to hold the join between the two sides of the relationship. <a href="#SquerylPlanetManyToManyFigure">[SquerylPlanetManyToManyFigure]</a> shows the structure we will create in this recipe, where <span class="monospaced">Visit</span> is the record that will connect each many to the other many.</p></div>
 <div class="imageblock" id="SquerylPlanetManyToManyFigure">
 <div class="content">
@@ -6764,7 +6856,7 @@ Moons of Mars are: List(Phobos, Deimos)</pre>
 <div class="paragraph"><p>The top half of <a href="#SquerylManyToManyScreengrab">[SquerylManyToManyScreengrab]</a> gives an example of the output from this snippet and template.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_63">Discussion</h4>
+<h4 id="_discussion_64">Discussion</h4>
 <div class="paragraph"><p>The Squeryl DSL <span class="monospaced">manyToManyRelation(probes, planets).via[Visit]</span> is the core element here connecting our <span class="monospaced">Planet</span>, <span class="monospaced">Probe</span> and <span class="monospaced">Visit</span> records together. It allows us to access the "left" and "right" sides of the relationship in our model as <span class="monospaced">Probe.planets</span> and <span class="monospaced">Planet.probes</span>.</p></div>
 <div class="paragraph"><p>As with <a href="#SquerylOneToMany">[SquerylOneToMany]</a> for one-to-many relationships, the left and right sides are queries. When you ask for <span class="monospaced">Planet.probes</span> the database is queried appropriately with a join on the <span class="monospaced">Visit</span> records:</p></div>
 <div class="listingblock">
@@ -6888,7 +6980,7 @@ Moons of Mars are: List(Phobos, Deimos)</pre>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_61">See Also</h4>
+<h4 id="_see_also_62">See Also</h4>
 <div class="paragraph"><p><a href="#SquerylOneToMany">[SquerylOneToMany]</a>, on one-to-many relationships, discusses <span class="monospaced">leftStateful</span> and <span class="monospaced">rightStateful</span> relations, which are also applicable for many-to-many relationships.</p></div>
 <div class="paragraph"><p>Foreign keys, cascading deletes, are described at: <a href="http://squeryl.org/relations.html">http://squeryl.org/relations.html</a>.</p></div>
 </div>
@@ -6896,11 +6988,11 @@ Moons of Mars are: List(Phobos, Deimos)</pre>
 <div class="sect2">
 <h3 id="FieldValidation">Adding Validation to a Field</h3>
 <div class="sect3">
-<h4 id="_problem_63">Problem</h4>
+<h4 id="_problem_64">Problem</h4>
 <div class="paragraph"><p>You want to add validation to a field in your model, so that users are informed of missing fields or fields that aren&#8217;t acceptable to your application.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_63">Solution</h4>
+<h4 id="_solution_64">Solution</h4>
 <div class="paragraph"><p>Override the <span class="monospaced">validations</span> method on your field and provide one re more validation functions.</p></div>
 <div class="paragraph"><p>As an example, imagine we have a database of planets and we want to ensure any new planets entered by users have names of at least five characters.  We add this as a validation on our record:</p></div>
 <div class="listingblock">
@@ -6987,7 +7079,7 @@ Moons of Mars are: List(Phobos, Deimos)</pre>
 is shown near the top of the page, just below the <span class="monospaced">&lt;h1&gt;</span> heading, using a styled called <span class="monospaced">noticeBox</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_64">Discussion</h4>
+<h4 id="_discussion_65">Discussion</h4>
 <div class="paragraph"><p>The built-in validations are:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -7026,7 +7118,7 @@ is shown near the top of the page, just below the <span class="monospaced">&lt;h
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_62">See Also</h4>
+<h4 id="_see_also_63">See Also</h4>
 <div class="paragraph"><p>The <span class="monospaced">BaseField.scala</span> class in the Lift source code contains the definition of the built-in <span class="monospaced">StringValidators</span>. Find the source at: <a href="https://github.com/lift/framework/blob/master/core/util/src/main/scala/net/liftweb/util/BaseField.scala">https://github.com/lift/framework/blob/master/core/util/src/main/scala/net/liftweb/util/BaseField.scala</a>.</p></div>
 <div class="paragraph"><p><a href="#Forms">[Forms]</a> describes form processing, notices and errors.</p></div>
 </div>
@@ -7034,12 +7126,12 @@ is shown near the top of the page, just below the <span class="monospaced">&lt;h
 <div class="sect2">
 <h3 id="CustomValidation">Custom Validation Logic</h3>
 <div class="sect3">
-<h4 id="_problem_64">Problem</h4>
+<h4 id="_problem_65">Problem</h4>
 <div class="paragraph"><p>You want to provide your own validation logic and apply it to a field in
 a record.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_64">Solution</h4>
+<h4 id="_solution_65">Solution</h4>
 <div class="paragraph"><p>Implement a function from the type of the field to
 <span class="monospaced">List[FieldError]</span>, and reference the function in the <span class="monospaced">validations</span> on the field.</p></div>
 <div class="paragraph"><p>Here&#8217;s an example: we have a database of planets, and when a user
@@ -7076,7 +7168,7 @@ is a <span class="monospaced">String</span>, so we need to provide a function fr
 <div class="paragraph"><p>The validation is triggered just like any other validation, as described in <a href="#FieldValidation">[FieldValidation]</a>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_65">Discussion</h4>
+<h4 id="_discussion_66">Discussion</h4>
 <div class="paragraph"><p>By convention validation functions have two argument lists: the first
 for the error message; the second to receive the value to validate. This
 allows you to easily re-use your validation function on other fields.  For example,
@@ -7110,7 +7202,7 @@ resolve it via <span class="monospaced">S.?</span>:</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_63">See Also</h4>
+<h4 id="_see_also_64">See Also</h4>
 <div class="paragraph"><p><a href="#FieldValidation">[FieldValidation]</a> discusses field validation and the built-in validations.</p></div>
 <div class="paragraph"><p>Text localisation is discussed on the Lift wiki at: <a href="https://www.assembla.com/wiki/show/liftweb/Localization">https://www.assembla.com/wiki/show/liftweb/Localization</a>.</p></div>
 </div>
@@ -7118,12 +7210,12 @@ resolve it via <span class="monospaced">S.?</span>:</p></div>
 <div class="sect2">
 <h3 id="SquerylFilter">Modify a Field Value Before it is Set</h3>
 <div class="sect3">
-<h4 id="_problem_65">Problem</h4>
+<h4 id="_problem_66">Problem</h4>
 <div class="paragraph"><p>You want to modify the value of a field, so the value in your model is
 the modified version.  For example, to clean a value by removing leading and trailing whitespace.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_65">Solution</h4>
+<h4 id="_solution_66">Solution</h4>
 <div class="paragraph"><p>Override <span class="monospaced">setFilter</span> and provide a list of functions to apply to a field.</p></div>
 <div class="paragraph"><p>To remove leading and trailing whitespace entered by the user, the field would use the <span class="monospaced">trim</span> filter:</p></div>
 <div class="listingblock">
@@ -7133,7 +7225,7 @@ the modified version.  For example, to clean a value by removing leading and tra
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_66">Discussion</h4>
+<h4 id="_discussion_67">Discussion</h4>
 <div class="paragraph"><p>The built-in filters are:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -7183,7 +7275,7 @@ the modified version.  For example, to clean a value by removing leading and tra
 <div class="paragraph"><p>&#8230;a user entering "jaglan beta" as a planet name would see it stored in the database as "Jaglan Beta".</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_64">See Also</h4>
+<h4 id="_see_also_65">See Also</h4>
 <div class="paragraph"><p>The best place to understand the filters is the trait <span class="monospaced">StringValidators</span> in the source for <span class="monospaced">BaseField</span>: <a href="https://github.com/lift/framework/blob/master/core/util/src/main/scala/net/liftweb/util/BaseField.scala">https://github.com/lift/framework/blob/master/core/util/src/main/scala/net/liftweb/util/BaseField.scala</a>.</p></div>
 <div class="paragraph"><p>If you really do need to apply title case to a value, the Apache Commons <span class="monospaced">WordUtils</span> class provides ready-made functions for this.  See: <a href="http://commons.apache.org/lang/">http://commons.apache.org/lang/</a>.</p></div>
 </div>
@@ -7191,11 +7283,11 @@ the modified version.  For example, to clean a value by removing leading and tra
 <div class="sect2">
 <h3 id="SquerylUnitTest">Testing with Specs2</h3>
 <div class="sect3">
-<h4 id="_problem_66">Problem</h4>
+<h4 id="_problem_67">Problem</h4>
 <div class="paragraph"><p>You want to write Specs2 unit tests which access your database model with Squeryl and Record.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_66">Solution</h4>
+<h4 id="_solution_67">Solution</h4>
 <div class="paragraph"><p>Use an in-memory database, and arrange for it to be set up around your test.</p></div>
 <div class="paragraph"><p>There are three parts to this: including a database in your project and connect to it in an in-memory mode; creating a re-usable trait to set up the database; and then using the trait in your test.</p></div>
 <div class="paragraph"><p>The H2 database has an in memory mode, meaning it won&#8217;t save data to disk. It needs to be included in <span class="monospaced">build.sbt</span> as a dependency. Whilst you are editing <span class="monospaced">build.sbt</span> also disable SBT&#8217;s parallel test execution to prevent database tests from influencing each other:</p></div>
@@ -7317,7 +7409,7 @@ the modified version.  For example, to clean a value by removing leading and tra
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_67">Discussion</h4>
+<h4 id="_discussion_68">Discussion</h4>
 <div class="paragraph"><p>The <span class="monospaced">DBTestKit</span> trait has to do quite a lot of work for us.  At the lowest level, it loads the H2 driver and configures Squeryl with an in-memory connection. The <span class="monospaced">mem</span> part of the JDBC connection string (<span class="monospaced">jdbc:h2:mem:dbname;DB_CLOSE_DELAY=-1</span>) means that H2 won&#8217;t try to persist the data to disk.  The database just resides in memory, so there are no files in disk to maintain, and it runs quickly.</p></div>
 <div class="paragraph"><p>By default, when a connection is closed, the in memory database is destroyed. In this recipe we&#8217;ve disabled that by adding the <span class="monospaced">DB_CLOSE_DELAY=-1</span>, which will allow us to write unit tests that span connections if we want to.</p></div>
 <div class="paragraph"><p>The next step up from connection management is the creation of the database schema in memory. We do this in <span class="monospaced">createDb</span> by throwing away the schema and any data when we start a test, and create it afresh.  If you have very common test datasets, this might be a good place to insert that data before your test runs.</p></div>
@@ -7358,7 +7450,7 @@ the modified version.  For example, to clean a value by removing leading and tra
 <div class="paragraph"><p>We&#8217;ve used a database with an in-memory mode for the advantages of speed and no files to clean up. However, you could use any regular database: you&#8217;d need to change the driver and connection string.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_65">See Also</h4>
+<h4 id="_see_also_66">See Also</h4>
 <div class="paragraph"><p>See <a href="http://www.h2database.com/html/features.html#in_memory_databases">http://www.h2database.com/html/features.html#in_memory_databases</a> for more about H2&#8217;s in-memory database settings.</p></div>
 <div class="paragraph"><p><a href="#MongoUnitTest">[MongoUnitTest]</a> discusses unit testing with MongoDB, but the comments on SBT&#8217;s other testing commands and testing in an IDE would apply to this recipie too.</p></div>
 </div>
@@ -7366,11 +7458,11 @@ the modified version.  For example, to clean a value by removing leading and tra
 <div class="sect2">
 <h3 id="RandomValueColumn">Store a Random Value in a Column</h3>
 <div class="sect3">
-<h4 id="_problem_67">Problem</h4>
+<h4 id="_problem_68">Problem</h4>
 <div class="paragraph"><p>You need a column to hold a random value.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_67">Solution</h4>
+<h4 id="_solution_68">Solution</h4>
 <div class="paragraph"><p>Use <span class="monospaced">UniqueIdField</span>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">net.liftweb.record.field.UniqueIdField</span>
@@ -7381,7 +7473,7 @@ abstract class.</p></div>
 <div class="paragraph"><p>The size value, 32, indicates how many random characters to create.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_68">Discussion</h4>
+<h4 id="_discussion_69">Discussion</h4>
 <div class="paragraph"><p>The <span class="monospaced">UniqueIdField</span> field is a kind of <span class="monospaced">StringField</span> and the default value for the field
 comes from <span class="monospaced">StringHelpers.randomString</span>. The value is randomly generated, but not guaranteed to be unique in the database.</p></div>
 <div class="paragraph"><p>The database column backing the <span class="monospaced">UniqueIdField</span> in this recipe will be a <span class="monospaced">varchar(32) not null</span> or similar.  The value stored will look like:</p></div>
@@ -7402,19 +7494,19 @@ comes from <span class="monospaced">StringHelpers.randomString</span>. The value
 <div class="paragraph"><p>This will automatically insert values of the form "6481a844-460a-a4e0-9191-c808e3051519" in records you create.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_66">See Also</h4>
+<h4 id="_see_also_67">See Also</h4>
 <div class="paragraph"><p>Java&#8217;s UUID support is described at <a href="http://docs.oracle.com/javase/7/docs/api/java/util/UUID.html">http://docs.oracle.com/javase/7/docs/api/java/util/UUID.html</a> and includes a link to RFC 4122 which defines UUIDs.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="SquerylUpdatedCreated">Automatic Created and Updated Timestamps</h3>
 <div class="sect3">
-<h4 id="_problem_68">Problem</h4>
+<h4 id="_problem_69">Problem</h4>
 <div class="paragraph"><p>You want created and updated timestamps on your records and would like them
 automatically updated when a row is added or updated.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_68">Solution</h4>
+<h4 id="_solution_69">Solution</h4>
 <div class="paragraph"><p>Define the following traits:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">package</span> <span class="nn">code.model</span>
@@ -7467,7 +7559,7 @@ the time the record was created and updated:</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_69">Discussion</h4>
+<h4 id="_discussion_70">Discussion</h4>
 <div class="paragraph"><p>Although there is a built in <span class="monospaced">net.liftweb.record.LifecycleCallbacks</span>
 trait in which allows you trigger behaviour onUpdate, afterDelete and so
 on, it is only for use on individual fields, rather than records. As our
@@ -7519,18 +7611,18 @@ callbacks also support other triggered behaviours:</p></div>
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_67">See Also</h4>
+<h4 id="_see_also_68">See Also</h4>
 <div class="paragraph"><p>For a discussion of the difference between partial and full updates in Squeryl, see : <a href="http://squeryl.org/inserts-updates-delete.html">http://squeryl.org/inserts-updates-delete.html</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="SquerylLogging">Logging SQL</h3>
 <div class="sect3">
-<h4 id="_problem_69">Problem</h4>
+<h4 id="_problem_70">Problem</h4>
 <div class="paragraph"><p>You want to see the SQL being executed by Squeryl.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_69">Solution</h4>
+<h4 id="_solution_70">Solution</h4>
 <div class="paragraph"><p>Add the following anytime you have a Squeryl season, such as just before
 your query:</p></div>
 <div class="listingblock">
@@ -7541,7 +7633,7 @@ execute that function with the SQL it runs. In this example, we are
 simply printing the SQL to the console.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_70">Discussion</h4>
+<h4 id="_discussion_71">Discussion</h4>
 <div class="paragraph"><p>You&#8217;ll probably want to use the logging facilities in Lift to capture SQL.  For example:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">package</span> <span class="nn">code.snippet</span>
@@ -7582,7 +7674,7 @@ simply printing the SQL to the console.</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_68">See Also</h4>
+<h4 id="_see_also_69">See Also</h4>
 <div class="paragraph"><p>Squeryl <span class="monospaced">setLogger</span> is documented at: <a href="http://squeryl.org/miscellaneous.html">http://squeryl.org/miscellaneous.html</a>.</p></div>
 <div class="paragraph"><p>You can learn about logging in Lift from the Logging wiki page: <a href="https://www.assembla.com/spaces/liftweb/wiki/Logging">https://www.assembla.com/spaces/liftweb/wiki/Logging</a>.</p></div>
 </div>
@@ -7590,12 +7682,12 @@ simply printing the SQL to the console.</p></div>
 <div class="sect2">
 <h3 id="SquerylMediumText">Model a Column with MySQL MEDIUMTEXT</h3>
 <div class="sect3">
-<h4 id="_problem_70">Problem</h4>
+<h4 id="_problem_71">Problem</h4>
 <div class="paragraph"><p>You want to use MySQL&#8217;s <span class="monospaced">MEDIUMTEXT</span> for a column, but <span class="monospaced">StringField</span>
 doesn&#8217;t have this option.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_70">Solution</h4>
+<h4 id="_solution_71">Solution</h4>
 <div class="paragraph"><p>Use Squeryl&#8217;s <span class="monospaced">dbType</span> in your schema:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">object</span> <span class="nc">MySchema</span> <span class="k">extends</span> <span class="nc">Schema</span> <span class="o">{</span>
@@ -7613,7 +7705,7 @@ doesn&#8217;t have this option.</p></div>
 <div class="paragraph"><p>On the record you can use <span class="monospaced">StringField</span> as usual.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_71">Discussion</h4>
+<h4 id="_discussion_72">Discussion</h4>
 <div class="paragraph"><p>This recipe hints at the flexibility available with Squery&#8217;s schema definition DSL.  The column attribute in this example is just one of a variety of adjustments you can make to the default choices that Squeryl uses.</p></div>
 <div class="paragraph"><p>For example, you can use the syntax to chain column attributes for a single column, and also defined multiple columns at the same time:</p></div>
 <div class="listingblock">
@@ -7626,18 +7718,18 @@ doesn&#8217;t have this option.</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_69">See Also</h4>
+<h4 id="_see_also_70">See Also</h4>
 <div class="paragraph"><p>The schema definition page for Squeryl gives examples of attributes you can apply to tables and columns: <a href="http://squeryl.org/schema-definition.html">http://squeryl.org/schema-definition.html</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="MySQLCharSet">MySQL Character Set Encoding</h3>
 <div class="sect3">
-<h4 id="_problem_71">Problem</h4>
+<h4 id="_problem_72">Problem</h4>
 <div class="paragraph"><p>Some characters stored in your MySQL database are appearing as <span class="monospaced">???</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_71">Solution</h4>
+<h4 id="_solution_72">Solution</h4>
 <div class="paragraph"><p>Ensure that:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -7658,7 +7750,7 @@ Your MySQL database has been created using a UTF-8 character set.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_72">Discussion</h4>
+<h4 id="_discussion_73">Discussion</h4>
 <div class="paragraph"><p>There are a number of interactions here which can impact characters going into, and coming out of, a MySQL database.  The basic problem is that bytes transferred across networks have no meaning unless you know the encoding.</p></div>
 <div class="paragraph"><p>The <span class="monospaced">setCharacterEncoding("UTF-8")</span> call in <span class="monospaced">Boot.scala</span> is being applied to every <span class="monospaced">HTTPRequest</span> which ultimately, in a servlet container, is applied to a <span class="monospaced">ServletRequest</span>. This is how parameters in a request are going to be interpreted by the servlet container when received.</p></div>
 <div class="paragraph"><p>The flip side of this is that responses from Lift are encoded as UTF-8.  You&#8217;ll see this in a number of places. For example, <span class="monospaced">templates-hidden/default</span> includes:</p></div>
@@ -7673,7 +7765,7 @@ Your MySQL database has been created using a UTF-8 character set.
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_70">See Also</h4>
+<h4 id="_see_also_71">See Also</h4>
 <div class="paragraph"><p>The MySQL JDBC configuration guide is at: <a href="http://dev.mysql.com/doc/refman/5.6/en/connector-j-reference-configuration-properties.html">http://dev.mysql.com/doc/refman/5.6/en/connector-j-reference-configuration-properties.html</a>.</p></div>
 </div>
 </div>
@@ -7685,12 +7777,12 @@ Your MySQL database has been created using a UTF-8 character set.
 <div class="sect2">
 <h3 id="_sequence_numbers_and_existing_data">Sequence numbers and existing data</h3>
 <div class="sect3">
-<h4 id="_problem_72">Problem</h4>
+<h4 id="_problem_73">Problem</h4>
 <div class="paragraph"><p>You have a table with data in it, but Lift inserts new records with a
 primary key starting from 1, or some other value that may already exist.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_72">Solution</h4>
+<h4 id="_solution_73">Solution</h4>
 <div class="paragraph"><p>Work with the native sequence facility in your database to set the
 starting sequence value to be the value you want Lift to use.</p></div>
 <div class="paragraph"><p>The first step is to work out what value you want the sequence to start
@@ -7708,7 +7800,7 @@ value:</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_73">Discussion</h4>
+<h4 id="_discussion_74">Discussion</h4>
 <div class="paragraph"><p>Lift defers to the database sequence facility to generate primary key
 values. If you insert data by-passing the sequence, the sequence value
 will not know about the specific primary key values you have used (this
@@ -7718,7 +7810,7 @@ your database.</p></div>
 <div class="paragraph"><p>The same instructions apply for using Record as well as Mapper.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_71">See Also</h4>
+<h4 id="_see_also_72">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -7748,12 +7840,12 @@ describes how to use ALTER TABLE to change the sequence value.
 <div class="sect2">
 <h3 id="_detect_if_the_schema_has_changed">Detect if the schema has changed</h3>
 <div class="sect3">
-<h4 id="_problem_73">Problem</h4>
+<h4 id="_problem_74">Problem</h4>
 <div class="paragraph"><p>You do not want to automatically migrate your schema, but you want to
 know if it is out of date.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_73">Solution</h4>
+<h4 id="_solution_74">Solution</h4>
 <div class="paragraph"><p>Run <span class="monospaced">Schemifier</span> and capture the changes it would make if allowed. For
 example, in <span class="monospaced">Boot.scala</span>:</p></div>
 <div class="listingblock">
@@ -7766,7 +7858,7 @@ example, in <span class="monospaced">Boot.scala</span>:</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_74">Discussion</h4>
+<h4 id="_discussion_75">Discussion</h4>
 <div class="paragraph"><p>The arguments and return value for <span class="monospaced">schemify</span> are:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -7799,7 +7891,7 @@ The result is a <span class="monospaced">List[String]</span> which are the state
 best fit your needs.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_72">See Also</h4>
+<h4 id="_see_also_73">See Also</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -7826,11 +7918,11 @@ application. For recipes regarding Mongo itself, check out the MongoDB Cookbook 
 <div class="sect2">
 <h3 id="ConnectingToMongo">Connecting to a Mongo Database</h3>
 <div class="sect3">
-<h4 id="_problem_74">Problem</h4>
+<h4 id="_problem_75">Problem</h4>
 <div class="paragraph"><p>You want to connect to a MongoDB.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_74">Solution</h4>
+<h4 id="_solution_75">Solution</h4>
 <div class="paragraph"><p>Add the Lift Mongo dependencies to your build and configure a connection using <span class="monospaced">net.liftweb.mongodb</span> and <span class="monospaced">com.mongodb</span>.</p></div>
 <div class="paragraph"><p>In <span class="monospaced">Build.sbt</span> add the following to <span class="monospaced">libraryDependencies</span>:</p></div>
 <div class="listingblock">
@@ -7841,14 +7933,14 @@ application. For recipes regarding Mongo itself, check out the MongoDB Cookbook 
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.mongodb.</span><span class="o">{</span><span class="nc">ServerAddress</span><span class="o">,</span> <span class="nc">Mongo</span><span class="o">}</span>
 <span class="k">import</span> <span class="nn">net.liftweb.mongodb.</span><span class="o">{</span><span class="nc">MongoDB</span><span class="o">,</span><span class="nc">DefaultMongoIdentifier</span><span class="o">}</span>
 
-<span class="k">val</span> <span class="n">server</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ServerAddress</span><span class="o">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="o">,</span> <span class="mi">20717</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">server</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ServerAddress</span><span class="o">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="o">,</span> <span class="mi">27017</span><span class="o">)</span>
 <span class="nc">MongoDB</span><span class="o">.</span><span class="n">defineDb</span><span class="o">(</span><span class="nc">DefaultMongoIdentifier</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Mongo</span><span class="o">(</span><span class="n">server</span><span class="o">),</span> <span class="s">&quot;mydb&quot;</span><span class="o">)</span>
 </pre></div></div></div>
 <div class="paragraph"><p>This will give you a connection to a local MongoDB database called
 "mydb".</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_75">Discussion</h4>
+<h4 id="_discussion_76">Discussion</h4>
 <div class="paragraph"><p>If your database needs authentication, use <span class="monospaced">MongoDB.defineDbAuth</span>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">MongoDB</span><span class="o">.</span><span class="n">defineDbAuth</span><span class="o">(</span><span class="nc">DefaultMongoIdentifier</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Mongo</span><span class="o">(</span><span class="n">server</span><span class="o">),</span>
@@ -7901,7 +7993,7 @@ using <span class="monospaced">java.net.URI</span> to parse the URL and make a c
 <div class="paragraph"><p>The <span class="monospaced">lift-mongodb-record</span> dependency itself depends on another Lift module, <span class="monospaced">lift-mongodb</span>, which provides connectivity and other other lower-level access to MongoDB. Both bottom out with the MongoDB Java driver.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_73">See Also</h4>
+<h4 id="_see_also_74">See Also</h4>
 <div class="paragraph"><p>Connection configuration that includes replica sets and Mongo options, such as timeout settings, are described on the Lift wiki at:  <a href="https://www.assembla.com/wiki/show/liftweb/Mongo_Configuration">https://www.assembla.com/wiki/show/liftweb/Mongo_Configuration</a>.</p></div>
 <div class="paragraph"><p>The full specification for Mongo connection URLs is: <a href="http://docs.mongodb.org/manual/reference/connection-string/">http://docs.mongodb.org/manual/reference/connection-string/</a>.</p></div>
 </div>
@@ -7909,11 +8001,11 @@ using <span class="monospaced">java.net.URI</span> to parse the URL and make a c
 <div class="sect2">
 <h3 id="MongoHashMap">Storing a HashMap in a Mongo Record</h3>
 <div class="sect3">
-<h4 id="_problem_75">Problem</h4>
+<h4 id="_problem_76">Problem</h4>
 <div class="paragraph"><p>You want to store a hash map in Mongo.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_75">Solution</h4>
+<h4 id="_solution_76">Solution</h4>
 <div class="paragraph"><p>Create a Mongo Record which contains a <span class="monospaced">MongoMapField</span>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">net.liftweb.mongodb.record._</span>
@@ -7987,7 +8079,7 @@ system.indexes
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_76">Discussion</h4>
+<h4 id="_discussion_77">Discussion</h4>
 <div class="paragraph"><p>If you do not set a value for the map, the default will be an empty map, represented in Mongo
 as:</p></div>
 <div class="listingblock">
@@ -8037,19 +8129,19 @@ runtime.</p></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_74">See Also</h4>
+<h4 id="_see_also_75">See Also</h4>
 <div class="paragraph"><p>A discussion on the mailing list regarding the limited type support in <span class="monospaced">MongoMapField</span> and a possible way around it by overriding <span class="monospaced">asDBObject</span> can be found at: <a href="https://groups.google.com/d/msg/liftweb/XoseG-8mIPc/OLyIu6FrHIgJ">https://groups.google.com/d/msg/liftweb/XoseG-8mIPc/OLyIu6FrHIgJ</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="MongoEmbedding">Embedding a Document Inside a Mongo Record</h3>
 <div class="sect3">
-<h4 id="_problem_76">Problem</h4>
+<h4 id="_problem_77">Problem</h4>
 <div class="paragraph"><p>You have a Mongo record, and you want to embed another set of values
 inside it as a single entity.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_76">Solution</h4>
+<h4 id="_solution_77">Solution</h4>
 <div class="paragraph"><p>Use <span class="monospaced">BsonRecord</span> to define the document to embed, and embed it using
 <span class="monospaced">BsonRecordField</span>. Here&#8217;s an example of storing information about an
 image within a record:</p></div>
@@ -8098,7 +8190,7 @@ image within a record:</p></div>
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_77">Discussion</h4>
+<h4 id="_discussion_78">Discussion</h4>
 <div class="paragraph"><p>If you don&#8217;t set a value on the embedded document, the default will be
 saved as:</p></div>
 <div class="listingblock">
@@ -8128,18 +8220,18 @@ document:</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_75">See Also</h4>
+<h4 id="_see_also_76">See Also</h4>
 <div class="paragraph"><p>The Lift Wiki describes BsonRecord in more detail at: <a href="https://www.assembla.com/spaces/liftweb/wiki/Mongo_Record_Embedded_Objects">https://www.assembla.com/spaces/liftweb/wiki/Mongo_Record_Embedded_Objects</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_linking_between_mongo_records">Linking Between Mongo Records</h3>
 <div class="sect3">
-<h4 id="_problem_77">Problem</h4>
+<h4 id="_problem_78">Problem</h4>
 <div class="paragraph"><p>You have a Mongo record and want to include a link to another record.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_77">Solution</h4>
+<h4 id="_solution_78">Solution</h4>
 <div class="paragraph"><p>Create a reference using a <span class="monospaced">MongoRefField</span> such as <span class="monospaced">ObjectIdRefField</span> or
 <span class="monospaced">StringRefField</span>, and dereference the record using the <span class="monospaced">obj</span> call.</p></div>
 <div class="paragraph"><p>As an example we can create records representing countries, where a
@@ -8186,7 +8278,7 @@ then referenced in the <span class="monospaced">planet</span> field with the id 
 <span class="monospaced">Box[Planet]</span> in this example.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_78">Discussion</h4>
+<h4 id="_discussion_79">Discussion</h4>
 <div class="paragraph"><p>Referenced records are fetched from Mongo when you call the <span class="monospaced">obj</span> method
 on a <span class="monospaced">MongoRefField</span>. You can see this by turning on logging in the
 Mongo driver. Do this by adding the following to the start of your
@@ -8288,18 +8380,18 @@ the object being referenced, a later call to <span class="monospaced">obj</span>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_76">See Also</h4>
+<h4 id="_see_also_77">See Also</h4>
 <div class="paragraph"><p>10Gen Inc&#8217;s <em>Data Modeling Decisions</em> describes embedding of documents compared to referencing objects. You&#8217;ll find the article at: <a href="http://docs.mongodb.org/manual/core/data-modeling/">http://docs.mongodb.org/manual/core/data-modeling/</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="QueryingWithRogue">Using Rogue</h3>
 <div class="sect3">
-<h4 id="_problem_78">Problem</h4>
+<h4 id="_problem_79">Problem</h4>
 <div class="paragraph"><p>You want to use Foursquare&#8217;s type-safe domain specific language (DSL), Rogue, for querying and updating Mongo records.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_78">Solution</h4>
+<h4 id="_solution_79">Solution</h4>
 <div class="paragraph"><p>You need to include the Rogue dependency in your build and import Rogue into your code.</p></div>
 <div class="paragraph"><p>For the first step, edit <span class="monospaced">build.sbt</span> and add:</p></div>
 <div class="listingblock">
@@ -8325,7 +8417,7 @@ the object being referenced, a later call to <span class="monospaced">obj</span>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_79">Discussion</h4>
+<h4 id="_discussion_80">Discussion</h4>
 <div class="paragraph"><p>Rogue is able to use information in your Lift Record to offer an elegant way to query and update records. It&#8217;s type safe meaning, for example, if you try to use an <span class="monospaced">Int</span> where a <span class="monospaced">String</span> is expected in a query, Mongo would allow that and fail to find results at runtime, but Rogue enables Scala to reject the query at compile timeRogue</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="nc">Country</span><span class="o">.</span><span class="n">where</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">id</span> <span class="n">eqs</span> <span class="mi">7</span><span class="o">).</span><span class="n">fetch</span>
@@ -8385,7 +8477,7 @@ mailing list at: <a href="https://groups.google.com/d/topic/rogue-users/SdtFCU-w
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_77">See Also</h4>
+<h4 id="_see_also_78">See Also</h4>
 <div class="paragraph"><p>For geospacial queries, see <a href="#MongoGeospatial">[MongoGeospatial]</a>.</p></div>
 <div class="paragraph"><p>The README page for Rogue is a great starting point, and includes a link to <span class="monospaced">QueryTest</span> giving plenty of example queries to crib from: <a href="https://github.com/foursquare/rogue">https://github.com/foursquare/rogue</a>.</p></div>
 <div class="paragraph"><p>The motivation for Rogue is described in a Foursquare engineering blog post: <a href="http://engineering.foursquare.com/2011/01/21/rogue-a-type-safe-scala-dsl-for-querying-mongodb/">http://engineering.foursquare.com/2011/01/21/rogue-a-type-safe-scala-dsl-for-querying-mongodb/</a>.</p></div>
@@ -8394,11 +8486,11 @@ mailing list at: <a href="https://groups.google.com/d/topic/rogue-users/SdtFCU-w
 <div class="sect2">
 <h3 id="MongoGeospatial">Storing Geospatial Values</h3>
 <div class="sect3">
-<h4 id="_problem_79">Problem</h4>
+<h4 id="_problem_80">Problem</h4>
 <div class="paragraph"><p>You want to store latitude and longitude information in Mongo.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_79">Solution</h4>
+<h4 id="_solution_80">Solution</h4>
 <div class="paragraph"><p>Use Rogue&#8217;s <span class="monospaced">LatLong</span> class to embed location information in your model. For
 example, we can store the location of a city like this:</p></div>
 <div class="listingblock">
@@ -8438,7 +8530,7 @@ example, we can store the location of a city like this:</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_80">Discussion</h4>
+<h4 id="_discussion_81">Discussion</h4>
 <div class="paragraph"><p>MongoDB supports <em>geospatial indexes</em>, and we&#8217;re making use of this by doing two things.  First,
 we are storing the location information in one of MongoDB&#8217;s permitted formats.  The format is
 an embedding document containing the coordinates. We could also have use a array of two values
@@ -8498,7 +8590,7 @@ us an angle in radians. We convert this to <span class="monospaced">Degrees</spa
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_78">See Also</h4>
+<h4 id="_see_also_79">See Also</h4>
 <div class="paragraph"><p>The MongoDB manual discusses geospatial index at: <a href="http://docs.mongodb.org/manual/core/geospatial-indexes/">http://docs.mongodb.org/manual/core/geospatial-indexes/</a>.</p></div>
 <div class="paragraph"><p>You can learn more about write concerns at <a href="http://docs.mongodb.org/manual/core/write-operations/">http://docs.mongodb.org/manual/core/write-operations/</a>, and
 the various values to pass to <span class="monospaced">save</span> are described in the Java MongoDB driver: <a href="http://api.mongodb.org/java/current/">http://api.mongodb.org/java/current/</a>.</p></div>
@@ -8507,11 +8599,11 @@ the various values to pass to <span class="monospaced">save</span> are described
 <div class="sect2">
 <h3 id="MongoScalaConsole">Running Queries from the Scala Console</h3>
 <div class="sect3">
-<h4 id="_problem_80">Problem</h4>
+<h4 id="_problem_81">Problem</h4>
 <div class="paragraph"><p>You want to try out a few queries interactively from the Scala console.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_80">Solution</h4>
+<h4 id="_solution_81">Solution</h4>
 <div class="paragraph"><p>Start the console from your project, call <span class="monospaced">boot()</span>, and then interact with your model.</p></div>
 <div class="paragraph"><p>For example, using the
 Mongo records developed as part of <a href="#ConnectingToMongo">[ConnectingToMongo]</a>, we can perform a basic query:</p></div>
@@ -8544,7 +8636,7 @@ scala&gt; :q</pre>
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_81">Discussion</h4>
+<h4 id="_discussion_82">Discussion</h4>
 <div class="paragraph"><p>Running everything in <span class="monospaced">Boot</span> may be a little heavy handed, especially if you starting up various services and background tasks.  All we need to do is define a database connection. For example, using the example code presented in <a href="#ConnectingToMongo">[ConnectingToMongo]</a>, we could initialise a conection with:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
@@ -8564,18 +8656,18 @@ res2: List[code.model.Country] = List(class code.model.Country={_id=uk,
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_79">See Also</h4>
+<h4 id="_see_also_80">See Also</h4>
 <div class="paragraph"><p><a href="#ConnectingToMongo">[ConnectingToMongo]</a> for connecting to MongoDB and <a href="#QueryingWithRogue">[QueryingWithRogue]</a> for querying with Rogue.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="MongoUnitTest">Unit Testing Record with Mongo</h3>
 <div class="sect3">
-<h4 id="_problem_81">Problem</h4>
+<h4 id="_problem_82">Problem</h4>
 <div class="paragraph"><p>You want to write unit tests to run against your Lift Record code with MongoDB.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_81">Solution</h4>
+<h4 id="_solution_82">Solution</h4>
 <div class="paragraph"><p>Using the Specs2 testing framework, surround your specification with a <em>context</em> which creates and connects to a database for each test and destroys it after the test runs.</p></div>
 <div class="paragraph"><p>Create a Scala trait to set up and destroy a connection to Mongo.  We&#8217;ll be mixing this trait into your specifications:</p></div>
 <div class="listingblock">
@@ -8661,7 +8753,7 @@ res2: List[code.model.Country] = List(class code.model.Country={_id=uk,
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_82">Discussion</h4>
+<h4 id="_discussion_83">Discussion</h4>
 <div class="paragraph"><p>Lift normally provides all the scaffolding you need to connect and run against MongoDB. Without a running Lift application, we need to ensure Mongo is configured when our tests run outside of Lift, and that&#8217;s what the <span class="monospaced">MongoTestKit</span> trait is providing for us.</p></div>
 <div class="paragraph"><p>The one unusual part of the test set up is including a <span class="monospaced">TestLiftSession</span>. This provides an empty session around your test, which is useful if you are accessing or testing state-related code (e.g., access to <span class="monospaced">S</span>).  It&#8217;s not strictly necessary for running tests against Record, but it has been included here because you may want to do that at some point, for example if you are testing user login via Mongo Records.</p></div>
 <div class="paragraph"><p>There are a few nice tricks in SBT to help you run tests. Running <span class="monospaced">test</span> will run all the tests in your project. If you want to focus on just one test, you can:</p></div>
@@ -8713,7 +8805,7 @@ res2: List[code.model.Country] = List(class code.model.Country={_id=uk,
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_80">See Also</h4>
+<h4 id="_see_also_81">See Also</h4>
 <div class="paragraph"><p>Specs2 is documented at: <a href="http://specs2.org/">http://specs2.org/</a>.</p></div>
 <div class="paragraph"><p>If you prefer to use the Scala Test framework (<a href="http://www.scalatest.org">http://www.scalatest.org</a>), take a look at Tim Nelson&#8217;s <em>Mongo Auth</em> Lift module at <a href="https://github.com/eltimn/lift-mongoauth">https://github.com/eltimn/lift-mongoauth</a>. It includes tests using that framework that run against Mongo.  Much of what Tim has written there has been used to produce this recipe for Specs2.</p></div>
 <div class="paragraph"><p>The Lift Mongo Record library includes a variation on testing with Specs2, using just <span class="monospaced">Before</span> and <span class="monospaced">After</span> rather than the <span class="monospaced">around</span> example used in this recipe. If you prefer that approach, you&#8217;ll find the code in: <a href="https://github.com/lift/framework/tree/master/persistence/mongodb-record/src/test/scala/net/liftweb/mongodb/record">https://github.com/lift/framework/tree/master/persistence/mongodb-record/src/test/scala/net/liftweb/mongodb/record</a>.</p></div>
@@ -8734,11 +8826,11 @@ as sending email or scheduling tasks.</p></div>
 <div class="sect2">
 <h3 id="SendTextEmail">Sending Plain Text Email</h3>
 <div class="sect3">
-<h4 id="_problem_82">Problem</h4>
+<h4 id="_problem_83">Problem</h4>
 <div class="paragraph"><p>You want to send a plain text email from your Lift application.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_82">Solution</h4>
+<h4 id="_solution_83">Solution</h4>
 <div class="paragraph"><p>Use the <span class="monospaced">Mailer</span>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">net.liftweb.util.Mailer</span>
@@ -8752,7 +8844,7 @@ as sending email or scheduling tasks.</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_83">Discussion</h4>
+<h4 id="_discussion_84">Discussion</h4>
 <div class="paragraph"><p><span class="monospaced">Mailer</span> sends the message asynchronously, meaning <span class="monospaced">sendMail</span> will
 return immediately, so you don&#8217;t have to worry about the time costs of
 negotiating with an SMTP server. There&#8217;s also a <span class="monospaced">blockingSendMail</span>
@@ -8838,7 +8930,7 @@ the use of <span class="monospaced">PlainMailBodyType</span> with
 <span class="monospaced">PlainPlusBodyType("Hello from Lift", "ISO8859_1")</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_81">See Also</h4>
+<h4 id="_see_also_82">See Also</h4>
 <div class="paragraph"><p><a href="#EmailWithAttachments">[EmailWithAttachments]</a> describes email with attachments.</p></div>
 <div class="paragraph"><p>For HTML email, see <a href="#HTMLEmail">[HTMLEmail]</a>.</p></div>
 </div>
@@ -8846,12 +8938,12 @@ the use of <span class="monospaced">PlainMailBodyType</span> with
 <div class="sect2">
 <h3 id="LogEmail">Logging Email Rather Than Sending</h3>
 <div class="sect3">
-<h4 id="_problem_83">Problem</h4>
+<h4 id="_problem_84">Problem</h4>
 <div class="paragraph"><p>You don&#8217;t want email sent when developing your Lift application locally,
 but you do want to see what would have been sent.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_83">Solution</h4>
+<h4 id="_solution_84">Solution</h4>
 <div class="paragraph"><p>Assign a logging function to <span class="monospaced">Mailer.devModeSend</span> in <span class="monospaced">Boot.scala</span>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">net.liftweb.util.Mailer._</span>
@@ -8869,7 +8961,7 @@ instead you&#8217;ll see output to your log:</p></div>
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_84">Discussion</h4>
+<h4 id="_discussion_85">Discussion</h4>
 <div class="paragraph"><p>The Lift Mailer allows you to control how email is sent at each run mode:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -8973,18 +9065,18 @@ DEBUG SMTP: trying to connect to host "localhost", port 25, isSSL false
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_82">See Also</h4>
+<h4 id="_see_also_83">See Also</h4>
 <div class="paragraph"><p>Run modes are described at: <a href="https://www.assembla.com/spaces/liftweb/wiki/Run_Modes">https://www.assembla.com/spaces/liftweb/wiki/Run_Modes</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="HTMLEmail">Sending HTML email</h3>
 <div class="sect3">
-<h4 id="_problem_84">Problem</h4>
+<h4 id="_problem_85">Problem</h4>
 <div class="paragraph"><p>You want to send an HTML email from your Lift application.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_84">Solution</h4>
+<h4 id="_solution_85">Solution</h4>
 <div class="paragraph"><p>Give <span class="monospaced">Mailer</span> a <span class="monospaced">NodeSeq</span> containing your HTML message:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">net.liftweb.util.Mailer</span>
@@ -9007,7 +9099,7 @@ DEBUG SMTP: trying to connect to host "localhost", port 25, isSSL false
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_85">Discussion</h4>
+<h4 id="_discussion_86">Discussion</h4>
 <div class="paragraph"><p>An implicit converts the <span class="monospaced">NodeSeq</span> into a <span class="monospaced">XHTMLMailBodyType</span>. This
 ensures the mime type of the email is "text/html". Despite the name of
 "XHTML", the message is to converted for transmission using
@@ -9064,18 +9156,18 @@ Content-Transfer-Encoding: 7bit
 <div class="paragraph"><p>When receiving a message with this content, it is up to the mail client to decide which version to show (text or HTML).</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_83">See Also</h4>
+<h4 id="_see_also_84">See Also</h4>
 <div class="paragraph"><p>For sending with attachments, see <a href="#EmailWithAttachments">[EmailWithAttachments]</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="AuthEmail">Sending Authenticated Email</h3>
 <div class="sect3">
-<h4 id="_problem_85">Problem</h4>
+<h4 id="_problem_86">Problem</h4>
 <div class="paragraph"><p>You need to authenticate with an SMTP server to send email.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_85">Solution</h4>
+<h4 id="_solution_86">Solution</h4>
 <div class="paragraph"><p>Set the <span class="monospaced">Mailer.authenticator</span> in <span class="monospaced">Boot</span> with the credentials for your
 SMTP server, and enable the <span class="monospaced">mail.smtp.auth</span> flag in your Lift properties
 file.</p></div>
@@ -9104,7 +9196,7 @@ properties, so we need to modify
 <div class="paragraph"><p>When you send email, the credentials in <span class="monospaced">default.props</span> will be used to authenticate with the SMTP server.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_86">Discussion</h4>
+<h4 id="_discussion_87">Discussion</h4>
 <div class="paragraph"><p>We&#8217;ve used Lift properties as a way to configure SMTP authentication.
 This has the benefit of allowing us to enable authentication for just
 some run modes. For example, if our <span class="monospaced">default.props</span> did not contain
@@ -9116,18 +9208,18 @@ also supports JNDI, or you could lookup a username and password some other way a
 <div class="paragraph"><p>However, some mail services such as SendGrid do require <span class="monospaced">mail.smtp.auth=true</span> to be set, and that should go into your Lift properties file or set as a JVM argument: <span class="monospaced">-Dmail.smtp.auth=true</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_84">See Also</h4>
+<h4 id="_see_also_85">See Also</h4>
 <div class="paragraph"><p>As well as <span class="monospaced">mail.smtp.auth</span> there are a range of settings to control the Java Mail API. examples include controlling port numbers and timeouts.  These are listed at: <a href="http://javamail.kenai.com/nonav/javadocs/com/sun/mail/smtp/package-summary.html">http://javamail.kenai.com/nonav/javadocs/com/sun/mail/smtp/package-summary.html</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="EmailWithAttachments">Sending Email with Attachments</h3>
 <div class="sect3">
-<h4 id="_problem_86">Problem</h4>
+<h4 id="_problem_87">Problem</h4>
 <div class="paragraph"><p>You want to send an email with one or more attachments.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_86">Solution</h4>
+<h4 id="_solution_87">Solution</h4>
 <div class="paragraph"><p>Use the <span class="monospaced">Mailer</span> <span class="monospaced">XHTMLPlusImages</span> to package a message with one or more attachments.</p></div>
 <div class="paragraph"><p>Suppose we want to construct a CSV file and send it via email:</p></div>
 <div class="listingblock">
@@ -9156,7 +9248,7 @@ also supports JNDI, or you could lookup a username and password some other way a
 a body message and attachment.  The attachment, the <span class="monospaced">PlusImageHolder</span>, is an <span class="monospaced">Array[Byte]</span>, mime-type and a filename.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_87">Discussion</h4>
+<h4 id="_discussion_88">Discussion</h4>
 <div class="paragraph"><p><span class="monospaced">XHTMLPlusImages</span> can also accept more than one <span class="monospaced">PlusImageHolder</span> if you
 have more than one file to attach.  Although the name <span class="monospaced">PlusImageHolder</span> may suggest it is for attachment images, you can attach any kind of data as an <span class="monospaced">Array[Byte]</span> with an appropriate mime type.</p></div>
 <div class="paragraph"><p>By default the attachment is sent with an "inline" disposition. This controls the <span class="monospaced">Content-Disposition</span> header in the message, and "inline" means the content is intended for display automatically when the message is shown.  The alternative is "attachment", and this can be indicated with a option final parameter to <span class="monospaced">PlusImageHolder</span>:</p></div>
@@ -9190,7 +9282,7 @@ have more than one file to attach.  Although the name <span class="monospaced">P
 <div class="paragraph"><p>The <span class="monospaced">loadResource</span> returns a <span class="monospaced">Box[Array[Byte]]</span> as we have no guarantee the file will exist. We map this to a <span class="monospaced">Box[XHTMLPlusImages]</span> and match on that result to either send the email, or log that the file wasn&#8217;t found.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_85">See Also</h4>
+<h4 id="_see_also_86">See Also</h4>
 <div class="paragraph"><p>Messages are sent using the "multipart/related" mime heading, with an "inline" disposition.  Lift ticket #1197 links to a discussion regarding "multipart/mixed" which may be preferable for working around issues with Microsoft Exchange. See: <a href="https://github.com/lift/framework/issues/1197">https://github.com/lift/framework/issues/1197</a>.</p></div>
 <div class="paragraph"><p>RFC 2183 describes the "Content-Disposition" header: <a href="http://www.ietf.org/rfc/rfc2183.txt">http://www.ietf.org/rfc/rfc2183.txt</a>.</p></div>
 </div>
@@ -9198,11 +9290,11 @@ have more than one file to attach.  Although the name <span class="monospaced">P
 <div class="sect2">
 <h3 id="RunLater">Run a Task Later</h3>
 <div class="sect3">
-<h4 id="_problem_87">Problem</h4>
+<h4 id="_problem_88">Problem</h4>
 <div class="paragraph"><p>You want to schedule code to run at some future time.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_87">Solution</h4>
+<h4 id="_solution_88">Solution</h4>
 <div class="paragraph"><p>Use <span class="monospaced">net.liftweb.util.Schedule</span>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">net.liftweb.util.Schedule</span>
@@ -9214,7 +9306,7 @@ have more than one file to attach.  Although the name <span class="monospaced">P
 seconds from now.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_88">Discussion</h4>
+<h4 id="_discussion_89">Discussion</h4>
 <div class="paragraph"><p>The signature for <span class="monospaced">Schedule</span> used above expects a function of type <span class="monospaced">() =&gt; Unit</span>, which is the thing we want to happen in the future, and a <span class="monospaced">TimeSpan</span> from Lift&#8217;s <span class="monospaced">TimeHelpers</span> which is when we want it to happen.  The <span class="monospaced">30 seconds</span> value gives us a <span class="monospaced">TimeSpan</span> via the <span class="monospaced">Helpers._</span> import, but there&#8217;s a variation which accepts a <span class="monospaced">Long</span> millisecond value if you prefer that:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">Schedule</span><span class="o">.</span><span class="n">perform</span><span class="o">(()</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="s">&quot;doing it&quot;</span><span class="o">),</span> <span class="mi">30</span><span class="o">*</span><span class="mi">1000L</span><span class="o">)</span>
@@ -9225,7 +9317,7 @@ seconds from now.</p></div>
 actor a specified message after a given delay.  This takes a <span class="monospaced">TimeSpan</span> delay, but again there&#8217;s also a <span class="monospaced">Schedule.perform</span> version that accepts a <span class="monospaced">Long</span> as a delay.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_86">See Also</h4>
+<h4 id="_see_also_87">See Also</h4>
 <div class="paragraph"><p><a href="#RunTasksPeriodically">[RunTasksPeriodically]</a> includes an example of scheduling with actors.</p></div>
 <div class="paragraph"><p><span class="monospaced">ScheduledFuture</span> is documented via the Java Doc for <span class="monospaced">Future</span> at: <a href="http://docs.oracle.com/javase/6/docs/api/java/util/concurrent/Future.html">http://docs.oracle.com/javase/6/docs/api/java/util/concurrent/Future.html</a>.  If you&#8217;re building complex, low-level, cancellable concurrency functions, it&#8217;s advisable to have a copy of <em>Java Concurrency in Practice</em> close by (Goetz <em>et al.</em>, 2006, Addison-Wesley Professional).</p></div>
 </div>
@@ -9233,11 +9325,11 @@ actor a specified message after a given delay.  This takes a <span class="monosp
 <div class="sect2">
 <h3 id="RunTasksPeriodically">Run Tasks Periodically</h3>
 <div class="sect3">
-<h4 id="_problem_88">Problem</h4>
+<h4 id="_problem_89">Problem</h4>
 <div class="paragraph"><p>You want a scheduled task to run periodically (repeatedly).</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_88">Solution</h4>
+<h4 id="_solution_89">Solution</h4>
 <div class="paragraph"><p>Use <span class="monospaced">net.liftweb.util.Schedule</span> ensuring that you call <span class="monospaced">schedule</span> again
 during your task to re-schedule it. For example, using an actor:</p></div>
 <div class="listingblock">
@@ -9268,7 +9360,7 @@ useful work needs to be done. In this way, the actor will be called
 every 10 minutes.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_89">Discussion</h4>
+<h4 id="_discussion_90">Discussion</h4>
 <div class="paragraph"><p>The <span class="monospaced">Schedule.schedule</span> call is ensuring that <span class="monospaced">this</span> actor is sent the
 <span class="monospaced">DoIt</span> message after 10 minutes.</p></div>
 <div class="paragraph"><p>To start this process off, possibly in <span class="monospaced">Boot.scala</span>, just send the
@@ -9290,18 +9382,18 @@ schedule tasks after issuing the <span class="monospaced">container:stop</span> 
 library, which allows you to <span class="monospaced">cancel</span> the activity.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_87">See Also</h4>
+<h4 id="_see_also_88">See Also</h4>
 <div class="paragraph"><p>Chapter 1 of <em>Lift in Action</em> (Perrett, 2011, Manning Publications Co) includes a Comet Actor clock example that uses <span class="monospaced">Schedule</span>.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="FetchURLs">Fetching URLs</h3>
 <div class="sect3">
-<h4 id="_problem_89">Problem</h4>
+<h4 id="_problem_90">Problem</h4>
 <div class="paragraph"><p>You want your Lift application to fetch a URL, and process it as text, JSON, XML or HTML.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_89">Solution</h4>
+<h4 id="_solution_90">Solution</h4>
 <div class="paragraph"><p>Use <em>Dispatch</em>, "a library for asynchronous HTTP interaction".</p></div>
 <div class="paragraph"><p>Before you start, include Dispatch dependency in your <span class="monospaced">build.sbt</span> file:</p></div>
 <div class="listingblock">
@@ -9319,7 +9411,7 @@ library, which allows you to <span class="monospaced">cancel</span> the activity
 <div class="paragraph"><p>The result printed will be a country code such as <span class="monospaced">GB</span>, or <span class="monospaced">XX</span> if the country cannot be determined from your IP address.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_90">Discussion</h4>
+<h4 id="_discussion_91">Discussion</h4>
 <div class="paragraph"><p>This short example expects a 200 (OK) status result and turns the result into a <span class="monospaced">String</span>, but that a tiny part of what Dispatch is capable of.  We&#8217;ll explore further in this section.</p></div>
 <div class="paragraph"><p>What if the request doesn&#8217;t return a 200? In that case, with the code we have, we&#8217;d get an exception such as: "Unexpected response status: 404". There are a few ways to change that.</p></div>
 <div class="paragraph"><p>We can ask for an <span class="monospaced">Option</span>:</p></div>
@@ -9419,7 +9511,7 @@ library, which allows you to <span class="monospaced">cancel</span> the activity
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_88">See Also</h4>
+<h4 id="_see_also_89">See Also</h4>
 <div class="paragraph"><p>The Dispatch documentation is well-written and guides you through the way Dispatch approaches HTTP.  Do spend some time with it at: <a href="http://dispatch.databinder.net/Dispatch.html">http://dispatch.databinder.net/Dispatch.html</a>.</p></div>
 <div class="paragraph"><p>To see what&#8217;s available on Dispatch&#8217;s <span class="monospaced">Promise</span>, browse the source: <a href="https://github.com/dispatch/reboot/blob/master/core/src/main/scala/promise.scala">https://github.com/dispatch/reboot/blob/master/core/src/main/scala/promise.scala</a>.</p></div>
 <div class="paragraph"><p>For questions about Dispatch, the best place is the Dispatch Google Group: <a href="https://groups.google.com/forum/!forum/dispatch-scala">https://groups.google.com/forum/!forum/dispatch-scala</a>.</p></div>
@@ -9459,12 +9551,12 @@ Tanuj Khare (2012) <em>Apache Tomcat 7 Essentials</em>, Packt Publishing.
 <div class="sect2">
 <h3 id="CloudBees">Deploying to CloudBees</h3>
 <div class="sect3">
-<h4 id="_problem_90">Problem</h4>
+<h4 id="_problem_91">Problem</h4>
 <div class="paragraph"><p>You have an account with the CloudBees PaaS hosting environment, and you
 want to deploy your Lift application there.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_90">Solution</h4>
+<h4 id="_solution_91">Solution</h4>
 <div class="paragraph"><p>Use the SBT <span class="monospaced">package</span> command to produce a WAR file that can be deployed
 to CloudBees, and then use the CloudBees SDK to configure and deploy your
 application.</p></div>
@@ -9494,7 +9586,7 @@ to take effect. Deploying the application will do this, otherwise run the <span 
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_91">Discussion</h4>
+<h4 id="_discussion_92">Discussion</h4>
 <div class="paragraph"><p>If you are deploying an application to multiple CloudBees
 instances, be aware that by default CloudBees will round robin requests
 to each instance. If you use any of Lift&#8217;s state features you&#8217;ll want to
@@ -9664,7 +9756,7 @@ serverPool      : stax-global <span class="o">(</span>Stax Global Pool<span clas
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_89">See Also</h4>
+<h4 id="_see_also_90">See Also</h4>
 <div class="paragraph"><p>The CloudBees SDK provides command line tools for configuring and controlling applications. It can be found at <a href="https://wiki.cloudbees.com/bin/view/RUN/BeesSDK">https://wiki.cloudbees.com/bin/view/RUN/BeesSDK</a>.</p></div>
 <div class="paragraph"><p>The CloudBees developer portal (<a href="https://developer.cloudbees.com">https://developer.cloudbees.com</a>)contains a "Resources" section which provides details of the CloudBees services.</p></div>
 <div class="paragraph"><p>The JVM PermGen settings for CloudBees are described at <a href="https://wiki.cloudbees.com/bin/view/RUN/JVM+PermGen+Space">https://wiki.cloudbees.com/bin/view/RUN/JVM+PermGen+Space</a>, and settings for which JVM is used can be found at <a href="https://developer.cloudbees.com/bin/view/RUN/JVMVersion">https://developer.cloudbees.com/bin/view/RUN/JVMVersion</a>. For information about the containers, see: <a href="https://developer.cloudbees.com/bin/view/RUN/ClickStack">https://developer.cloudbees.com/bin/view/RUN/ClickStack</a>.</p></div>
@@ -9675,11 +9767,11 @@ instructions for installing and configuring it can be found at <a href="https://
 <div class="sect2">
 <h3 id="Beanstalk">Deploying to Amazon Elastic Beanstalk</h3>
 <div class="sect3">
-<h4 id="_problem_91">Problem</h4>
+<h4 id="_problem_92">Problem</h4>
 <div class="paragraph"><p>You want to run your Lift application on Amazon Web Services (AWS) Elastic Beanstalk.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_91">Solution</h4>
+<h4 id="_solution_92">Solution</h4>
 <div class="paragraph"><p>Create a new Tomcat 7 <em>environment</em>, use SBT to package your Lift application as a WAR file, and then deploy the application to your environment.</p></div>
 <div class="paragraph"><p>To create a new environment, visit the AWS console, navigate to Elastic Beanstalk and select "Apache Tomcat 7" as your environment. This will create and launch a default Beanstalk application. This will take a few minutes, but eventually report "Successfully running version Sample Application". You&#8217;ll be shown the URL of the application (something like <span class="monospaced">http://default-environment-nsdmixm7ja.elasticbeanstalk.com</span>) and visiting the URL you&#8217;re given will show the running default Amazon application.</p></div>
 <div class="paragraph"><p>Prepare your WAR file by running:</p></div>
@@ -9697,7 +9789,7 @@ instructions for installing and configuring it can be found at <a href="https://
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_92">Discussion</h4>
+<h4 id="_discussion_93">Discussion</h4>
 <div class="paragraph"><p>Elastic Beanstalk provides a pre-built stack of software and infrastructure, in this case: Linux, Tomcat 7, a 64 bit "t1.micro" EC2 instance, load balancing, and an S3 bucket. That&#8217;s the <em>environment</em> and it has reasonable default settings.  Beanstalk also provides an easy way to deploy your Lift application.  As we&#8217;ve seen in this recipe, you upload an application (WAR file) to Beanstalk and deploy it to the environment.</p></div>
 <div class="paragraph"><p>As with many cloud providers keep in mind that you want to avoid local file storage. The reason for this is to allow instances to be terminated or restarted without data loss. With your Beanstalk application you do have a file system and you can write to it, but it is lost if the image is restarted. You can get persistent local file storage, for example using Amazon Elastic Block Storage, but you&#8217;re fighting against the nature of the platform.</p></div>
 <div class="paragraph"><p>Log files are written to the local file system. To access them, from the AWS console, navigate to your environment, into the "Logs" tab and hit the "Snapshot" button. This will take a copy of the logs and store them in an S3 bucket, and give you a link to the file contents.  This is a single file showing the content of variety of log files, and <span class="monospaced">catalina.out</span> will be the one showing any output from your Lift application.  If you want to try to keep these log files around, you can configure the environment to rotate the logs to S3 every hour from the "Container" tab under "Edit Configuration".</p></div>
@@ -9745,7 +9837,7 @@ instructions for installing and configuring it can be found at <a href="https://
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_90">See Also</h4>
+<h4 id="_see_also_91">See Also</h4>
 <div class="paragraph"><p>Amazon provide a walk-through with screen shots, showing how to create a Beanstalk application.  It&#8217;s at: <a href="http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/GettingStarted.Walkthrough.html">http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/GettingStarted.Walkthrough.html</a>.</p></div>
 <div class="paragraph"><p><em>Elastic Beanstalk</em>, by van Villet <em>et al</em> (2011, O&#8217;Reilly Media, Inc) goes into the details of the Beanstalk infrastructure, how to work with Eclipse, enabling continuous integration, and how to hack the instance, for example to use NGINX as a front-end to Beanstalk.</p></div>
 <div class="paragraph"><p>The Amazon documentation for "Configuring Databases with AWS Elastic Beanstalk" describes the RDS settings in more detail: <a href="http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/using-features.managing.db.html">http://docs.amazonwebservices.com/elasticbeanstalk/latest/dg/using-features.managing.db.html</a>.</p></div>
@@ -9754,11 +9846,11 @@ instructions for installing and configuring it can be found at <a href="https://
 <div class="sect2">
 <h3 id="HerokuDeployment">Deploying to Heroku</h3>
 <div class="sect3">
-<h4 id="_problem_92">Problem</h4>
+<h4 id="_problem_93">Problem</h4>
 <div class="paragraph"><p>You want to deploy your Lift application to your account on the Heroku cloud platform.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_92">Solution</h4>
+<h4 id="_solution_93">Solution</h4>
 <div class="paragraph"><p>Package your Lift application as a WAR file and use the Heroku deploy plugin to send and run your application. This will give you an application running under Tomcat 7. Anyone can use this method to deploy an application but Heroku only provide support for it for Enterprise Java customers.</p></div>
 <div class="paragraph"><p>This recipe walks through the process in three stages: one-time set up; deployment of the WAR; and configuration of your Lift application for production performance.</p></div>
 <div class="paragraph"><p>If you&#8217;ve not already done so, download and install the Heroku command line tools ("Toolbelt") and login using your Heuroku credentials and upload an SSH key:</p></div>
@@ -9812,7 +9904,7 @@ Created release v6
 <div class="paragraph"><p>Your Lift application is now running on Heroku.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_93">Discussion</h4>
+<h4 id="_discussion_94">Discussion</h4>
 <div class="paragraph"><p>There are a few important comments regarding Lift applications on Heroku. First, note that there&#8217;s no support for session affinity. This means if you deploy to multiple <em>dynos</em> (Heroku terminology for instances), there is no co-ordination over which requests go to which servers. As a consequence, you won&#8217;t be able to make use of Lift&#8217;s stateful features and will want to turn them off (<a href="#RunningStateless">[RunningStateless]</a> describes for how to do that).</p></div>
 <div class="paragraph"><p>Second, if you are using Lift comet features, there&#8217;s an adjustment to make in <span class="monospaced">Boot.scala</span> to work a little better in the Heroku environment:</p></div>
 <div class="listingblock">
@@ -9947,7 +10039,7 @@ No relations found.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_91">See Also</h4>
+<h4 id="_see_also_92">See Also</h4>
 <div class="paragraph"><p>Both the Scala and Java articles at Heroku are useful to learn more of the details described in this recipe: <a href="https://devcenter.heroku.com/categories/scala">https://devcenter.heroku.com/categories/scala</a> and <a href="https://devcenter.heroku.com/categories/java">https://devcenter.heroku.com/categories/java</a>.</p></div>
 <div class="paragraph"><p><em>Dynos and the Dyno Manifold</em> are described at: <a href="https://devcenter.heroku.com/articles/dynos">https://devcenter.heroku.com/articles/dynos</a>.</p></div>
 <div class="paragraph"><p>The JVM shutdown hooks are described in the JDK documentation: <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html">http://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html</a>.</p></div>
@@ -9958,11 +10050,11 @@ No relations found.
 <div class="sect2">
 <h3 id="DistributedComet">Distributing Comet Across Multiple Servers</h3>
 <div class="sect3">
-<h4 id="_problem_93">Problem</h4>
+<h4 id="_problem_94">Problem</h4>
 <div class="paragraph"><p>You use Lift&#8217;s Comet support, and want to run across multiple servers for increased redundancy or to handle increased load.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_93">Solution</h4>
+<h4 id="_solution_94">Solution</h4>
 <div class="paragraph"><p>Use the <em>publish/subscribe</em> (pubsub) model to connect each server to a <em>topic</em> and route comet message out to the topic where it can be broadcast to all servers that are part of your application.</p></div>
 <div class="paragraph"><p>There are a variety of technologies you can use to accomplish this, such as databases, message systems, actor systems. For this recipe we will use the RabitMQ message service, but there are examples using CouchDB and Amazon&#8217;s Simple Notification Service in the <em>See Also</em> section.</p></div>
 <div class="paragraph"><p>Regardless of the technology, the principle is that illustrated in <a href="#DistributedCometDiagram">[DistributedCometDiagram]</a>. A comet event originating on one Lift application, is sent to a service for redistribution. It is the responsibility of this service (labeled as "topic" in the figure) is to ensure all the participating Lift applications receive the event so it can be processed as normal by Lift.</p></div>
@@ -10045,7 +10137,7 @@ The first modification is to include the Lift module to talk to RabbitMQ. This i
 <div class="paragraph"><p>This change means all our comet chat messages go out to RabbitMQ where they are distributed to all the instances of our Lift application, and all the instances receive the messages back as <span class="monospaced">AMQPMessage</span> instances and update chat clients as normal.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_94">Discussion</h4>
+<h4 id="_discussion_95">Discussion</h4>
 <div class="paragraph"><p>To run more than one instance of your Lift application locally, you&#8217;ll want to start SBT as normal, and then in another terminal start again but on a different port number:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
@@ -10083,7 +10175,7 @@ The first modification is to include the Lift module to talk to RabbitMQ. This i
 <div class="paragraph"><p>Note that <span class="monospaced">Props.productionMode</span> is <span class="monospaced">true</span> for the run modes of <span class="monospaced">Production</span>, <span class="monospaced">Staging</span> and <span class="monospaced">Pilot</span>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_92">See Also</h4>
+<h4 id="_see_also_93">See Also</h4>
 <div class="paragraph"><p>The Lift Chat example is described in <em>Simply Lift</em> at <a href="http://simply.liftweb.net/">http://simply.liftweb.net/</a>. The source code used in this recipe can be found at: <a href="https://github.com/LiftCookbook/rabbitmq_chat">https://github.com/LiftCookbook/rabbitmq_chat</a>.</p></div>
 <div class="paragraph"><p>The Lift AMQP module is: <a href="https://github.com/liftmodules/amqp">https://github.com/liftmodules/amqp</a>.</p></div>
 <div class="paragraph"><p>If you want to learn more about RabbitMQ, take a look at the tutorials (<a href="http://www.rabbitmq.com/tutorials/tutorial-five-java.html">http://www.rabbitmq.com/tutorials/tutorial-five-java.html</a>) or Alvaro Videla and Jason J.W. Williams (2012), <em>RabbitMQ in Action: Distributed Messaging for Everyone</em>, Manning Publications.</p></div>
@@ -10099,20 +10191,20 @@ The first modification is to include the Lift module to talk to RabbitMQ. This i
 <div class="sect2">
 <h3 id="GettingHelp">You&#8217;d Like Some Help</h3>
 <div class="sect3">
-<h4 id="_problem_94">Problem</h4>
+<h4 id="_problem_95">Problem</h4>
 <div class="paragraph"><p>You&#8217;re stuck on something in Lift and you&#8217;d like some help.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_94">Solution</h4>
+<h4 id="_solution_95">Solution</h4>
 <div class="paragraph"><p>Ask a question on the Lift mailing list at <a href="https://groups.google.com/group/liftweb">https://groups.google.com/group/liftweb</a>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_95">Discussion</h4>
+<h4 id="_discussion_96">Discussion</h4>
 <div class="paragraph"><p>You will find some information about Lift on StackOverflow, Quora and elsewhere, but the mailing list is <em>the</em> place to go to get help and support. You can search the archive to see if your question has already been addressed, but questions are very welcome as it helps the Lift community understand what users need and what might be causing problems or need explanation. Much of what you&#8217;re reading here originates from questions that have been asked on the mailing list.</p></div>
 <div class="paragraph"><p>New members to the mailing list are moderated to help reduce spam. This means the first time you post your message may take a few hours to show up.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_93">See Also</h4>
+<h4 id="_see_also_94">See Also</h4>
 <div class="paragraph"><p>The Lift community is one of the things that makes Lift what it is. Please take a look at <a href="http://liftweb.net/community">http://liftweb.net/community</a> before posting: you&#8217;ll get the best response with a polite question.</p></div>
 <div class="paragraph"><p>If you need paid consulting, development or SLA-backed support, there&#8217;s a list of organizations on the Wiki at <a href="https://www.assembla.com/spaces/liftweb/wiki/Commercial_Support">https://www.assembla.com/spaces/liftweb/wiki/Commercial_Support</a>.</p></div>
 </div>
@@ -10120,18 +10212,18 @@ The first modification is to include the Lift module to talk to RabbitMQ. This i
 <div class="sect2">
 <h3 id="HowToReportBugs">How to Report Bugs</h3>
 <div class="sect3">
-<h4 id="_problem_95">Problem</h4>
+<h4 id="_problem_96">Problem</h4>
 <div class="paragraph"><p>You&#8217;ve found a bug and want to report it.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_95">Solution</h4>
+<h4 id="_solution_96">Solution</h4>
 <div class="paragraph"><p>Discuss your findings on the Lift mailing list, saying what you&#8217;re
 seeing, and what you&#8217;d expect to see.</p></div>
 <div class="paragraph"><p>By all means look at the existing tickets to see if your issue is there or recently fixed, but please do not
 raise a ticket unless asked to do so by a Lift committer on the mailing list.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_96">Discussion</h4>
+<h4 id="_discussion_97">Discussion</h4>
 <div class="quoteblock">
 <div class="content">
 <div class="paragraph"><p>If Lift is not behaving as you expect, please ask questions about what
@@ -10152,7 +10244,7 @@ necessarily a bug in Lift.</p></div>
 <div class="paragraph"><p>A great way to get help with the issue you have, or getting a bug fixed, is to produce a small example to illustrate the problem and posting it on GitHub. The key is to provide instructions so someone can run the example and see exactly what you see without having to jump though hoops.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_94">See Also</h4>
+<h4 id="_see_also_95">See Also</h4>
 <div class="paragraph"><p>You&#8217;ll find a list of tickets at <a href="http://ticket.liftweb.net/">http://ticket.liftweb.net/</a>.</p></div>
 <div class="paragraph"><p>If you&#8217;re asked to, or want to, post example code there&#8217;s a guide at <a href="http://www.assembla.com/wiki/show/liftweb/Posting_example_code">http://www.assembla.com/wiki/show/liftweb/Posting_example_code</a>.</p></div>
 <div class="paragraph"><p>If you&#8217;ve found a bug, and you&#8217;re asked to create a ticket, the main thing to do is to include a link to the mailing list discussion of the issue, as described at <a href="http://www.assembla.com/wiki/show/liftweb/Creating_tickets">http://www.assembla.com/wiki/show/liftweb/Creating_tickets</a>.</p></div>
@@ -10161,11 +10253,11 @@ necessarily a bug in Lift.</p></div>
 <div class="sect2">
 <h3 id="LiftCodeContributions">Contributing Small Code Changes and ScalaDoc</h3>
 <div class="sect3">
-<h4 id="_problem_96">Problem</h4>
+<h4 id="_problem_97">Problem</h4>
 <div class="paragraph"><p>You have a small change or ScalaDoc improvement you&#8217;d like incorporated into Lift.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_96">Solution</h4>
+<h4 id="_solution_97">Solution</h4>
 <div class="paragraph"><p>You can issue pull requests against the Lift source providing your change meets one of the following requirements:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -10187,7 +10279,7 @@ It&#8217;s a <em>small</em> change, enhancements, or bug fix to Lift.
 <div class="paragraph"><p>Your pull request must include an edit to add your signature to the bottom of the <span class="monospaced">contributors.md</span> file.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_97">Discussion</h4>
+<h4 id="_discussion_98">Discussion</h4>
 <div class="paragraph"><p>Historically Lift had a strict contributor policy of simply not accepting any code contributions except from committers who had signed an agreement to assign copyright to the Lift project.  This allowed corporations wanting to adopt Lift to do so without litigation concerns.</p></div>
 <div class="paragraph"><p>The safety is still there, now via the requirement for a signature on the contributors file, which reads:</p></div>
 <div class="quoteblock">
@@ -10199,7 +10291,7 @@ It&#8217;s a <em>small</em> change, enhancements, or bug fix to Lift.
 <div class="paragraph"><p>What&#8217;s a small change? That&#8217;s a good question, and if you&#8217;re unsure, talk about your proposed change on the mailing list.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_95">See Also</h4>
+<h4 id="_see_also_96">See Also</h4>
 <div class="paragraph"><p>This contribution policy was introduced in November 2012, and can be read about at <a href="http://www.lift.la/blog/new_contribution_policy">http://www.lift.la/blog/new_contribution_policy</a>.</p></div>
 <div class="paragraph"><p>The <span class="monospaced">contributors.md</span> file is found at: <a href="https://github.com/lift/framework/blob/master/contributors.md">https://github.com/lift/framework/blob/master/contributors.md</a>.</p></div>
 <div class="paragraph"><p>The Lift source is on GitHub at <a href="https://github.com/lift/">https://github.com/lift/</a>.  The <em>framework</em> project is probably the one you want, although you&#8217;ll also find Git repositories for examples and Lift web sites there.</p></div>
@@ -10210,32 +10302,32 @@ It&#8217;s a <em>small</em> change, enhancements, or bug fix to Lift.
 <div class="sect2">
 <h3 id="wiki">Contributing Documentation</h3>
 <div class="sect3">
-<h4 id="_problem_97">Problem</h4>
+<h4 id="_problem_98">Problem</h4>
 <div class="paragraph"><p>You&#8217;d like to contribute documentation to Lift.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_97">Solution</h4>
+<h4 id="_solution_98">Solution</h4>
 <div class="paragraph"><p>Update or add to the Lift wiki at <a href="https://www.assembla.com/wiki/show/liftweb">https://www.assembla.com/wiki/show/liftweb</a>.</p></div>
 <div class="paragraph"><p>You&#8217;ll need to sign in, or create a free account, with Assembla, the company that hosts the wiki. You then need to become a <em>watcher</em> of the Lift wiki, which is offered as a link on the top right of the Lift wiki page.  As a watcher you can edit pages and create new pages.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_98">Discussion</h4>
+<h4 id="_discussion_99">Discussion</h4>
 <div class="paragraph"><p>If you&#8217;re unsure about a change you&#8217;d like to make, just ask for feedback on the Lift mailing list.</p></div>
 <div class="paragraph"><p>One limitation of the watcher role on Assembla is that you cannot move pages. If you create a new page in the wrong section, or want to reorganise pages, you&#8217;ll need to ask on the Lift mailing list for someone with permissions to do that for you.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_96">See Also</h4>
+<h4 id="_see_also_97">See Also</h4>
 <div class="paragraph"><p>The markup format for the Wiki pages is Textile. A reference guide can be found at: <a href="http://redcloth.org/hobix.com/textile/">http://redcloth.org/hobix.com/textile/</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="AddRecipe">How to Add a New Recipe to this Cookbook</h3>
 <div class="sect3">
-<h4 id="_problem_98">Problem</h4>
+<h4 id="_problem_99">Problem</h4>
 <div class="paragraph"><p>You&#8217;d like to add a section or chapter to this cookbook.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_98">Solution</h4>
+<h4 id="_solution_99">Solution</h4>
 <div class="paragraph"><p>If you&#8217;re comfortable using Git, you can fork the repository and send a
 pull request.</p></div>
 <div class="paragraph"><p>Alternatively, download a template file, write your recipe, and email
@@ -10243,7 +10335,7 @@ to the Lift mailing list at <a href="https://groups.google.com/group/liftweb">ht
 <div class="paragraph"><p>You can find the template file at: <a href="https://raw.github.com/d6y/lift-cookbook/master/template.asciidoc">https://raw.github.com/d6y/lift-cookbook/master/template.asciidoc</a>.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_99">Discussion</h4>
+<h4 id="_discussion_100">Discussion</h4>
 <div class="paragraph"><p>Anything you&#8217;ve puzzled over, or things which have surprised you, impressed you or are non-obvious are great topics for recipes. Improvements, discussions and clarifications of existing recipes are welcome too.</p></div>
 <div class="paragraph"><p>The cookbook is structured using a markup language called Asciidoc. If you&#8217;re familiar with Markdown or Textile, you&#8217;ll find similarities. For the cookbook you only need to know about section headings, source code formatting and links.  Examples of all of these are in the <span class="monospaced">template.asciidoc</span> file.</p></div>
 <div class="paragraph"><p>To find out where to make a change you need to know that each chapter is a separate file, and each recipe is a section in that file.</p></div>
@@ -10266,7 +10358,7 @@ You assert that the work is your own, or you have the necessary permission for t
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_97">See Also</h4>
+<h4 id="_see_also_98">See Also</h4>
 <div class="paragraph"><p>The source to this book is at: <a href="https://github.com/d6y/lift-cookbook/">https://github.com/d6y/lift-cookbook/</a>.</p></div>
 <div class="paragraph"><p>The AsciiDoc cheetsheet at <a href="http://powerman.name/doc/asciidoc">http://powerman.name/doc/asciidoc</a> is a quick way to get into AsciiDoc, but if you need more, the AsciiDoc home page has the details: <a href="http://www.methods.co.nz/asciidoc/">http://www.methods.co.nz/asciidoc/</a>.</p></div>
 <div class="paragraph"><p>GitHub provide an introduction to pull requests at <a href="https://help.github.com/articles/using-pull-requests">https://help.github.com/articles/using-pull-requests</a>.</p></div>
@@ -10276,11 +10368,11 @@ You assert that the work is your own, or you have the necessary permission for t
 <div class="sect2">
 <h3 id="modules">Sharing Code in Modules</h3>
 <div class="sect3">
-<h4 id="_problem_99">Problem</h4>
+<h4 id="_problem_100">Problem</h4>
 <div class="paragraph"><p>You have code you&#8217;d like to share between Lift projects.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_solution_99">Solution</h4>
+<h4 id="_solution_100">Solution</h4>
 <div class="paragraph"><p>Create a Lift module, and then reference the module from your Lift projects.</p></div>
 <div class="paragraph"><p>As an example, let&#8217;s create a module to embed the Snowstorm snow fall effect on every page in your Lift web application (please don&#8217;t do this).</p></div>
 <div class="paragraph"><p>There&#8217;s nothing special about modules: they are code, packaged and used like any other dependency. What makes them possible is the exposure of extension points via <span class="monospaced">LiftRules</span>. The main convention is to have an <span class="monospaced">init</span> method that Lift applications can use to initialize your module.</p></div>
@@ -10358,7 +10450,7 @@ JavaScript to the head of every page.</p></div>
 <div class="paragraph"><p>When we run our Lift application, white snow will be falling on every page, supplied by the module.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_100">Discussion</h4>
+<h4 id="_discussion_101">Discussion</h4>
 <div class="paragraph"><p>The module is self contained: there&#8217;s no need for users to copy JavaScript files around or modify their templates.  To achieve that we&#8217;ve made use of <span class="monospaced">ResourceServer</span>.  When we reference the JavaScript file via <span class="monospaced">/classpath/snowstorm.js</span>, Lift will attempt to locate <span class="monospaced">snowstorm.js</span> from the classpath.  This is what we want for our Lift application because <span class="monospaced">snowstorm.js</span> will be inside the module JAR file.</p></div>
 <div class="paragraph"><p>However, we do not want to expose all files on the classpath to anyone visiting our application. To avoid that, Lift looks for resources inside a <span class="monospaced">toserve</span> folder, which for our purposes means files and folders inside <span class="monospaced">src/main/resources/toserve</span>.  You can think of <span class="monospaced">/classpath</span> meaning <span class="monospaced">toserve</span> (although, you can change those values via <span class="monospaced">LiftRules.resourceServerPath</span> and <span class="monospaced">ResourceServer.baseResourceLocation</span>).</p></div>
 <div class="paragraph"><p>As a further precaution you need to explicitly allow access to these resources.  That&#8217;s done with:</p></div>
@@ -10429,7 +10521,7 @@ JavaScript to the head of every page.</p></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_see_also_98">See Also</h4>
+<h4 id="_see_also_99">See Also</h4>
 <div class="paragraph"><p>Originally Lift included a set of modules, but these have been separated out to individual projects at <a href="https://github.com/liftmodules/">https://github.com/liftmodules/</a>.  The Lift contributor policy outlined in <a href="#LiftCodeContributions">[LiftCodeContributions]</a> doesn&#8217;t apply to Lift modules: you&#8217;re free to contribute to these modules as you would any other open source project.</p></div>
 <div class="paragraph"><p>The Lift wiki pages for modules can be reached via <a href="http://liftmodules.net">http://liftmodules.net</a>.</p></div>
 <div class="paragraph"><p>The Snowstorm project ("setting CPUs on fire worldwide every winter since 2003") is at: <a href="https://github.com/scottschiller/snowstorm/">https://github.com/scottschiller/snowstorm/</a> and the module developed for this recipe is at <a href="https://github.com/LiftCookbook/snowstorm-example-module">https://github.com/LiftCookbook/snowstorm-example-module</a>.</p></div>
@@ -10443,7 +10535,7 @@ JavaScript to the head of every page.</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-04-24 08:42:51 BST
+Last updated 2013-05-04 14:56:07 BST
 </div>
 </div>
 </body>
