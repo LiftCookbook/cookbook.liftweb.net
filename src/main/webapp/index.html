@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="generator" content="AsciiDoc 8.6.8">
-<title></title>
+<title>Lift Cookbook</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 
@@ -902,27 +902,26 @@ asciidoc.install(2);
 </head>
 <body class="article">
 <div id="header">
+<h1>Lift Cookbook</h1>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
 </div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph"><p>This document is licensed: Creative Commons Attribution, Non Commercial,
+No Derivatives.</p></div>
+</div>
+</div>
 <div class="sect1">
 <h2 id="_preface">Preface</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_about_this_text">About this text</h3>
-<div class="paragraph"><p>A collection of solutions to questions you might have while developing
-web applications with the <a href="http://www.liftweb.net">Lift web framework</a>.</p></div>
-<div class="paragraph"><p>The aim is to give a single, short answer to a specific question. Where
-there are different ways to achieve the same result, this cookbook just
-shows one way, but may point you at alternatives in a discussion on the
-solution.</p></div>
-</div>
-<div class="sect2">
-<h3 id="_learning_about_lift">Learning about Lift</h3>
-<div class="paragraph"><p>If you are looking to learn Lift, take a look at:</p></div>
+<div class="paragraph"><p>This is a collection of solutions to questions you might have while developing
+web applications with the Lift Web Framework.</p></div>
+<div class="paragraph"><p>The aim is to give a single, short answer to a specific question. When there&#8217;s more than approach, or style, we&#8217;ll give you one solution, but will point you at alternatives in the discussion.</p></div>
+<div class="paragraph"><p><a href="#InstallAndRunning">[InstallAndRunning]</a> will get you up and running with Lift, but in other respects this cookbook is aimed at practitioners and the questions they have asked. If this is the first time you&#8217;ve heard of Lift, you&#8217;ll want to look at:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -931,90 +930,179 @@ solution.</p></div>
 </li>
 <li>
 <p>
-<a href="http://www.packtpub.com/lift-web-applications/book">Lift Web Applications How-to</a>, PACKT Publishing, 2013.
+Torsten Uhlmann&#8217;s short <em>Instant Lift Web Applications How-to</em>, PACKT Publishing, 2013.
 </p>
 </li>
 <li>
 <p>
-<a href="http://www.manning.com/perrett/">Lift in Action</a>, Manning Publications, 2011.
-</p>
-</li>
-<li>
-<p>
-<em>Seven Things</em> that distinguish Lift from other web frameworks: <a href="http://seventhings.liftweb.net">http://seventhings.liftweb.net/</a>.
-</p>
-</li>
-<li>
-<p>
-<em>Exploring Lift</em> online at <a href="http://exploring.liftweb.net">http://exploring.liftweb.net</a> &#8201;&#8212;&#8201;also known as <a href="http://www.apress.com/9781430224211">The
-Definitive Guide to Lift</a>, Apress Media, 2009.
+Timothy Perrett&#8217;s <em>Lift in Action</em>, Manning Publications, 2011.
 </p>
 </li>
 </ul></div>
-</div>
 <div class="sect2">
-<h3 id="_copyright">Copyright</h3>
-<div class="paragraph"><p>This document is licensed Creative Commons Attribution, Non Commercial,
-No Derivatives.</p></div>
-</div>
-<div class="sect2">
-<h3 id="_contributors">Contributors</h3>
-<div class="ulist"><ul>
-<li>
+<h3 id="Contributors">Contributors</h3>
+<div class="paragraph"><p>I&#8217;ve mined the Lift mailing list for these recipes, but I&#8217;m not the only one.  Recipes have been contributed by:</p></div>
+<div class="dlist glossary"><dl>
+<dt>
+<strong>Jono Ferguson</strong>
+</dt>
+<dt>
+<strong>Franz Bettag</strong>
+</dt>
+<dd>
 <p>
-Richard Dallaway
+Franz is an enthusiastic Scala Hacker for several years now. He joined the Lift team in January 2012 and actively tweets and blogs about his newest Scala adventures. Find him at <a href="https://twitter.com/fbettag">https://twitter.com/fbettag</a>
 </p>
-</li>
-<li>
+</dd>
+<dt>
+<strong>Marek Żebrowski</strong>
+</dt>
+<dt>
+<strong>Peter Robinett</strong>
+</dt>
+<dd>
 <p>
-Jono Ferguson
+Peter is a web and mobile developer and a Lift committer. He can be found on the web at <a href="http://www.bubblefoundry.com">http://www.bubblefoundry.com</a> and on Twitter at <a href="http://twitter.com/pr1001">http://twitter.com/pr1001</a>.
 </p>
-</li>
-<li>
+</dd>
+<dt>
+<strong>Kevin Lau</strong>
+</dt>
+<dd>
 <p>
-<strong>Franz Bettag</strong>  Franz is an enthusiastic Scala Hacker for several years now. He joined the Lift team in January 2012 and actively tweets and blogs about his newest Scala adventures. Find him at <a href="https://twitter.com/fbettag">https://twitter.com/fbettag</a>
+Kevin is a founder of few web apps with a focus in AWS cloud, iOS and Lift.
 </p>
-</li>
-<li>
-<p>
-Marek Żebrowski
-</p>
-</li>
-<li>
-<p>
-<strong>Peter Robinett</strong>  Peter is a web and mobile developer and a Lift committer. He can be found on the web at <a href="http://www.bubblefoundry.com">http://www.bubblefoundry.com</a> and on Twitter at <a href="http://twitter.com/pr1001">http://twitter.com/pr1001</a>.
-</p>
-</li>
-<li>
-<p>
-<strong>Kevin Lau</strong> is a founder of few web apps with a focus in AWS cloud, iOS and Lift.
-</p>
-</li>
-<li>
-<p>
-Tony Kay
-</p>
-</li>
-</ul></div>
+</dd>
+<dt>
+<strong>Tony Kay</strong>
+</dt>
+<dd>
+</dd>
+</dl></div>
+<div class="paragraph" id="jointhem"><p>You should join them: <a href="#AddRecipe">[AddRecipe]</a> tells you how.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_source">Source</h3>
-<div class="paragraph"><p>The source is at
-<a href="https://github.com/d6y/lift-cookbook">https://github.com/d6y/lift-cookbook</a></p></div>
+<div class="paragraph"><p>The text of this cookbook is at: <a href="https://github.com/d6y/lift-cookbook">https://github.com/d6y/lift-cookbook</a>.</p></div>
+<div class="paragraph"><p>You&#8217;ll find projects for each chapter at GitHub: <a href="https://github.com/LiftCookbook/">https://github.com/LiftCookbook/</a>.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_updates">Updates</h3>
-<div class="paragraph"><p>Follow <a href="https://twitter.com/#!/liftcookbook">@LiftCookbook</a>.</p></div>
+<div class="paragraph"><p>Follow <a href="https://twitter.com/liftcookbook">@LiftCookbook</a> on Twitter.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_software_versions">Software versions</h3>
+<h3 id="_software_versions">Software Versions</h3>
 <div class="paragraph"><p>Except where otherwise indicated, the examples use Lift 2.5 with SBT
-0.12 and Scala 2.9</p></div>
+0.12 and Scala 2.9.</p></div>
+<div class="paragraph"><p>Lift 2.5 is also available for Scala 2.10.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_conventions_used_in_this_book">Conventions Used in This Book</h3>
+<div class="paragraph"><p>The following typographical conventions are used in this book:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<em>Italic</em>
+</dt>
+<dd>
+<p>
+Indicates new terms, URLs, email addresses, filenames, and file extensions.
+</p>
+</dd>
+<dt class="hdlist1">
+<span class="monospaced">Constant width</span>
+</dt>
+<dd>
+<p>
+Used for program listings, as well as within paragraphs to refer to program elements such as variable or function names, databases, data types, environment variables, statements, and keywords.
+</p>
+</dd>
+<dt class="hdlist1">
+<strong><span class="monospaced">Constant width bold</span></strong>
+</dt>
+<dd>
+<p>
+Shows commands or other text that should be typed literally by the user.
+</p>
+</dd>
+<dt class="hdlist1">
+<em><span class="monospaced">Constant width italic</span></em>
+</dt>
+<dd>
+<p>
+Shows text that should be replaced with user-supplied values or by values determined by context.
+</p>
+</dd>
+</dl></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="paragraph"><p>This icon signifies a tip, suggestion, or general note.</p></div>
+</td>
+</tr></table>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<div class="paragraph"><p>This icon indicates a warning or caution.</p></div>
+</td>
+</tr></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_code_examples">Using Code Examples</h3>
+<div class="paragraph"><p>This book is here to help you get your job done. In general, if this book includes code examples, you may use the code in this book in your programs and documentation. You do not need to contact us for permission unless you’re reproducing a significant portion of the code. For example, writing a program that uses several chunks of code from this book does not require permission. Selling or distributing a CD-ROM of examples from O’Reilly books does require permission. Answering a question by citing this book and quoting example code does not require permission. Incorporating a significant amount of example code from this book into your product’s documentation does require permission.</p></div>
+<div class="paragraph"><p>We appreciate, but do not require, attribution. An attribution usually includes the title, author, publisher, and ISBN. For example: “<em>Lift Cookbook</em> by Richard Dallaway (O’Reilly). Copyright 2013 Richard Dallaway, 978-1-4493-6268-3.”</p></div>
+<div class="paragraph"><p>If you feel your use of code examples falls outside fair use or the permission given above, feel free to contact us at <email>permissions@oreilly.com</email>.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_safari_books_online">Safari® Books Online</h3>
+<div class="admonitionblock safarienabled">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph"><p><ulink role="orm:hideurl:ital" url="http://my.safaribooksonline.com/?portal=oreilly">Safari Books Online</ulink> is an on-demand digital library that delivers expert <ulink role="orm:hideurl" url="http://www.safaribooksonline.com/content">content</ulink> in both book and video form from the world&#8217;s leading authors in technology and business.</p></div>
+</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>Technology professionals, software developers, web designers, and business and creative professionals use Safari Books Online as their primary resource for research, problem solving, learning, and certification training.</p></div>
+<div class="paragraph"><p>Safari Books Online offers a range of <ulink role="orm:hideurl" url="http://www.safaribooksonline.com/subscriptions">product mixes</ulink> and pricing programs for <ulink role="orm:hideurl" url="http://www.safaribooksonline.com/organizations-teams">organizations</ulink>, <ulink role="orm:hideurl" url="http://www.safaribooksonline.com/government">government agencies</ulink>, and <ulink role="orm:hideurl" url="http://www.safaribooksonline.com/individuals">individuals</ulink>. Subscribers have access to thousands of books, training videos, and prepublication manuscripts in one fully searchable database from publishers like O’Reilly Media, Prentice Hall Professional, Addison-Wesley Professional, Microsoft Press, Sams, Que, Peachpit Press, Focal Press, Cisco Press, John Wiley &amp; Sons, Syngress, Morgan Kaufmann, IBM Redbooks, Packt, Adobe Press, FT Press, Apress, Manning, New Riders, McGraw-Hill, Jones &amp; Bartlett, Course Technology, and dozens <ulink role="orm:hideurl" url="http://www.safaribooksonline.com/publishers">more</ulink>. For more information about Safari Books Online, please visit us <ulink role="orm:hideurl" url="http://www.safaribooksonline.com/">online</ulink>.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_how_to_contact_us">How to Contact Us</h3>
+<div class="paragraph"><p>Please address comments and questions concerning this book to the publisher:</p></div>
+<simplelist>
+<member>O’Reilly Media, Inc.</member>
+<member>1005 Gravenstein Highway North</member>
+<member>Sebastopol, CA 95472</member>
+<member>800-998-9938 (in the United States or Canada)</member>
+<member>707-829-0515 (international or local)</member>
+<member>707-829-0104 (fax)</member>
+</simplelist>
+<div class="paragraph"><p>We have a web page for this book, where we list errata, examples, and any additional information. You can access this page at <a href="http://www.oreilly.com/catalog/0636920029151">http://www.oreilly.com/catalog/0636920029151</a>.</p></div>
+<div class="paragraph"><p>To comment or ask technical questions about this book, send email to <email>bookquestions@oreilly.com</email>.</p></div>
+<div class="paragraph"><p>For more information about our books, courses, conferences, and news, see our website at <a href="http://www.oreilly.com">http://www.oreilly.com</a>.</p></div>
+<div class="paragraph"><p>Find us on Facebook: <a href="http://facebook.com/oreilly">http://facebook.com/oreilly</a></p></div>
+<div class="paragraph"><p>Follow us on Twitter: <a href="http://twitter.com/oreillymedia">http://twitter.com/oreillymedia</a></p></div>
+<div class="paragraph"><p>Watch us on YouTube: <a href="http://www.youtube.com/oreillymedia">http://www.youtube.com/oreillymedia</a></p></div>
+</div>
+<div class="sect2">
+<h3 id="_acknowledgments">Acknowledgments</h3>
+<div class="paragraph"><p>These recipes existing because of the innumerable contributions on the Lift mailing list, where <em>Liftafarians</em>, as they are known, generously give their time to ask  questions, put together example projects, give answers, share alternatives and chip in with comments. Thank you.</p></div>
+<div class="paragraph"><p>I also want to thank those who have provided corrections to the recipes, on the mailing list, Github, and Twitter.  No matter what else it means, writing on the web and publishing on the web has meant I&#8217;ve received some prompt high-quality feedback.</p></div>
+<div class="paragraph"><p>I am indebted to the contributors who have taken the trouble to write new recipes for this book.</p></div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="InstallAndRunning">Install and Running</h2>
+<h2 id="InstallAndRunning">Installing and Running Lift</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>This chapter covers questions regarding starting development with Lift: running a first Lift application and setting up a coding environment. You&#8217;ll find answers regarding production deployment in <a href="#deployment">[deployment]</a>.</p></div>
 <div class="sect2">
@@ -1156,11 +1244,10 @@ your computer as shown in <a href="#LiftBasicScreenshot">[LiftBasicScreenshot]</
 Instead you use standard build tools, such as SBT or Maven, to assemble your application with the Lift framework. In this recipe we downloaded a ZIP file containing four fairly minimal Lift applications, and then started one of them via the build tool.</p></div>
 <div class="sect4">
 <h5 id="_simple_build_tool">Simple Build Tool</h5>
-<div class="paragraph"><p>Typing <span class="monospaced">sbt</span> starts the Simple Build Tool, a dependency management
-tool used by Scala projects (it&#8217;s not specific to Lift).  SBT will check the project definition and download any libraries required, which includes the Lift framework.</p></div>
+<div class="paragraph"><p>Typing <span class="monospaced">sbt</span> starts a <em>Simple Build Tool</em> used by Scala projects (it&#8217;s not specific to Lift).  SBT will check the project definition and download any libraries required, which will include the Lift framework.</p></div>
 <div class="paragraph"><p>This download happens once, and the downloaded
-files are stored on disk in <span class="monospaced">.ivy2/</span> under your home folder.</p></div>
-<div class="paragraph"><p>Your application build is configured by <span class="monospaced">build.sbt</span>.  Looking inside you&#8217;ll see:</p></div>
+files are stored on disk in <em>.ivy2</em> under your home folder.</p></div>
+<div class="paragraph"><p>Your application build is configured by <em>build.sbt</em>.  Looking inside you&#8217;ll see:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1195,8 +1282,8 @@ The <span class="monospaced">container:start</span> command uses Jetty.</p></div
 </div>
 <div class="sect4">
 <h5 id="_source_code">Source Code</h5>
-<div class="paragraph"><p>The source code of the application resides in <span class="monospaced">src/main/webapp</span> and <span class="monospaced">src/main/scala</span>. If you take a look at <span class="monospaced">index.html</span> in the <span class="monospaced">webapp</span> folder you&#8217;ll see mention of <span class="monospaced">lift:helloWorld</span>. That&#8217;s a reference to the class defined in <span class="monospaced">scala/code/snippet/HelloWorld.scala</span>. This is a <em>snippet invocation</em> and an example of Lift&#8217;s <em>view first</em> approach to web applications. That is, there&#8217;s no routing set up for the index page to collect the data and forward it to the view. Instead, the view defines areas of the content that are replaced with functions, such as those functions defined in <span class="monospaced">HelloWorld.scala</span>.</p></div>
-<div class="paragraph"><p>Lift knows to look in the <span class="monospaced">code</span> package for snippets because that package is declared as a location for snippets in <span class="monospaced">scala/bootstrap/liftweb/Boot.scala</span>. The Boot class is run when starting your application, and it&#8217;s where you can configure the behaviour of Lift.</p></div>
+<div class="paragraph"><p>The source code of the application resides in <em>src/main/webapp</em> and <em>src/main/scala</em>. If you take a look at <em>index.html</em> in the <em>webapp</em> folder you&#8217;ll see mention of <span class="monospaced">lift:helloWorld</span>. That&#8217;s a reference to the class defined in <em>scala/code/snippet/HelloWorld.scala</em>. This is a <em>snippet invocation</em> and an example of Lift&#8217;s <em>view first</em> approach to web applications. That is, there&#8217;s no routing set up for the index page to collect the data and forward it to the view. Instead, the view defines areas of the content that are replaced with functions, such as those functions defined in <em>HelloWorld.scala</em>.</p></div>
+<div class="paragraph"><p>Lift knows to look in the <span class="monospaced">code</span> package for snippets because that package is declared as a location for snippets in <em>scala/bootstrap/liftweb/Boot.scala</em>. The Boot class is run when starting your application, and it&#8217;s where you can configure the behaviour of Lift.</p></div>
 </div>
 </div>
 <div class="sect3">
@@ -1214,7 +1301,7 @@ The <span class="monospaced">container:start</span> command uses Jetty.</p></div
 <div class="sect3">
 <h4 id="_solution_2">Solution</h4>
 <div class="paragraph"><p>You will need to configure SBT and the Lift project yourself. Luckily, only five small files are needed.</p></div>
-<div class="paragraph"><p>First, create an SBT plugin file at <span class="monospaced">project/plugins.sbt</span> (all file names are given relative to the project root directory):</p></div>
+<div class="paragraph"><p>First, create an SBT plugin file at <em>project/plugins.sbt</em> (all file names are given relative to the project root directory):</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">&lt;+=</span> <span class="n">sbtVersion</span><span class="o">(</span><span class="n">v</span> <span class="k">=&gt;</span> <span class="n">v</span> <span class="k">match</span> <span class="o">{</span>
   <span class="k">case</span> <span class="s">&quot;0.11.0&quot;</span> <span class="k">=&gt;</span> <span class="s">&quot;com.github.siasia&quot;</span> <span class="o">%%</span> <span class="s">&quot;xsbt-web-plugin&quot;</span> <span class="o">%</span> <span class="s">&quot;0.11.0-0.2.8&quot;</span>
@@ -1226,7 +1313,7 @@ The <span class="monospaced">container:start</span> command uses Jetty.</p></div
 <span class="o">})</span>
 </pre></div></div></div>
 <div class="paragraph"><p>This file tells SBT that you will be using the xsbt-web-plugin and chooses the correct version based upon your version of SBT.</p></div>
-<div class="paragraph"><p>Next, create an SBT build file, <span class="monospaced">build.sbt</span>:</p></div>
+<div class="paragraph"><p>Next, create an SBT build file, <em>build.sbt</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">organization</span> <span class="o">:=</span> <span class="s">&quot;org.yourorganization&quot;</span>
 
@@ -1250,7 +1337,7 @@ The <span class="monospaced">container:start</span> command uses Jetty.</p></div
 </pre></div></div></div>
 <div class="paragraph"><p>Feel free to change the various versions, though be aware that certain versions of Lift are only built for certain versions of Scala.</p></div>
 <div class="paragraph"><p>Now that you have the basics of an SBT project, you can launch the <span class="monospaced">sbt</span> console. It should load all the necessary dependencies, including the proper Scala version, and bring you to a prompt.</p></div>
-<div class="paragraph"><p>Next, create the following file at <span class="monospaced">src/main/webapp/WEB-INF/web.xml</span>:</p></div>
+<div class="paragraph"><p>Next, create the following file at <em>src/main/webapp/WEB-INF/web.xml</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE web-app SYSTEM &quot;http://java.sun.com/dtd/web-app_2_3.dtd&quot;&gt;</span>
 <span class="nt">&lt;web-app&gt;</span>
@@ -1267,7 +1354,7 @@ The <span class="monospaced">container:start</span> command uses Jetty.</p></div
 <span class="nt">&lt;/web-app&gt;</span>
 </pre></div></div></div>
 <div class="paragraph"><p>The <span class="monospaced">web.xml</span> files tells web containers, such as Jetty as configured by xsbt-web-plugin, to pass all requests on to Lift.</p></div>
-<div class="paragraph"><p>Next, create a sample <span class="monospaced">index.html</span> file at <span class="monospaced">src/main/webapp/index.html</span> for our Lift app to load. For example:</p></div>
+<div class="paragraph"><p>Next, create a sample <em>index.html</em> file at <em>src/main/webapp/index.html</em> for our Lift app to load. For example:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="nt">&lt;html&gt;</span>
@@ -1279,7 +1366,7 @@ The <span class="monospaced">container:start</span> command uses Jetty.</p></div
   <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span>
 </pre></div></div></div>
-<div class="paragraph"><p>Finally, setup the basic Lift boot settings by creating a <span class="monospaced">Boot.scala</span> file at <span class="monospaced">src/main/scala/bootstrap/Boot.scala</span>. The following contents will be sufficient:</p></div>
+<div class="paragraph"><p>Finally, setup the basic Lift boot settings by creating a <em>Boot.scala</em> file at <em>src/main/scala/bootstrap/Boot.scala</em>. The following contents will be sufficient:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">package</span> <span class="nn">bootstrap.liftweb</span>
 
@@ -1307,12 +1394,12 @@ The <span class="monospaced">container:start</span> command uses Jetty.</p></div
 <span class="o">}</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Congratulations, you now have a working Lift project!</p></div>
-<div class="paragraph"><p>You can verify that you have a working Lift project by launching the Jetty web container from the <span class="monospaced">sbt</span> console with the <span class="monospaced">container:start</span> command. First the <span class="monospaced">Boot.scala</span> file should be compiled and then you should be notified that Jetty has launched and is listening at <a href="http://localhost:8080">http://localhost:8080</a>. You should be able to go to the address in your web browser and see the rendered <span class="monospaced">index.html</span> file you created earlier.</p></div>
+<div class="paragraph"><p>You can verify that you have a working Lift project by launching the Jetty web container from the <span class="monospaced">sbt</span> console with the <span class="monospaced">container:start</span> command. First the <em>Boot.scala</em> file should be compiled and then you should be notified that Jetty has launched and is listening at <em>http://localhost:8080</em>. You should be able to go to the address in your web browser and see the rendered <em>index.html</em> file you created earlier.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_2">Discussion</h4>
-<div class="paragraph"><p>As shown above, creating a Lift project from scratch is a relatively simple process. However, it can be a tricky one for newcomers, especially if you are not used to the JVM ecosystem and its conventions for web containers. If you run into problems, make sure the files are in the correct locations and that their contents were not mistakenly modified. If all else fails, refere to the sample project below or ask for help on the <a href="http://groups.google.com/group/liftweb">Lift mailing list</a>.</p></div>
-<div class="paragraph"><p>Lift projects using SBT or similar build tools follow a standard project layout, where Scala source code is in <span class="monospaced">src/main/scala</span> and web resources are in <span class="monospaced">src/main/webapp</span>. Your Scala files must be placed either directly at <span class="monospaced">src/main/scala</span> or in nested directories matching the organization and name you defined in <span class="monospaced">build.sbt</span>, in our case giving us <span class="monospaced">src/main/scala/org/yourorganization/liftfromscratch/</span>. Test files match the directory structure but are placed in <span class="monospaced">src/test/</span> instead of <span class="monospaced">src/main/</span>. Likewise, the <span class="monospaced">web.xml</span> file must be placed in <span class="monospaced">src/main/webapp/WEB-INF/</span> for it to be properly detected.</p></div>
+<div class="paragraph"><p>As shown above, creating a Lift project from scratch is a relatively simple process. However, it can be a tricky one for newcomers, especially if you are not used to the JVM ecosystem and its conventions for web containers. If you run into problems, make sure the files are in the correct locations and that their contents were not mistakenly modified. If all else fails, refer to the sample project below or ask for help on the <a href="http://groups.google.com/group/liftweb">Lift mailing list</a>.</p></div>
+<div class="paragraph"><p>Lift projects using SBT or similar build tools follow a standard project layout, where Scala source code is in <em>src/main/scala</em> and web resources are in <em>src/main/webapp</em>. Your Scala files must be placed either directly at <em>src/main/scala</em> or in nested directories matching the organization and name you defined in <em>build.sbt</em>, in our case giving us <em>src/main/scala/org/yourorganization/liftfromscratch/</em>. Test files match the directory structure but are placed in <em>src/test/</em> instead of <em>src/main/</em>. Likewise, the <em>web.xml</em> file must be placed in <em>src/main/webapp/WEB-INF/</em> for it to be properly detected.</p></div>
 <div class="paragraph"><p>Given these conventions, you should have a directly structure looking quite, if not exactly, like this:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
@@ -1393,7 +1480,7 @@ that looks a little like this:</p></div>
 </div></div>
 <div class="paragraph"><p>Edits to HTML files don&#8217;t trigger the SBT compile and reload commands.
 This is because SBT&#8217;s default behaviour is to look for
-Scala and Java source file changes, and also changes to files in <span class="monospaced">src/main/resources/</span>.
+Scala and Java source file changes, and also changes to files in <em>src/main/resources/</em>.
 This works out just fine, because Jetty will use your modified HTML file when you
 reload the browser page.</p></div>
 <div class="paragraph"><p>Restarting the web container each time you edit a Scala file isn&#8217;t ideal. You can reduce
@@ -1405,13 +1492,13 @@ in <a href="#jrebel">[jrebel]</a>.</p></div>
 <div class="content monospaced">
 <pre>java.lang.OutOfMemoryError: PermGen space</pre>
 </div></div>
-<div class="paragraph"><p>The <em>permanent generation</em> is a Java virtual machine concept. It&#8217;s the area of memory used for storing classes (amongst other things).  It&#8217;s a fixed size and once it is full this PermGen error appears.  As you might imagine, continually restarting a container causes many classes to be loaded and unloaded, but the process is not perfect, effectively leaking memory. The best you can do is stop and then restart SBT.  If you&#8217;re seeing this error often, check the setting for <span class="monospaced">-XX:MaxPermSize</span> inside the <span class="monospaced">sbt</span> (or <span class="monospaced">sbt.bat</span>) script, and if you can, double it.</p></div>
+<div class="paragraph"><p>The <em>permanent generation</em> is a Java virtual machine concept. It&#8217;s the area of memory used for storing classes (amongst other things).  It&#8217;s a fixed size and once it is full this PermGen error appears.  As you might imagine, continually restarting a container causes many classes to be loaded and unloaded, but the process is not perfect, effectively leaking memory. The best you can do is stop and then restart SBT.  If you&#8217;re seeing this error often, check the setting for <span class="monospaced">-XX:MaxPermSize</span> inside the <em>sbt</em> (or <em>sbt.bat</em>) script, and if you can, double it.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_see_also_3">See Also</h4>
 <div class="paragraph"><p>There&#8217;s more about triggered execution at <a href="http://www.scala-sbt.org/release/docs/Detailed-Topics/Triggered-Execution">http://www.scala-sbt.org/release/docs/Detailed-Topics/Triggered-Execution</a>.</p></div>
 <div class="paragraph"><p>Reference for the core SBT command line: <a href="http://www.scala-sbt.org/release/docs/Detailed-Topics/Command-Line-Reference">http://www.scala-sbt.org/release/docs/Detailed-Topics/Command-Line-Reference</a>.</p></div>
-<div class="paragraph"><p>Command reference for the web plugin for SBT is at: <a href="https://github.com/siasia/xsbt-web-plugin/wiki">https://github.com/siasia/xsbt-web-plugin/wiki</a>.</p></div>
+<div class="paragraph"><p>Command reference for the web plugin for SBT is at: <a href="https://github.com/JamesEarlDouglas/xsbt-web-plugin/wiki">https://github.com/JamesEarlDouglas/xsbt-web-plugin/wiki</a>.</p></div>
 </div>
 </div>
 <div class="sect2">
@@ -1424,15 +1511,15 @@ in <a href="#jrebel">[jrebel]</a>.</p></div>
 <h4 id="_solutions">Solutions</h4>
 <div class="paragraph"><p>There are three steps required: install JRebel once; each year request the free Scala license; and configure SBT to use JRebel.</p></div>
 <div class="paragraph"><p>First, visit the <a href="https://my.jrebel.com/plans">https://my.jrebel.com/plans</a> and request the free Scala license.</p></div>
-<div class="paragraph"><p>Second, download the "Generic ZIP Archive" version of JRebel, unzip it to where you like. For this recipe I&#8217;ve chosen to use <span class="monospaced">/opt/zt/jrebel/</span>.</p></div>
+<div class="paragraph"><p>Second, download the "Generic ZIP Archive" version of JRebel, unzip it to where you like. For this recipe I&#8217;ve chosen to use <em>/opt/zt/jrebel/</em>.</p></div>
 <div class="paragraph"><p>When your have received your account confirmation email from JRebel, you can copy your "authentication token" from the "Active" area of ZeroTurnaround&#8217;s site. To apply the token to your local install, run the JRebel configuration script:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
 <pre>$ /opt/zt/jrebel/bin/jrebel-config.sh</pre>
 </div></div>
-<div class="paragraph"><p>For Windows navigate to and launch <span class="monospaced">bin\jrebel-config.cmd</span>.</p></div>
+<div class="paragraph"><p>For Windows navigate to and launch <em>bin\jrebel-config.cmd</em>.</p></div>
 <div class="paragraph"><p>In the "Activation" setting select "I want to use myJRebel" and then in the "License" section paste in your activation token. Click the "Activate" button, and once you see the license status change to "You have a valid myJRebel token" click "Finish".</p></div>
-<div class="paragraph"><p>Finally, configure SBT by modifying the <span class="monospaced">sbt</span> script to enable JRebel.  This means setting the <span class="monospaced">-javaagent</span> and <span class="monospaced">-noverify</span> flags for Java, and enabling the JRebel Lift plugin.</p></div>
+<div class="paragraph"><p>Finally, configure SBT by modifying the <em>sbt</em> script to enable JRebel.  This means setting the <span class="monospaced">-javaagent</span> and <span class="monospaced">-noverify</span> flags for Java, and enabling the JRebel Lift plugin.</p></div>
 <div class="paragraph"><p>For Mac and Linux, the script that&#8217;s included with the Lift downloads would become:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
@@ -1440,7 +1527,7 @@ in <a href="#jrebel">[jrebel]</a>.</p></div>
  -Xmx1024M -Xss2M -XX:MaxPermSize=512m -XX:+CMSClassUnloadingEnabled -jar \
  `dirname $0`/sbt-launch-0.12.jar "$@"</pre>
 </div></div>
-<div class="paragraph"><p>For Windows, modify <span class="monospaced">sbt.bat</span> to be:</p></div>
+<div class="paragraph"><p>For Windows, modify <em>sbt.bat</em> to be:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
 <pre>set SCRIPT_DIR=%~dp0
@@ -1470,12 +1557,12 @@ java -Drebel.lift_plugin=true -noverify -javaagent:c:/opt/zt/jrebel/jrebel.jar \
 <div class="sect3">
 <h4 id="_discussion_4">Discussion</h4>
 <div class="paragraph"><p>JRebel is very likely to speed up your development. It updates code in a running Java virtual machine, without having to stop and restart it.  The effect is that, on the whole, you can compile a class, then hit reload in your browser to see the change in your Lift application.</p></div>
-<div class="paragraph"><p>Even with JRebel you will need to restart your applications from time to time, but JRebel usually reduces the number of restarts. For example, <span class="monospaced">Boot.scala</span> is run when your application starts, so if you modify something in your <span class="monospaced">Boot.scala</span> you&#8217;ll need to start and start your application. JRebel can&#8217;t help with that.</p></div>
+<div class="paragraph"><p>Even with JRebel you will need to restart your applications from time to time, but JRebel usually reduces the number of restarts. For example, <em>Boot.scala</em> is run when your application starts, so if you modify something in your <em>Boot.scala</em> you&#8217;ll need to start and start your application. JRebel can&#8217;t help with that.</p></div>
 <div class="paragraph"><p>But there are also other situations that JRebel cannot help with, such as when a superclass changes. Generally, JRebel will emit a warning about this in the console window.  If that happens, stop and start your application.</p></div>
 <div class="paragraph"><p>The <span class="monospaced">-Drebel.lift_plugin=true</span> setting adds Lift-specific functionality to JRebel.  Specifically, it allows JRebel to reload changes to <span class="monospaced">LiftScreen</span>, <span class="monospaced">Wizard</span> and <span class="monospaced">RestHelper</span>. This means you can change fields or screens, and change REST <span class="monospaced">serve</span> code.</p></div>
 <div class="sect4">
-<h5 id="_purchased_licenses">Purchased licenses</h5>
-<div class="paragraph"><p>This recipe uses a free Scala license for a service called myJRebel. This communicates with JRebel servers via the activation code.  If you have purchased a license from ZeroTurnaround, the situation is slightly different.  In this case, you will have a license key which you store in a file called <span class="monospaced">jrebel.lic</span>. You can place the file in a <span class="monospaced">.jrebel</span> folder in your home directory, or alongside <span class="monospaced">jrebel.jar</span> (e.g., in the <span class="monospaced">/opt/zt/jrebel/</span> folder if that&#8217;s where you installed JRebel), or you can specify some other location.  For the latter option, modify the <span class="monospaced">sbt</span> script and specify the location of the file by adding another Java setting:</p></div>
+<h5 id="_purchased_licenses">Purchased Licenses</h5>
+<div class="paragraph"><p>This recipe uses a free Scala license for a service called myJRebel. This communicates with JRebel servers via the activation code.  If you have purchased a license from ZeroTurnaround, the situation is slightly different.  In this case, you will have a license key which you store in a file called <em>jrebel.lic</em>. You can place the file in a <em>.jrebel</em> folder in your home directory, or alongside <em>jrebel.jar</em> (e.g., in the <em>/opt/zt/jrebel/</em> folder if that&#8217;s where you installed JRebel), or you can specify some other location.  For the latter option, modify the <em>sbt</em> script and specify the location of the file by adding another Java setting:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
 <pre>-Drebel.license=/path/to/jrebel.lic</pre>
@@ -1528,7 +1615,7 @@ You can ask the SBT <span class="monospaced">eclipse</span> command to download 
 source and Scaladoc, allowing you to click through to the Lift source from
 methods and classes, which is a useful way to discover more about Lift.</p></div>
 <div class="paragraph"><p>To achieve this in a project, run <span class="monospaced">eclipse with-source=true</span> in SBT, but if you want
-this to be the default behaviour, add the following to your <span class="monospaced">build.sbt</span> file:</p></div>
+this to be the default behaviour, add the following to your <em>build.sbt</em> file:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">EclipseKeys</span><span class="o">.</span><span class="n">withSource</span> <span class="o">:=</span> <span class="kc">true</span>
 </pre></div></div></div>
@@ -1626,7 +1713,7 @@ Select "Generic H2 Server" in "Saved Settings".
 </li>
 <li>
 <p>
-Enter <span class="monospaced">jdbc:h2:/path/to/youapp/lift_proto.db;AUTO_SERVER=TRUE</span> for "JDBC URL", adjusting the path for the location of your database, and adjusting the name of the database ("lift_proto.db") if different in your <span class="monospaced">Boot.scala</span>.
+Enter <span class="monospaced">jdbc:h2:/path/to/youapp/lift_proto.db;AUTO_SERVER=TRUE</span> for "JDBC URL", adjusting the path for the location of your database, and adjusting the name of the database ("lift_proto.db") if different in your <em>Boot.scala</em>.
 </p>
 </li>
 <li>
@@ -1657,7 +1744,7 @@ Press "Connect" to view and edit your database.
 </div>
 <div class="sect3">
 <h4 id="_solution_7">Solution</h4>
-<div class="paragraph"><p>You need to make two changes to your <span class="monospaced">build.sbt</span> file. First, reference
+<div class="paragraph"><p>You need to make two changes to your <em>build.sbt</em> file. First, reference
 the snapshot repository:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">resolvers</span> <span class="o">+=</span> <span class="s">&quot;snapshots&quot;</span> <span class="n">at</span> <span class="s">&quot;http://oss.sonatype.org/content/repositories/snapshots&quot;</span>
@@ -1698,7 +1785,7 @@ Scala version. Failing that, and assuming you cannot wait for a build, you may s
 Providing that the Scala version is <em>binary compatible</em> with the latest
 version used by Lift, you can change your build file to force the Scala
 version.</p></div>
-<div class="paragraph"><p>For example, assuming your <span class="monospaced">build.sbt</span> file is set up to use Lift 2.5
+<div class="paragraph"><p>For example, assuming your <em>build.sbt</em> file is set up to use Lift 2.5
 with Scala 2.9.1:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">&quot;2.9.1&quot;</span>
@@ -1730,7 +1817,7 @@ This works if the two different Scala versions are binary compatible.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_9">Discussion</h4>
-<div class="paragraph"><p>Dependencies have a particular naming convention.  For example, the <span class="monospaced">lift-webkit</span> library for Lift 2.5-RC5 is called <span class="monospaced">lift-webkit_2.9.1-2.5-RC5.jar</span>.  Normally in <span class="monospaced">build.sbt</span> we simply refer to <span class="monospaced">"net.liftweb" %% "lift-webkit"</span> and SBT turns that into the name of a file that can be downloaded.</p></div>
+<div class="paragraph"><p>Dependencies have a particular naming convention.  For example, the <span class="monospaced">lift-webkit</span> library for Lift 2.5-RC5 is called <span class="monospaced">lift-webkit_2.9.1-2.5-RC5.jar</span>.  Normally in <em>build.sbt</em> we simply refer to <span class="monospaced">"net.liftweb" %% "lift-webkit"</span> and SBT turns that into the name of a file that can be downloaded.</p></div>
 <div class="paragraph"><p>However, in this recipe we have forced SBT to explicitly fetch the 2.9.1 version
 of the Lift resources rather than allow it to compute the URL to the
 Lift components.  This is the difference between using <span class="monospaced">%%</span> and <span class="monospaced">%</span> in a
@@ -2165,7 +2252,7 @@ Found" error. It even happens for <span class="monospaced">&lt;lift:HelloWorld.h
 behaviours. In particular the HTML5 parser converts elements and attribute names to lower
 case when looking up snippets. This means Lift would take <span class="monospaced">&lt;lift:HelloWorld.howdy /&gt;</span> and look for a class called "helloworld" rather than "HelloWorld", which would be the cause of the "Class Not Found Error".</p></div>
 <div class="paragraph"><p>Switching to the designer-friendly mechanism is the solution here, and you gain validating HTML as a bonus.</p></div>
-<div class="paragraph"><p>In this Cookbook we use the HTML5 parser, which is set in <span class="monospaced">Boot.scala</span>:</p></div>
+<div class="paragraph"><p>In this Cookbook we use the HTML5 parser, which is set in <em>Boot.scala</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="c1">// Use HTML5 for rendering</span>
 <span class="nc">LiftRules</span><span class="o">.</span><span class="n">htmlProperties</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">set</span><span class="o">(</span> <span class="o">(</span><span class="n">r</span><span class="k">:</span> <span class="kt">Req</span><span class="o">)</span> <span class="k">=&gt;</span>
@@ -2244,11 +2331,11 @@ that look like this new format, and render the correct content for the request. 
  <span class="o">}</span>
 <span class="o">}</span>
 </pre></div></div></div>
-<div class="paragraph"><p>This would be initialised in <span class="monospaced">Boot.scala</span>&#8230;</p></div>
+<div class="paragraph"><p>This would be initialised in <em>Boot.scala</em>&#8230;</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">CustomResourceId</span><span class="o">.</span><span class="n">init</span><span class="o">()</span>
 </pre></div></div></div>
-<div class="paragraph"><p>&#8230;or you could just paste all the code into <span class="monospaced">Boot.scala</span>, if you prefer.</p></div>
+<div class="paragraph"><p>&#8230;or you could just paste all the code into <em>Boot.scala</em>, if you prefer.</p></div>
 <div class="paragraph"><p>With the code in place, we can, for example, modify <span class="monospaced">templates-hidden/default.html</span> and add a resource ID class to jQuery:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">id=</span><span class="s">&quot;jquery&quot;</span> <span class="na">data-lift=</span><span class="s">&quot;with-resource-id&quot;</span>
@@ -2379,7 +2466,7 @@ example as an alternative to <span class="monospaced">&lt;lift:head&gt;</span>.<
 </div>
 <div class="sect3">
 <h4 id="_solution_18">Solution</h4>
-<div class="paragraph"><p>In <span class="monospaced">Boot.scala</span> add the following:</p></div>
+<div class="paragraph"><p>In <em>Boot.scala</em> add the following:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">net.liftweb.util._</span>
 <span class="k">import</span> <span class="nn">net.liftweb.http._</span>
@@ -2449,7 +2536,7 @@ supply an alternative.</p></div>
 ("Forbidden") statuses created in our Lift application.  Further suppose that
 this page might contain snippets so will need to pass through the Lift
 rendering flow.</p></div>
-<div class="paragraph"><p>To do this in <span class="monospaced">Boot.scala</span> we define the <span class="monospaced">LiftResponse</span> we want to generate
+<div class="paragraph"><p>To do this in <em>Boot.scala</em> we define the <span class="monospaced">LiftResponse</span> we want to generate
 and use the response when a 403 status is about to be produced by Lift:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="n">my403</span> <span class="k">:</span> <span class="kt">Box</span><span class="o">[</span><span class="kt">LiftResponse</span><span class="o">]</span> <span class="k">=</span>
@@ -2514,7 +2601,7 @@ customise, create a page for each, and then only match on those pages:</p></div>
 <div class="paragraph"><p>The convention in <span class="monospaced">Customised</span> is that we have a HTML file in <span class="monospaced">src/main/webapp</span> which matches
 the status code we want to show, but of course you can change that by using a different
 pattern in the argument to <span class="monospaced">Templates</span>.</p></div>
-<div class="paragraph"><p>One way to test the above examples is to add the following to <span class="monospaced">Boot.scala</span> to
+<div class="paragraph"><p>One way to test the above examples is to add the following to <em>Boot.scala</em> to
 make all requests to <em>/secret</em> return a 403:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">val</span> <span class="nc">Protected</span> <span class="k">=</span> <span class="nc">If</span><span class="o">(()</span> <span class="k">=&gt;</span> <span class="kc">false</span><span class="o">,</span> <span class="o">()</span> <span class="k">=&gt;</span> <span class="nc">ForbiddenResponse</span><span class="o">(</span><span class="s">&quot;No!&quot;</span><span class="o">))</span>
@@ -2672,7 +2759,7 @@ to Lift that the response is complete, so the page being linked to (<span class=
 <div class="sect3">
 <h4 id="_solution_22">Solution</h4>
 <div class="paragraph"><p>Supply a mock request to Lift&#8217;s <span class="monospaced">MockWeb.testReq</span>, and run your test in the context of the <span class="monospaced">Req</span> supplied by <span class="monospaced">testReq</span>.</p></div>
-<div class="paragraph"><p>The first step is to add Lift&#8217;s Test Kit as dependency to your project in <span class="monospaced">build.sbt</span>:</p></div>
+<div class="paragraph"><p>The first step is to add Lift&#8217;s Test Kit as dependency to your project in <em>build.sbt</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;net.liftweb&quot;</span> <span class="o">%%</span> <span class="s">&quot;lift-testkit&quot;</span> <span class="o">%</span> <span class="s">&quot;2.5-RC5&quot;</span> <span class="o">%</span> <span class="s">&quot;test&quot;</span>
 </pre></div></div></div>
@@ -2834,7 +2921,7 @@ out the various scenarios and pipe them through a function.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_23">Solution</h4>
-<div class="paragraph"><p>Install the Lift Textile module in your <span class="monospaced">build.sbt</span> file by adding the
+<div class="paragraph"><p>Install the Lift Textile module in your <em>build.sbt</em> file by adding the
 following to the list of dependencies:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="s">&quot;net.liftmodules&quot;</span> <span class="o">%%</span> <span class="s">&quot;textile_2.5&quot;</span> <span class="o">%</span> <span class="s">&quot;1.3&quot;</span>
@@ -3445,11 +3532,11 @@ modify the JavaScript to only attach the JQuery UI date picker in browsers that 
 <div class="sect3">
 <h4 id="_solution_28">Solution</h4>
 <div class="paragraph"><p>Use a JavaScript autocomplete widget, for example the jQuery UI autocomplete via the <span class="monospaced">AutoComplete</span> class from the Lift Widgets module.</p></div>
-<div class="paragraph"><p>Start by adding the Lift widgets module to your <span class="monospaced">build.sbt</span>:</p></div>
+<div class="paragraph"><p>Start by adding the Lift widgets module to your <em>build.sbt</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;net.liftmodules&quot;</span> <span class="o">%%</span> <span class="s">&quot;widgets_2.5&quot;</span> <span class="o">%</span> <span class="s">&quot;1.3&quot;</span>
 </pre></div></div></div>
-<div class="paragraph"><p>To enable the autocomplete widget, initialize it in <span class="monospaced">Boot.scala</span>:</p></div>
+<div class="paragraph"><p>To enable the autocomplete widget, initialize it in <em>Boot.scala</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">net.liftmodules.widgets.autocomplete.AutoComplete</span>
 <span class="nc">AutoComplete</span><span class="o">.</span><span class="n">init</span><span class="o">()</span>
@@ -4125,7 +4212,7 @@ you Don&#8217;t want to Repeat Yourself.</p></div>
 </pre></div></div></div>
 <div class="paragraph"><p>This service responds to URLs of <em>/issues/by-state/open</em> and <em>/issues/by-state/closed</em> and we have
 factored out the common part as a <span class="monospaced">prefix</span>.</p></div>
-<div class="paragraph"><p>Wire this into <span class="monospaced">Boot.scala</span> with:</p></div>
+<div class="paragraph"><p>Wire this into <em>Boot.scala</em> with:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">code.rest.IssuesService</span>
 <span class="nc">IssuesService</span><span class="o">.</span><span class="n">init</span><span class="o">()</span>
@@ -4270,7 +4357,7 @@ You requested 123, would send 123.webp</pre>
 <div class="sect3">
 <h4 id="_solution_34">Solution</h4>
 <div class="paragraph"><p>Modify <span class="monospaced">LiftRules.explicitlyParsedSuffixes</span> so that Lift doesn&#8217;t change URLs that end with ".com".</p></div>
-<div class="paragraph"><p>In <span class="monospaced">Boot.scala</span>:</p></div>
+<div class="paragraph"><p>In <em>Boot.scala</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">net.liftweb.util.Helpers</span>
 <span class="nc">LiftRules</span><span class="o">.</span><span class="n">explicitlyParsedSuffixes</span> <span class="k">=</span> <span class="nc">Helpers</span><span class="o">.</span><span class="n">knownSuffixes</span> <span class="o">&amp;~</span> <span class="o">(</span><span class="nc">Set</span><span class="o">(</span><span class="s">&quot;com&quot;</span><span class="o">))</span>
@@ -4303,7 +4390,7 @@ You requested 123, would send 123.webp</pre>
 
 <span class="o">}</span>
 </pre></div></div></div>
-<div class="paragraph"><p>With this service <span class="monospaced">init</span> method called in <span class="monospaced">Boot.scala</span> we could then make requests and observe the issue:</p></div>
+<div class="paragraph"><p>With this service <span class="monospaced">init</span> method called in <em>Boot.scala</em> we could then make requests and observe the issue:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
 <pre>$ curl http://localhost:8080/email/you@example.com/send
@@ -4341,7 +4428,7 @@ your <span class="monospaced">/reports/</span> URL:</p></div>
 </pre></div></div></div>
 <div class="paragraph"><p>You&#8217;re expecting <span class="monospaced">/reports/foo.csv</span> to produce "Here&#8217;s your CSV report
 for foo", but you get a 404.</p></div>
-<div class="paragraph"><p>To resolve this, include "csv" as a file suffix that Lift knows to split from URLs.  In <span class="monospaced">Boot.scala</span> call:</p></div>
+<div class="paragraph"><p>To resolve this, include "csv" as a file suffix that Lift knows to split from URLs.  In <em>Boot.scala</em> call:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">LiftRules</span><span class="o">.</span><span class="n">explicitlyParsedSuffixes</span> <span class="o">+=</span> <span class="s">&quot;csv&quot;</span>
 </pre></div></div></div>
@@ -4393,7 +4480,7 @@ service.</p></div>
 
 <span class="o">}</span>
 </pre></div></div></div>
-<div class="paragraph"><p>Wire this into your application in <span class="monospaced">Boot.scala</span>:</p></div>
+<div class="paragraph"><p>Wire this into your application in <em>Boot.scala</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">code.rest.Upload</span>
 <span class="nc">Upload</span><span class="o">.</span><span class="n">init</span><span class="o">()</span>
@@ -4469,7 +4556,7 @@ Check with documentation for the container for changing these limits.</p></div>
 
 <span class="o">}</span>
 </pre></div></div></div>
-<div class="paragraph"><p>Wire this into <span class="monospaced">Boot.scala</span>:</p></div>
+<div class="paragraph"><p>Wire this into <em>Boot.scala</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">code.rest.QuotationsAPI</span>
 <span class="nc">QuotationsAPI</span><span class="o">.</span><span class="n">init</span><span class="o">()</span>
@@ -4570,7 +4657,7 @@ everything else you expect of JSON.</p></div>
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div></div></div>
-<div class="paragraph"><p>Wire this into your application in <span class="monospaced">Boot.scala</span>, for example:</p></div>
+<div class="paragraph"><p>Wire this into your application in <em>Boot.scala</em>, for example:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">LiftRules</span><span class="o">.</span><span class="n">statelessDispatch</span><span class="o">.</span><span class="n">append</span><span class="o">(</span><span class="n">code</span><span class="o">.</span><span class="n">rest</span><span class="o">.</span><span class="nc">Sitemap</span><span class="o">)</span>
 </pre></div></div></div>
@@ -4637,7 +4724,7 @@ everything else you expect of JSON.</p></div>
 
 <span class="o">}</span>
 </pre></div></div></div>
-<div class="paragraph"><p>The service expects a JSON post with a parameter of "name", and it returns a greeting as a JSON object.  To demonstrate the data to and from the service, we can include the service in <span class="monospaced">Boot.scala</span>&#8230;</p></div>
+<div class="paragraph"><p>The service expects a JSON post with a parameter of "name", and it returns a greeting as a JSON object.  To demonstrate the data to and from the service, we can include the service in <em>Boot.scala</em>&#8230;</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">LiftRules</span><span class="o">.</span><span class="n">statelessDispatch</span><span class="o">.</span><span class="n">append</span><span class="o">(</span><span class="nc">Shouty</span><span class="o">)</span>
 </pre></div></div></div>
@@ -5303,7 +5390,7 @@ loaded into the <span class="monospaced">inject</span> element.</p></div>
 <div class="sect3">
 <h4 id="_discussion_46">Discussion</h4>
 <div class="paragraph"><p><span class="monospaced">Templates</span> produces a <span class="monospaced">Box[NodeSeq]</span>.  In the example above, we map this content into a <span class="monospaced">JsCmd</span> which will populate the <span class="monospaced">inject</span> div.</p></div>
-<div class="paragraph"><p>If you write unit tests to access templates, be aware that you may need to modify your development or testing environment to include the <span class="monospaced">webapps</span> folder.  To do this for SBT, add the following to <span class="monospaced">build.sbt</span>:</p></div>
+<div class="paragraph"><p>If you write unit tests to access templates, be aware that you may need to modify your development or testing environment to include the <span class="monospaced">webapps</span> folder.  To do this for SBT, add the following to <em>build.sbt</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">unmanagedResourceDirectories</span> <span class="n">in</span> <span class="nc">Test</span> <span class="o">&lt;+=</span> <span class="o">(</span><span class="n">baseDirectory</span><span class="o">)</span> <span class="o">{</span> <span class="k">_</span> <span class="o">/</span> <span class="s">&quot;src/main/webapp&quot;</span> <span class="o">}</span>
 </pre></div></div></div>
@@ -5437,7 +5524,7 @@ end of the page.</p></div>
 <span class="nt">&lt;/script&gt;</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Our <span class="monospaced">stash</span> function will save the current value of the input field in a cookie called "stashed".  We arrange, on page load, to check for that cookie and insert the value into our message field.</p></div>
-<div class="paragraph"><p>The final part is to modify <span class="monospaced">Boot.scala</span> to register our <span class="monospaced">stash</span> function:</p></div>
+<div class="paragraph"><p>The final part is to modify <em>Boot.scala</em> to register our <span class="monospaced">stash</span> function:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">net.liftweb.http.js.JsCmds.Run</span>
 
@@ -5544,7 +5631,7 @@ end of the page.</p></div>
 <span class="o">}</span>
 </pre></div></div></div>
 <div class="paragraph"><p>This implementation simply logs the name of the file received and acknowledges successful delivery with a 200 status code back to the widget.</p></div>
-<div class="paragraph"><p>As with all REST services, it needs to be registered in <span class="monospaced">Boot.scala</span>:</p></div>
+<div class="paragraph"><p>As with all REST services, it needs to be registered in <em>Boot.scala</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">LiftRules</span><span class="o">.</span><span class="n">dispatch</span><span class="o">.</span><span class="n">append</span><span class="o">(</span><span class="n">code</span><span class="o">.</span><span class="n">rest</span><span class="o">.</span><span class="nc">AjaxFileUpload</span><span class="o">)</span>
 </pre></div></div></div>
@@ -5688,7 +5775,7 @@ uses our code for the translation of the item.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_50">Solution</h4>
-<div class="paragraph"><p>Add an <span class="monospaced">onBeginServicing</span> function in <span class="monospaced">Boot.scala</span> to log the request.
+<div class="paragraph"><p>Add an <span class="monospaced">onBeginServicing</span> function in <em>Boot.scala</em> to log the request.
 For example:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">LiftRules</span><span class="o">.</span><span class="n">onBeginServicing</span><span class="o">.</span><span class="n">append</span> <span class="o">{</span>
@@ -5770,7 +5857,7 @@ all requests starting <em>/paypal</em>:</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_51">Solution</h4>
-<div class="paragraph"><p>Make use of the hooks in <span class="monospaced">LiftSession</span>. For example, in <span class="monospaced">Boot.scala</span>:</p></div>
+<div class="paragraph"><p>Make use of the hooks in <span class="monospaced">LiftSession</span>. For example, in <em>Boot.scala</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">LiftSession</span><span class="o">.</span><span class="n">afterSessionCreate</span> <span class="o">::=</span>
  <span class="o">(</span> <span class="o">(</span><span class="n">s</span><span class="k">:</span><span class="kt">LiftSession</span><span class="o">,</span> <span class="n">r</span><span class="k">:</span><span class="kt">Req</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="s">&quot;Session created&quot;</span><span class="o">)</span> <span class="o">)</span>
@@ -5876,7 +5963,7 @@ being taken out of service".</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_53">Solution</h4>
-<div class="paragraph"><p>In <span class="monospaced">Boot.scala</span>:</p></div>
+<div class="paragraph"><p>In <em>Boot.scala</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">LiftRules</span><span class="o">.</span><span class="n">enableContainerSessions</span> <span class="k">=</span> <span class="kc">false</span>
 <span class="nc">LiftRules</span><span class="o">.</span><span class="n">statelessReqTest</span><span class="o">.</span><span class="n">append</span> <span class="o">{</span> <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="kc">true</span> <span class="o">}</span>
@@ -5932,7 +6019,7 @@ something to the user.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_54">Solution</h4>
-<div class="paragraph"><p>Declare an exception handler in <span class="monospaced">Boot.scala</span>:</p></div>
+<div class="paragraph"><p>Declare an exception handler in <em>Boot.scala</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">LiftRules</span><span class="o">.</span><span class="n">exceptionHandler</span><span class="o">.</span><span class="n">prepend</span> <span class="o">{</span>
   <span class="k">case</span> <span class="o">(</span><span class="n">runMode</span><span class="o">,</span> <span class="n">request</span><span class="o">,</span> <span class="n">exception</span><span class="o">)</span> <span class="k">=&gt;</span>
@@ -6053,7 +6140,7 @@ server cannot be contacted at this time"</p></div>
 </pre></div></div></div>
 <div class="paragraph"><p>Scala&#8217;s <span class="monospaced">Stream</span> class is a way to generate a sequence with lazy evaluation. The values being
 produced by <span class="monospaced">infinite</span> are used as example data to stream back to the client.</p></div>
-<div class="paragraph"><p>Wire this into Lift in <span class="monospaced">Boot.scala</span>:</p></div>
+<div class="paragraph"><p>Wire this into Lift in <em>Boot.scala</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">LiftRules</span><span class="o">.</span><span class="n">dispatch</span><span class="o">.</span><span class="n">append</span><span class="o">(</span><span class="nc">Numbers</span><span class="o">)</span>
 </pre></div></div></div>
@@ -6211,7 +6298,7 @@ a <span class="monospaced">Box[LiftResponse]</span>. For permitted access we ser
     <span class="mi">200</span><span class="o">)</span>
 </pre></div></div></div>
 <div class="paragraph"><p>If no permission is given, the user is redirected to <span class="monospaced">/sorry.html</span>.</p></div>
-<div class="paragraph"><p>All of this is wired into Lift in <span class="monospaced">Boot.scala</span> with:</p></div>
+<div class="paragraph"><p>All of this is wired into Lift in <em>Boot.scala</em> with:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">LiftRules</span><span class="o">.</span><span class="n">dispatch</span><span class="o">.</span><span class="n">append</span><span class="o">(</span><span class="nc">DownloadService</span><span class="o">)</span>
 </pre></div></div></div>
@@ -6293,7 +6380,7 @@ the user to the home page.</p></div>
 <div class="paragraph"><p>If you visit the page without a header, you&#8217;ll
 see a notice saying "Access not allowed".  This will be the home page of the site, but
 that&#8217;s just the default.</p></div>
-<div class="paragraph"><p>You can request that Lift show a different page by setting <span class="monospaced">LiftRules.siteMapFailRedirectLocation</span> in <span class="monospaced">Boot.scala</span>:</p></div>
+<div class="paragraph"><p>You can request that Lift show a different page by setting <span class="monospaced">LiftRules.siteMapFailRedirectLocation</span> in <em>Boot.scala</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">LiftRules</span><span class="o">.</span><span class="n">siteMapFailRedirectLocation</span> <span class="k">=</span> <span class="s">&quot;static&quot;</span> <span class="o">::</span> <span class="s">&quot;permission&quot;</span> <span class="o">::</span> <span class="nc">Nil</span>
 </pre></div></div></div>
@@ -6354,7 +6441,7 @@ you&#8217;ll need to include this dependency in your SBT build:</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_59">Solution</h4>
-<div class="paragraph"><p>Add an <span class="monospaced">earlyResponse</span> function in <span class="monospaced">Boot.scala</span> redirecting http requests to https
+<div class="paragraph"><p>Add an <span class="monospaced">earlyResponse</span> function in <em>Boot.scala</em> redirecting http requests to https
 equivalents. For example:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">LiftRules</span><span class="o">.</span><span class="n">earlyResponse</span><span class="o">.</span><span class="n">append</span> <span class="o">{</span> <span class="o">(</span><span class="n">req</span><span class="k">:</span> <span class="kt">Req</span><span class="o">)</span> <span class="k">=&gt;</span>
@@ -6418,8 +6505,8 @@ and the load balancer."</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_60">Solution</h4>
-<div class="paragraph"><p>Include the Squeryl-Record dependency in your build, and in <span class="monospaced">Boot.scala</span> provide a database connection function to <span class="monospaced">SquerylRecord.initWithSquerylSession</span>.</p></div>
-<div class="paragraph"><p>For example, to configure Squeryl with PostgreSQL, modify <span class="monospaced">build.sbt</span> to add two dependencies, one for Squeryl-Record and one for the database driver:</p></div>
+<div class="paragraph"><p>Include the Squeryl-Record dependency in your build, and in <em>Boot.scala</em> provide a database connection function to <span class="monospaced">SquerylRecord.initWithSquerylSession</span>.</p></div>
+<div class="paragraph"><p>For example, to configure Squeryl with PostgreSQL, modify <em>build.sbt</em> to add two dependencies, one for Squeryl-Record and one for the database driver:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">liftVersion</span> <span class="k">=</span> <span class="s">&quot;2.5-RC5&quot;</span>
@@ -6432,7 +6519,7 @@ and the load balancer."</p></div>
 <span class="o">}</span>
 </pre></div></div></div>
 <div class="paragraph"><p>This will give you access to Squeryl version 0.9.5-6.</p></div>
-<div class="paragraph"><p>In <span class="monospaced">Boot.scala</span> we define a connection and register it with Squeryl:</p></div>
+<div class="paragraph"><p>In <em>Boot.scala</em> we define a connection and register it with Squeryl:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">Class</span><span class="o">.</span><span class="n">forName</span><span class="o">(</span><span class="s">&quot;org.postgresql.Driver&quot;</span><span class="o">)</span>
 
@@ -6444,7 +6531,7 @@ and the load balancer."</p></div>
   <span class="nc">Session</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="n">connection</span><span class="o">,</span> <span class="k">new</span> <span class="nc">PostgreSqlAdapter</span><span class="o">)</span> <span class="o">)</span>
 </pre></div></div></div>
 <div class="paragraph"><p>All Squeryl queries need to run in the context of a transaction.  One way to provide a transaction is to configure
-a transaction around all HTTP requests. This is also configured in <span class="monospaced">Boot.scala</span>:</p></div>
+a transaction around all HTTP requests. This is also configured in <em>Boot.scala</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">net.liftweb.squerylrecord.RecordTypeMode._</span>
 <span class="k">import</span> <span class="nn">net.liftweb.http.S</span>
@@ -6495,7 +6582,7 @@ application.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_61">Solution</h4>
-<div class="paragraph"><p>In <span class="monospaced">Boot.scala</span> call <span class="monospaced">initWithSquerylSession</span> with a <span class="monospaced">DataSource</span> looked up from the JDNI context:</p></div>
+<div class="paragraph"><p>In <em>Boot.scala</em> call <span class="monospaced">initWithSquerylSession</span> with a <span class="monospaced">DataSource</span> looked up from the JDNI context:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">javax.sql.DataSource</span>
 <span class="k">val</span> <span class="n">ds</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">InitialContext</span><span class="o">().</span>
@@ -6790,7 +6877,7 @@ Moons of Mars are: List(Phobos, Deimos)</pre>
   <span class="k">object</span> <span class="nc">Visit</span> <span class="k">extends</span> <span class="nc">Visit</span> <span class="k">with</span> <span class="nc">MetaRecord</span><span class="o">[</span><span class="kt">Visit</span><span class="o">]</span>
 <span class="o">}</span>
 </pre></div></div></div>
-<div class="paragraph"><p>In <span class="monospaced">Boot.scala</span> we can print out the schema&#8230;</p></div>
+<div class="paragraph"><p>In <em>Boot.scala</em> we can print out the schema&#8230;</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">inTransaction</span> <span class="o">{</span>
   <span class="n">code</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="nc">MySchema</span><span class="o">.</span><span class="n">printDdl</span>
@@ -7295,7 +7382,7 @@ the modified version.  For example, to clean a value by removing leading and tra
 <h4 id="_solution_67">Solution</h4>
 <div class="paragraph"><p>Use an in-memory database, and arrange for it to be set up around your test.</p></div>
 <div class="paragraph"><p>There are three parts to this: including a database in your project and connect to it in an in-memory mode; creating a re-usable trait to set up the database; and then using the trait in your test.</p></div>
-<div class="paragraph"><p>The H2 database has an in memory mode, meaning it won&#8217;t save data to disk. It needs to be included in <span class="monospaced">build.sbt</span> as a dependency. Whilst you are editing <span class="monospaced">build.sbt</span> also disable SBT&#8217;s parallel test execution to prevent database tests from influencing each other:</p></div>
+<div class="paragraph"><p>The H2 database has an in memory mode, meaning it won&#8217;t save data to disk. It needs to be included in <em>build.sbt</em> as a dependency. Whilst you are editing <em>build.sbt</em> also disable SBT&#8217;s parallel test execution to prevent database tests from influencing each other:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;com.h2database&quot;</span> <span class="o">%</span> <span class="s">&quot;h2&quot;</span> <span class="o">%</span> <span class="s">&quot;1.3.170&quot;</span>
 
@@ -7655,14 +7742,14 @@ simply printing the SQL to the console.</p></div>
 <span class="o">}</span>
 </pre></div></div></div>
 <div class="paragraph"><p>This will log queries according to the settings for the logging system, typically the Logback project configured in <span class="monospaced">src/resources/props/default.logback.xml</span>.</p></div>
-<div class="paragraph"><p>It can be inconvenient to have to enable logging in each snippet during development.  To trigger logging for all snippets, you can modify the <span class="monospaced">addAround</span> call in <span class="monospaced">Boot.scala</span>.</p></div>
+<div class="paragraph"><p>It can be inconvenient to have to enable logging in each snippet during development.  To trigger logging for all snippets, you can modify the <span class="monospaced">addAround</span> call in <em>Boot.scala</em>.</p></div>
 <div class="paragraph"><p>Recall from <a href="#ConfiguringSqueryl">[ConfiguringSqueryl]</a> that this is usually defined as:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">S</span><span class="o">.</span><span class="n">addAround</span><span class="o">(</span><span class="k">new</span> <span class="nc">LoanWrapper</span> <span class="o">{</span>
   <span class="k">override</span> <span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">T</span><span class="o">](</span><span class="n">f</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="n">T</span><span class="o">)</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=</span> <span class="n">inTransaction</span> <span class="o">{</span> <span class="n">f</span> <span class="o">}</span>
 <span class="o">})</span>
 </pre></div></div></div>
-<div class="paragraph"><p>To enable logging in each session, we can modify <span class="monospaced">Boot.scala</span> to mix in logging and enable logging on every session:</p></div>
+<div class="paragraph"><p>To enable logging in each session, we can modify <em>Boot.scala</em> to mix in logging and enable logging on every session:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Boot</span> <span class="k">extends</span> <span class="nc">Loggable</span> <span class="o">{</span>
 
@@ -7739,7 +7826,7 @@ doesn&#8217;t have this option.</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-<span class="monospaced">LiftRules.early.append(_.setCharacterEncoding("UTF-8"))</span> is included in <span class="monospaced">Boot.scala</span>.
+<span class="monospaced">LiftRules.early.append(_.setCharacterEncoding("UTF-8"))</span> is included in <em>Boot.scala</em>.
 </p>
 </li>
 <li>
@@ -7757,7 +7844,7 @@ Your MySQL database has been created using a UTF-8 character set.
 <div class="sect3">
 <h4 id="_discussion_73">Discussion</h4>
 <div class="paragraph"><p>There are a number of interactions here which can impact characters going into, and coming out of, a MySQL database.  The basic problem is that bytes transferred across networks have no meaning unless you know the encoding.</p></div>
-<div class="paragraph"><p>The <span class="monospaced">setCharacterEncoding("UTF-8")</span> call in <span class="monospaced">Boot.scala</span> is being applied to every <span class="monospaced">HTTPRequest</span> which ultimately, in a servlet container, is applied to a <span class="monospaced">ServletRequest</span>. This is how parameters in a request are going to be interpreted by the servlet container when received.</p></div>
+<div class="paragraph"><p>The <span class="monospaced">setCharacterEncoding("UTF-8")</span> call in <em>Boot.scala</em> is being applied to every <span class="monospaced">HTTPRequest</span> which ultimately, in a servlet container, is applied to a <span class="monospaced">ServletRequest</span>. This is how parameters in a request are going to be interpreted by the servlet container when received.</p></div>
 <div class="paragraph"><p>The flip side of this is that responses from Lift are encoded as UTF-8.  You&#8217;ll see this in a number of places. For example, <span class="monospaced">templates-hidden/default</span> includes:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;content-type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=UTF-8&quot;</span> <span class="nt">/&gt;</span>
@@ -7852,7 +7939,7 @@ know if it is out of date.</p></div>
 <div class="sect3">
 <h4 id="_solution_74">Solution</h4>
 <div class="paragraph"><p>Run <span class="monospaced">Schemifier</span> and capture the changes it would make if allowed. For
-example, in <span class="monospaced">Boot.scala</span>:</p></div>
+example, in <em>Boot.scala</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">val</span> <span class="n">cmds</span> <span class="k">=</span> <span class="nc">Schemifier</span><span class="o">.</span><span class="n">schemify</span><span class="o">(</span><span class="kc">false</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="nc">Schemifier</span><span class="o">.</span><span class="n">infoF</span> <span class="k">_</span><span class="o">,</span> <span class="nc">User</span><span class="o">,</span> <span class="nc">Company</span><span class="o">)</span>
 
@@ -7929,11 +8016,11 @@ application. For recipes regarding Mongo itself, check out the MongoDB Cookbook 
 <div class="sect3">
 <h4 id="_solution_75">Solution</h4>
 <div class="paragraph"><p>Add the Lift Mongo dependencies to your build and configure a connection using <span class="monospaced">net.liftweb.mongodb</span> and <span class="monospaced">com.mongodb</span>.</p></div>
-<div class="paragraph"><p>In <span class="monospaced">Build.sbt</span> add the following to <span class="monospaced">libraryDependencies</span>:</p></div>
+<div class="paragraph"><p>In <em>build.sbt</em> add the following to <span class="monospaced">libraryDependencies</span>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="s">&quot;net.liftweb&quot;</span> <span class="o">%%</span> <span class="s">&quot;lift-mongodb-record&quot;</span> <span class="o">%</span> <span class="n">liftVersion</span><span class="o">,</span>
 </pre></div></div></div>
-<div class="paragraph"><p>In <span class="monospaced">Boot.scala</span> add:</p></div>
+<div class="paragraph"><p>In <em>Boot.scala</em> add:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.mongodb.</span><span class="o">{</span><span class="nc">ServerAddress</span><span class="o">,</span> <span class="nc">Mongo</span><span class="o">}</span>
 <span class="k">import</span> <span class="nn">net.liftweb.mongodb.</span><span class="o">{</span><span class="nc">MongoDB</span><span class="o">,</span><span class="nc">DefaultMongoIdentifier</span><span class="o">}</span>
@@ -8287,7 +8374,7 @@ then referenced in the <span class="monospaced">planet</span> field with the id 
 <div class="paragraph"><p>Referenced records are fetched from Mongo when you call the <span class="monospaced">obj</span> method
 on a <span class="monospaced">MongoRefField</span>. You can see this by turning on logging in the
 Mongo driver. Do this by adding the following to the start of your
-<span class="monospaced">Boot.scala</span>:</p></div>
+<em>Boot.scala</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">System</span><span class="o">.</span><span class="n">setProperty</span><span class="o">(</span><span class="s">&quot;DEBUG.MONGO&quot;</span><span class="o">,</span> <span class="s">&quot;true&quot;</span><span class="o">)</span>
 <span class="nc">System</span><span class="o">.</span><span class="n">setProperty</span><span class="o">(</span><span class="s">&quot;DB.TRACE&quot;</span><span class="o">,</span> <span class="s">&quot;true&quot;</span><span class="o">)</span>
@@ -8398,7 +8485,7 @@ the object being referenced, a later call to <span class="monospaced">obj</span>
 <div class="sect3">
 <h4 id="_solution_79">Solution</h4>
 <div class="paragraph"><p>You need to include the Rogue dependency in your build and import Rogue into your code.</p></div>
-<div class="paragraph"><p>For the first step, edit <span class="monospaced">build.sbt</span> and add:</p></div>
+<div class="paragraph"><p>For the first step, edit <em>build.sbt</em> and add:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="s">&quot;com.foursquare&quot;</span> <span class="o">%%</span> <span class="s">&quot;rogue&quot;</span> <span class="o">%</span> <span class="s">&quot;1.1.8&quot;</span> <span class="n">intransitive</span><span class="o">()</span>
 </pre></div></div></div>
@@ -8789,7 +8876,7 @@ res2: List[code.model.Country] = List(class code.model.Country={_id=uk,
 </div>
 <div class="sect4">
 <h5 id="_parallel_tests">Parallel Tests</h5>
-<div class="paragraph"><p>If your tests are modifying data and have the potential to interact, you&#8217;ll want to stop SBT from running your tests in parallel. A symptom of this would be tests that fail apparently randomly, or working tests that stop working when you add a new test, or tests that seem to lock up.  Disable by adding the following to <span class="monospaced">build.sbt</span>:</p></div>
+<div class="paragraph"><p>If your tests are modifying data and have the potential to interact, you&#8217;ll want to stop SBT from running your tests in parallel. A symptom of this would be tests that fail apparently randomly, or working tests that stop working when you add a new test, or tests that seem to lock up.  Disable by adding the following to <em>build.sbt</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">parallelExecution</span> <span class="n">in</span> <span class="nc">Test</span> <span class="o">:=</span> <span class="kc">false</span>
 </pre></div></div></div>
@@ -8949,7 +9036,7 @@ but you do want to see what would have been sent.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_84">Solution</h4>
-<div class="paragraph"><p>Assign a logging function to <span class="monospaced">Mailer.devModeSend</span> in <span class="monospaced">Boot.scala</span>:</p></div>
+<div class="paragraph"><p>Assign a logging function to <span class="monospaced">Mailer.devModeSend</span> in <em>Boot.scala</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">net.liftweb.util.Mailer._</span>
 <span class="k">import</span> <span class="nn">javax.mail.internet.</span><span class="o">{</span><span class="nc">MimeMessage</span><span class="o">,</span><span class="nc">MimeMultipart</span><span class="o">}</span>
@@ -9176,7 +9263,7 @@ Content-Transfer-Encoding: 7bit
 <div class="paragraph"><p>Set the <span class="monospaced">Mailer.authenticator</span> in <span class="monospaced">Boot</span> with the credentials for your
 SMTP server, and enable the <span class="monospaced">mail.smtp.auth</span> flag in your Lift properties
 file.</p></div>
-<div class="paragraph"><p>Modify <span class="monospaced">Boot.scala</span> to include:</p></div>
+<div class="paragraph"><p>Modify <em>Boot.scala</em> to include:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">net.liftweb.util.</span><span class="o">{</span><span class="nc">Props</span><span class="o">,</span> <span class="nc">Mailer</span><span class="o">}</span>
 <span class="k">import</span> <span class="nn">javax.mail.</span><span class="o">{</span><span class="nc">Authenticator</span><span class="o">,</span><span class="nc">PasswordAuthentication</span><span class="o">}</span>
@@ -9368,13 +9455,13 @@ every 10 minutes.</p></div>
 <h4 id="_discussion_90">Discussion</h4>
 <div class="paragraph"><p>The <span class="monospaced">Schedule.schedule</span> call is ensuring that <span class="monospaced">this</span> actor is sent the
 <span class="monospaced">DoIt</span> message after 10 minutes.</p></div>
-<div class="paragraph"><p>To start this process off, possibly in <span class="monospaced">Boot.scala</span>, just send the
+<div class="paragraph"><p>To start this process off, possibly in <em>Boot.scala</em>, just send the
 <span class="monospaced">DoIt</span> message to the actor:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">MyScheduledTask</span> <span class="o">!</span> <span class="nc">MyScheduledTask</span><span class="o">.</span><span class="nc">DoIt</span>
 </pre></div></div></div>
 <div class="paragraph"><p>To ensure the process stops correctly when Lift shuts down, we register
-a shutdown hook in <span class="monospaced">Boot.scala</span> to send the <span class="monospaced">Stop</span> message to prevent
+a shutdown hook in <em>Boot.scala</em> to send the <span class="monospaced">Stop</span> message to prevent
 future re-schedules:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">LiftRules</span><span class="o">.</span><span class="n">unloadHooks</span><span class="o">.</span><span class="n">append</span><span class="o">(</span> <span class="o">()</span> <span class="k">=&gt;</span> <span class="nc">MyScheduledTask</span> <span class="o">!</span> <span class="nc">MyScheduledTask</span><span class="o">.</span><span class="nc">Stop</span> <span class="o">)</span>
@@ -9400,7 +9487,7 @@ library, which allows you to <span class="monospaced">cancel</span> the activity
 <div class="sect3">
 <h4 id="_solution_90">Solution</h4>
 <div class="paragraph"><p>Use <em>Dispatch</em>, "a library for asynchronous HTTP interaction".</p></div>
-<div class="paragraph"><p>Before you start, include Dispatch dependency in your <span class="monospaced">build.sbt</span> file:</p></div>
+<div class="paragraph"><p>Before you start, include Dispatch dependency in your <em>build.sbt</em> file:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;net.databinder.dispatch&quot;</span> <span class="o">%%</span> <span class="s">&quot;dispatch-core&quot;</span> <span class="o">%</span> <span class="s">&quot;0.9.5&quot;</span>
 </pre></div></div></div>
@@ -9650,7 +9737,7 @@ example:</p></div>
 </pre></div></div></div>
 <div class="paragraph"><p>The above is a JNDI database configuration, defining a connection to a
 CloudBees database called "mydb". This will be used by Lift if the JNDI
-name is referenced in <span class="monospaced">Boot.scala</span>:</p></div>
+name is referenced in <em>Boot.scala</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">DefaultConnectionIdentifier</span><span class="o">.</span><span class="n">jndiName</span> <span class="k">=</span> <span class="s">&quot;jdbc/mydb&quot;</span>
 
@@ -9798,7 +9885,7 @@ instructions for installing and configuring it can be found at <a href="https://
 <div class="paragraph"><p>Elastic Beanstalk provides a pre-built stack of software and infrastructure, in this case: Linux, Tomcat 7, a 64 bit "t1.micro" EC2 instance, load balancing, and an S3 bucket. That&#8217;s the <em>environment</em> and it has reasonable default settings.  Beanstalk also provides an easy way to deploy your Lift application.  As we&#8217;ve seen in this recipe, you upload an application (WAR file) to Beanstalk and deploy it to the environment.</p></div>
 <div class="paragraph"><p>As with many cloud providers keep in mind that you want to avoid local file storage. The reason for this is to allow instances to be terminated or restarted without data loss. With your Beanstalk application you do have a file system and you can write to it, but it is lost if the image is restarted. You can get persistent local file storage, for example using Amazon Elastic Block Storage, but you&#8217;re fighting against the nature of the platform.</p></div>
 <div class="paragraph"><p>Log files are written to the local file system. To access them, from the AWS console, navigate to your environment, into the "Logs" tab and hit the "Snapshot" button. This will take a copy of the logs and store them in an S3 bucket, and give you a link to the file contents.  This is a single file showing the content of variety of log files, and <span class="monospaced">catalina.out</span> will be the one showing any output from your Lift application.  If you want to try to keep these log files around, you can configure the environment to rotate the logs to S3 every hour from the "Container" tab under "Edit Configuration".</p></div>
-<div class="paragraph"><p>The Lift application WAR files are stored in the same S3 bucket that the logs are stored in. From the AWS console, you&#8217;ll find it under the S3 page listed with a name like <span class="monospaced">elasticbeanstalk-us-east-1-5989673916964</span>. You&#8217;ll note that the AWS uploads makes your WAR filename unique by adding a prefix to each filename. If you need to be able to tell the difference between these files in S3, one good approach is to is to bump the <span class="monospaced">version</span> value in your <span class="monospaced">build.sbt</span> file.  This version number is included in the WAR filename.</p></div>
+<div class="paragraph"><p>The Lift application WAR files are stored in the same S3 bucket that the logs are stored in. From the AWS console, you&#8217;ll find it under the S3 page listed with a name like <span class="monospaced">elasticbeanstalk-us-east-1-5989673916964</span>. You&#8217;ll note that the AWS uploads makes your WAR filename unique by adding a prefix to each filename. If you need to be able to tell the difference between these files in S3, one good approach is to is to bump the <span class="monospaced">version</span> value in your <em>build.sbt</em> file.  This version number is included in the WAR filename.</p></div>
 <div class="sect4">
 <h5 id="_multiple_instances">Multiple Instances</h5>
 <div class="paragraph"><p>Beanstalks enables <em>auto scaling</em> by default. That is, it launches a single instance of your Lift application, but if the load increases above a threshold, up to four instances may be running.</p></div>
@@ -9808,7 +9895,7 @@ instructions for installing and configuring it can be found at <a href="https://
 <h5 id="_working_with_a_database">Working with a Database</h5>
 <div class="paragraph"><p>There&#8217;s nothing unusual you have to do to use Lift and a database from Beanstalk. However, Beanstalk does try to make it easy for you to work with Amazon&#8217;s Relational Database Service (RDS).  Either when creating your Beanstalk environment, or from the configuration options later, you can add an RDS instance, which cab be an Oracle, SQL-Server or MySQL database.</p></div>
 <div class="paragraph"><p>The MySQL option will create a MySQL 5.5 InnoDB database. The database will be accessible from Beanstalk, but not from elsewhere on the Internet. To change that, modify the security groups for the RDS instance from the AWS web console.  For example, you might permit access from your IP address.</p></div>
-<div class="paragraph"><p>When your application launches with an associated RDS instance, the JVM system properties include settings for the database name, host, port, user and password.  You could pull them together like this in <span class="monospaced">Boot.scala</span>:</p></div>
+<div class="paragraph"><p>When your application launches with an associated RDS instance, the JVM system properties include settings for the database name, host, port, user and password.  You could pull them together like this in <em>Boot.scala</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">Class</span><span class="o">.</span><span class="n">forName</span><span class="o">(</span><span class="s">&quot;com.mysql.jdbc.Driver&quot;</span><span class="o">)</span>
 
@@ -9911,7 +9998,7 @@ Created release v6
 <div class="sect3">
 <h4 id="_discussion_94">Discussion</h4>
 <div class="paragraph"><p>There are a few important comments regarding Lift applications on Heroku. First, note that there&#8217;s no support for session affinity. This means if you deploy to multiple <em>dynos</em> (Heroku terminology for instances), there is no co-ordination over which requests go to which servers. As a consequence, you won&#8217;t be able to make use of Lift&#8217;s stateful features and will want to turn them off (<a href="#RunningStateless">[RunningStateless]</a> describes for how to do that).</p></div>
-<div class="paragraph"><p>Second, if you are using Lift comet features, there&#8217;s an adjustment to make in <span class="monospaced">Boot.scala</span> to work a little better in the Heroku environment:</p></div>
+<div class="paragraph"><p>Second, if you are using Lift comet features, there&#8217;s an adjustment to make in <em>Boot.scala</em> to work a little better in the Heroku environment:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">LiftRules</span><span class="o">.</span><span class="n">cometRequestTimeout</span> <span class="k">=</span> <span class="nc">Full</span><span class="o">(</span><span class="mi">25</span><span class="o">)</span>
 </pre></div></div></div>
@@ -9928,7 +10015,7 @@ with 25 seconds because Heroku terminates connections after 30 seconds.  Althoug
 </pre></div></div></div>
 <div class="paragraph"><p>Anyone visiting your Lift application will cause Heroku to unidle your application.</p></div>
 <div class="paragraph"><p>Note, though, that the application was stopped with a <span class="monospaced">SIGTERM</span>.  This is a Unix signal sent to a process, the JVM in this case, to request it to stop.  Unfortunately the Tomcat application on Heroku does not use this signal to request Lift to shutdown. This may be of little consequence to you, but if you do have external resources you want to release to other actions to take at shutdown, you need to register a shutdown hook with the JVM.</p></div>
-<div class="paragraph"><p>For example, you might add this to <span class="monospaced">Boot.scala</span> if you&#8217;re running on Heroku:</p></div>
+<div class="paragraph"><p>For example, you might add this to <em>Boot.scala</em> if you&#8217;re running on Heroku:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">Runtime</span><span class="o">.</span><span class="n">getRuntime</span><span class="o">().</span><span class="n">addShutdownHook</span><span class="o">(</span><span class="k">new</span> <span class="nc">Thread</span> <span class="o">{</span>
   <span class="k">override</span> <span class="k">def</span> <span class="n">run</span><span class="o">()</span> <span class="o">{</span>
@@ -9986,7 +10073,7 @@ Fork/Follow: Unsupported
 <pre>postgres://gghetjutddgr:RNC_lINakkk899HHYEFUppwG@ec2-54-243-230-119.compute-1.
  amazonaws.com:5432/d44nsahps11hda</pre>
 </div></div>
-<div class="paragraph"><p>This URL contains a user name, password, host and database name, but needs to be manipulated to be used by JDBC.  To do so, you might include the following in <span class="monospaced">Boot.scala</span>:</p></div>
+<div class="paragraph"><p>This URL contains a user name, password, host and database name, but needs to be manipulated to be used by JDBC.  To do so, you might include the following in <em>Boot.scala</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre> <span class="nc">Box</span> <span class="o">!!</span> <span class="nc">System</span><span class="o">.</span><span class="n">getenv</span><span class="o">(</span><span class="s">&quot;DATABASE_URL&quot;</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
   <span class="k">case</span> <span class="nc">Full</span><span class="o">(</span><span class="n">url</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">initHerokuDb</span><span class="o">(</span><span class="n">url</span><span class="o">)</span>
@@ -10014,7 +10101,7 @@ Fork/Follow: Unsupported
 <span class="o">}</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Here we are testing for the presence of the <span class="monospaced">DATABASE_URL</span> environment variable, which would indicate that we are in the Heroku environment. The example code then goes on to initialize Squeryl Record in Lift (described in <a href="#Squeryl">[Squeryl]</a>) using the Heroku database settings.</p></div>
-<div class="paragraph"><p>For it to run <span class="monospaced">build.sbt</span> needs the appropriate dependencies for Record and PostgresSQL:</p></div>
+<div class="paragraph"><p>For it to run <em>build.sbt</em> needs the appropriate dependencies for Record and PostgresSQL:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">...</span>
 <span class="s">&quot;postgresql&quot;</span> <span class="o">%</span> <span class="s">&quot;postgresql&quot;</span> <span class="o">%</span> <span class="s">&quot;9.1-901.jdbc4&quot;</span><span class="o">,</span>
@@ -10076,7 +10163,7 @@ No relations found.
 </div></div>
 <div class="paragraph"><p>This command will produce various messages as it starts but will eventually say: "broker running".</p></div>
 <div class="paragraph"><p>The Lift application we&#8217;ll use to demonstrate the pubsub pattern is the real-time chat application, described in <em>Simply Lift</em>.
-The first modification is to include the Lift module to talk to RabbitMQ. This is a one-line addition to the <span class="monospaced">libraryDependencies</span> in <span class="monospaced">build.sbt</span>:</p></div>
+The first modification is to include the Lift module to talk to RabbitMQ. This is a one-line addition to the <span class="monospaced">libraryDependencies</span> in <em>build.sbt</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="s">&quot;net.liftmodules&quot;</span> <span class="o">%%</span> <span class="s">&quot;amqp_2.5&quot;</span> <span class="o">%</span> <span class="s">&quot;1.3-SNAPSHOT&quot;</span>
 </pre></div></div></div>
@@ -10121,7 +10208,7 @@ The first modification is to include the Lift module to talk to RabbitMQ. This i
 <span class="o">}</span>
 </pre></div></div></div>
 <div class="paragraph"><p>This code is establishing <span class="monospaced">RemoteSend</span> and <span class="monospaced">RemoteReceiver</span> actors that serialise <span class="monospaced">String</span> values via RabbitMQ.  This code is explored in the <em>Discussion</em> section below.</p></div>
-<div class="paragraph"><p>To make use of this and route comet messages over RabbitMQ we need to make two changes.  In <span class="monospaced">Boot.scala</span> we need to start listening for messages from RabbitMQ:</p></div>
+<div class="paragraph"><p>To make use of this and route comet messages over RabbitMQ we need to make two changes.  In <em>Boot.scala</em> we need to start listening for messages from RabbitMQ:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nc">RemoteReceiver</span> <span class="o">!</span> <span class="nc">AMQPAddListener</span><span class="o">(</span><span class="nc">ChatServer</span><span class="o">)</span>
 </pre></div></div></div>
@@ -10163,7 +10250,7 @@ The first modification is to include the Lift module to talk to RabbitMQ. This i
 <pre>$ ./sbin/rabbitmq-plugins enable rabbitmq_management</pre>
 </div></div>
 <div class="paragraph"><p>Visit the administrative web interface at <span class="monospaced">http://127.0.0.1:15672/</span> and login.  The default username and password is "guest".</p></div>
-<div class="paragraph"><p>Having to have RabbitMQ (or other type of pubsub solution) running during development may be inconvenient. In that case, you can simply not initialize the service in <span class="monospaced">Boot.scala</span>:</p></div>
+<div class="paragraph"><p>Having to have RabbitMQ (or other type of pubsub solution) running during development may be inconvenient. In that case, you can simply not initialize the service in <em>Boot.scala</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">if</span> <span class="o">(</span><span class="nc">Props</span><span class="o">.</span><span class="n">productionMode</span><span class="o">)</span>
   <span class="nc">RemoteReceiver</span> <span class="o">!</span> <span class="nc">AMQPAddListener</span><span class="o">(</span><span class="nc">ChatServer</span><span class="o">)</span>
@@ -10409,7 +10496,7 @@ You assert that the work is your own, or you have the necessary permission for t
 </pre></div></div></div>
 <div class="paragraph"><p>Here we are plugging into Lift&#8217;s processing pipeline and adding the required
 JavaScript to the head of every page.</p></div>
-<div class="paragraph"><p>We modify <span class="monospaced">build.sbt</span> to give the module a name, organisation and version number.  We also can remove many of the dependencies and the web plugin as we only depend on the web API elements of Lift:</p></div>
+<div class="paragraph"><p>We modify <em>build.sbt</em> to give the module a name, organisation and version number.  We also can remove many of the dependencies and the web plugin as we only depend on the web API elements of Lift:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;snowstorm&quot;</span>
 
@@ -10438,7 +10525,7 @@ JavaScript to the head of every page.</p></div>
 <div class="content monospaced">
 <pre>publish-local</pre>
 </div></div>
-<div class="paragraph"><p>With our module built and published, we can now include it in our Lift applications. To do that, modify the Lift application&#8217;s <span class="monospaced">build.sbt</span> to reference this new "snowstorm" dependency:</p></div>
+<div class="paragraph"><p>With our module built and published, we can now include it in our Lift applications. To do that, modify the Lift application&#8217;s <em>build.sbt</em> to reference this new "snowstorm" dependency:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">liftVersion</span> <span class="k">=</span> <span class="s">&quot;2.5-RC5&quot;</span>
@@ -10447,7 +10534,7 @@ JavaScript to the head of every page.</p></div>
   <span class="s">&quot;net.liftmodules&quot;</span> <span class="o">%%</span> <span class="s">&quot;snowstorm&quot;</span> <span class="o">%</span> <span class="s">&quot;1.0.0&quot;</span><span class="o">,</span>
   <span class="o">...</span>
 </pre></div></div></div>
-<div class="paragraph"><p>In our Lift application&#8217;s <span class="monospaced">Boot.scala</span> we finally initialise the plugin:</p></div>
+<div class="paragraph"><p>In our Lift application&#8217;s <em>Boot.scala</em> we finally initialise the plugin:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">net.liftmodules.snowstorm.Snowstorm</span>
 <span class="nc">Snowstorm</span><span class="o">.</span><span class="n">init</span><span class="o">()</span>
@@ -10487,7 +10574,7 @@ JavaScript to the head of every page.</p></div>
   <span class="k">val</span> <span class="n">project</span> <span class="k">=</span> <span class="nc">Project</span><span class="o">(</span><span class="s">&quot;LiftModule&quot;</span><span class="o">,</span> <span class="n">file</span><span class="o">(</span><span class="s">&quot;.&quot;</span><span class="o">))</span>
 <span class="o">}</span>
 </pre></div></div></div>
-<div class="paragraph"><p>This defines a setting to control the Lift version number.  You use it in your module <span class="monospaced">build.sbt</span> like this:</p></div>
+<div class="paragraph"><p>This defines a setting to control the Lift version number.  You use it in your module <em>build.sbt</em> like this:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;snowstorm&quot;</span>
 
@@ -10540,7 +10627,7 @@ JavaScript to the head of every page.</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-05-04 15:04:03 BST
+Last updated 2013-05-08 22:03:16 BST
 </div>
 </div>
 </body>
