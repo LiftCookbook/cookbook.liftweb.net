@@ -3909,7 +3909,8 @@ there&#8217;s a hidden field added to the first item.
 <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;radio&quot;</span> <span class="na">name=</span><span class="s">&quot;gender&quot;</span> <span class="na">value=</span><span class="s">&quot;RatherNotSay&quot;</span><span class="nt">&gt;</span>Rather Not Say<span class="nt">&lt;br&gt;</span>
 </pre></div></div></div>
 <div class="paragraph"><p>By using random values, Lift has helped us by protecting against a range of form-based attacks, such as submitting values we&#8217;re not expected or setting values on fields we don&#8217;t want set.</p></div>
-<div class="paragraph"><p>Each of the random radio button values is associated, on the server, with a value from our options (a <span class="monospaced">BirthGender</span> instance). The hidden value maps to a function that&#8217;s called when the form is submitted, and by using the common "name" value on the fields, it is able to pick out the selected radio button and identify the corresponding <span class="monospaced">BirthGender</span> value and pass it to our code.</p></div>
+<div class="paragraph"><p>Each of the random radio button values is associated, on the server, with a value from our options (a <span class="monospaced">BirthGender</span> instance). When the form is submitted, Lift picks out the selected value (if any), looks up the corresponding <span class="monospaced">BirthGender</span> value, and call our function.</p></div>
+<div class="paragraph"><p>The hidden field, which shares a name with the radio buttons, ensures that the function will be called. Even if no radio button is selected, the browser will at least send the hidden field, and this is enough to trigger the server-side function.</p></div>
 <div class="sect4">
 <h5 id="_customising_the_html">Customising the HTML</h5>
 <div class="paragraph"><p>The default HTML wraps each radio button in a <span class="monospaced">&lt;span&gt;</span> and separates them with a <span class="monospaced">&lt;br&gt;</span>.  Let&#8217;s change that to make it work well with the <em>Twitter Bootstrap</em> framework, and put each choice in a <span class="monospaced">&lt;lablel&gt;</span> and give it a class.</p></div>
@@ -10901,7 +10902,7 @@ JavaScript to the head of every page.</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-05-19 17:27:38 BST
+Last updated 2013-05-19 19:17:12 BST
 </div>
 </div>
 </body>
