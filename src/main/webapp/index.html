@@ -3691,6 +3691,24 @@ A function to call when the form is submitted
 </pre></div></div></div>
 <div class="paragraph"><p>This chunk of markup is generated from the <span class="monospaced">AutoComplete(default, suggest, submit)</span> call. What&#8217;s happening here is that the jQuery UI autocomplete JavaScript and CSS, which is bundled with the Lift widgets module, is being included on the page. Recall from <a href="#AddToHead">[AddToHead]</a> that Lift will merge the <span class="monospaced">&lt;head&gt;</span> part of this markup into the <span class="monospaced">&lt;head&gt;</span> of the final HTML page.</p></div>
 <div class="paragraph"><p>When the page loads, the jQuery UI <span class="monospaced">autocomplete</span> function is bound to the input field, and configured with a URL, which will deliver the user&#8217;s input to our <span class="monospaced">suggest</span> function.  All <span class="monospaced">suggest</span> needs to do is return a <span class="monospaced">Seq[String]</span> of values for the jQuery autocomplete code to display to the user.</p></div>
+<div class="admonitionblock" id="jQuery19Migrate">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="title">jQuery 1.9</div>
+<div class="paragraph"><p>jQuery 1.9 removed the <span class="monospaced">$.browser</span> method that the Autocomplete
+Widget needs. The work-around for this is to include the
+jQuery migration package in your template:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">data-lift=</span><span class="s">&quot;head&quot;</span>
+  <span class="na">src=</span><span class="s">&quot;http://code.jquery.com/jquery-migrate-1.2.1.js&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</pre></div></div></div>
+</td>
+</tr></table>
+</div>
 <div class="sect4">
 <h5 id="_submitting_new_values">Submitting new values</h5>
 <div class="paragraph"><p>One peculiarity of the <span class="monospaced">AutoComplete</span> widget is that if you type in a new value&#8212;one not suggested&#8212;and press submit, it is not sent to the server.  That is, you need to click on one of the suggestions to select it.  If that&#8217;s not the behaviour you want, you can <phrase role='keep-together'>adjust it.</phrase></p></div>
@@ -9221,6 +9239,35 @@ res2: List[code.model.Country] = List(class code.model.Country={_id=uk,
 <span class="o">}</span>
 </pre></div></div></div>
 <div class="paragraph"><p>This trait provides the plumbing for connection to a MongoDB server running locally, and creates a database based on the name of the class it is mixed into.  The important part is the <span class="monospaced">MongoContext</span>, which ensures that <span class="monospaced">around</span> your specification the database is initialised, and that after your specification is run, it is cleaned up.</p></div>
+<div class="admonitionblock" id="Specs2AndScala210">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="title">Specs2 2.x and Scala 2.10</div>
+<div class="paragraph"><p>If you&#8217;re using Scala 2.10, you&#8217;ll also be using a newer version of
+Specs2, and in that case <span class="monospaced">MongoContent</span> needs to be modified. For
+Specs2 2.1 you&#8217;ll need this code:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">object</span> <span class="nc">MongoContext</span> <span class="k">extends</span> <span class="nc">Around</span> <span class="k">with</span> <span class="nc">TestLiftSession</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">around</span><span class="o">[</span><span class="kt">T</span> <span class="kt">:</span> <span class="kt">AsResult</span><span class="o">](</span><span class="n">testToRun</span><span class="k">:</span> <span class="o">=&gt;</span><span class="n">T</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Result</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">initDb</span><span class="o">()</span>
+    <span class="k">try</span> <span class="o">{</span>
+      <span class="n">inSession</span> <span class="o">{</span>
+        <span class="nc">ResultExecution</span><span class="o">.</span><span class="n">execute</span><span class="o">(</span><span class="nc">AsResult</span><span class="o">(</span><span class="n">testToRun</span><span class="o">))</span>
+      <span class="o">}</span>
+    <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+        <span class="n">destroyDb</span><span class="o">()</span>
+    <span class="o">}</span>
+   <span class="o">}</span>
+<span class="o">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p>The changes in the 2.x series of Specs2 are
+documented on <a href="http://bit.ly/specs2-nterpolated">Eric Torreborre&#8217;s blog</a>.</p></div>
+</td>
+</tr></table>
+</div>
 <div class="paragraph"><p>To use this in a specification, mix in the trait and then add the context:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">org.specs2.mutable._</span>
@@ -11022,7 +11069,7 @@ JavaScript to the head of every page.</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-06-23 23:19:07 BST
+Last updated 2013-07-21 10:05:11 BST
 </div>
 </div>
 </body>
