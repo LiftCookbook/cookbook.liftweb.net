@@ -909,6 +909,14 @@ asciidoc.install(2);
 </div>
 <div id="content">
 <div class="sect1">
+<h2 id="_lift_cookbook">Lift Cookbook</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The Lift Cookbook is available in PDF, ePub, DAISY, and Kindle format, <a href="http://shop.oreilly.com/product/0636920029151.do">direct from O&#8217;Reilly</a>, and can also be found at Amazon and other bookstores.</p></div>
+<iframe frameborder="0" scrolling="no" width="200px" height="500px" src="http://cdn.oreillystatic.com/widgets/author/253.html">
+</iframe>
+</div>
+</div>
+<div class="sect1">
 <h2 id="preface">Preface</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>This is a collection of solutions to questions you might have while developing
@@ -964,6 +972,11 @@ Kevin Lau, who&#8217;s a founder of a few web apps with a focus in AWS cloud, iO
 <li>
 <p>
 Tony Kay.
+</p>
+</li>
+<li>
+<p>
+Chenguang He.
 </p>
 </li>
 </ul></div>
@@ -6549,7 +6562,7 @@ from:</p></div>
 </pre></div></div></div>
 <div class="paragraph"><p>Notice the use of a structural type for the <span class="monospaced">data</span> parameter. Anything
 with a matching <span class="monospaced">read</span> method can be given here, including
-<span class="monospaced">java.io.InputStream`–like objects, meaning `StreamingResponse</span> can act
+<span class="monospaced">java.io.InputStream</span> objects, meaning <span class="monospaced">StreamingResponse</span> can act
 as a pipe from input to output. Lift pulls 8 K chunks from your
 <span class="monospaced">StreamingResponse</span> to send to the client.</p></div>
 <div class="paragraph"><p>Your <span class="monospaced">data</span> <span class="monospaced">read</span> function should follow the semantics of Java IO and
@@ -11069,7 +11082,7 @@ JavaScript to the head of every page.</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-07-21 10:05:11 BST
+Last updated 2013-07-30 19:14:03 BST
 </div>
 </div>
 </body>
