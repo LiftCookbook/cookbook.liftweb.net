@@ -4465,7 +4465,7 @@ layout of fields. "LiftScreen"</p></div>
 <div class="sect3">
 <h4 id="_solution_33">Solution</h4>
 <div class="paragraph"><p>Use <span class="monospaced">CssBoundLiftScreen</span>, with field bindings for naming placements, and optionally
-use override the layout of specific individual field
+override the layout of specific individual field
 elements.</p></div>
 <div class="paragraph"><p>Here&#8217;s an example snippet:</p></div>
 <div class="listingblock">
@@ -4573,7 +4573,7 @@ edit three fields.  The fields have validation, and will be bound into a templat
 <span class="nt">&lt;/html&gt;</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Running the snippet will cause <span class="monospaced">CssBoundLiftScreen</span> to apply the <span class="monospaced">defaultFieldNodeSeq</span> layout
-to each field, with the exception of the "address" field which we have customised inside the template.</p></div>
+to each field, with the exception of the "address" field that we have customised inside the template.</p></div>
 <div class="paragraph"><p>Pressing the "Finish" button triggers validations, presents errors (if any), or completes the edit via the <span class="monospaced">finish</span> method.</p></div>
 </div>
 <div class="sect3">
@@ -4583,35 +4583,35 @@ CSS classes to identify elements in the default template (e.g.,
 <em>wizard-all.html</em>). This powerful mechanism eliminates repetition in both
 code and HTML; however, <span class="monospaced">LiftScreen</span> sacrifices flexibility in that there
 is no way to make highly customized forms.</p></div>
-<div class="paragraph"><p>This restriction is removed in <span class="monospaced">CssBoundLiftScreen</span>, by allowing you to optionally control every
-element of the form rendering, from form field placement to the layout of a
-single field. You do so by embedding the template at the snippet usage site:</p></div>
+<div class="paragraph"><p>This restriction is removed in <span class="monospaced">CssBoundLiftScreen</span> by allowing you to control every
+element of the form rendering. You can control everything form field placement to the layout of a
+single field. You do so by embedding the custom template at the snippet usage site:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">data-lift=</span><span class="s">&quot;AccountInfoEditor&quot;</span><span class="nt">&gt;</span>
    <span class="c">&lt;!-- template for Screen goes here --&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
 </pre></div></div></div>
-<div class="paragraph"><p>&#8230;and supply some additional binding hints. The form is still very minimal, while
+<div class="paragraph"><p>and supply some additional binding hints. The form is still very minimal, while
 being completely under the control of the designer.</p></div>
 <div class="paragraph"><p>The example in the solution section demonstrates the most important aspects. In
 particular, you should note that you must still supply a source for the
 template, and that you can designate alternatives for sub-portions of the
 template. In the example, we allow the HTML designer direct access to the field
 template for this screen by making it possible to put the layout in a custom
-template file in <em>accounts/account_edit_field.html</em>.</p></div>
+template file <em>accounts/account_edit_field.html</em>.</p></div>
 <div class="paragraph"><p>The rest is very easy. You must supply a <span class="monospaced">formName</span> declaration (in Scala) for
 <span class="monospaced">CssBoundLiftScreen</span>, and a <span class="monospaced">FieldBinding</span> as an argument to each field. This,
-combined with an internal function that you can override, will generate unique
+combined with an internal function (that you can override), will generate unique
 (but known) names that can be used in the template. The default pattern
-is: formName, "_", field name, and a final "_field". So, if you name your form
+is: "formName_fieldName_field". So, if you name your form
 "myform", and bind a field to "address", then your
-HTML template should include a div with the ID "myform_address_field".  For
-normal bindings which use your field template, that is all you need.</p></div>
-<div class="paragraph"><p>If you also need to tweak the field layout for a particular field, you may
-specify <span class="monospaced">Self</span> in the Scala field binding, which indicates the template for
-that particular field will be nested within the div with the field&#8217;s ID.</p></div>
+HTML template should include a div with the ID "myform_address_field". That is
+all you need for normal bindings that use your field template.</p></div>
+<div class="paragraph"><p>To tweak the field layout for a particular field, you may
+specify <span class="monospaced">Self</span> in the Scala field binding. This indicates the template for
+that particular field should be sourced from the field&#8217;s div.</p></div>
 <div class="paragraph"><p>If you want to get even fancier there are additional field bindings, such as
-<span class="monospaced">Dynamic(() =&gt; NodeSeq)</span> which uses the supplied function to generate a template
+<span class="monospaced">Dynamic(() =&gt; NodeSeq)</span>, which uses the supplied function to generate a template
 for the field each time it is rendered.</p></div>
 </div>
 <div class="sect3">
@@ -11253,7 +11253,7 @@ JavaScript to the head of every page.</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-08-10 15:04:09 BST
+Last updated 2013-08-11 18:36:00 BST
 </div>
 </div>
 </body>
