@@ -1308,7 +1308,7 @@ The <span class="monospaced">container:start</span> command uses Jetty.</p></div
 <div class="paragraph"><p>You will need to configure SBT and the Lift project yourself. Luckily, only five small files are needed.</p></div>
 <div class="paragraph"><p>First, create an SBT plugin file at <em>project/plugins.sbt</em> (all filenames are given relative to the project root directory):</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.earldouglas&quot;</span> <span class="o">%</span> <span class="s">&quot;xsbt-web-plugin&quot;</span> <span class="o">%</span> <span class="s">&quot;0.3.0&quot;</span><span class="o">)</span>
+<div class="content"><div class="highlight"><pre><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.earldouglas&quot;</span> <span class="o">%</span> <span class="s">&quot;xsbt-web-plugin&quot;</span> <span class="o">%</span> <span class="s">&quot;0.4.2&quot;</span><span class="o">)</span>
 </pre></div></div></div>
 <div class="paragraph"><p>This file tells SBT that you will be using the <span class="monospaced">xsbt-web-plugin</span>.</p></div>
 <div class="paragraph"><p>Next, create an SBT build file, <em>build.sbt</em>:</p></div>
@@ -1319,7 +1319,7 @@ The <span class="monospaced">container:start</span> command uses Jetty.</p></div
 
 <span class="n">version</span> <span class="o">:=</span> <span class="s">&quot;0.1-SNAPSHOT&quot;</span>
 
-<span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">&quot;2.10.0&quot;</span>
+<span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">&quot;2.10.3&quot;</span>
 
 <span class="n">seq</span><span class="o">(</span><span class="n">webSettings</span> <span class="k">:_</span><span class="kt">*</span><span class="o">)</span>
 
@@ -11253,7 +11253,7 @@ JavaScript to the head of every page.</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-08-11 18:36:00 BST
+Last updated 2013-11-28 18:14:10 GMT
 </div>
 </div>
 </body>
