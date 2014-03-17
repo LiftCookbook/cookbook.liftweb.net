@@ -2255,7 +2255,7 @@ Found" error. It even happens for <span class="monospaced">&lt;lift:HelloWorld.h
 <div class="paragraph"><p>The HTML5 parser and the traditional Lift XHTML parser have different
 behaviours. In particular, the HTML5 parser converts elements and attribute names to lowercase when looking up snippets. This means Lift would take <span class="monospaced">&lt;lift:HelloWorld.howdy /&gt;</span> and look for a class called <span class="monospaced">helloworld</span> rather than <span class="monospaced">HelloWorld</span>, which would be the cause of the "Class Not Found" error.</p></div>
 <div class="paragraph"><p>Switching to the designer-friendly mechanism is the solution here, and you gain validating HTML as a bonus.</p></div>
-<div class="paragraph"><p>There are three popular ways of referencing a snippet:</p></div>
+<div class="paragraph"><p>There are four popular ways of referencing a snippet:</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
 As an HTML5 data attribute: <span class="monospaced">data-lift="MySnippet"</span>
@@ -2263,6 +2263,14 @@ As an HTML5 data attribute: <span class="monospaced">data-lift="MySnippet"</span
 <dd>
 <p>
 This is the style we use in this book, and is valid HTML5 markup.
+</p>
+</dd>
+<dt class="hdlist1">
+Via a CSS class: <span class="monospaced">class="lift:MySnippet"</span>
+</dt>
+<dd>
+<p>
+Also valid HTML5, but you must include the "lift" prefix for Lift to recognise this as a snippet.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -6971,8 +6979,8 @@ equivalents. For example:</p></div>
 used to execute code before a request is handled and, if required, exit the
 pipeline and return a response. The function signature expected is
 <span class="monospaced">Req =&gt; Box[LiftResponse]</span>.</p></div>
-<div class="paragraph"><p>In this example, we are testing for a request that is not <span class="monospaced">https</span>, and then
-formulating a new URL that starts <em>https</em> and appends to it the rest of the
+<div class="paragraph"><p>In this example, we are testing for a request that is not "https", and then
+formulating a new URL that starts "https" and appends to it the rest of the
 original URL and any query parameters. With this created, we return a redirection
 to the new URL, along with any cookies that were set.</p></div>
 <div class="paragraph"><p>By evaluating to <span class="monospaced">Empty</span> for other requests (i.e., HTTPS requests), Lift will continue passing the request
@@ -6994,6 +7002,43 @@ and the load balancer."</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">req</span><span class="o">.</span><span class="n">header</span><span class="o">(</span><span class="s">&quot;X-Forwarded-Proto&quot;</span><span class="o">)</span> <span class="o">!=</span> <span class="nc">Full</span><span class="o">(</span><span class="s">&quot;https&quot;</span><span class="o">)</span>
 </pre></div></div></div>
+</div>
+<div class="sect4">
+<h5 id="_via_sitemap">Via SiteMap</h5>
+<div class="paragraph"><p>So far we&#8217;ve looked at redirecting all requests to HTTPS. If you only have a handful of pages to worry about, you can use a <em>custom location parameter</em> in <span class="monospaced">SiteMap</span> as an alternative:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">val</span> <span class="n">entries</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span>
+  <span class="nc">Menu</span><span class="o">.</span><span class="n">i</span><span class="o">(</span><span class="s">&quot;Home&quot;</span><span class="o">)</span> <span class="o">/</span> <span class="s">&quot;index&quot;</span><span class="o">,</span>
+  <span class="nc">Menu</span><span class="o">.</span><span class="n">i</span><span class="o">(</span><span class="s">&quot;Login&quot;</span><span class="o">)</span> <span class="o">/</span> <span class="s">&quot;login&quot;</span> <span class="o">&gt;&gt;</span> <span class="nc">HttpsOnly</span>
+<span class="o">)</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We have two locations and we&#8217;ve marked the login page as having to be over HTTPS.
+<span class="monospaced">HttpOnly</span> is the location parameter. It&#8217;s not a built-in, but we can define it from the primitive building
+blocks included with Lift and the code we&#8217;ve already written:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1">// Given a request, turn it into a redirect to the HTTPS version of the page</span>
+<span class="k">def</span> <span class="n">redirection</span><span class="o">(</span><span class="n">req</span><span class="k">:</span> <span class="kt">Req</span><span class="o">)</span> <span class="k">:</span> <span class="kt">LiftResponse</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">uriAndQuery</span> <span class="k">=</span> <span class="n">req</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span>
+  <span class="o">(</span><span class="n">req</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">queryString</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">s</span> <span class="k">=&gt;</span> <span class="s">&quot;?&quot;</span><span class="o">+</span><span class="n">s</span><span class="o">)</span> <span class="n">openOr</span> <span class="s">&quot;&quot;</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">uri</span> <span class="k">=</span> <span class="s">&quot;https://%s%s&quot;</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="n">req</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">serverName</span><span class="o">,</span> <span class="n">uriAndQuery</span><span class="o">)</span>
+
+  <span class="nc">PermRedirectResponse</span><span class="o">(</span><span class="n">uri</span><span class="o">,</span> <span class="n">req</span><span class="o">,</span> <span class="n">req</span><span class="o">.</span><span class="n">cookies</span><span class="k">:</span> <span class="k">_</span><span class="kt">*</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="c1">// If the request is HTTP, give us a redirect to HTTPS</span>
+<span class="k">def</span> <span class="n">httpsRedirect</span> <span class="k">:</span> <span class="kt">Box</span><span class="o">[</span><span class="kt">LiftResponse</span><span class="o">]</span> <span class="k">=</span>
+  <span class="k">for</span> <span class="o">{</span>
+    <span class="n">req</span> <span class="k">&lt;-</span> <span class="n">S</span><span class="o">.</span><span class="n">request</span>
+    <span class="n">scheme</span> <span class="k">&lt;-</span> <span class="n">req</span><span class="o">.</span><span class="n">header</span><span class="o">(</span><span class="s">&quot;X-Forwarded-Proto&quot;</span><span class="o">)</span>
+    <span class="k">if</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s">&quot;http&quot;</span>
+  <span class="o">}</span> <span class="k">yield</span> <span class="n">redirection</span><span class="o">(</span><span class="n">req</span><span class="o">)</span>
+
+
+<span class="k">val</span> <span class="nc">HttpsOnly</span> <span class="k">=</span> <span class="nc">TestAccess</span><span class="o">(</span> <span class="o">()</span> <span class="k">=&gt;</span> <span class="n">httpsRedirect</span> <span class="o">)</span>
+</pre></div></div></div>
+<div class="paragraph"><p>A recap of what we want to happen: any menu item marked as <span class="monospaced">HttpsOnly</span> should redirect itself to HTTPS unless it already is HTTPS. We can use <span class="monospaced">TestAccess</span> to achieve this.  The function given to <span class="monospaced">TestAccess</span> must evaluate to a <span class="monospaced">Box[LiftResponse]</span>: if it&#8217;s <span class="monospaced">Empty</span>, the request carries on as normal; if it&#8217;s <span class="monospaced">Full</span>, the request is redirected to the contents of the box.</p></div>
+<div class="paragraph"><p>Our <span class="monospaced">HttpsOnly</span> implementation is to call <span class="monospaced">httpsRedirect</span>, where the for comprehension picks out the request, checks the scheme and only if it is "http" does it yield a <span class="monospaced">Full[LiftResponse]</span>.  That&#8217;s how HTTPS requests are allowed through (<span class="monospaced">httpsRedirect</span> evaluates to <span class="monospaced">Empty</span>) but HTTP request are turned into <span class="monospaced">Full[PermRedirectResponse]</span> and <span class="monospaced">TestAccess</span> performs the redirect.</p></div>
+<div class="paragraph"><p>It&#8217;s worth noting that this also works out conveniently for local development. If locally there&#8217;s no <span class="monospaced">X-Forwarded-Proto</span> header in the request, the HTTPS redirect won&#8217;t be triggered.  Of course that assumes the <span class="monospaced">X-Forwarded-Proto</span> checking works for you. If instead you&#8217;re using the <span class="monospaced">req.request.scheme</span> check, you might also want to make an exception for running in development mode (<span class="monospaced">Props.devMode</span> evaluates to <span class="monospaced">true</span> in development mode).</p></div>
 </div>
 </div>
 </div>
@@ -11253,7 +11298,7 @@ JavaScript to the head of every page.</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-11-28 18:14:10 GMT
+Last updated 2014-03-17 11:52:21 GMT
 </div>
 </div>
 </body>
