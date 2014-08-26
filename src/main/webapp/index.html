@@ -993,9 +993,8 @@ Chenguang He.
 </div>
 <div class="sect2">
 <h3 id="_software_versions">Software Versions</h3>
-<div class="paragraph"><p>Except where otherwise indicated, the examples use Lift 2.5 with SBT
-0.12 and <phrase role='keep-together'>Scala 2.9.</phrase></p></div>
-<div class="paragraph"><p>Lift 2.5 is also available for Scala 2.10.</p></div>
+<div class="paragraph"><p>Except where otherwise indicated, the examples use Lift 2.6 with SBT
+0.13 and <phrase role='keep-together'>Scala 2.11.</phrase></p></div>
 </div>
 <div class="sect2">
 <h3 id="_conventions_used_in_this_book">Conventions Used in This Book</h3>
@@ -1119,7 +1118,7 @@ Shows text that should be replaced with user-supplied values or by values determ
 <div class="sect3">
 <h4 id="_solution">Solution</h4>
 <div class="paragraph"><p>The only prerequisite for installing and running Lift is to have Java
-1.5 or later installed. Instructions for installing Java can be found at
+1.7 or later installed. Instructions for installing Java can be found at
 <a href="http://java.com/">http://java.com/</a>.</p></div>
 <div class="paragraph"><p>You can find out if you have Java from the shell or command prompt by asking for the version you have installed:</p></div>
 <div class="listingblock">
@@ -1136,7 +1135,7 @@ start a basic Lift application.</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-Visit <a href="http://liftweb.net/download">http://liftweb.net/download</a> and download the most recent Lift 2.5 ZIP file.
+Visit <a href="http://liftweb.net/download">http://liftweb.net/download</a> and download the most recent Lift 2.6 ZIP file.
 </p>
 </li>
 <li>
@@ -1151,7 +1150,7 @@ Start Terminal or your favourite shell tool.
 </li>
 <li>
 <p>
-Navigate into the unzipped folder and into the <em>scala_29</em> subfolder and then into the <em>lift_basic</em> folder.
+Navigate into the unzipped folder and into the <em>scala_211</em> subfolder and then into the <em>lift_basic</em> folder.
 </p>
 </li>
 <li>
@@ -1183,10 +1182,14 @@ When you&#8217;re done, type <strong><span class="monospaced">exit</span></stron
 </div>
 <div class="sect4">
 <h5 id="_for_windows">For Windows</h5>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>warning</pre>
+</div></div>
 <div class="ulist"><ul>
 <li>
 <p>
-Visit <a href="http://liftweb.net/download">http://liftweb.net/download</a> and locate the link to the most recent ZIP version of Lift 2.5 and save this to disk.
+Visit <a href="http://liftweb.net/download">http://liftweb.net/download</a> and locate the link to the most recent ZIP version of Lift 2.6 and save this to disk.
 </p>
 </li>
 <li>
@@ -1196,12 +1199,17 @@ Extract the contents of the ZIP file.
 </li>
 <li>
 <p>
-Navigate in Explorer to the extracted folder, and once inside, navigate into <em>scala_29</em> and then <em>lift_basic</em>.
+Navigate in Explorer to the extracted folder, and once inside, navigate into <em>scala_211</em> and then <em>lift_basic</em>.
 </p>
 </li>
 <li>
 <p>
 Double-click <em>sbt.bat</em> to run the build tool; a Terminal window should open.
+</p>
+</li>
+<li>
+<p>
+Some versions of windows will display a warning that the SBT "publisher could not be verified". Click "Run" if this happens.
 </p>
 </li>
 <li>
@@ -1287,7 +1295,7 @@ The <span class="monospaced">container:start</span> command uses Jetty.</p></div
 </div>
 <div class="sect4">
 <h5 id="_source_code">Source code</h5>
-<div class="paragraph"><p>The source code of the application resides in <em>src/main/webapp</em> and <em>src/main/scala</em>. If you take a look at <em>index.html</em> in the <em>webapp</em> folder, you&#8217;ll see mention of <span class="monospaced">lift:helloWorld</span>. That&#8217;s a reference to the class defined in <em>scala/code/snippet/HelloWorld.scala</em>. This is a <em>snippet invocation</em> and an example of Lift&#8217;s <em>view first</em> approach to web applications. That is, there&#8217;s no routing set up for the index page to collect the data and forward it to the view. Instead, the view defines areas of the content that are replaced with functions, such as those functions defined in <em>HelloWorld.scala</em>.</p></div>
+<div class="paragraph"><p>The source code of the application resides in <em>src/main/webapp</em> and <em>src/main/scala</em>. If you take a look at <em>index.html</em> in the <em>webapp</em> folder, you&#8217;ll see mention of <span class="monospaced">data-lift="helloWorld.howdy"</span>. That&#8217;s a reference to the class defined in <em>scala/code/snippet/HelloWorld.scala</em>. This is a <em>snippet invocation</em> and an example of Lift&#8217;s <em>view first</em> approach to web applications. That is, there&#8217;s no routing set up for the index page to collect the data and forward it to the view. Instead, the view defines areas of the content that are replaced with functions, such as those functions defined in <em>HelloWorld.scala</em>.</p></div>
 <div class="paragraph"><p>Lift knows to look in the <span class="monospaced">code</span> package for snippets, because that package is declared as a location for snippets in <em>scala/bootstrap/liftweb/Boot.scala</em>. The Boot class is run when starting your application, and it&#8217;s where you can configure the behaviour of Lift.</p></div>
 </div>
 </div>
@@ -1301,16 +1309,16 @@ The <span class="monospaced">container:start</span> command uses Jetty.</p></div
 <h3 id="LiftFromScratch">Creating a Lift Project from Scratch Using SBT</h3>
 <div class="sect3">
 <h4 id="_problem_2">Problem</h4>
-<div class="paragraph"><p>You want want to create a Lift web project from scratch without using the ZIP files provided on the official Lift website.</p></div>
+<div class="paragraph"><p>You want to create a Lift web project from scratch without using the ZIP files provided on the official Lift website.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_2">Solution</h4>
 <div class="paragraph"><p>You will need to configure SBT and the Lift project yourself. Luckily, only five small files are needed.</p></div>
 <div class="paragraph"><p>First, create an SBT plugin file at <em>project/plugins.sbt</em> (all filenames are given relative to the project root directory):</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.earldouglas&quot;</span> <span class="o">%</span> <span class="s">&quot;xsbt-web-plugin&quot;</span> <span class="o">%</span> <span class="s">&quot;0.4.2&quot;</span><span class="o">)</span>
+<div class="content"><div class="highlight"><pre><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.earldouglas&quot;</span> <span class="o">%</span> <span class="s">&quot;xsbt-web-plugin&quot;</span> <span class="o">%</span> <span class="s">&quot;0.7.0&quot;</span><span class="o">)</span>
 </pre></div></div></div>
-<div class="paragraph"><p>This file tells SBT that you will be using the <span class="monospaced">xsbt-web-plugin</span>.</p></div>
+<div class="paragraph"><p>This file tells SBT that you will be using the <span class="monospaced">xsbt-web-plugin</span>. This plugin will allow you to start and stop your application.</p></div>
 <div class="paragraph"><p>Next, create an SBT build file, <em>build.sbt</em>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">organization</span> <span class="o">:=</span> <span class="s">&quot;org.yourorganization&quot;</span>
@@ -1319,12 +1327,12 @@ The <span class="monospaced">container:start</span> command uses Jetty.</p></div
 
 <span class="n">version</span> <span class="o">:=</span> <span class="s">&quot;0.1-SNAPSHOT&quot;</span>
 
-<span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">&quot;2.10.3&quot;</span>
+<span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">&quot;2.11.1&quot;</span>
 
 <span class="n">seq</span><span class="o">(</span><span class="n">webSettings</span> <span class="k">:_</span><span class="kt">*</span><span class="o">)</span>
 
 <span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">liftVersion</span> <span class="k">=</span> <span class="s">&quot;2.5.1&quot;</span>
+  <span class="k">val</span> <span class="n">liftVersion</span> <span class="k">=</span> <span class="s">&quot;2.6-RC1&quot;</span>
   <span class="nc">Seq</span><span class="o">(</span>
     <span class="s">&quot;net.liftweb&quot;</span> <span class="o">%%</span> <span class="s">&quot;lift-webkit&quot;</span> <span class="o">%</span> <span class="n">liftVersion</span> <span class="o">%</span> <span class="s">&quot;compile&quot;</span><span class="o">,</span>
     <span class="s">&quot;org.eclipse.jetty&quot;</span> <span class="o">%</span> <span class="s">&quot;jetty-webapp&quot;</span> <span class="o">%</span> <span class="s">&quot;8.1.7.v20120910&quot;</span>  <span class="o">%</span>
@@ -1468,13 +1476,13 @@ SBT is watching for changes, the output will indicate when this happens with som
 that looks a little like this:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
-<pre>[info] Compiling 1 Scala source to target/scala-2.9.1/classes...
-[success] Total time: 1 s, completed 15-Nov-2012 18:14:46
+<pre>[info] Compiling 1 Scala source to target/scala-2.11/classes...
+[success] Total time: 1 s, completed 26-Aug-2014 17:17:47
 [pool-301-thread-4] DEBUG net.liftweb.http.LiftServlet - Destroyed Lift handler.
 [info] stopped o.e.j.w.WebAppContext{/,[src/main/webapp/]}
 [info] NO JSP Support for /, did not find org.apache.jasper.servlet.JspServlet
 [info] started o.e.j.w.WebAppContext{/,[src/main/webapp/]}
-[success] Total time: 0 s, completed 15-Nov-2012 18:14:46
+[success] Total time: 0 s, completed 26-Aug-2014 17:17:48
 2. Waiting for source changes... (press enter to interrupt)</pre>
 </div></div>
 <div class="paragraph"><p>Edits to HTML files don&#8217;t trigger the SBT compile and reload commands.
@@ -1486,7 +1494,7 @@ reload the browser page.</p></div>
 the need for restarts by integrating JRebel into your development environment, as described
 in <a href="#jrebel">[jrebel]</a>.</p></div>
 <div class="paragraph"><p>However, if you are making a serious number of edits, you may prefer to issue a <span class="monospaced">container:stop</span> command until you&#8217;re ready to run you application again with <span class="monospaced">container:start</span>. This will prevent SBT compiling and restarting your application over and over. The SBT console has a command history, and using the up and down keyboard arrows allows you to navigate to previous commands and run them by pressing the Return key.  That takes some of the tedium out of these long commands.</p></div>
-<div class="paragraph"><p>One error you may run into is:</p></div>
+<div class="paragraph"><p>If you are using Java before Java 8, one error you may run into is:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
 <pre>java.lang.OutOfMemoryError: PermGen space</pre>
@@ -1587,7 +1595,7 @@ reload in your browser to see changes.</p></div>
 <div class="paragraph"><p>The instructions for the Eclipse plugin are given at <a href="http://scala-ide.org">http://scala-ide.org</a>. There are a number of options to be aware of when picking an update site to use: there are different sites for Scala 2.9 and 2.10, and for different versions of Eclipse. Start with the <em>stable</em> version of the plugin rather than a nightly or milestone version. This will give you an Eclipse perspective that knows about Scala.</p></div>
 <div class="paragraph"><p>Once the Eclipse plugin is installed and restarted, you need to create the project files to allow Eclipse to load your Lift project. Install <em>sbteclipse</em> by adding the following to <em>projects/plugins.sbt</em> in your Lift project:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.typesafe.sbteclipse&quot;</span> <span class="o">%</span> <span class="s">&quot;sbteclipse-plugin&quot;</span> <span class="o">%</span> <span class="s">&quot;2.1.2&quot;</span><span class="o">)</span>
+<div class="content"><div class="highlight"><pre><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.typesafe.sbteclipse&quot;</span> <span class="o">%</span> <span class="s">&quot;sbteclipse-plugin&quot;</span> <span class="o">%</span> <span class="s">&quot;2.5.0&quot;</span><span class="o">)</span>
 </pre></div></div></div>
 <div class="paragraph"><p>You can then create Eclipse project files (<em>.project</em> and <em>.classpath</em>) by entering the following into the SBT prompt:</p></div>
 <div class="listingblock">
@@ -1617,14 +1625,14 @@ this to be the default behaviour, add the following to your <em>build.sbt</em> f
 </pre></div></div></div>
 <div class="paragraph"><p>If you find yourself using the plugin frequently, you may wish to declare it
 in your global SBT configuration files so it applies to all projects.  To do that,
-create a <em>~/.sbt/plugins/plugins.sbt</em> file containing:</p></div>
+create a <em>~/.sbt/0.13/plugins/build.sbt</em> file containing:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">resolvers</span> <span class="o">+=</span> <span class="nc">Classpaths</span><span class="o">.</span><span class="n">typesafeResolver</span>
 
-<span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.typesafe.sbteclipse&quot;</span> <span class="o">%</span> <span class="s">&quot;sbteclipse-plugin&quot;</span> <span class="o">%</span> <span class="s">&quot;2.1.2&quot;</span><span class="o">)</span>
+<span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.typesafe.sbteclipse&quot;</span> <span class="o">%</span> <span class="s">&quot;sbteclipse-plugin&quot;</span> <span class="o">%</span> <span class="s">&quot;2.5.0&quot;</span><span class="o">)</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Note the blank line between the <span class="monospaced">resolvers</span> and the <span class="monospaced">addSbtPlugin</span>.  In <em>.sbt</em> files, a blank line is required between statements.</p></div>
-<div class="paragraph"><p>Finally, set any global configurations (such as <span class="monospaced">withSource</span>) in <em>~/.sbt/global.sbt</em>.</p></div>
+<div class="paragraph"><p>Finally, set any global configurations (such as <span class="monospaced">withSource</span>) in <em>~/.sbt/0.13/global.sbt</em>.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_see_also_5">See Also</h4>
@@ -1641,11 +1649,11 @@ create a <em>~/.sbt/plugins/plugins.sbt</em> file containing:</p></div>
 <div class="sect3">
 <h4 id="_solution_5">Solution</h4>
 <div class="paragraph"><p>You need the Scala plugin for IntelliJ, and an SBT plugin to generate the IDEA project files.</p></div>
-<div class="paragraph"><p>The IntelliJ plugin you&#8217;ll need to install only once, and these instructions are for IntelliJ IDEA 12.  The details may vary between releases of the IDE, but the basic idea is to find the JetBrains Scala plugin, and download and install it.</p></div>
-<div class="paragraph"><p>From the "Welcome to IntelliJ IDEA" screen, select "Configure" and then "Plugins." Select "Browse repositories&#8230;" In the search box, top right, type "Scala."  You&#8217;ll find on the left a number of matches: select "Scala."  On the right, you&#8217;ll see confirmation that this is the "Plugin for Scala language support" and the vendor is JetBrains, Inc. Select the "Download and Install" icon from the top of the window, or right-click to download and install. "Close" the dialog, and OK out of the plugins window. You&#8217;ll be prompted to restart IntelliJ IDEA.</p></div>
+<div class="paragraph"><p>The IntelliJ plugin you&#8217;ll need to install only once, and these instructions are for IntelliJ IDEA 13.  The details may vary between releases of the IDE, but the basic idea is to find the JetBrains Scala plugin, and download and install it.</p></div>
+<div class="paragraph"><p>From the "Welcome to IntelliJ IDEA" or "Quick Staert" screen, select "Configure" and then "Plugins." Select "Browse repositories&#8230;" In the search box, top right, type "Scala."  You&#8217;ll find on the left a number of matches: select "Scala."  On the right, you&#8217;ll see confirmation that this is the "Plugin for Scala language support" and the vendor is JetBrains, Inc.  Click the "Install Plugin" button, confirm you want to install, then "Close" the repository browser, and finally OK out of the plugins window. You&#8217;ll be prompted to restart IntelliJ IDEA.</p></div>
 <div class="paragraph"><p>With the IDE configured, you now need to include the SBT plugin inside your Lift project by adding the following to the file <em>projects/plugins.sbt</em>:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.github.mpeltonen&quot;</span> <span class="o">%</span> <span class="s">&quot;sbt-idea&quot;</span> <span class="o">%</span> <span class="s">&quot;1.5.1&quot;</span><span class="o">)</span>
+<div class="content"><div class="highlight"><pre><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.github.mpeltonen&quot;</span> <span class="o">%</span> <span class="s">&quot;sbt-idea&quot;</span> <span class="o">%</span> <span class="s">&quot;1.6.0&quot;</span><span class="o">)</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Start SBT, and at the SBT prompt, create the IDEA project files by typing:</p></div>
 <div class="listingblock">
@@ -1747,17 +1755,17 @@ the snapshot <phrase role='keep-together'>repository:</phrase></p></div>
 <div class="content"><div class="highlight"><pre><span class="n">resolvers</span> <span class="o">+=</span> <span class="s">&quot;snapshots&quot;</span> <span class="n">at</span>
   <span class="s">&quot;http://oss.sonatype.org/content/repositories/snapshots&quot;</span>
 </pre></div></div></div>
-<div class="paragraph"><p>Second, change the <span class="monospaced">liftVersion</span> in your build to be the latest version. For this example, let&#8217;s use the 2.6 snapshot version of Lift:</p></div>
+<div class="paragraph"><p>Second, change the <span class="monospaced">liftVersion</span> in your build to be the latest version. For this example, let&#8217;s use the 3.0 snapshot version of Lift:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="k">val</span> <span class="n">liftVersion</span> <span class="k">=</span> <span class="s">&quot;2.6-SNAPSHOT&quot;</span>
+<div class="content"><div class="highlight"><pre><span class="k">val</span> <span class="n">liftVersion</span> <span class="k">=</span> <span class="s">&quot;3.0-SNAPSHOT&quot;</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Restarting SBT (or issuing a <span class="monospaced">reload</span> command) will trigger a download
 of the latest build.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_8">Discussion</h4>
-<div class="paragraph"><p>Production releases of Lift (e.g., 2.4, 2.5), as well as milestone releases
-(e.g., 2.5-M3) and release candidates (e.g., 2.5-RC1) are published
+<div class="paragraph"><p>Production releases of Lift (e.g., 2.5, 2.6), as well as milestone releases
+(e.g., 2.6-M3) and release candidates (e.g., 2.6-RC1) are published
 into a releases repository. When SBT downloads them, they are downloaded
 once.</p></div>
 <div class="paragraph"><p>Snapshot releases are different: they are the result of an automated
@@ -1778,52 +1786,43 @@ use it in your Lift project.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_solution_8">Solution</h4>
-<div class="paragraph"><p>You may find that the latest snapshot of Lift is built using the latest
-Scala version. Failing that, and assuming you cannot wait for a build, you may still be in luck.
-Providing that the Scala version is <em>binary compatible</em> with the latest
-version used by Lift, you can change your build file to force the Scala
-version.</p></div>
-<div class="paragraph"><p>For example, let&#8217;s assume your <em>build.sbt</em> file is set up to use Lift 2.5
-with Scala 2.9.1:</p></div>
+<div class="paragraph"><p>Providing that the Scala version is <em>binary compatible</em> with the latest
+version used by Lift, you can change your build file to use the latest
+version of Scala.</p></div>
+<div class="paragraph"><p>For example, let&#8217;s assume your <em>build.sbt</em> file is set up to use Lift 2.6
+with Scala 2.11.1:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">&quot;2.9.1&quot;</span>
+<div class="content"><div class="highlight"><pre><span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">&quot;2.11.1&quot;</span>
 
 <span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">liftVersion</span> <span class="k">=</span> <span class="s">&quot;2.5&quot;</span>
+  <span class="k">val</span> <span class="n">liftVersion</span> <span class="k">=</span> <span class="s">&quot;2.6&quot;</span>
   <span class="nc">Seq</span><span class="o">(</span>
     <span class="s">&quot;net.liftweb&quot;</span> <span class="o">%%</span> <span class="s">&quot;lift-webkit&quot;</span> <span class="o">%</span> <span class="n">liftVersion</span> <span class="o">%</span> <span class="s">&quot;compile-&gt;default&quot;</span>
   <span class="o">)</span>
 <span class="o">}</span>
 </pre></div></div></div>
-<div class="paragraph"><p>Suppose you now want to use Scala 2.9.3 but Lift 2.5 was only
-built against Scala 2.9.1. Replace <span class="monospaced">%%</span> with <span class="monospaced">%</span> for the <span class="monospaced">net.liftweb</span>
-resources and explicitly include the Scala version that Lift was built
-against for each Lift component:</p></div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">&quot;2.9.3&quot;</span>
-
-<span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">liftVersion</span> <span class="k">=</span> <span class="s">&quot;2.5&quot;</span>
-  <span class="nc">Seq</span><span class="o">(</span>
-    <span class="s">&quot;net.liftweb&quot;</span> <span class="o">%</span> <span class="s">&quot;lift-webkit_2.9.1&quot;</span> <span class="o">%</span> <span class="n">liftVersion</span> <span class="o">%</span> <span class="s">&quot;compile-&gt;default&quot;</span>
-  <span class="o">)</span>
-<span class="o">}</span>
-</pre></div></div></div>
-<div class="paragraph"><p>What we&#8217;ve done here is change the <span class="monospaced">scalaVersion</span> to the new version we want
-to use, but explicitly specified we want the 2.9.1 Scala version for Lift.
-This works because the two different Scala versions are binary compatible.</p></div>
+<div class="paragraph"><p>To use Scala 2.11.2, just change the value in <span class="monospaced">scalaVersion</span>.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_9">Discussion</h4>
-<div class="paragraph"><p>Dependencies have a particular naming convention.  For example, the <span class="monospaced">lift-webkit</span> library for Lift 2.5 is called <em>lift-webkit_2.9.1-2.5.jar</em>.  Normally, in <em>build.sbt</em> we simply refer to <span class="monospaced">"net.liftweb" %% "lift-webkit"</span>, and SBT turns that into the name of a file that can be downloaded.</p></div>
-<div class="paragraph"><p>However, in this recipe, we have forced SBT to explicitly fetch the 2.9.1 version
-of the Lift resources rather than allow it to compute the URL to the
-Lift components.  This is the difference between using <span class="monospaced">%%</span> and <span class="monospaced">%</span> in a
+<div class="paragraph"><p>Dependencies have a particular naming convention.  For example, the <span class="monospaced">lift-webkit</span> library for Lift 2.6 is called <em>lift-webkit_2.11-2.6.jar</em>.  Normally, in <em>build.sbt</em> we simply refer to <span class="monospaced">"net.liftweb" %% "lift-webkit"</span>, and SBT turns that into the name of a file that can be downloaded.</p></div>
+<div class="paragraph"><p>If for any reason you need to control the dependency downloaded, you can drop the <span class="monospaced">%%</span> and use <span class="monospaced">%</span> instead:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">&quot;2.11.2&quot;</span>
+
+<span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">liftVersion</span> <span class="k">=</span> <span class="s">&quot;2.6&quot;</span>
+  <span class="nc">Seq</span><span class="o">(</span>
+    <span class="s">&quot;net.liftweb&quot;</span> <span class="o">%</span> <span class="s">&quot;lift-webkit_2.11&quot;</span> <span class="o">%</span> <span class="n">liftVersion</span> <span class="o">%</span> <span class="s">&quot;compile-&gt;default&quot;</span>
+  <span class="o">)</span>
+<span class="o">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p>What we&#8217;ve done here is explicitly specified we want the 2.11 Scala version for Lift.  This is the difference between using <span class="monospaced">%%</span> and <span class="monospaced">%</span> in a
 dependency: with <span class="monospaced">%%</span> you do not specify the Scala version, as SBT will append
 the <span class="monospaced">scalaVersion</span> number automatically; with <em>%</em> this automatic change is not made,
 so we have to manually specify more details for the name of the library.</p></div>
 <div class="paragraph"><p>Please note this only works for minor releases of Scala: major releases
-break compatibility.  For example, Scala 2.9.1 is compatible with Scala 2.9.0, but not 2.10.</p></div>
+break compatibility.  For example, Scala 2.10.1 is compatible with Scala 2.10.2 but not 2.11.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_see_also_9">See Also</h4>
@@ -7013,13 +7012,13 @@ and the load balancer."</p></div>
 <span class="o">)</span>
 </pre></div></div></div>
 <div class="paragraph"><p>We have two locations and we&#8217;ve marked the login page as having to be over HTTPS.
-<span class="monospaced">HttpOnly</span> is the location parameter. It&#8217;s not a built-in, but we can define it from the primitive building
+<span class="monospaced">HttpsOnly</span> is the location parameter. It&#8217;s not built-in, but we can define it from the building
 blocks included with Lift and the code we&#8217;ve already written:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="c1">// Given a request, turn it into a redirect to the HTTPS version of the page</span>
 <span class="k">def</span> <span class="n">redirection</span><span class="o">(</span><span class="n">req</span><span class="k">:</span> <span class="kt">Req</span><span class="o">)</span> <span class="k">:</span> <span class="kt">LiftResponse</span> <span class="o">=</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">uriAndQuery</span> <span class="k">=</span> <span class="n">req</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span>
-  <span class="o">(</span><span class="n">req</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">queryString</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">s</span> <span class="k">=&gt;</span> <span class="s">&quot;?&quot;</span><span class="o">+</span><span class="n">s</span><span class="o">)</span> <span class="n">openOr</span> <span class="s">&quot;&quot;</span><span class="o">)</span>
+    <span class="o">(</span><span class="n">req</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">queryString</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">s</span> <span class="k">=&gt;</span> <span class="s">&quot;?&quot;</span><span class="o">+</span><span class="n">s</span><span class="o">)</span> <span class="n">openOr</span> <span class="s">&quot;&quot;</span><span class="o">)</span>
   <span class="k">val</span> <span class="n">uri</span> <span class="k">=</span> <span class="s">&quot;https://%s%s&quot;</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="n">req</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">serverName</span><span class="o">,</span> <span class="n">uriAndQuery</span><span class="o">)</span>
 
   <span class="nc">PermRedirectResponse</span><span class="o">(</span><span class="n">uri</span><span class="o">,</span> <span class="n">req</span><span class="o">,</span> <span class="n">req</span><span class="o">.</span><span class="n">cookies</span><span class="k">:</span> <span class="k">_</span><span class="kt">*</span><span class="o">)</span>
@@ -9827,7 +9826,7 @@ DEBUG SMTP: trying to connect to host "localhost", port 25, isSSL false
 </div>
 </div>
 <div class="sect2">
-<h3 id="HTMLEmail">SMTP Authentication</h3>
+<h3 id="HTMLEmail">HTML Email</h3>
 <div class="sect3">
 <h4 id="_problem_88">Problem</h4>
 <div class="paragraph"><p>You want to send an HTML email from your Lift application.</p></div>
@@ -10072,6 +10071,7 @@ seconds from now.</p></div>
 <div class="paragraph"><p>It may be a surprise to find that you can call <span class="monospaced">Schedule</span> with just a function as an argument, and not a delay value.  This version runs the function immediately, but on a worker thread.  This is a convenient way to asynchronously run other tasks without going to the trouble of creating an actor for the purpose.</p></div>
 <div class="paragraph"><p>There is also a <span class="monospaced">Schedule.schedule</span> method that will send an
 actor a specified message after a given delay.  This takes a <span class="monospaced">TimeSpan</span> delay, but again there&#8217;s also a <span class="monospaced">Schedule.perform</span> version that accepts a <span class="monospaced">Long</span> as a delay.</p></div>
+<div class="paragraph"><p>The <span class="monospaced">Helpers._</span> import brings with it some implicit conversions for <span class="monospaced">TimeSpan</span>. For example, a JodaTime <span class="monospaced">Period</span> can be given to <span class="monospaced">schedule</span> and that will be used as a delay before executing your function. Don&#8217;t be tempted in this situation to use a JodaTime <span class="monospaced">DateTime</span>. This would be converted to a <span class="monospaced">TimeSpan</span>, but doesn&#8217;t make sense as a delay.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_see_also_88">See Also</h4>
@@ -11298,7 +11298,7 @@ JavaScript to the head of every page.</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-03-17 11:52:21 GMT
+Last updated 2014-08-26 17:48:53 BST
 </div>
 </div>
 </body>
