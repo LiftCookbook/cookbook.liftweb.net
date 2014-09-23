@@ -5053,6 +5053,7 @@ Check with documentation for the container for changing these limits.</p></div>
 <h4 id="_see_also_38">See Also</h4>
 <div class="paragraph"><p>This recipe is based on the <a href="https://www.assembla.com/wiki/show/liftweb/StreamingResponse">Streaming Response wiki</a> article.</p></div>
 <div class="paragraph"><p><a href="https://github.com/SparkySparkyBoom/ObeseRabbit">ObeseRabbit</a> is a small application showcasing this feature.</p></div>
+<div class="paragraph"><p><a href="#RestStreamContent">[RestStreamContent]</a> describes <span class="monospaced">StreamingResponse</span> and similar types of response, such as <span class="monospaced">OutputStreamResponse</span> and <span class="monospaced">InMemoryResponse</span>.</p></div>
 </div>
 </div>
 <div class="sect2">
@@ -5114,7 +5115,7 @@ everything else you expect of JSON.</p></div>
 <div class="content"><div class="highlight"><pre><span class="k">import</span> <span class="nn">net.liftweb.json.Extraction</span>
 <span class="k">import</span> <span class="nn">net.liftweb.json.DefaultFormats</span>
 
-<span class="k">case</span> <span class="k">class</span> <span class="nc">Quote</span><span class="o">(</span><span class="n">by</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">text</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Quote</span><span class="o">(</span><span class="n">text</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">by</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">quote</span> <span class="k">=</span> <span class="nc">Quote</span><span class="o">(</span>
   <span class="s">&quot;A beach house isn&#39;t just real estate. It&#39;s a state of mind.&quot;</span><span class="o">,</span>
   <span class="s">&quot;Douglas Adams&quot;</span><span class="o">)</span>
@@ -5125,8 +5126,8 @@ everything else you expect of JSON.</p></div>
 <div class="paragraph"><p>This will also produce a <span class="monospaced">JValue</span>, which when printed will be:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">{</span>
- <span class="s">&quot;by&quot;</span><span class="k">:</span><span class="err">&quot;</span><span class="kt">A</span> <span class="kt">beach</span> <span class="kt">house</span> <span class="kt">isn</span><span class="err">&#39;</span><span class="kt">t</span> <span class="kt">just</span> <span class="kt">real</span> <span class="kt">estate.</span> <span class="kt">It</span><span class="err">&#39;</span><span class="kt">s</span> <span class="kt">a</span> <span class="kt">state</span> <span class="kt">of</span> <span class="kt">mind.</span><span class="err">&quot;</span><span class="o">,</span>
- <span class="s">&quot;text&quot;</span><span class="k">:</span><span class="err">&quot;</span><span class="kt">Douglas</span> <span class="kt">Adams</span><span class="err">&quot;</span>
+ <span class="s">&quot;text&quot;</span><span class="k">:</span><span class="err">&quot;</span><span class="kt">A</span> <span class="kt">beach</span> <span class="kt">house</span> <span class="kt">isn</span><span class="err">&#39;</span><span class="kt">t</span> <span class="kt">just</span> <span class="kt">real</span> <span class="kt">estate.</span> <span class="kt">It</span><span class="err">&#39;</span><span class="kt">s</span> <span class="kt">a</span> <span class="kt">state</span> <span class="kt">of</span> <span class="kt">mind.</span><span class="err">&quot;</span><span class="o">,</span>
+ <span class="s">&quot;by&quot;</span><span class="k">:</span><span class="err">&quot;</span><span class="kt">Douglas</span> <span class="kt">Adams</span><span class="err">&quot;</span>
 <span class="o">}</span>
 </pre></div></div></div>
 </div>
@@ -5199,10 +5200,10 @@ everything else you expect of JSON.</p></div>
 
 <span class="k">object</span> <span class="nc">Sitemap</span> <span class="k">extends</span> <span class="nc">RestHelper</span> <span class="o">{</span>
   <span class="n">serve</span> <span class="o">{</span>
-    <span class="k">case</span> <span class="nc">Req</span><span class="o">(</span><span class="s">&quot;sitemap&quot;</span> <span class="o">::</span> <span class="nc">Nil</span><span class="o">,</span> <span class="k">_</span><span class="o">,</span> <span class="nc">GetRequest</span><span class="o">)</span> <span class="k">=&gt;</span>
+    <span class="k">case</span> <span class="s">&quot;sitemap&quot;</span> <span class="o">::</span> <span class="nc">Nil</span> <span class="nc">Get</span> <span class="n">req</span> <span class="k">=&gt;</span>
       <span class="nc">XmlResponse</span><span class="o">(</span>
-        <span class="n">S</span><span class="o">.</span><span class="n">render</span><span class="o">(&lt;</span><span class="n">lift</span><span class="k">:</span><span class="kt">embed</span> <span class="kt">what</span><span class="o">=</span><span class="s">&quot;sitemap&quot;</span> <span class="o">/&gt;,</span>
-        <span class="n">S</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">get</span><span class="o">.</span><span class="n">request</span><span class="o">).</span><span class="n">head</span><span class="o">)</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">render</span><span class="o">(&lt;</span><span class="n">lift</span><span class="k">:</span><span class="kt">embed</span> <span class="kt">what</span><span class="o">=</span><span class="s">&quot;sitemap&quot;</span> <span class="o">/&gt;,</span> <span class="n">req</span><span class="o">.</span><span class="n">request</span><span class="o">).</span><span class="n">head</span>
+      <span class="o">)</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div></div></div>
@@ -6821,6 +6822,7 @@ is no more data because the end of the stream has been reached."</p></div>
 </div>
 <div class="sect3">
 <h4 id="_see_also_57">See Also</h4>
+<div class="paragraph"><p><a href="#ServingVideo">[ServingVideo]</a> gives an example of streaming video data via REST.</p></div>
 <div class="paragraph"><p><a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html">The JavaDoc for <span class="monospaced">InputStream</span></a> gives the full contract for the <span class="monospaced">read</span> method.</p></div>
 </div>
 </div>
@@ -11377,7 +11379,7 @@ JavaScript to the head of every page.</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-09-23 10:23:24 BST
+Last updated 2014-09-23 16:40:38 BST
 </div>
 </div>
 </body>
