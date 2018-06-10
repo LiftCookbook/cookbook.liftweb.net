@@ -1,0 +1,6 @@
+
+/* make the cover image smaller. */
+#id-5q4iV > img:nth-child(1) {
+width: 50%;
+}
+

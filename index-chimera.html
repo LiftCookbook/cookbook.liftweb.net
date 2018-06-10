@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Redirecting to the Lift Cookbook</title>
+</head>
+<body>
+  <script language="javascript">
+  var home = "http://chimera.labs.oreilly.com/books/1234000000030/",
+      hash = window.location.hash;
+
+  // Legacy anchors need to be redirected to appropriate page at the O'Reilly site:
+  var anchorMap = {
+    "#preface"      : "pr01.html#preface",
+    "#Contributors" : "pr01.html#Contributors",
+    "#jointhem"     : "pr01.html#jointhem",
+
+    "#InstallAndRunning"      : "ch01.html",
+    "#DownloadAndRun"         : "ch01.html#DownloadAndRun",
+    "#LiftBasicScreenshot"    : "ch01.html#LiftBasicScreenshot",
+    "#RunningYourApplication" : "ch01.html#RunningYourApplication",
+    "#LiftFromScratch"        : "ch01.html#LiftFromScratch",
+    "#texteditor"             : "ch01.html#texteditor",
+    "#jrebel"                 : "ch01.html#jrebel",
+    "#eclipse"                : "ch01.html#eclipse",
+    "#idea"                   : "ch01.html#idea",
+    "#ViewH2"                 : "ch01.html#ViewH2",
+    "#snapshot"               : "ch01.html#snapshot",
+    "#NewScala"               : "ch01.html#NewScala",
+
+    "#HTML"                         : "ch02.html",
+    "#TestingAndDebuggingSelectors" : "ch02.html#TestingAndDebuggingSelectors",
+    "#SequencingSelectorOps"        : "ch02.html#SequencingSelectorOps",
+    "#SetMetaTag"                   : "ch02.html#SetMetaTag",
+    "#SetPageTitle"                 : "ch02.html#SetPageTitle",
+    "#ConditionalIncludes"          : "ch02.html#ConditionalIncludes",
+    "#PassThru"                     : "ch02.html#PassThru",
+    "#SnippetNotFound"              : "ch02.html#SnippetNotFound",
+    "#AvoidAssetCaching"            : "ch02.html#AvoidAssetCaching",
+    "#AddToHead"                    : "ch02.html#AddToHead",
+    "#Custom404"                    : "ch02.html#Custom404",
+    "#CustomStatusPage"             : "ch02.html#CustomStatusPage",
+    "#LinksInNotice"                : "ch02.html#LinksInNotice",
+    "#DownloadLink"                 : "ch02.html#DownloadLink",
+    "#TestingReq"                   : "ch02.html#TestingReq",
+    "#Textile"                      : "ch02.html#Textile",
+    "#ModuleVersioning"             : "ch02.html#ModuleVersioning",
+
+    "#Forms"                        : "ch03.html",
+    "#PlainFormProcessing"          : "ch03.html#PlainFormProcessing",
+    "#AjaxFormProcessing"           : "ch03.html#AjaxFormProcessing",
+    "#JsonForms"                    : "ch03.html#JsonForms",
+    "#DatePicker"                   : "ch03.html#DatePicker",
+    "#DatePickerScreenGrabs"        : "ch03.html#DatePickerScreenGrabs",
+    "#Autocomplete"                 : "ch03.html#Autocomplete",
+    "#AutoCompleteWidgetScreenGrab" : "ch03.html#AutoCompleteWidgetScreenGrab",
+    "#jQuery19Migrate"              : "ch03.html#jQuery19Migrate",
+    "#Radio"                        : "ch03.html#Radio",
+    "#DisableCheckbox"              : "ch03.html#DisableCheckbox",
+    "#MultiSelectBox"               : "ch03.html#MultiSelectBox",
+    "#MultiSelectExample"           : "ch03.html#MultiSelectExample",
+    "#FileUpload"                   : "ch03.html#FileUpload",
+    "#UploadToDisk"                 : "ch03.html#UploadToDisk",
+    "#DRYFormsWithLayout"           : "ch03.html#DRYFormsWithLayout",
+
+    "#REST"            : "ch04.html",
+    "#DRYURLs"         : "ch04.html#DRYURLs",
+    "#MissingSuffix"   : "ch04.html#MissingSuffix",
+    "#MissingDotCom"   : "ch04.html#MissingDotCom",
+    "#SuffixMatchFail" : "ch04.html#SuffixMatchFail",
+    "#RestBinaryData"  : "ch04.html#RestBinaryData",
+    "#JSONREST"        : "ch04.html#JSONREST",
+    "#GoogleSitemap"   : "ch04.html#GoogleSitemap",
+    "#iOSNativePost"   : "ch04.html#iOSNativePost",
+
+    "#Ajax"                    : "ch05.html",
+    "#ButtonTriggerServerCode" : "ch05.html#ButtonTriggerServerCode",
+    "#SelectOptionChange"      : "ch05.html#SelectOptionChange",
+    "#ClientSideOnlyActions"   : "ch05.html#ClientSideOnlyActions",
+    "#FocusOnLoad"             : "ch05.html#FocusOnLoad",
+    "#CSSClassOnAjaxForm"      : "ch05.html#CSSClassOnAjaxForm",
+    "#DynamicTemplateLoading"  : "ch05.html#DynamicTemplateLoading",
+    "#JavaScriptTail"          : "ch05.html#JavaScriptTail",
+    "#CometSessionLossJS"      : "ch05.html#CometSessionLossJS",
+    "#AjaxFileUpload"          : "ch05.html#AjaxFileUpload",
+    "#FormatWiring"            : "ch05.html#FormatWiring",
+
+    "#Pipeline"           : "ch06.html",
+    "#DebugRequest"       : "ch06.html#DebugRequest",
+    "#OnSession"          : "ch06.html#OnSession",
+    "#ShutdownHooks"      : "ch06.html#ShutdownHooks",
+    "#RunningStateless"   : "ch06.html#RunningStateless",
+    "#CatchException"     : "ch06.html#CatchException",
+    "#RestStreamContent"  : "ch06.html#RestStreamContent",
+    "#DiskAccessControl"  : "ch06.html#DiskAccessControl",
+    "#RestrictByHeader"   : "ch06.html#RestrictByHeader",
+    "#HttpServletRequest" : "ch06.html#HttpServletRequest",
+    "#RewriteForHttps"    : "ch06.html#RewriteForHttps",
+
+    "#Squeryl"                       : "ch07.html",
+    "#ConfiguringSqueryl"            : "ch07.html#ConfiguringSqueryl",
+    "#SquerylJNDI"                   : "ch07.html#SquerylJNDI",
+    "#SquerylOneToMany"              : "ch07.html#SquerylOneToMany",
+    "#SquerylPlanetOneToManyFigure"  : "ch07.html#SquerylPlanetOneToManyFigure",
+    "#SquerylManyToMany"             : "ch07.html#SquerylManyToMany",
+    "#SquerylPlanetManyToManyFigure" : "ch07.html#SquerylPlanetManyToManyFigure",
+    "#SquerylManyToManyScreengrab"   : "ch07.html#SquerylManyToManyScreengrab",
+    "#FieldValidation"               : "ch07.html#FieldValidation",
+    "#CustomValidation"              : "ch07.html#CustomValidation",
+    "#SquerylFilter"                 : "ch07.html#SquerylFilter",
+    "#SquerylUnitTest"               : "ch07.html#SquerylUnitTest",
+    "#RandomValueColumn"             : "ch07.html#RandomValueColumn",
+    "#SquerylUpdatedCreated"         : "ch07.html#SquerylUpdatedCreated",
+    "#SquerylLogging"                : "ch07.html#SquerylLogging",
+    "#SquerylMediumText"             : "ch07.html#SquerylMediumText",
+    "#MySQLCharSet"                  : "ch07.html#MySQLCharSet",
+
+    "#MongoRecord"       : "ch08.html",
+    "#ConnectingToMongo" : "ch08.html#ConnectingToMongo",
+    "#MongoHashMap"      : "ch08.html#MongoHashMap",
+    "#MongoEnum"         : "ch08.html#MongoEnum",
+    "#MongoEmbedding"    : "ch08.html#MongoEmbedding",
+    "#QueryingWithRogue" : "ch08.html#QueryingWithRogue",
+    "#MongoGeospatial"   : "ch08.html#MongoGeospatial",
+    "#MongoScalaConsole" : "ch08.html#MongoScalaConsole",
+    "#MongoUnitTest"     : "ch08.html#MongoUnitTest",
+    "#Specs2AndScala210" : "ch08.html#Specs2AndScala210",
+
+    "#Around"               : "ch09.html",
+    "#SendTextEmail"        : "ch09.html#SendTextEmail",
+    "#LogEmail"             : "ch09.html#LogEmail",
+    "#HTMLEmail"            : "ch09.html#HTMLEmail",
+    "#AuthEmail"            : "ch09.html#AuthEmail",
+    "#EmailWithAttachments" : "ch09.html#EmailWithAttachments",
+    "#RunLater"             : "ch09.html#RunLater",
+    "#RunTasksPeriodically" : "ch09.html#RunTasksPeriodically",
+    "#FetchURLs"            : "ch09.html#FetchURLs",
+
+    "#deployment"              : "ch10.html",
+    "#CloudBees"               : "ch10.html#CloudBees",
+    "#Beanstalk"               : "ch10.html#Beanstalk",
+    "#ConsoleImage"            : "ch10.html#ConsoleImage",
+    "#HerokuDeployment"        : "ch10.html#HerokuDeployment",
+    "#DistributedComet"        : "ch10.html#DistributedComet",
+    "#DistributedCometDiagram" : "ch10.html#DistributedCometDiagram",
+
+    "#ContributingAndHelp"   : "ch11.html",
+    "#GettingHelp"           : "ch11.html#GettingHelp",
+    "#HowToReportBugs"       : "ch11.html#HowToReportBugs",
+    "#LiftCodeContributions" : "ch11.html#LiftCodeContributions",
+    "#wiki"                  : "ch11.html#wiki",
+    "#AddRecipe"             : "ch11.html#AddRecipe",
+    "#modules"               : "ch11.html#modules"
+  }
+
+  if (hash in anchorMap) window.location = home+anchorMap[hash];
+  else window.location = home;
+
+  </script>
+  <p>Redirecting...</p>
+</body>
+</html>
